@@ -1,19 +1,34 @@
-import ApplicationLogo from '@/Components/ApplicationLogo';
-import { Link } from '@inertiajs/react';
-import { PropsWithChildren } from 'react';
+import ApplicationLogo from '@/Components/ApplicationLogo'
+import { RedirectContainer } from '@/Components/RedirectContainer'
+import { Link } from '@inertiajs/react'
+import { ReactNode } from 'react'
 
-export default function Guest({ children }: PropsWithChildren) {
-    return (
-        <div className="flex min-h-screen flex-col items-center bg-gray-100 pt-6 sm:justify-center sm:pt-0 dark:bg-gray-900">
-            <div>
-                <Link href="/">
-                    <ApplicationLogo className="h-20 w-20 fill-current text-gray-500" />
-                </Link>
-            </div>
+interface GuestProps {
+  children: ReactNode
+  showRedirectContainer?: boolean
+}
 
-            <div className="mt-6 w-full overflow-hidden bg-white px-6 py-4 shadow-md sm:max-w-md sm:rounded-lg dark:bg-gray-800">
-                {children}
-            </div>
-        </div>
-    );
+export default function Guest({ children, showRedirectContainer = false }: GuestProps) {
+  return (
+    <div className="flex flex-col items-center min-h-screen pt-6 bg-gray-100 sm:justify-center sm:pt-0 dark:bg-background-primary">
+      <div>
+        <Link href="/">
+          <ApplicationLogo className="w-20 h-20 text-gray-500 fill-current" />
+        </Link>
+      </div>
+
+      <div className="w-full px-6 py-4 mt-6 overflow-hidden bg-white shadow-md sm:max-w-md sm:rounded-lg dark:bg-background-secondary">
+        {children}
+      </div>
+      
+      {showRedirectContainer && (
+        <RedirectContainer
+          redirectLink="/register"
+          text="Sign up here"
+          title="Don't have an account?"
+          buttonContent="Access Acount"
+        />
+      )}
+    </div>
+  )
 }
