@@ -15,8 +15,8 @@ export default function Authenticated({
     useState(false)
 
   return (
-    <div className="min-h-screen bg-gray-100 dark:bg-background-primary">
-      <nav className="bg-white border-b border-gray-100 dark:border-b-primary dark:bg-background-secondary">
+    <div className="flex flex-col items-center min-h-screen bg-gray-100 dark:bg-background-primary">
+      <nav className="w-full bg-white border-b border-gray-100 dark:border-b-primary dark:bg-background-secondary">
         <div className="px-4 py-1 mx-auto max-w-7xl sm:px-6 lg:px-8">
           <div className="flex justify-between h-16">
             <div className="flex items-center gap-16">
@@ -27,13 +27,13 @@ export default function Authenticated({
               </div>
 
               <div className='flex items-center gap-4'>
-                <NavLink active href="/">
+                <NavLink href="/">
                   Campaings
                 </NavLink>
-                <NavLink active={false} href="/lists">
+                <NavLink href="/lists">
                   Lists
                 </NavLink>
-                <NavLink active={false} href="/templates">
+                <NavLink href="/templates">
                   Templates
                 </NavLink>
               </div>
@@ -161,7 +161,7 @@ export default function Authenticated({
         </div>
       </nav>
 
-      <main>{children}</main>
+      <main className='flex items-center justify-center flex-grow'>{children}</main>
     </div>
   )
 }

@@ -26,6 +26,7 @@ export default {
                 'content': '#FFFFFF',
                 'accent-blue': '#F0F5FF',
                 'accent-blue-mid': '#205bdf',
+                'accent-blue-mid-darker': '#1349C3',
                 'accent-blue-mid-hover': '#407afd',
                 'accent-blue-dark': '#012580',
                 'accent-green': '#F5FEF1',
@@ -46,8 +47,14 @@ export default {
                 'label-small': '12px'
             },
         },
+        plugins: [forms, require('daisyui')],
+        daisyui: {
+            themes: ['dracula', 'light', 'dark']
+        },
         safelist: [
             'text-accent-blue-mid',
+            'file-input',
+            'file-input-bordered'
         ]
     },
 
