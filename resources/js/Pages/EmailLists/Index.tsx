@@ -1,7 +1,7 @@
 import { EmptyContainer } from '@/Components/EmptyContainer'
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout'
 import { Head, Link, usePage } from '@inertiajs/react'
-import EmptySvg from '../../../../../../../../../../../../public/assets/empty_lists.svg'
+import EmptySvg from '/public/assets/empty_lists.svg'
 import { useEffect, useState } from 'react'
 import { notyf } from '@/libs/notyf'
 import { EmailListProps } from '@/types/emailList'

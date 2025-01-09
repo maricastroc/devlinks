@@ -1,6 +1,6 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout'
 import { Head } from '@inertiajs/react'
-import EmptySvg from '../../../../../../../../../../../public/assets/empty_campaign.svg'
+import EmptySvg from '/public/assets/empty_campaign.svg'
 import { EmptyContainer } from '@/Components/EmptyContainer'
 
 export default function Dashboard() {
@@ -16,6 +16,7 @@ export default function Dashboard() {
 
       <EmptyContainer
         imagePath={EmptySvg}
+        url='/'
         content="It looks like you haven't created any campaigns yet."
         title="Create Campaign"
       />
