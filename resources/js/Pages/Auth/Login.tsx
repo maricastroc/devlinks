@@ -45,7 +45,7 @@ export default function Login({
             type="email"
             name="email"
             value={data.email}
-            placeholder='Your email here'
+            placeholder="Your email here"
             className="block w-full mt-1"
             autoComplete="username"
             isFocused={true}
@@ -62,7 +62,7 @@ export default function Login({
             id="password"
             type="password"
             name="password"
-            placeholder='Your password here'
+            placeholder="Your password here"
             value={data.password}
             className="block w-full mt-1"
             autoComplete="current-password"

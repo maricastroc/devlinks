@@ -47,16 +47,13 @@ export default {
                 'label-small': '12px'
             },
         },
-        plugins: [forms, require('daisyui')],
-        daisyui: {
-            themes: ['dracula', 'light', 'dark']
+    },
+    plugins: [forms, require('daisyui')],
+    daisyui: {
+        themes: ['light', 'dark']
         },
         safelist: [
-            'text-accent-blue-mid',
-            'file-input',
-            'file-input-bordered'
+            'border-b-primary',
+            'max-h-[20rem]',
         ]
-    },
-
-    plugins: [forms],
 };

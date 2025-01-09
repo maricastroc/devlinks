@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Subscriber;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Facades\DB;
 
 class EmailList extends Model
 {
@@ -30,11 +31,37 @@ class EmailList extends Model
     {
         $data['user_id'] = $userId;
 
-        $emailList = self::create([
-            'title' => $data['title'],
-            'user_id' => $data['user_id'],
-        ]);
+        $items = self::readEmailsFromCsvFile($data);
     
+        return DB::transaction(function () use ($data, $items) {
+            $emailList = self::create([
+                'title'   => $data['title'],
+                'user_id' => $data['user_id'],
+            ]);
+    
+            foreach ($items as $item) {
+                Subscriber::create([
+                    'name'          => $item['name'],
+                    'email'         => $item['email'],
+                    'email_list_id' => $emailList->id,
+                ]);
+            }
+    
+            return $emailList;
+        });
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
+    public function subscribers(): HasMany
+    {
+        return $this->hasMany(Subscriber::class);
+    }
+
+    private static function readEmailsFromCsvFile(array $data) {
         $fileHandle = fopen($data['listFile']->getRealPath(), 'r');
     
         $headers = fgetcsv($fileHandle, 1000, ',');
@@ -57,24 +84,6 @@ class EmailList extends Model
     
         fclose($fileHandle);
     
-        foreach ($items as $item) {
-            Subscriber::create([
-                'name'          => $item['name'],
-                'email'         => $item['email'],
-                'email_list_id' => $emailList->id,
-            ]);
-        }
-    
-        return $emailList;
-    }
-
-    public function user()
-    {
-        return $this->belongsTo(User::class);
-    }
-
-    public function subscribers(): HasMany
-    {
-        return $this->hasMany(Subscriber::class);
+        return $items;
     }
 }

@@ -36,7 +36,7 @@ export default function Register() {
             value={data.name}
             className="block w-full mt-1"
             autoComplete="name"
-            placeholder='Your name here'
+            placeholder="Your name here"
             isFocused={true}
             onChange={(e) => setData('name', e.target.value)}
             required
@@ -52,7 +52,7 @@ export default function Register() {
             id="email"
             type="email"
             name="email"
-            placeholder='user@email.com'
+            placeholder="user@email.com"
             value={data.email}
             className="block w-full mt-1"
             autoComplete="username"
@@ -71,7 +71,7 @@ export default function Register() {
             type="password"
             name="password"
             value={data.password}
-            placeholder='Your password here'
+            placeholder="Your password here"
             className="block w-full mt-1"
             autoComplete="new-password"
             onChange={(e) => setData('password', e.target.value)}
@@ -90,7 +90,7 @@ export default function Register() {
           <TextInput
             id="password_confirmation"
             type="password"
-            placeholder='Your password here'
+            placeholder="Your password here"
             name="password_confirmation"
             value={data.password_confirmation}
             className="block w-full mt-1"

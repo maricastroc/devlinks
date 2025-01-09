@@ -24,6 +24,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/lists', [EmailListController::class, 'index'])->name('lists');
     Route::get('/lists/create', [EmailListController::class, 'create'])->name('lists.create');
     Route::post('/lists/store', [EmailListController::class, 'store'])->name('lists.store');
+    Route::get('/lists/edit/{emailList}', [EmailListController::class, 'edit'])->name('lists.edit');
 });
 
 require __DIR__.'/auth.php';

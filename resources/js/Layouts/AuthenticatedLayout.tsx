@@ -6,7 +6,6 @@ import { Link, usePage } from '@inertiajs/react'
 import { PropsWithChildren, ReactNode, useState } from 'react'
 
 export default function Authenticated({
-  header,
   children,
 }: PropsWithChildren<{ header?: ReactNode }>) {
   const user = usePage().props.auth.user
@@ -15,27 +14,21 @@ export default function Authenticated({
     useState(false)
 
   return (
-    <div className="flex flex-col items-center min-h-screen bg-gray-100 dark:bg-background-primary">
-      <nav className="w-full bg-white border-b border-gray-100 dark:border-b-primary dark:bg-background-secondary">
+    <div className="flex flex-col items-center min-h-screen bg-background-primary">
+      <nav className="w-full border-b border-b-zinc-800 bg-background-secondary">
         <div className="px-4 py-1 mx-auto max-w-7xl sm:px-6 lg:px-8">
           <div className="flex justify-between h-16">
             <div className="flex items-center gap-16">
               <div className="flex items-center shrink-0">
                 <Link href="/">
-                  <ApplicationLogo className="block w-auto text-gray-800 fill-current h-9 dark:text-gray-200" />
+                  <ApplicationLogo className="block w-auto fill-current h-9" />
                 </Link>
               </div>
 
-              <div className='flex items-center gap-4'>
-                <NavLink href="/">
-                  Campaings
-                </NavLink>
-                <NavLink href="/lists">
-                  Lists
-                </NavLink>
-                <NavLink href="/templates">
-                  Templates
-                </NavLink>
+              <div className="flex items-center gap-4">
+                <NavLink href="/">Campaings</NavLink>
+                <NavLink href="/lists">Lists</NavLink>
+                <NavLink href="/templates">Templates</NavLink>
               </div>
             </div>
 
@@ -46,7 +39,7 @@ export default function Authenticated({
                     <span className="inline-flex rounded-md">
                       <button
                         type="button"
-                        className="inline-flex items-center px-3 py-2 font-medium leading-4 text-gray-500 transition duration-150 ease-in-out bg-white border border-transparent rounded-md text-large hover:text-gray-700 focus:outline-none dark:bg-transparent dark:text-content dark:hover:text-gray-300"
+                        className="inline-flex items-center px-3 py-2 font-medium leading-4 transition duration-150 ease-in-out bg-transparent border border-transparent rounded-md text-large focus:outline-none text-content hover:text-gray-300"
                       >
                         {user.name}
 
@@ -89,7 +82,7 @@ export default function Authenticated({
                     (previousState) => !previousState,
                   )
                 }
-                className="inline-flex items-center justify-center p-2 text-gray-400 transition duration-150 ease-in-out rounded-md hover:bg-gray-100 hover:text-gray-500 focus:bg-gray-100 focus:text-gray-500 focus:outline-none dark:text-gray-500 dark:hover:bg-gray-900 dark:hover:text-gray-400 dark:focus:bg-gray-900 dark:focus:text-gray-400"
+                className="inline-flex items-center justify-center p-2 text-gray-500 transition duration-150 ease-in-out rounded-md focus:outline-none hover:bg-gray-900 hover:text-gray-400 focus:bg-gray-900 focus:text-gray-400"
               >
                 <svg
                   className="w-6 h-6"
@@ -135,9 +128,9 @@ export default function Authenticated({
             </ResponsiveNavLink>
           </div>
 
-          <div className="pt-4 pb-1 border-t border-gray-200 dark:border-gray-600">
+          <div className="pt-4 pb-1 border-t border-gray-600">
             <div className="px-4">
-              <div className="text-base font-medium text-gray-800 dark:text-gray-200">
+              <div className="text-base font-medium text-gray-800">
                 {user.name}
               </div>
               <div className="text-sm font-medium text-gray-500">
@@ -161,7 +154,9 @@ export default function Authenticated({
         </div>
       </nav>
 
-      <main className='flex items-center justify-center flex-grow'>{children}</main>
+      <main className="flex items-center justify-center flex-grow">
+        {children}
+      </main>
     </div>
   )
 }

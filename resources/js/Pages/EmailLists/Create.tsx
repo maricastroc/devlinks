@@ -10,36 +10,36 @@ import { notyf } from '@/libs/notyf'
 import axios from 'axios'
 
 interface CreateListErrors {
-  title?: string;
-  listFile?: string;
+  title?: string
+  listFile?: string
 }
 
 export default function Index() {
-  const { props } = usePage();
-  
-  const { error, success } = props;
+  const { props } = usePage()
 
-  const [errors, setErrors] = useState<CreateListErrors>({});
+  const { error, success } = props
 
-  const [processing, setProcessing] = useState(false);
-  
+  const [errors, setErrors] = useState<CreateListErrors>({})
+
+  const [processing, setProcessing] = useState(false)
+
   const { data, setData } = useForm({
     title: '',
     listFile: null as File | null,
   })
 
   const submit: FormEventHandler = async (e) => {
-    e.preventDefault();
+    e.preventDefault()
 
-    setProcessing(true);
-    
-    setErrors({});
+    setProcessing(true)
 
-    const formData = new FormData();
-    formData.append('title', data.title);
-    
+    setErrors({})
+
+    const formData = new FormData()
+    formData.append('title', data.title)
+
     if (data.listFile) {
-      formData.append('listFile', data.listFile);
+      formData.append('listFile', data.listFile)
     }
 
     try {
@@ -47,28 +47,28 @@ export default function Index() {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
-      });
+      })
 
       if (response?.data.message) {
         await new Promise((resolve) => {
-          notyf?.success(response?.data?.message);
-          setTimeout(resolve, 2000);
-        });
+          notyf?.success(response?.data?.message)
+          setTimeout(resolve, 2000)
+        })
       }
 
       if (response.data.redirect) {
-        window.location.href = response.data.redirect;
+        window.location.href = response.data.redirect
       }
     } catch (error: any) {
       if (error.response?.data?.errors) {
-        setErrors(error.response.data.errors);
+        setErrors(error.response.data.errors)
       } else {
-        notyf?.error(error.response?.data?.message || 'An error occurred.');
+        notyf?.error(error.response?.data?.message || 'An error occurred.')
       }
     } finally {
-      setProcessing(false);
+      setProcessing(false)
     }
-  };
+  }
 
   useEffect(() => {
     if (success) {
@@ -113,11 +113,11 @@ export default function Index() {
               name="listFile"
               disabled={processing}
               type="file"
-              className="block w-full mt-2 text-sm transition-all duration-200 ease-in-out bg-transparent file:cursor-pointer text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-background-tertiary file:text-gray-100 hover:file:bg-background-primary"
+              className="w-full mt-2 duration-200 ease-in-out file:bg-zinc-700 bg-background-tertiary text-slate-500 file-input file:cursor-pointer file:text-sm file:font-semibold file:text-gray-100 hover:file:bg-background-primary"
               accept=".csv"
               onChange={(e) => {
                 if (e.target.files && e.target.files.length > 0) {
-                  setData('listFile', e.target.files[0]);
+                  setData('listFile', e.target.files[0])
                 }
               }}
             />

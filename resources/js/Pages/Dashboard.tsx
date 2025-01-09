@@ -1,7 +1,7 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout'
 import { Head } from '@inertiajs/react'
-import EmptySvg from '/public/assets/empty_campaign.svg';
-import { EmptyContainer } from '@/Components/EmptyContainer';
+import EmptySvg from '../../../../../../../../../../../public/assets/empty_campaign.svg'
+import { EmptyContainer } from '@/Components/EmptyContainer'
 
 export default function Dashboard() {
   return (
@@ -14,8 +14,11 @@ export default function Dashboard() {
     >
       <Head title="Dashboard" />
 
-      <EmptyContainer imagePath={EmptySvg } content="It looks like you haven't created any campaigns yet." title='Create Campaign' />
-      
+      <EmptyContainer
+        imagePath={EmptySvg}
+        content="It looks like you haven't created any campaigns yet."
+        title="Create Campaign"
+      />
     </AuthenticatedLayout>
   )
 }

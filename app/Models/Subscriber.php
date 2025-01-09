@@ -12,4 +12,15 @@ class Subscriber extends Model
     {
         return $this->belongsTo(EmailList::class);
     }
+
+    /**
+     * Local scope for search by title.
+     */
+    public function scopeSearch($query, $search)
+    {
+        return $query->when($search, function ($query, $search) {
+            $query->where('name', 'like', "%$search%")
+                ->orWhere('email', 'like', "%$search%");
+        });
+    }
 }

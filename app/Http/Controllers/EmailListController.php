@@ -12,9 +12,15 @@ class EmailListController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        return Inertia::render('EmailLists/Index');
+        $user = $request->user();
+
+        $emailLists = $user->emailLists()->with('subscribers')->orderBy('created_at', 'asc')->get();
+
+        return Inertia::render('EmailLists/Index', [
+            'emailLists' => $emailLists,
+        ]);
     }
 
     /**
@@ -54,15 +60,23 @@ class EmailListController extends Controller
      */
     public function show(EmailList $list) // Alterado para EmailList
     {
-        //
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(EmailList $list) // Alterado para EmailList
+    public function edit(EmailList $emailList, Request $request)
     {
+        $search = $request->query('search', '');
 
+        $subscribers = $emailList->subscribers()
+            ->search($search)
+            ->paginate(7);
+    
+        return Inertia::render('EmailLists/Edit', [
+            'emailList' => $emailList,
+            'subscribers' => $subscribers,
+        ]);
     }
 
     /**

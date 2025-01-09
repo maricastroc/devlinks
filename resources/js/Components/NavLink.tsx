@@ -5,11 +5,11 @@ export default function NavLink({
   children,
   ...props
 }: InertiaLinkProps) {
-  const { url } = usePage();
+  const { url } = usePage()
 
   const isActive = props.href
-  ? url === props.href || url.startsWith(`${props.href}/`)
-  : false;
+    ? url === props.href || url.startsWith(`${props.href}/`)
+    : false
 
   return (
     <Link
