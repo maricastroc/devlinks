@@ -14,7 +14,7 @@ class Subscriber extends Model
     }
 
     /**
-     * Local scope for search by title.
+     * Local scope for search by name or email.
      */
     public function scopeSearch($query, $search)
     {

@@ -1,9 +1,7 @@
-import { EmptyContainer } from '@/Components/EmptyContainer'
+/* eslint-disable react-hooks/exhaustive-deps */
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout'
-import { Head, usePage, router } from '@inertiajs/react'
-import EmptySvg from '../../../../../../../../../../../../public/assets/empty_lists.svg'
+import { Head, router } from '@inertiajs/react'
 import { useEffect, useState } from 'react'
-import { notyf } from '@/libs/notyf'
 import { EmailListProps } from '@/types/emailList'
 import TextInput from '@/Components/TextInput'
 import LinkButton from '@/Components/LinkButton'
@@ -34,21 +32,9 @@ interface Props {
 }
 
 export default function EmailList({ emailList, subscribers }: Props) {
-  const { props } = usePage()
-
   const [search, setSearch] = useState('')
 
   const [debouncedSearch, setDebouncedSearch] = useDebounce('', 500)
-
-  const { success, error } = props
-
-  useEffect(() => {
-    if (success) {
-      notyf?.success(success)
-    } else if (error) {
-      notyf?.error(error)
-    }
-  }, [success])
 
   useEffect(() => {
     setDebouncedSearch(search)
@@ -90,7 +76,7 @@ export default function EmailList({ emailList, subscribers }: Props) {
       }
     >
       <Head title="List" />
-      <section className="lg:max-h-[78vh] p-8 w-[40rem] rounded-xl bg-background-secondary">
+      <section className="lg:max-h-[78vh] p-8 w-[45rem] rounded-xl bg-background-secondary">
         <div className="grid grid-cols-[1fr,2.5fr] gap-4">
           <LinkButton href="lists/create">Add Subscriber</LinkButton>
           <TextInput
@@ -136,7 +122,7 @@ export default function EmailList({ emailList, subscribers }: Props) {
             ) : (
               <div className="flex items-center justify-center">
                 <p className="text-gray-400">
-                  We couldnt't find any subscribers.
+                  We couldnt&apos;t find any subscribers.
                 </p>
               </div>
             )}

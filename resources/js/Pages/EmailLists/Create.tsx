@@ -1,11 +1,12 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import InputError from '@/Components/InputError'
 import InputLabel from '@/Components/InputLabel'
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout'
 import TextInput from '@/Components/TextInput'
 import SecondaryButton from '@/Components/SecondaryButton'
 import TertiaryButton from '@/Components/TertiaryButton'
-import { useForm, usePage } from '@inertiajs/react'
-import { FormEventHandler, useEffect, useState } from 'react'
+import { useForm } from '@inertiajs/react'
+import { FormEventHandler, useState } from 'react'
 import { notyf } from '@/libs/notyf'
 import axios from 'axios'
 
@@ -15,10 +16,6 @@ interface CreateListErrors {
 }
 
 export default function Index() {
-  const { props } = usePage()
-
-  const { error, success } = props
-
   const [errors, setErrors] = useState<CreateListErrors>({})
 
   const [processing, setProcessing] = useState(false)
@@ -69,14 +66,6 @@ export default function Index() {
       setProcessing(false)
     }
   }
-
-  useEffect(() => {
-    if (success) {
-      notyf?.success(success)
-    } else if (error) {
-      notyf?.error(error)
-    }
-  }, [success])
 
   return (
     <AuthenticatedLayout

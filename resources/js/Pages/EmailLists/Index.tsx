@@ -1,13 +1,15 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { EmptyContainer } from '@/Components/EmptyContainer'
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout'
-import { Head, Link, usePage } from '@inertiajs/react'
-import EmptySvg from '/public/assets/empty_lists.svg'
+import { Head, Link, usePage, router } from '@inertiajs/react'
+import EmptySvg from 'assets/empty_lists.svg'
 import { useEffect, useState } from 'react'
 import { notyf } from '@/libs/notyf'
 import { EmailListProps } from '@/types/emailList'
 import TextInput from '@/Components/TextInput'
 import LinkButton from '@/Components/LinkButton'
 import { PencilSimple, TrashSimple } from 'phosphor-react'
+import { useDebounce } from '@react-hook/debounce'
 
 interface Props {
   emailLists: EmailListProps[]
@@ -17,6 +19,8 @@ export default function EmailList({ emailLists }: Props) {
   const { props } = usePage()
 
   const [search, setSearch] = useState('')
+
+  const [debouncedSearch, setDebouncedSearch] = useDebounce('', 500)
 
   const { success, error } = props
 
@@ -28,6 +32,36 @@ export default function EmailList({ emailLists }: Props) {
     }
   }, [success])
 
+  useEffect(() => {
+    setDebouncedSearch(search)
+  }, [search])
+
+  useEffect(() => {
+    if (debouncedSearch === '' && search === '') {
+      router.get(
+        route('lists'),
+        {},
+        {
+          preserveState: true,
+          preserveScroll: true,
+          replace: true,
+        },
+      )
+    } else if (debouncedSearch !== '') {
+      router.get(
+        route('lists', {
+          search: debouncedSearch,
+        }),
+        {},
+        {
+          preserveState: true,
+          preserveScroll: true,
+          replace: true,
+        },
+      )
+    }
+  }, [debouncedSearch])
+
   return (
     <AuthenticatedLayout
       header={
@@ -38,8 +72,8 @@ export default function EmailList({ emailLists }: Props) {
     >
       <Head title="List" />
 
-      {emailLists?.length > 0 ? (
-        <section className="p-8 w-[40rem] rounded-xl bg-background-secondary">
+      {(emailLists?.length > 0 && search === '') || search !== '' ? (
+        <section className="p-8 w-[45rem] rounded-xl bg-background-secondary">
           <div className="grid grid-cols-[1fr,3.5fr] gap-4">
             <LinkButton href="lists/create">Create List</LinkButton>
             <TextInput
@@ -49,6 +83,7 @@ export default function EmailList({ emailLists }: Props) {
               placeholder="Search for a list"
               value={search}
               onChange={(e) => setSearch(e.target.value)}
+              spellCheck={false}
             />
           </div>
 
@@ -77,10 +112,19 @@ export default function EmailList({ emailLists }: Props) {
                       </td>
                       <td className="text-gray-300">
                         <div className="flex items-center gap-3">
-                          <Link href={`lists/edit/${list.id}`}>
+                          <Link
+                            className={
+                              'hover:text-blue-500 transition-all duration-150'
+                            }
+                            href={`lists/edit/${list.id}`}
+                          >
                             <PencilSimple size={16} />
                           </Link>
-                          <button>
+                          <button
+                            className={
+                              'hover:text-red-500 transition-all duration-150'
+                            }
+                          >
                             <TrashSimple size={16} />
                           </button>
                         </div>

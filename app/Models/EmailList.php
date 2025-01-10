@@ -86,4 +86,15 @@ class EmailList extends Model
     
         return $items;
     }
+
+    /**
+     * Local scope for search by name or id.
+     */
+    public function scopeSearch($query, $search)
+    {
+        return $query->when($search, function ($query, $search) {
+            $query->where('title', 'like', "%$search%")
+                ->orWhere('id', 'like', "%$search%");
+        });
+    }
 }
