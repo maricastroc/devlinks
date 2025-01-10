@@ -1,66 +1,50 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { EmptyContainer } from '@/Components/EmptyContainer'
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout'
-import { Head, Link, usePage, router } from '@inertiajs/react'
-import EmptySvg from '../../../../../../../../../../../../public/assets/empty_lists.svg'
+import { Head, Link, router } from '@inertiajs/react'
+import EmptySvg from '/public/assets/empty_lists.svg'
 import { useEffect, useState } from 'react'
-import { notyf } from '@/libs/notyf'
 import { EmailListProps } from '@/types/emailList'
 import TextInput from '@/Components/TextInput'
 import LinkButton from '@/Components/LinkButton'
 import { PencilSimple, TrashSimple } from 'phosphor-react'
-import { useDebounce } from '@react-hook/debounce'
 
 interface Props {
   emailLists: EmailListProps[]
 }
 
 export default function EmailList({ emailLists }: Props) {
-  const { props } = usePage()
-
   const [search, setSearch] = useState('')
 
-  const [debouncedSearch, setDebouncedSearch] = useDebounce('', 500)
-
-  const { success, error } = props
-
   useEffect(() => {
-    if (success) {
-      notyf?.success(success)
-    } else if (error) {
-      notyf?.error(error)
-    }
-  }, [success])
+    const timer = setTimeout(() => {
+      if (search === '') {
+        router.get(
+          route('lists'),
+          {},
+          {
+            preserveState: true,
+            preserveScroll: true,
+            replace: true,
+          }
+        )
+      } else {
+        router.get(
+          route('lists.edit', {
+            search
+          }),
+          {},
+          {
+            preserveState: true,
+            preserveScroll: true,
+            replace: true,
+          }
+        )
+      }
+    }, 500)
 
-  useEffect(() => {
-    setDebouncedSearch(search)
+    return () => clearTimeout(timer)
   }, [search])
-
-  useEffect(() => {
-    if (debouncedSearch === '' && search === '') {
-      router.get(
-        route('lists'),
-        {},
-        {
-          preserveState: true,
-          preserveScroll: true,
-          replace: true,
-        },
-      )
-    } else if (debouncedSearch !== '') {
-      router.get(
-        route('lists', {
-          search: debouncedSearch,
-        }),
-        {},
-        {
-          preserveState: true,
-          preserveScroll: true,
-          replace: true,
-        },
-      )
-    }
-  }, [debouncedSearch])
 
   return (
     <AuthenticatedLayout

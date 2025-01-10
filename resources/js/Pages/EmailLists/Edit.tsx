@@ -6,8 +6,9 @@ import { EmailListProps } from '@/types/emailList'
 import LinkButton from '@/Components/LinkButton'
 import { SubscriberProps } from '@/types/subscriber'
 import SecondaryButton from '@/Components/SecondaryButton'
-import { useDebounce } from '@react-hook/debounce'
 import SearchInput from '@/Components/SearchInput'
+import PaginationButton from '@/Components/PaginationButton'
+import { PaginationContainer } from './Partials/PaginationContainer'
 
 interface LinksProps {
   url: string
@@ -15,7 +16,7 @@ interface LinksProps {
   isActive: boolean
 }
 
-interface SubscribersResult {
+export interface SubscribersResult {
   data: SubscriberProps[]
   total: number
   links: LinksProps
@@ -24,6 +25,7 @@ interface SubscribersResult {
   next_page_url: string
   prev_page_url: string
   to: number
+  from: number
 }
 
 interface Props {
@@ -34,38 +36,36 @@ interface Props {
 export default function EmailList({ emailList, subscribers }: Props) {
   const [search, setSearch] = useState('')
 
-  const [debouncedSearch, setDebouncedSearch] = useDebounce('', 500)
-
   useEffect(() => {
-    setDebouncedSearch(search)
+    const timer = setTimeout(() => {
+      if (search === '') {
+        router.get(
+          route('lists.edit', { emailList: emailList.id }),
+          {},
+          {
+            preserveState: true,
+            preserveScroll: true,
+            replace: true,
+          }
+        )
+      } else {
+        router.get(
+          route('lists.edit', {
+            emailList: emailList.id,
+            search,
+          }),
+          {},
+          {
+            preserveState: true,
+            preserveScroll: true,
+            replace: true,
+          }
+        )
+      }
+    }, 500)
+
+    return () => clearTimeout(timer)
   }, [search])
-
-  useEffect(() => {
-    if (debouncedSearch === '' && search === '') {
-      router.get(
-        route('lists.edit', { emailList: emailList.id }),
-        {},
-        {
-          preserveState: true,
-          preserveScroll: true,
-          replace: true,
-        },
-      )
-    } else if (debouncedSearch !== '') {
-      router.get(
-        route('lists.edit', {
-          emailList: emailList.id,
-          search: debouncedSearch,
-        }),
-        {},
-        {
-          preserveState: true,
-          preserveScroll: true,
-          replace: true,
-        },
-      )
-    }
-  }, [debouncedSearch])
 
   return (
     <AuthenticatedLayout
@@ -131,39 +131,7 @@ export default function EmailList({ emailList, subscribers }: Props) {
           </div>
         </div>
 
-        <div className="flex items-center justify-between mt-6">
-          <SecondaryButton
-            onClick={() =>
-              router.get(
-                subscribers.prev_page_url,
-                {},
-                { preserveState: true, replace: true },
-              )
-            }
-            disabled={
-              subscribers.current_page === 1 || !subscribers?.data?.length
-            }
-          >
-            Previous
-          </SecondaryButton>
-          <p>{`Page ${subscribers.current_page} of ${
-            Math.ceil(subscribers.total / subscribers.per_page) || 1
-          }`}</p>
-          <SecondaryButton
-            onClick={() =>
-              router.get(
-                subscribers.next_page_url,
-                {},
-                { preserveState: true, replace: true },
-              )
-            }
-            disabled={
-              subscribers.to === subscribers.total || !subscribers?.data?.length
-            }
-          >
-            Next
-          </SecondaryButton>
-        </div>
+        <PaginationContainer emailList={emailList} subscribers={subscribers} />
       </section>
     </AuthenticatedLayout>
   )
