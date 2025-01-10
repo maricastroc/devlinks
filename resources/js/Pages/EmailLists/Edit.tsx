@@ -3,11 +3,11 @@ import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout'
 import { Head, router } from '@inertiajs/react'
 import { useEffect, useState } from 'react'
 import { EmailListProps } from '@/types/emailList'
-import TextInput from '@/Components/TextInput'
 import LinkButton from '@/Components/LinkButton'
 import { SubscriberProps } from '@/types/subscriber'
 import SecondaryButton from '@/Components/SecondaryButton'
 import { useDebounce } from '@react-hook/debounce'
+import SearchInput from '@/Components/SearchInput'
 
 interface LinksProps {
   url: string
@@ -79,15 +79,17 @@ export default function EmailList({ emailList, subscribers }: Props) {
       <section className="lg:max-h-[78vh] p-8 w-[45rem] rounded-xl bg-background-secondary">
         <div className="grid grid-cols-[1fr,2.5fr] gap-4">
           <LinkButton href="lists/create">Add Subscriber</LinkButton>
-          <TextInput
+          <SearchInput
             id="search"
             name="search"
             className="block w-full py-2"
             placeholder="Search by name or email"
             value={search}
-            onChange={(e) => {
+            search={search}
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
               setSearch(e.target.value)
             }}
+            onReset={() => setSearch('')}
           />
         </div>
 
