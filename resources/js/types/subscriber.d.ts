@@ -1,4 +1,4 @@
-export interface SubscriberProps {
+export type SubscriberProps = {
   id: number
   email_list_id: number
   name: string

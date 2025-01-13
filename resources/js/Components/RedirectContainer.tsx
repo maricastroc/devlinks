@@ -1,4 +1,4 @@
-interface RedirectContainerProps {
+type RedirectContainerProps = {
   title: string
   redirectLink: string
   text: string

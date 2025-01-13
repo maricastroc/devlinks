@@ -10,7 +10,7 @@ import { FormEventHandler, useState } from 'react'
 import { notyf } from '@/libs/notyf'
 import axios from 'axios'
 
-interface CreateListErrors {
+type CreateListErrors = {
   title?: string
   listFile?: string
 }

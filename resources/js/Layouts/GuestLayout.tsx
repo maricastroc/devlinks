@@ -3,7 +3,7 @@ import { RedirectContainer } from '@/Components/RedirectContainer'
 import { Link } from '@inertiajs/react'
 import { ReactNode } from 'react'
 
-interface GuestProps {
+type GuestProps = {
   children: ReactNode
   showRedirectContainer?: boolean
 }
@@ -29,7 +29,6 @@ export default function Guest({
           redirectLink="/register"
           text="Sign up here"
           title="Don't have an account?"
-          buttonContent="Access Acount"
         />
       )}
     </div>

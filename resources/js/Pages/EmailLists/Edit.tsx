@@ -12,7 +12,7 @@ import axios from 'axios'
 import { EmailListProps } from '@/types/emailList'
 import { LinkSimple } from 'phosphor-react'
 
-interface CreateListErrors {
+type CreateListErrors = {
   title?: string
   listFile?: string
 }

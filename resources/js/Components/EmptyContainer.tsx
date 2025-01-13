@@ -1,6 +1,6 @@
 import LinkButton from '@/Components/LinkButton'
 
-interface Props {
+type Props = {
   imagePath: string
   title: string
   content: string

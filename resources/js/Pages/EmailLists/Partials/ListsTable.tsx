@@ -1,9 +1,10 @@
 import { EmailListProps } from "@/types/emailList"
 import { Link } from '@inertiajs/react'
 import { Info, PencilSimple, TrashSimple } from "phosphor-react"
+import { EmailListsResult } from "../Index"
 
 type Props = {
-  emailLists: EmailListProps[]
+  emailLists: EmailListsResult
 }
 
 export function ListsTable({ emailLists }: Props) {
@@ -21,7 +22,7 @@ export function ListsTable({ emailLists }: Props) {
                 </tr>
               </thead>
               <tbody>
-                {emailLists.map((list) => {
+                {emailLists.data.map((list) => {
                   return (
                     <tr key={list.id} className="border-b-zinc-800">
                       <td className="text-gray-300 text-medium">{list.id}</td>

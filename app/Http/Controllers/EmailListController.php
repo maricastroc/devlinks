@@ -23,7 +23,7 @@ class EmailListController extends Controller
             ->search($search)
             ->with('subscribers')
             ->orderBy('created_at', 'asc')
-            ->get();
+            ->paginate(7);
 
         return Inertia::render('EmailLists/Index', [
             'emailLists' => $emailLists,

@@ -6,16 +6,16 @@ import { EmailListProps } from '@/types/emailList'
 import LinkButton from '@/Components/LinkButton'
 import { SubscriberProps } from '@/types/subscriber'
 import SearchInput from '@/Components/SearchInput'
-import { PaginationContainer } from './Partials/PaginationContainer'
+import { SubscribersPaginationContainer } from './Partials/SubscribersPaginationContainer'
 import { SubscribersTable } from './Partials/SubscribersTable'
 
-interface LinksProps {
+type LinksProps = {
   url: string
   label: string
   isActive: boolean
 }
 
-export interface SubscribersResult {
+export type SubscribersResult = {
   data: SubscriberProps[]
   total: number
   links: LinksProps
@@ -27,7 +27,7 @@ export interface SubscribersResult {
   from: number
 }
 
-interface Props {
+type Props = {
   emailList: EmailListProps
   subscribers: SubscribersResult
 }
@@ -111,7 +111,7 @@ export default function EmailList({ emailList, subscribers }: Props) {
 
           <SubscribersTable subscribers={subscribers} />
 
-          <PaginationContainer
+          <SubscribersPaginationContainer
             emailList={emailList}
             subscribers={subscribers}
           />

@@ -8,7 +8,7 @@ type Props = {
   emailList: EmailListProps;
 };
 
-export function PaginationContainer({ subscribers, emailList }: Props) {
+export function SubscribersPaginationContainer({ subscribers, emailList }: Props) {
   const totalPages = Math.ceil(subscribers.total / subscribers.per_page);
   const currentPage = subscribers.current_page;
 
@@ -40,7 +40,7 @@ export function PaginationContainer({ subscribers, emailList }: Props) {
         <PaginationButton
           onClick={() =>
             router.get(
-              route("lists.edit", {
+              route("lists.show", {
                 emailList: emailList.id,
                 page: 1,
               }),
@@ -60,7 +60,7 @@ export function PaginationContainer({ subscribers, emailList }: Props) {
             key={page}
             onClick={() =>
               router.get(
-                route("lists.edit", {
+                route("lists.show", {
                   emailList: emailList.id,
                   page,
                 }),
@@ -82,7 +82,7 @@ export function PaginationContainer({ subscribers, emailList }: Props) {
           <PaginationButton
             onClick={() =>
               router.get(
-                route("lists.edit", {
+                route("lists.show", {
                   emailList: emailList.id,
                   page: totalPages,
                 }),

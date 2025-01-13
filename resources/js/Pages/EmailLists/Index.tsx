@@ -8,9 +8,21 @@ import { EmailListProps } from '@/types/emailList'
 import LinkButton from '@/Components/LinkButton'
 import { ListsTable } from './Partials/ListsTable'
 import SearchInput from '@/Components/SearchInput'
+import { ListsPaginationContainer } from './Partials/ListsPaginationContainer'
 
-interface Props {
-  emailLists: EmailListProps[]
+export type EmailListsResult = {
+  data: EmailListProps[]
+  total: number
+  current_page: number
+  per_page: number
+  next_page_url: string
+  prev_page_url: string
+  to: number
+  from: number
+}
+
+type Props = {
+  emailLists: EmailListsResult
 }
 
 export default function EmailList({ emailLists }: Props) {
@@ -30,7 +42,7 @@ export default function EmailList({ emailLists }: Props) {
         )
       } else {
         router.get(
-          route('lists.edit', {
+          route('lists', {
             search,
           }),
           {},
@@ -56,7 +68,7 @@ export default function EmailList({ emailLists }: Props) {
     >
       <Head title="List" />
 
-      {(emailLists?.length > 0 && search === '') || search !== '' ? (
+      {(emailLists?.data.length > 0 && search === '') || search !== '' ? (
         <div className="flex flex-col">
           <Link
             href={route('lists')}
@@ -82,6 +94,8 @@ export default function EmailList({ emailLists }: Props) {
             </div>
 
             <ListsTable emailLists={emailLists} />
+
+            <ListsPaginationContainer emailLists={emailLists} />
           </section>
         </div>
       ) : (

@@ -1,6 +1,6 @@
 import { SubscriberProps } from "./subscriber";
 
-export interface EmailListProps {
+export type EmailListProps = {
   user_id: number,
   id: number,
   title: string,
