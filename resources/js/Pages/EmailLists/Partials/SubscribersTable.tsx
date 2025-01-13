@@ -1,4 +1,6 @@
+import { Link } from "@inertiajs/react"
 import { SubscribersResult } from "../Show"
+import { PencilSimple, TrashSimple } from "phosphor-react"
 
 type Props = {
   subscribers: SubscribersResult
@@ -14,6 +16,7 @@ export function SubscribersTable({ subscribers }: Props) {
                   <tr className="border-b border-zinc-800">
                     <th className="py-2 text-content text-medium">Name</th>
                     <th className="py-2 text-content text-medium">E-mail</th>
+                    <th className="py-2 text-content text-medium">Actions</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -29,6 +32,25 @@ export function SubscribersTable({ subscribers }: Props) {
                         <td className="py-2 text-gray-300 text-medium">
                           {subscriber.email}
                         </td>
+                        <td className="text-gray-300">
+                        <div className="flex items-center gap-3">
+                          <Link
+                            className={
+                              'hover:text-blue-500 transition-all duration-150'
+                            }
+                            href={route('lists.edit', { emailList: subscriber.id })}
+                          >
+                            <PencilSimple size={16} />
+                          </Link>
+                          <button
+                            className={
+                              'hover:text-red-500 transition-all duration-150'
+                            }
+                          >
+                            <TrashSimple size={16} />
+                          </button>
+                        </div>
+                      </td>
                       </tr>
                     )
                   })}

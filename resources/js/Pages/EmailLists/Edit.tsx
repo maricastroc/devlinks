@@ -12,9 +12,8 @@ import axios from 'axios'
 import { EmailListProps } from '@/types/emailList'
 import { LinkSimple } from 'phosphor-react'
 
-type CreateListErrors = {
+type EditListErrors = {
   title?: string
-  listFile?: string
 }
 
 type Props = {
@@ -22,7 +21,7 @@ type Props = {
 }
 
 export default function Index({ emailList }: Props) {
-  const [errors, setErrors] = useState<CreateListErrors>({})
+  const [errors, setErrors] = useState<EditListErrors>({})
 
   const [processing, setProcessing] = useState(false)
 
@@ -114,7 +113,7 @@ export default function Index({ emailList }: Props) {
                 className="flex items-center text-xs text-gray-300 transition-all duration-150 hover:text-gray-100"
               >
                 <LinkSimple size={16} className="mr-1" />
-                Click to view subscribers
+                  Click to view / edit subscribers
               </Link>
             </div>
 

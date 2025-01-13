@@ -30,6 +30,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/lists/edit/{emailList}', [EmailListController::class, 'edit'])->name('lists.edit');
 
     Route::get('/lists/{emailList}/add-subscriber', [SubscriberController::class, 'create'])->name('lists.show.add-subscriber');
+    Route::post('/lists/{emailList}/add-subscriber', [SubscriberController::class, 'store'])->name('lists.show.add-subscriber.store');
+    Route::get('/lists/{emailList}/subscribers/edit/${subscriber}', [SubscriberController::class, 'edit'])->name('lists.show.edit-subscriber');
 });
 
 require __DIR__.'/auth.php';
