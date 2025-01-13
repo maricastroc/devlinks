@@ -76,12 +76,22 @@ export default function Index({ emailList }: Props) {
       }
     >
       <div className="flex flex-col">
-        <Link href="/lists" className="mb-2 ml-1 text-xs text-gray-400">
+        <Link href={route('lists')} className="mb-2 ml-1 text-xs text-gray-400">
           {`Lists > `}
-          <Link href={`/lists/edit/`} className="text-gray-400">
-            {`Edit > `}
+          <Link
+            href={route('lists.show', {
+              emailList: emailList.id,
+            })}
+            className="text-gray-400"
+          >
+            {`Show > `}
           </Link>
-          <Link href={`/lists/edit`} className="text-gray-200">
+          <Link
+            href={route('lists.show.add-subscriber', {
+              emailList: emailList.id,
+            })}
+            className="text-gray-200"
+          >
             Add Subscriber
           </Link>
         </Link>
