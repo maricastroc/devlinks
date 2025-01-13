@@ -2,10 +2,11 @@
 
 namespace App\Http\Requests;
 
+use App\Models\User;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
-class EmailListRequest extends FormRequest
+class SubscriberRequest extends FormRequest
 {
     /**
      * Get the validation rules that apply to the request.
@@ -15,13 +16,14 @@ class EmailListRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'title' => [
+            'name' => ['required', 'string', 'max:255'],
+            'email' => [
                 'required',
                 'string',
+                'lowercase',
+                'email',
                 'max:255',
-                Rule::unique('email_lists')->ignoreModel($this->route('emailList'))
             ],
-            'listFile' => ['required', 'file', 'mimes:csv'],
         ];
     }
 }

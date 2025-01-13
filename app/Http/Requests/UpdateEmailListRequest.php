@@ -5,7 +5,7 @@ namespace App\Http\Requests;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
-class EmailListRequest extends FormRequest
+class UpdateEmailListRequest extends FormRequest
 {
     /**
      * Get the validation rules that apply to the request.
@@ -21,7 +21,6 @@ class EmailListRequest extends FormRequest
                 'max:255',
                 Rule::unique('email_lists')->ignoreModel($this->route('emailList'))
             ],
-            'listFile' => ['required', 'file', 'mimes:csv'],
         ];
     }
 }

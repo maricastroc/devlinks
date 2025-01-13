@@ -1,5 +1,5 @@
 import PaginationButton from "@/Components/PaginationButton";
-import { SubscribersResult } from "../Edit";
+import { SubscribersResult } from "../Show";
 import { EmailListProps } from "@/types/emailList";
 import { router } from "@inertiajs/react";
 

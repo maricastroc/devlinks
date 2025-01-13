@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\EmailListRequest;
+use App\Http\Requests\UpdateEmailListRequest;
 use App\Models\EmailList;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -62,14 +63,7 @@ class EmailListController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(EmailList $list) // Alterado para EmailList
-    {
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(EmailList $emailList, Request $request)
+    public function show(EmailList $emailList, Request $request)
     {
         $search = $request->query('search', '');
 
@@ -77,18 +71,42 @@ class EmailListController extends Controller
             ->search($search)
             ->paginate(7);
     
-        return Inertia::render('EmailLists/Edit', [
+        return Inertia::render('EmailLists/Show', [
             'emailList' => $emailList,
             'subscribers' => $subscribers,
         ]);
     }
 
     /**
+     * Show the form for editing the specified resource.
+     */
+    public function edit(EmailList $emailList)
+    {
+        return Inertia::render('EmailLists/Edit', [
+            'emailList' => $emailList,
+        ]);
+    }
+
+    /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, EmailList $list) // Alterado para EmailList
+    public function update(UpdateEmailListRequest $request, EmailList $emailList)
     {
-        //
+        try {
+            $data = $request->validated();
+            $emailList->update($data);
+    
+            return response()->json([
+                'redirect' => route('lists'),
+                'message' => 'List successfully updated!',
+                'list' => $emailList,
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'message' => 'An error occurred while updating the list.',
+                'error' => $e->getMessage(),
+            ], 500);
+        }
     }
 
     /**
