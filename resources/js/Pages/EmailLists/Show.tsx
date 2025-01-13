@@ -78,14 +78,23 @@ export default function EmailList({ emailList, subscribers }: Props) {
       <div className="flex flex-col">
         <Link href={route('lists')} className="mb-2 ml-1 text-xs text-gray-400">
           {`Lists > `}
-          <Link href={route('lists.show', { emailList: emailList.id })} className="text-gray-200">
+          <Link
+            href={route('lists.show', { emailList: emailList.id })}
+            className="text-gray-200"
+          >
             Show
           </Link>
         </Link>
-        
+
         <section className="lg:max-h-[78vh] p-8 w-[45rem] rounded-xl bg-background-secondary">
           <div className="grid grid-cols-[1fr,2.5fr] gap-4">
-          <LinkButton href={route('lists.show.add-subscriber', { emailList: emailList.id })}>Add Subscriber</LinkButton>
+            <LinkButton
+              href={route('lists.show.add-subscriber', {
+                emailList: emailList.id,
+              })}
+            >
+              Add Subscriber
+            </LinkButton>
             <SearchInput
               id="search"
               name="search"

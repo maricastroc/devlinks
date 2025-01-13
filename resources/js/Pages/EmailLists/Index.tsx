@@ -5,9 +5,9 @@ import { Head, Link, router } from '@inertiajs/react'
 import EmptySvg from '/public/assets/empty_lists.svg'
 import { useEffect, useState } from 'react'
 import { EmailListProps } from '@/types/emailList'
-import TextInput from '@/Components/TextInput'
 import LinkButton from '@/Components/LinkButton'
 import { ListsTable } from './Partials/ListsTable'
+import SearchInput from '@/Components/SearchInput'
 
 interface Props {
   emailLists: EmailListProps[]
@@ -58,20 +58,26 @@ export default function EmailList({ emailLists }: Props) {
 
       {(emailLists?.length > 0 && search === '') || search !== '' ? (
         <div className="flex flex-col">
-          <Link href={route('lists')} className="mb-2 ml-1 text-xs text-gray-400">
+          <Link
+            href={route('lists')}
+            className="mb-2 ml-1 text-xs text-gray-400"
+          >
             Lists
           </Link>
           <section className="p-8 w-[45rem] rounded-xl bg-background-secondary">
             <div className="grid grid-cols-[1fr,3.5fr] gap-4">
               <LinkButton href={route('lists.create')}>Create List</LinkButton>
-              <TextInput
+              <SearchInput
                 id="search"
                 name="search"
                 className="block w-full py-2"
-                placeholder="Search for a list"
+                placeholder="Search by title or ID"
                 value={search}
-                onChange={(e) => setSearch(e.target.value)}
-                spellCheck={false}
+                search={search}
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                  setSearch(e.target.value)
+                }}
+                onReset={() => setSearch('')}
               />
             </div>
 

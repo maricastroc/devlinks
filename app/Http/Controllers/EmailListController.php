@@ -19,9 +19,11 @@ class EmailListController extends Controller
 
         $search = $request->query('search', '');
 
-        $emailLists =
-            $user->emailLists()->search($search)
-                ->with('subscribers')->orderBy('created_at', 'asc')->get();
+        $emailLists = $user->emailLists()
+            ->search($search)
+            ->with('subscribers')
+            ->orderBy('created_at', 'asc')
+            ->get();
 
         return Inertia::render('EmailLists/Index', [
             'emailLists' => $emailLists,

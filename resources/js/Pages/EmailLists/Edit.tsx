@@ -40,15 +40,19 @@ export default function Index({ emailList }: Props) {
 
     const formData = new FormData()
     formData.append('title', data.title)
-    formData.append('_method', 'PUT');
+    formData.append('_method', 'PUT')
 
     try {
-      const response = await axios.post(`lists/update/${emailList.id}`, formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data'
-        }
-      });
-      
+      const response = await axios.post(
+        `lists/update/${emailList.id}`,
+        formData,
+        {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+          },
+        },
+      )
+
       if (response?.data.message) {
         await new Promise((resolve) => {
           notyf?.success(response?.data?.message)
@@ -105,14 +109,14 @@ export default function Index({ emailList }: Props) {
               <InputError className="mt-2" message={errors.title} />
             </div>
             <div className="flex items-center gap-2 mt-3">
-  <Link 
-    href={route('lists.show', { emailList: emailList.id })} 
-    className="flex items-center text-xs text-gray-300 transition-all duration-150 hover:text-gray-100"
-  >
-    <LinkSimple size={16} className="mr-1" /> 
-    Click to view subscribers
-  </Link>
-</div>
+              <Link
+                href={route('lists.show', { emailList: emailList.id })}
+                className="flex items-center text-xs text-gray-300 transition-all duration-150 hover:text-gray-100"
+              >
+                <LinkSimple size={16} className="mr-1" />
+                Click to view subscribers
+              </Link>
+            </div>
 
             <div className="flex items-center justify-end gap-4 mt-5">
               <SecondaryButton

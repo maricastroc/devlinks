@@ -39,10 +39,10 @@ export default function Index({ emailList }: Props) {
     setErrors({})
 
     const formData = new FormData()
-    
+
     formData.append('name', data.name)
     formData.append('email', data.email)
-    
+
     try {
       const response = await axios.post(route('lists.store'), formData)
 
@@ -94,7 +94,7 @@ export default function Index({ emailList }: Props) {
                 id="name"
                 name="name"
                 className="block w-full mt-1"
-                placeholder="Subscriber&apos;s name"
+                placeholder="Subscriber's name"
                 value={data.name}
                 disabled={processing}
                 onChange={(e) => setData('name', e.target.value)}
