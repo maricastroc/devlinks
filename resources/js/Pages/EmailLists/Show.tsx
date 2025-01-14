@@ -98,10 +98,10 @@ export default function EmailList({ emailList, subscribers }: Props) {
       }
     >
       <Head title="List" />
-      <div className="flex flex-col">
+      <div className="flex flex-col pb-12 lg:pb-0">
         <Link
           href={route('lists.index')}
-          className="mb-2 ml-1 text-xs text-gray-400 w-[5rem]"
+          className="mt-10 lg:mt-0 mb-2 ml-1 text-xs text-gray-400 w-[5rem]"
         >
           {`Lists > `}
           <Link
@@ -112,8 +112,8 @@ export default function EmailList({ emailList, subscribers }: Props) {
           </Link>
         </Link>
 
-        <section className="lg:max-h-[78vh] p-8 w-[45rem] rounded-xl bg-background-secondary">
-          <div className="grid grid-cols-[1fr,2.5fr] gap-4">
+        <section className="lg:max-h-[78vh] p-5 py-7 lg:p-8 w-[90vw] max-w-[30rem] lg:max-w-[45rem] lg:w-[45rem] rounded-xl bg-background-secondary">
+          <div className="flex flex-col lg:grid lg:grid-cols-[1fr,2.5fr] gap-4">
             <LinkButton
               href={route('subscribers.create', {
                 list: emailList.id,

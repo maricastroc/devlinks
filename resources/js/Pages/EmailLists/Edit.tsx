@@ -76,7 +76,7 @@ export default function Index({ emailList }: Props) {
         </h2>
       }
     >
-      <div className="flex flex-col">
+      <div className="flex flex-col pb-12 mt-10 lg:pb-0 lg:mt-0">
         <Link
           href={route('lists.index')}
           className="mb-2 ml-1 text-xs text-gray-400"
@@ -84,7 +84,7 @@ export default function Index({ emailList }: Props) {
           {`Lists > `}
           <Link href={route('lists.edit', { list: emailList.id })}>Edit</Link>
         </Link>
-        <section className="p-8 w-[30rem] rounded-xl bg-background-secondary">
+        <section className="p-5 py-7 lg:p-8 w-[90vw] max-w-[30rem] lg:w-[30rem] rounded-xl bg-background-secondary">
           <form onSubmit={submit}>
             <div>
               <InputLabel htmlFor="name" value="Name" />

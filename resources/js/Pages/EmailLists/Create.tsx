@@ -74,17 +74,17 @@ export default function Index() {
         </h2>
       }
     >
-      <div className="flex flex-col">
+      <div className="flex flex-col pb-12 lg:pb-0">
         <Link
           href={route('lists.index')}
-          className="mb-2 ml-1 text-xs text-gray-400"
+          className="mt-10 mb-2 ml-1 text-xs text-gray-400 lg:mt-0"
         >
           {`Lists > `}
           <Link href={route('lists.create')} className="text-gray-200">
             Create
           </Link>
         </Link>
-        <section className="p-8 w-[30rem] rounded-xl bg-background-secondary">
+        <section className="p-5 py-7 lg:p-8 w-[90vw] max-w-[30rem] lg:w-[30rem] rounded-xl bg-background-secondary">
           <form onSubmit={submit} className="space-y-6 ">
             <div>
               <InputLabel htmlFor="name" value="Name" />

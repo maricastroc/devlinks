@@ -1,39 +1,43 @@
-import PaginationButton from "@/Components/PaginationButton";
-import { EmailListProps } from "@/types/emailList";
-import { router } from "@inertiajs/react";
-import { EmailListsResult } from "../Index";
+import PaginationButton from '@/Components/PaginationButton'
+import { EmailListProps } from '@/types/emailList'
+import { router } from '@inertiajs/react'
+import { EmailListsResult } from '../Index'
 
 type Props = {
-  emailLists: EmailListsResult;
-  search: string;
-  withTrashed: boolean;
-};
+  emailLists: EmailListsResult
+  search: string
+  withTrashed: boolean
+}
 
-export function ListsPaginationContainer({ emailLists, search, withTrashed }: Props) {
-  const totalPages = Math.ceil(emailLists.total / emailLists.per_page);
-  const currentPage = emailLists.current_page;
+export function ListsPaginationContainer({
+  emailLists,
+  search,
+  withTrashed,
+}: Props) {
+  const totalPages = Math.ceil(emailLists.total / emailLists.per_page)
+  const currentPage = emailLists.current_page
 
-  let middlePages: number[] = [];
+  let middlePages: number[] = []
 
   if (totalPages <= 5) {
-    middlePages = Array.from({ length: totalPages - 2 }, (_, i) => i + 2);
+    middlePages = Array.from({ length: totalPages - 2 }, (_, i) => i + 2)
   } else {
     if (currentPage <= 3) {
-      middlePages = [2, 3, 4];
+      middlePages = [2, 3, 4]
     } else if (currentPage >= totalPages - 2) {
-      middlePages = [totalPages - 3, totalPages - 2, totalPages - 1];
+      middlePages = [totalPages - 3, totalPages - 2, totalPages - 1]
     } else {
-      middlePages = [currentPage - 1, currentPage, currentPage + 1];
+      middlePages = [currentPage - 1, currentPage, currentPage + 1]
     }
   }
 
   return (
-    <div className="flex items-center justify-between mt-4">
+    <div className="flex flex-col-reverse items-start justify-between gap-5 mt-8 lg:mt-4 lg:items-center lg:gap-0 lg:flex-row">
       <p className="text-sm">
-        Showing{" "}
-        <span className="font-bold text-gray-200">{emailLists.from}</span> to{" "}
-        <span className="font-bold text-gray-200">{emailLists.to}</span> |{" "}
-        <span className="font-bold text-gray-200">{emailLists.total}</span>{" "}
+        Showing{' '}
+        <span className="font-bold text-gray-200">{emailLists.from}</span> to{' '}
+        <span className="font-bold text-gray-200">{emailLists.to}</span> |{' '}
+        <span className="font-bold text-gray-200">{emailLists.total}</span>{' '}
         lists
       </p>
 
@@ -41,13 +45,13 @@ export function ListsPaginationContainer({ emailLists, search, withTrashed }: Pr
         <PaginationButton
           onClick={() =>
             router.get(
-              route("lists", {
+              route('lists', {
                 page: 1,
                 search,
-                withTrashed: withTrashed
+                withTrashed,
               }),
               {},
-              { preserveState: true, replace: true }
+              { preserveState: true, replace: true },
             )
           }
           isActive={currentPage === 1}
@@ -62,13 +66,13 @@ export function ListsPaginationContainer({ emailLists, search, withTrashed }: Pr
             key={page}
             onClick={() =>
               router.get(
-                route("lists", {
+                route('lists', {
                   page,
                   search,
-                  withTrashed: withTrashed
+                  withTrashed,
                 }),
                 {},
-                { preserveState: true, replace: true }
+                { preserveState: true, replace: true },
               )
             }
             isActive={page === currentPage}
@@ -85,13 +89,13 @@ export function ListsPaginationContainer({ emailLists, search, withTrashed }: Pr
           <PaginationButton
             onClick={() =>
               router.get(
-                route("lists", {
+                route('lists', {
                   page: totalPages,
                   search,
-                  withTrashed: withTrashed
+                  withTrashed,
                 }),
                 {},
-                { preserveState: true, replace: true }
+                { preserveState: true, replace: true },
               )
             }
             isActive={currentPage === totalPages}
@@ -101,5 +105,5 @@ export function ListsPaginationContainer({ emailLists, search, withTrashed }: Pr
         )}
       </div>
     </div>
-  );
+  )
 }

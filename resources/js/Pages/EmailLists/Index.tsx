@@ -91,15 +91,15 @@ export default function EmailList({ emailLists }: Props) {
       <Head title="List" />
 
       {(emailLists?.data.length > 0 && search === '') || search !== '' ? (
-        <div className="flex flex-col">
+        <div className="flex flex-col pb-12 lg:pb-0">
           <Link
             href={route('lists.index')}
-            className="mb-2 ml-1 text-xs text-gray-400"
+            className="mt-10 mb-2 ml-1 text-xs text-gray-400 lg:mt-0"
           >
             Lists
           </Link>
-          <section className="p-8 w-[45rem] rounded-xl bg-background-secondary">
-            <div className="grid grid-cols-[1fr,3.5fr] gap-4">
+          <section className="w-[90vw] max-w-[30rem] lg:max-w-[45rem] p-5 py-7 lg:p-8 lg:w-[45rem] rounded-xl bg-background-secondary">
+            <div className="flex flex-col lg:grid lg:grid-cols-[1fr,3.5fr] gap-4">
               <LinkButton href={route('lists.create')}>Create List</LinkButton>
               <SearchInput
                 id="search"
