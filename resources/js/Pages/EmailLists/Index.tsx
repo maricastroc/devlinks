@@ -32,7 +32,7 @@ export default function EmailList({ emailLists }: Props) {
     const timer = setTimeout(() => {
       if (search === '') {
         router.get(
-          route('lists'),
+          route('lists.index'),
           {},
           {
             preserveState: true,
@@ -42,7 +42,7 @@ export default function EmailList({ emailLists }: Props) {
         )
       } else {
         router.get(
-          route('lists', {
+          route('lists.index', {
             search,
           }),
           {},
@@ -71,7 +71,7 @@ export default function EmailList({ emailLists }: Props) {
       {(emailLists?.data.length > 0 && search === '') || search !== '' ? (
         <div className="flex flex-col">
           <Link
-            href={route('lists')}
+            href={route('lists.index')}
             className="mb-2 ml-1 text-xs text-gray-400"
           >
             Lists

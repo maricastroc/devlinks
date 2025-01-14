@@ -11,8 +11,9 @@ import { notyf } from '@/libs/notyf'
 import axios from 'axios'
 import { EmailListProps } from '@/types/emailList'
 import { LinkSimple } from 'phosphor-react'
+import { Inertia } from '@inertiajs/inertia'
 
-type EditListErrors = {
+type FormErrors = {
   title?: string
 }
 
@@ -21,7 +22,7 @@ type Props = {
 }
 
 export default function Index({ emailList }: Props) {
-  const [errors, setErrors] = useState<EditListErrors>({})
+  const [errors, setErrors] = useState<FormErrors>({})
 
   const [processing, setProcessing] = useState(false)
 
@@ -42,15 +43,11 @@ export default function Index({ emailList }: Props) {
     formData.append('_method', 'PUT')
 
     try {
-      const response = await axios.post(
-        `lists/update/${emailList.id}`,
-        formData,
-        {
-          headers: {
-            'Content-Type': 'multipart/form-data',
-          },
+      const response = await axios.post(`lists/${emailList.id}`, formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
         },
-      )
+      })
 
       if (response?.data.message) {
         await new Promise((resolve) => {
@@ -59,9 +56,7 @@ export default function Index({ emailList }: Props) {
         })
       }
 
-      if (response.data.redirect) {
-        window.location.href = response.data.redirect
-      }
+      Inertia.visit(route('lists'))
     } catch (error: any) {
       if (error.response?.data?.errors) {
         setErrors(error.response.data.errors)
@@ -77,16 +72,17 @@ export default function Index({ emailList }: Props) {
     <AuthenticatedLayout
       header={
         <h2 className="text-xl font-semibold leading-tight text-gray-800 dark:text-gray-200">
-          Lists - Create
+          Lists - Edit
         </h2>
       }
     >
       <div className="flex flex-col">
-        <Link href={route('lists')} className="mb-2 ml-1 text-xs text-gray-400">
+        <Link
+          href={route('lists.index')}
+          className="mb-2 ml-1 text-xs text-gray-400"
+        >
           {`Lists > `}
-          <Link href={route('lists.edit', { emailList: emailList.id })}>
-            Edit
-          </Link>
+          <Link href={route('lists.edit', { list: emailList.id })}>Edit</Link>
         </Link>
         <section className="p-8 w-[30rem] rounded-xl bg-background-secondary">
           <form onSubmit={submit}>
@@ -109,11 +105,11 @@ export default function Index({ emailList }: Props) {
             </div>
             <div className="flex items-center gap-2 mt-3">
               <Link
-                href={route('lists.show', { emailList: emailList.id })}
+                href={route('lists.show', { list: emailList.id })}
                 className="flex items-center text-xs text-gray-300 transition-all duration-150 hover:text-gray-100"
               >
                 <LinkSimple size={16} className="mr-1" />
-                  Click to view / edit subscribers
+                Click to view / edit subscribers
               </Link>
             </div>
 

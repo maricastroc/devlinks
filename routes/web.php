@@ -3,35 +3,26 @@
 use App\Http\Controllers\EmailListController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SubscriberController;
-use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
-
-
-Route::get('/', function () {
-    return Inertia::render('Dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
-
-Route::get('/dashboard', function () {
-    return Inertia::render('Dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
-
-Route::middleware('auth')->group(function () {
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-
-    Route::get('/lists', [EmailListController::class, 'index'])->name('lists');
-    Route::get('/lists/create', [EmailListController::class, 'create'])->name('lists.create');
-    Route::post('/lists/store', [EmailListController::class, 'store'])->name('lists.store');
-    Route::put('/lists/update/{emailList}', [EmailListController::class, 'update'])->name('lists.update');
-    Route::get('/lists/{emailList}/subscribers', [EmailListController::class, 'show'])->name('lists.show');
-    Route::get('/lists/edit/{emailList}', [EmailListController::class, 'edit'])->name('lists.edit');
-
-    Route::get('/lists/{emailList}/add-subscriber', [SubscriberController::class, 'create'])->name('lists.show.add-subscriber');
-    Route::post('/lists/{emailList}/add-subscriber', [SubscriberController::class, 'store'])->name('lists.show.add-subscriber.store');
-    Route::get('/lists/{emailList}/subscribers/edit/${subscriber}', [SubscriberController::class, 'edit'])->name('lists.show.edit-subscriber');
+Route::middleware(['auth', 'verified'])->group(function () {
+    Route::get('/', fn() => Inertia::render('Dashboard'))->name('dashboard');
+    Route::get('/dashboard', fn() => Inertia::render('Dashboard'))->name('dashboard'); // Pode ser removida se duplicada for desnecessária
 });
 
-require __DIR__.'/auth.php';
+Route::middleware('auth')->prefix('profile')->name('profile.')->group(function () {
+    Route::get('/', [ProfileController::class, 'edit'])->name('edit');
+    Route::patch('/', [ProfileController::class, 'update'])->name('update');
+    Route::delete('/', [ProfileController::class, 'destroy'])->name('destroy');
+});
+
+Route::middleware('auth')->group(function () {
+    Route::resource('lists', EmailListController::class);
+});
+
+Route::middleware('auth')->prefix('lists/{list}')->group(function () {
+    Route::resource('subscribers', SubscriberController::class)->except(['index', 'show']);
+});
+
+require __DIR__ . '/auth.php';

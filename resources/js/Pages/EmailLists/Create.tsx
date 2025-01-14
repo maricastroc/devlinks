@@ -9,14 +9,15 @@ import { Link, useForm } from '@inertiajs/react'
 import { FormEventHandler, useState } from 'react'
 import { notyf } from '@/libs/notyf'
 import axios from 'axios'
+import { Inertia } from '@inertiajs/inertia'
 
-type CreateListErrors = {
+type FormErrors = {
   title?: string
   listFile?: string
 }
 
 export default function Index() {
-  const [errors, setErrors] = useState<CreateListErrors>({})
+  const [errors, setErrors] = useState<FormErrors>({})
 
   const [processing, setProcessing] = useState(false)
 
@@ -53,9 +54,7 @@ export default function Index() {
         })
       }
 
-      if (response.data.redirect) {
-        window.location.href = response.data.redirect
-      }
+      Inertia.visit(route('lists'))
     } catch (error: any) {
       if (error.response?.data?.errors) {
         setErrors(error.response.data.errors)
@@ -76,7 +75,10 @@ export default function Index() {
       }
     >
       <div className="flex flex-col">
-        <Link href={route('lists')} className="mb-2 ml-1 text-xs text-gray-400">
+        <Link
+          href={route('lists.index')}
+          className="mb-2 ml-1 text-xs text-gray-400"
+        >
           {`Lists > `}
           <Link href={route('lists.create')} className="text-gray-200">
             Create

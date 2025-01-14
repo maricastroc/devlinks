@@ -26,9 +26,11 @@ class SubscriberRequest extends FormRequest
                 'string',
                 'email',
                 'max:255',
-                Rule::unique('subscribers', 'email')->where(function ($query) {
-                    return $query->where('email_list_id', $this->input('email_list_id'));
-                }),
+                Rule::unique('subscribers', 'email')
+                    ->where(function ($query) {
+                        $query->where('email_list_id', $this->input('email_list_id'));
+                    })
+                    ->ignore($this->route('subscriber')),
             ],
         ];
     }

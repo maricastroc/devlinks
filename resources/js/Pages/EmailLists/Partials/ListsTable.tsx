@@ -1,13 +1,17 @@
-import { EmailListProps } from "@/types/emailList"
+import * as Dialog from '@radix-ui/react-dialog';
 import { Link } from '@inertiajs/react'
 import { Info, PencilSimple, TrashSimple } from "phosphor-react"
 import { EmailListsResult } from "../Index"
+import { useState } from 'react';
+import { DeleteModal } from '@/Components/DeleteModal';
 
 type Props = {
   emailLists: EmailListsResult
 }
 
 export function ListsTable({ emailLists }: Props) {
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false)
+  
   return (
     <div className="px-5 py-5 mt-7 rounded-lg lg:h-[15rem] bg-background-tertiary text-content">
     <table className="table overflow-y-scroll text-content table-md">
@@ -38,7 +42,7 @@ export function ListsTable({ emailLists }: Props) {
                             className={
                               'hover:text-blue-500 transition-all duration-150'
                             }
-                            href={route('lists.show', { emailList: list.id })}
+                            href={route('lists.show', { list: list.id })}
                           >
                             <Info size={16} />
                           </Link>
@@ -46,17 +50,23 @@ export function ListsTable({ emailLists }: Props) {
                             className={
                               'hover:text-blue-500 transition-all duration-150'
                             }
-                            href={route('lists.edit', { emailList: list.id })}
+                            href={route('lists.edit', { list: list.id })}
                           >
                             <PencilSimple size={16} />
                           </Link>
-                          <button
+                          <Dialog.Root open={isDeleteModalOpen}>
+                            <Dialog.Trigger asChild>
+                            <button
+                            onClick={() => setIsDeleteModalOpen(true)}
                             className={
                               'hover:text-red-500 transition-all duration-150'
                             }
                           >
                             <TrashSimple size={16} />
                           </button>
+                            </Dialog.Trigger>
+                            <DeleteModal entity="list" emailList={list} closeModal={() => setIsDeleteModalOpen(false)} />
+                          </Dialog.Root>
                         </div>
                       </td>
                     </tr>

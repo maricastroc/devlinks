@@ -1,12 +1,17 @@
 import { Link } from "@inertiajs/react"
-import { SubscribersResult } from "../Show"
 import { PencilSimple, TrashSimple } from "phosphor-react"
+import { SubscribersResult } from "../../Show"
+import { useState } from "react"
+import { DeleteModal } from "@/Components/DeleteModal"
+import * as Dialog from '@radix-ui/react-dialog';
 
 type Props = {
   subscribers: SubscribersResult
 }
 
 export function SubscribersTable({ subscribers }: Props) {
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false)
+  
   return (
     <div className="px-5 py-5 rounded-lg mt-7 bg-background-tertiary text-content">
           <div className="overflow-y-auto max-h-[43vh]">
@@ -38,17 +43,23 @@ export function SubscribersTable({ subscribers }: Props) {
                             className={
                               'hover:text-blue-500 transition-all duration-150'
                             }
-                            href={route('lists.edit', { emailList: subscriber.id })}
+                            href={route('subscribers.edit', { subscriber: subscriber.id, list: subscriber.email_list_id })}
                           >
                             <PencilSimple size={16} />
                           </Link>
-                          <button
+                          <Dialog.Root open={isDeleteModalOpen}>
+                            <Dialog.Trigger asChild>
+                            <button
+                            onClick={() => setIsDeleteModalOpen(true)}
                             className={
                               'hover:text-red-500 transition-all duration-150'
                             }
                           >
                             <TrashSimple size={16} />
                           </button>
+                            </Dialog.Trigger>
+                            <DeleteModal entity="subscriber" subscriber={subscriber} closeModal={() => setIsDeleteModalOpen(false)} />
+                          </Dialog.Root>
                         </div>
                       </td>
                       </tr>

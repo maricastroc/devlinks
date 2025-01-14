@@ -6,8 +6,8 @@ import { EmailListProps } from '@/types/emailList'
 import LinkButton from '@/Components/LinkButton'
 import { SubscriberProps } from '@/types/subscriber'
 import SearchInput from '@/Components/SearchInput'
-import { SubscribersPaginationContainer } from './Partials/SubscribersPaginationContainer'
-import { SubscribersTable } from './Partials/SubscribersTable'
+import { SubscribersPaginationContainer } from './Subscribers/Partials/SubscribersPaginationContainer'
+import { SubscribersTable } from './Subscribers/Partials/SubscribersTable'
 
 type LinksProps = {
   url: string
@@ -39,7 +39,7 @@ export default function EmailList({ emailList, subscribers }: Props) {
     const timer = setTimeout(() => {
       if (search === '') {
         router.get(
-          route('lists.show', { emailList: emailList.id }),
+          route('lists.show', { list: emailList.id }),
           {},
           {
             preserveState: true,
@@ -50,7 +50,7 @@ export default function EmailList({ emailList, subscribers }: Props) {
       } else {
         router.get(
           route('lists.show', {
-            emailList: emailList.id,
+            list: emailList.id,
             search,
           }),
           {},
@@ -70,16 +70,19 @@ export default function EmailList({ emailList, subscribers }: Props) {
     <AuthenticatedLayout
       header={
         <h2 className="text-xl font-semibold leading-tight text-gray-800 dark:text-gray-200">
-          Lists
+          Lists - Show
         </h2>
       }
     >
       <Head title="List" />
       <div className="flex flex-col">
-        <Link href={route('lists')} className="mb-2 ml-1 text-xs text-gray-400">
+        <Link
+          href={route('lists.index')}
+          className="mb-2 ml-1 text-xs text-gray-400"
+        >
           {`Lists > `}
           <Link
-            href={route('lists.show', { emailList: emailList.id })}
+            href={route('lists.show', { list: emailList.id })}
             className="text-gray-200"
           >
             Show
@@ -89,8 +92,8 @@ export default function EmailList({ emailList, subscribers }: Props) {
         <section className="lg:max-h-[78vh] p-8 w-[45rem] rounded-xl bg-background-secondary">
           <div className="grid grid-cols-[1fr,2.5fr] gap-4">
             <LinkButton
-              href={route('lists.show.add-subscriber', {
-                emailList: emailList.id,
+              href={route('subscribers.create', {
+                list: emailList.id,
               })}
             >
               Add Subscriber

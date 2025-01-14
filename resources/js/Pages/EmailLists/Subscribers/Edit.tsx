@@ -5,31 +5,33 @@ import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout'
 import TextInput from '@/Components/TextInput'
 import SecondaryButton from '@/Components/SecondaryButton'
 import TertiaryButton from '@/Components/TertiaryButton'
-import { Link, useForm } from '@inertiajs/react'
+import { Link, router, useForm } from '@inertiajs/react'
 import { FormEventHandler, useState } from 'react'
 import { notyf } from '@/libs/notyf'
 import axios from 'axios'
 import { EmailListProps } from '@/types/emailList'
 import { Inertia } from '@inertiajs/inertia'
+import { SubscriberProps } from '@/types/subscriber'
+import LinkButton from '@/Components/LinkButton'
 
 type Props = {
-  emailList: EmailListProps
+  subscriber: SubscriberProps
 }
 
-type AddSubscriberErrors = {
+type FormErrors = {
   name?: string
   email?: string
   email_list_id?: string
 }
 
-export default function Index({ emailList }: Props) {
-  const [errors, setErrors] = useState<AddSubscriberErrors>({})
+export default function Index({ subscriber }: Props) {
+  const [errors, setErrors] = useState<FormErrors>({})
 
   const [processing, setProcessing] = useState(false)
 
   const { data, setData } = useForm({
-    name: '',
-    email: '',
+    name: subscriber.name,
+    email: subscriber.email,
   })
 
   const submit: FormEventHandler = async (e) => {
@@ -43,10 +45,11 @@ export default function Index({ emailList }: Props) {
 
     formData.append('name', data.name)
     formData.append('email', data.email)
-    formData.append('email_list_id', emailList.id.toString())
+    formData.append('email_list_id', subscriber.email_list_id.toString())
+    formData.append('_method', 'PUT')
 
     try {
-      const response = await axios.post(route('lists.show.add-subscriber.store', { emailList: emailList.id }), formData)
+      const response = await axios.post(route('subscribers.update', { list: subscriber.email_list_id, subscriber: subscriber.id }), formData)
 
       if (response?.data.message) {
         await new Promise((resolve) => {
@@ -55,7 +58,7 @@ export default function Index({ emailList }: Props) {
         })
       }
 
-      Inertia.visit(`/lists/${emailList.id}/subscribers`);
+      Inertia.visit(route('lists.show', { list: subscriber.email_list_id }));
     } catch (error: any) {
       if (error.response?.data?.errors) {
         setErrors(error.response.data.errors)
@@ -71,28 +74,29 @@ export default function Index({ emailList }: Props) {
     <AuthenticatedLayout
       header={
         <h2 className="text-xl font-semibold leading-tight text-gray-800 dark:text-gray-200">
-          Lists - Create
+          Subscriber - Edit
         </h2>
       }
     >
       <div className="flex flex-col">
-        <Link href={route('lists')} className="mb-2 ml-1 text-xs text-gray-400">
+        <Link href={route('lists.index')} className="mb-2 ml-1 text-xs text-gray-400">
           {`Lists > `}
           <Link
             href={route('lists.show', {
-              emailList: emailList.id,
+              list: subscriber.email_list_id,
             })}
             className="text-gray-400"
           >
             {`Show > `}
           </Link>
           <Link
-            href={route('lists.show.add-subscriber', {
-              emailList: emailList.id,
+            href={route('subscribers.edit', {
+              list: subscriber.email_list_id,
+              subscriber: subscriber.id
             })}
             className="text-gray-200"
           >
-            Add Subscriber
+            Edit Subscriber
           </Link>
         </Link>
         <section className="p-8 w-[30rem] rounded-xl bg-background-secondary">
@@ -135,11 +139,11 @@ export default function Index({ emailList }: Props) {
 
             <div className="flex items-center justify-end gap-4">
               <SecondaryButton
-                onClick={() => (window.location.href = '/lists')}
-                disabled={processing}
-              >
-                Go back
-              </SecondaryButton>
+                  onClick={() => router.get(route('lists.show', { emailList: subscriber.email_list_id, }))}
+                  disabled={processing}
+                >
+                  Go back
+                </SecondaryButton>
               <TertiaryButton disabled={processing}>Save List</TertiaryButton>
             </div>
           </form>

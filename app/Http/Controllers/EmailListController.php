@@ -52,7 +52,6 @@ class EmailListController extends Controller
             
             return response()->json([
                 'message' => 'List successfully created!',
-                'redirect' => route('lists'),
             ], 200);
         } catch (\Exception $e) {
             return response()->json([
@@ -65,16 +64,16 @@ class EmailListController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(EmailList $emailList, Request $request)
+    public function show(EmailList $list, Request $request)
     {
         $search = $request->query('search', '');
 
-        $subscribers = $emailList->subscribers()
+        $subscribers = $list->subscribers()
             ->search($search)
             ->paginate(7);
     
         return Inertia::render('EmailLists/Show', [
-            'emailList' => $emailList,
+            'emailList' => $list,
             'subscribers' => $subscribers,
         ]);
     }
@@ -82,26 +81,25 @@ class EmailListController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(EmailList $emailList)
+    public function edit(EmailList $list)
     {
         return Inertia::render('EmailLists/Edit', [
-            'emailList' => $emailList,
+            'emailList' => $list,
         ]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateEmailListRequest $request, EmailList $emailList)
+    public function update(UpdateEmailListRequest $request, EmailList $list)
     {
         try {
             $data = $request->validated();
-            $emailList->update($data);
+            $list->update($data);
     
             return response()->json([
-                'redirect' => route('lists'),
                 'message' => 'List successfully updated!',
-                'list' => $emailList,
+                'list' => $list,
             ]);
         } catch (\Exception $e) {
             return response()->json([
@@ -114,8 +112,19 @@ class EmailListController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(EmailList $list) // Alterado para EmailList
+    public function destroy(EmailList $list)
     {
-        //
+        try {
+            $list->delete();
+    
+            return response()->json([
+                'message' => 'List successfully deleted!',
+            ], 200);
+        } catch (\Exception $e) {
+            return response()->json([
+                'message' => 'Failed to delete list. Please try again later.',
+                'error' => $e->getMessage(),
+            ], 500);
+        }
     }
 }

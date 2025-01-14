@@ -1,5 +1,5 @@
 import PaginationButton from "@/Components/PaginationButton";
-import { SubscribersResult } from "../Show";
+import { SubscribersResult } from "../../Show";
 import { EmailListProps } from "@/types/emailList";
 import { router } from "@inertiajs/react";
 
@@ -61,7 +61,7 @@ export function SubscribersPaginationContainer({ subscribers, emailList }: Props
             onClick={() =>
               router.get(
                 route("lists.show", {
-                  emailList: emailList.id,
+                  list: emailList.id,
                   page,
                 }),
                 {},
@@ -83,7 +83,7 @@ export function SubscribersPaginationContainer({ subscribers, emailList }: Props
             onClick={() =>
               router.get(
                 route("lists.show", {
-                  emailList: emailList.id,
+                  list: emailList.id,
                   page: totalPages,
                 }),
                 {},

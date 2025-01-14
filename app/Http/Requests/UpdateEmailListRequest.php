@@ -19,7 +19,7 @@ class UpdateEmailListRequest extends FormRequest
                 'required',
                 'string',
                 'max:255',
-                Rule::unique('email_lists')->ignoreModel($this->route('emailList'))
+                Rule::unique('email_lists')->ignoreModel($this->route('list'))
             ],
         ];
     }
