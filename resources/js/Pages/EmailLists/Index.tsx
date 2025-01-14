@@ -9,6 +9,7 @@ import LinkButton from '@/Components/LinkButton'
 import { ListsTable } from './Partials/ListsTable'
 import SearchInput from '@/Components/SearchInput'
 import { ListsPaginationContainer } from './Partials/ListsPaginationContainer'
+import Checkbox from '@/Components/Checkbox'
 
 export type EmailListsResult = {
   data: EmailListProps[]
@@ -27,6 +28,8 @@ type Props = {
 
 export default function EmailList({ emailLists }: Props) {
   const [search, setSearch] = useState('')
+
+  const [withTrashed, setWithTrashed] = useState(false)
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -57,6 +60,25 @@ export default function EmailList({ emailLists }: Props) {
 
     return () => clearTimeout(timer)
   }, [search])
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      router.get(
+        route('lists.index', {
+          search,
+          withTrashed: withTrashed ? 1 : 0,
+        }),
+        {},
+        {
+          preserveState: true,
+          preserveScroll: true,
+          replace: true,
+        },
+      )
+    }, 500)
+
+    return () => clearTimeout(timer)
+  }, [search, withTrashed])
 
   return (
     <AuthenticatedLayout
@@ -93,9 +115,26 @@ export default function EmailList({ emailLists }: Props) {
               />
             </div>
 
+            <div className="block mt-4">
+              <label className="flex items-center">
+                <Checkbox
+                  name="remember"
+                  checked={withTrashed}
+                  onChange={() => setWithTrashed(!withTrashed)}
+                />
+                <span className="text-sm text-gray-600 ms-2 dark:text-gray-400">
+                  Show deleted records?
+                </span>
+              </label>
+            </div>
+
             <ListsTable emailLists={emailLists} />
 
-            <ListsPaginationContainer emailLists={emailLists} />
+            <ListsPaginationContainer
+              withTrashed={withTrashed}
+              search={search}
+              emailLists={emailLists}
+            />
           </section>
         </div>
       ) : (

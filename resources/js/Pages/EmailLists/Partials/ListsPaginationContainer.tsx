@@ -5,9 +5,11 @@ import { EmailListsResult } from "../Index";
 
 type Props = {
   emailLists: EmailListsResult;
+  search: string;
+  withTrashed: boolean;
 };
 
-export function ListsPaginationContainer({ emailLists }: Props) {
+export function ListsPaginationContainer({ emailLists, search, withTrashed }: Props) {
   const totalPages = Math.ceil(emailLists.total / emailLists.per_page);
   const currentPage = emailLists.current_page;
 
@@ -41,6 +43,8 @@ export function ListsPaginationContainer({ emailLists }: Props) {
             router.get(
               route("lists", {
                 page: 1,
+                search,
+                withTrashed: withTrashed
               }),
               {},
               { preserveState: true, replace: true }
@@ -60,6 +64,8 @@ export function ListsPaginationContainer({ emailLists }: Props) {
               router.get(
                 route("lists", {
                   page,
+                  search,
+                  withTrashed: withTrashed
                 }),
                 {},
                 { preserveState: true, replace: true }
@@ -81,6 +87,8 @@ export function ListsPaginationContainer({ emailLists }: Props) {
               router.get(
                 route("lists", {
                   page: totalPages,
+                  search,
+                  withTrashed: withTrashed
                 }),
                 {},
                 { preserveState: true, replace: true }

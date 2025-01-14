@@ -3,4 +3,5 @@ export type SubscriberProps = {
   email_list_id: number
   name: string
   email: string
+  deleted_at: string | null
 }

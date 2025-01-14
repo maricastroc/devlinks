@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\SubscriberRequest;
 use App\Models\Subscriber;
 use App\Models\EmailList;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Inertia\Inertia;
 
 class SubscriberController extends Controller

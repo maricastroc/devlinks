@@ -2,10 +2,16 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Subscriber extends Model
 {
+    /** @use HasFactory<\Database\Factories\Subscribers> */
+    use HasFactory;
+    use SoftDeletes;
+
     protected $fillable = ['name', 'email', 'email_list_id'];
 
     public function emailList()

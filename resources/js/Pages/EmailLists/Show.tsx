@@ -8,6 +8,7 @@ import { SubscriberProps } from '@/types/subscriber'
 import SearchInput from '@/Components/SearchInput'
 import { SubscribersPaginationContainer } from './Subscribers/Partials/SubscribersPaginationContainer'
 import { SubscribersTable } from './Subscribers/Partials/SubscribersTable'
+import Checkbox from '@/Components/Checkbox'
 
 type LinksProps = {
   url: string
@@ -34,6 +35,8 @@ type Props = {
 
 export default function EmailList({ emailList, subscribers }: Props) {
   const [search, setSearch] = useState('')
+
+  const [withTrashed, setWithTrashed] = useState(false)
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -66,6 +69,26 @@ export default function EmailList({ emailList, subscribers }: Props) {
     return () => clearTimeout(timer)
   }, [search])
 
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      router.get(
+        route('lists.show', {
+          list: emailList.id,
+          search,
+          withTrashed: withTrashed ? 1 : 0,
+        }),
+        {},
+        {
+          preserveState: true,
+          preserveScroll: true,
+          replace: true,
+        },
+      )
+    }, 500)
+
+    return () => clearTimeout(timer)
+  }, [search, withTrashed])
+
   return (
     <AuthenticatedLayout
       header={
@@ -78,7 +101,7 @@ export default function EmailList({ emailList, subscribers }: Props) {
       <div className="flex flex-col">
         <Link
           href={route('lists.index')}
-          className="mb-2 ml-1 text-xs text-gray-400"
+          className="mb-2 ml-1 text-xs text-gray-400 w-[5rem]"
         >
           {`Lists > `}
           <Link
@@ -112,11 +135,26 @@ export default function EmailList({ emailList, subscribers }: Props) {
             />
           </div>
 
+          <div className="block mt-4">
+            <label className="flex items-center">
+              <Checkbox
+                name="remember"
+                checked={withTrashed}
+                onChange={() => setWithTrashed(!withTrashed)}
+              />
+              <span className="text-sm text-gray-600 ms-2 dark:text-gray-400">
+                Show deleted records?
+              </span>
+            </label>
+          </div>
+
           <SubscribersTable subscribers={subscribers} />
 
           <SubscribersPaginationContainer
             emailList={emailList}
             subscribers={subscribers}
+            withTrashed={withTrashed}
+            search={search}
           />
         </section>
       </div>

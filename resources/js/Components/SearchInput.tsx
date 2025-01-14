@@ -31,7 +31,7 @@ export default forwardRef(function SearchInput(
   }, [isFocused])
 
   return (
-    <label className="flex items-center justify-between text-gray-300 border-transparent rounded-md shadow-sm input disabled::cursor-not-allowed bg-background-tertiary focus:border-gray-600 focus:ring-gray-600">
+    <label className="flex items-center justify-between h-10 text-sm text-gray-300 border-transparent rounded-md shadow-sm input disabled::cursor-not-allowed bg-background-tertiary focus:border-gray-600 focus:ring-gray-600">
       <input
       {...props}
       type={type}

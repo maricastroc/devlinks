@@ -13,7 +13,7 @@ export function SubscribersTable({ subscribers }: Props) {
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false)
   
   return (
-    <div className="px-5 py-5 rounded-lg mt-7 bg-background-tertiary text-content">
+    <div className="px-5 py-5 mt-3 rounded-lg bg-background-tertiary text-content">
           <div className="overflow-y-auto max-h-[43vh]">
             {subscribers?.data?.length ? (
               <table className="table w-full text-content">
@@ -31,15 +31,17 @@ export function SubscribersTable({ subscribers }: Props) {
                         key={subscriber.id}
                         className="border-b border-zinc-800"
                       >
-                        <td className="py-2 text-gray-300 text-medium">
+                        <td className={`py-2 text-gray-300 text-medium ${subscriber.deleted_at === null ? 'text-gray-300' : 'text-red-400'}`}>
                           {subscriber.name}
                         </td>
-                        <td className="py-2 text-gray-300 text-medium">
+                        <td className={`py-2 text-gray-300 text-medium ${subscriber.deleted_at === null ? 'text-gray-300' : 'text-red-400'}`}>
                           {subscriber.email}
                         </td>
                         <td className="text-gray-300">
                         <div className="flex items-center gap-3">
-                          <Link
+                          {subscriber.deleted_at === null && (
+                            <>
+                            <Link
                             className={
                               'hover:text-blue-500 transition-all duration-150'
                             }
@@ -60,6 +62,8 @@ export function SubscribersTable({ subscribers }: Props) {
                             </Dialog.Trigger>
                             <DeleteModal entity="subscriber" subscriber={subscriber} closeModal={() => setIsDeleteModalOpen(false)} />
                           </Dialog.Root>
+                            </>
+                          )}
                         </div>
                       </td>
                       </tr>

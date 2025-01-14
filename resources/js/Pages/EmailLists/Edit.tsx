@@ -56,7 +56,7 @@ export default function Index({ emailList }: Props) {
         })
       }
 
-      Inertia.visit(route('lists'))
+      Inertia.visit(route('lists.index'))
     } catch (error: any) {
       if (error.response?.data?.errors) {
         setErrors(error.response.data.errors)

@@ -6,9 +6,11 @@ import { router } from "@inertiajs/react";
 type Props = {
   subscribers: SubscribersResult;
   emailList: EmailListProps;
+  search: string;
+  withTrashed: boolean;
 };
 
-export function SubscribersPaginationContainer({ subscribers, emailList }: Props) {
+export function SubscribersPaginationContainer({ subscribers, emailList, search, withTrashed }: Props) {
   const totalPages = Math.ceil(subscribers.total / subscribers.per_page);
   const currentPage = subscribers.current_page;
 
@@ -41,8 +43,10 @@ export function SubscribersPaginationContainer({ subscribers, emailList }: Props
           onClick={() =>
             router.get(
               route("lists.show", {
-                emailList: emailList.id,
+                list: emailList.id,
                 page: 1,
+                search,
+                withTrashed: withTrashed
               }),
               {},
               { preserveState: true, replace: true }
@@ -63,6 +67,8 @@ export function SubscribersPaginationContainer({ subscribers, emailList }: Props
                 route("lists.show", {
                   list: emailList.id,
                   page,
+                  search,
+                  withTrashed: withTrashed
                 }),
                 {},
                 { preserveState: true, replace: true }
@@ -85,6 +91,8 @@ export function SubscribersPaginationContainer({ subscribers, emailList }: Props
                 route("lists.show", {
                   list: emailList.id,
                   page: totalPages,
+                  search,
+                  withTrashed: withTrashed
                 }),
                 {},
                 { preserveState: true, replace: true }

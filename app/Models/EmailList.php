@@ -6,12 +6,14 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Subscriber;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\DB;
 
 class EmailList extends Model
 {
     /** @use HasFactory<\Database\Factories\EmailList> */
     use HasFactory;
+    use SoftDeletes;
 
     /**
      * The attributes that are mass assignable.

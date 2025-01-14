@@ -18,10 +18,16 @@ class EmailListController extends Controller
         $user = $request->user();
 
         $search = $request->query('search', '');
+        $withTrashed = $request->query('withTrashed', false);
 
-        $emailLists = $user->emailLists()
-            ->search($search)
-            ->with('subscribers')
+        $emailListsQuery = $user->emailLists()
+        ->search($search);
+    
+        if ($withTrashed) {
+            $emailListsQuery->withTrashed();
+        }
+
+        $emailLists = $emailListsQuery->with('subscribers')
             ->orderBy('created_at', 'asc')
             ->paginate(7);
 
@@ -67,8 +73,15 @@ class EmailListController extends Controller
     public function show(EmailList $list, Request $request)
     {
         $search = $request->query('search', '');
-
-        $subscribers = $list->subscribers()
+        $withTrashed = $request->query('withTrashed', false);
+    
+        $subscribersQuery = $list->subscribers();
+    
+        if ($withTrashed) {
+            $subscribersQuery->withTrashed();
+        }
+    
+        $subscribers = $subscribersQuery
             ->search($search)
             ->paginate(7);
     

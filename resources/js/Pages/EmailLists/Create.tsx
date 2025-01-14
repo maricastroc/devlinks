@@ -54,7 +54,7 @@ export default function Index() {
         })
       }
 
-      Inertia.visit(route('lists'))
+      Inertia.visit(route('lists.index'))
     } catch (error: any) {
       if (error.response?.data?.errors) {
         setErrors(error.response.data.errors)
