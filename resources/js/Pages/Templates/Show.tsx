@@ -1,5 +1,4 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { EmptyContainer } from '@/Components/EmptyContainer'
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout'
 import { Head, router } from '@inertiajs/react'
 import { TemplateProps } from '@/types/template'
@@ -11,6 +10,7 @@ type Props = {
 }
 
 export default function Index({ template }: Props) {
+  console.log(template.body)
   return (
     <AuthenticatedLayout
       header={
@@ -32,11 +32,24 @@ export default function Index({ template }: Props) {
           className={`mb-10 p-5 py-7 lg:p-8 w-[90vw] lg:min-h-[28rem] max-w-[40rem] rounded-xl bg-background-secondary flex items-center justify-center`}
         >
           <div
+style={{ fontFamily: 'inherit' }}
             className="w-full lg:min-h-[20rem] p-4 prose text-gray-200 border border-gray-700 rounded-lg shadow"
             dangerouslySetInnerHTML={{ __html: cleanHTML(template.body) }}
           />
         </section>
       </div>
+
+      <style>{`
+        .ql-font-monospace {
+          font-family: 'Monaco', 'Courier New', monospace;
+        }
+        .ql-font-serif {
+          font-family: 'Georgia', serif;
+        }
+        .ql-font-sans-serif {
+          font-family: 'Arial', sans-serif;
+        }
+      `}</style>
     </AuthenticatedLayout>
   )
 }

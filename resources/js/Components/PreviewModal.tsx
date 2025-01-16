@@ -27,6 +27,18 @@ export function PreviewModal({ closeModal, data }: Props) {
           />
         </section>
       </Dialog.Content>
+
+      <style>{`
+        .ql-font-monospace {
+          font-family: 'Monaco', 'Courier New', monospace;
+        }
+        .ql-font-serif {
+          font-family: 'Georgia', serif;
+        }
+        .ql-font-sans-serif {
+          font-family: 'Arial', sans-serif;
+        }
+      `}</style>
     </Dialog.Portal>
   )
 }
