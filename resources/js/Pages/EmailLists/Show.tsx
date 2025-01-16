@@ -3,12 +3,12 @@ import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout'
 import { Head, router, Link } from '@inertiajs/react'
 import { useEffect, useState } from 'react'
 import { EmailListProps } from '@/types/emailList'
-import LinkButton from '@/Components/LinkButton'
 import { SubscriberProps } from '@/types/subscriber'
 import SearchInput from '@/Components/SearchInput'
 import { SubscribersPaginationContainer } from './Subscribers/Partials/SubscribersPaginationContainer'
 import { SubscribersTable } from './Subscribers/Partials/SubscribersTable'
 import Checkbox from '@/Components/Checkbox'
+import TertiaryButton from '@/Components/TertiaryButton'
 
 type LinksProps = {
   url: string
@@ -114,13 +114,18 @@ export default function EmailList({ emailList, subscribers }: Props) {
 
         <section className="lg:max-h-[78vh] p-5 py-7 lg:p-8 w-[90vw] max-w-[30rem] lg:max-w-[45rem] lg:w-[45rem] rounded-xl bg-background-secondary">
           <div className="flex flex-col lg:grid lg:grid-cols-[1fr,2.5fr] gap-4">
-            <LinkButton
-              href={route('subscribers.create', {
-                list: emailList.id,
-              })}
+            <TertiaryButton
+              isBigger
+              onClick={() =>
+                router.get(
+                  route('subscribers.create', {
+                    list: emailList.id,
+                  }),
+                )
+              }
             >
               Add Subscriber
-            </LinkButton>
+            </TertiaryButton>
             <SearchInput
               id="search"
               name="search"

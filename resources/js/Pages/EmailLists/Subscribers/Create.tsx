@@ -11,6 +11,7 @@ import { notyf } from '@/libs/notyf'
 import axios from 'axios'
 import { EmailListProps } from '@/types/emailList'
 import { Inertia } from '@inertiajs/inertia'
+import Form from '@/Layouts/FormLayout'
 
 type Props = {
   emailList: EmailListProps
@@ -78,10 +79,10 @@ export default function Index({ emailList }: Props) {
         </h2>
       }
     >
-      <div className="flex flex-col">
+      <div className="flex flex-col pb-12 mt-10 lg:pb-0 lg:mt-0">
         <Link
           href={route('lists.index')}
-          className="mb-2 ml-1 text-xs text-gray-400"
+          className="mb-2 ml-1 text-xs text-gray-400 w-[11rem]"
         >
           {`Lists > `}
           <Link
@@ -101,57 +102,55 @@ export default function Index({ emailList }: Props) {
             Add Subscriber
           </Link>
         </Link>
-        <section className="p-8 w-[30rem] rounded-xl bg-background-secondary">
-          <form onSubmit={submit} className="space-y-6 ">
-            <div>
-              <InputLabel htmlFor="name" value="Name" />
+        <Form onSubmit={submit}>
+          <div>
+            <InputLabel htmlFor="name" value="Name" />
 
-              <TextInput
-                id="name"
-                name="name"
-                className="block w-full mt-1"
-                placeholder="Subscriber's name"
-                value={data.name}
-                disabled={processing}
-                onChange={(e) => setData('name', e.target.value)}
-                isFocused
-                autoComplete="name"
-              />
+            <TextInput
+              id="name"
+              name="name"
+              className="block w-full mt-1"
+              placeholder="Subscriber's name"
+              value={data.name}
+              disabled={processing}
+              onChange={(e) => setData('name', e.target.value)}
+              isFocused
+              autoComplete="name"
+            />
 
-              <InputError className="mt-2" message={errors.name} />
-            </div>
+            <InputError className="mt-2" message={errors.name} />
+          </div>
 
-            <div>
-              <InputLabel htmlFor="email" value="Email" />
+          <div>
+            <InputLabel htmlFor="email" value="Email" />
 
-              <TextInput
-                id="email"
-                name="email"
-                className="block w-full mt-1"
-                placeholder="subscriber@email.com"
-                value={data.email}
-                disabled={processing}
-                onChange={(e) => setData('email', e.target.value)}
-                isFocused
-                autoComplete="email"
-              />
+            <TextInput
+              id="email"
+              name="email"
+              className="block w-full mt-1"
+              placeholder="subscriber@email.com"
+              value={data.email}
+              disabled={processing}
+              onChange={(e) => setData('email', e.target.value)}
+              isFocused
+              autoComplete="email"
+            />
 
-              <InputError className="mt-2" message={errors.email} />
-            </div>
+            <InputError className="mt-2" message={errors.email} />
+          </div>
 
-            <div className="flex items-center justify-end gap-4">
-              <SecondaryButton
-                onClick={() =>
-                  router.get(route('lists.show', { emailList: emailList.id }))
-                }
-                disabled={processing}
-              >
-                Go back
-              </SecondaryButton>
-              <TertiaryButton disabled={processing}>Save List</TertiaryButton>
-            </div>
-          </form>
-        </section>
+          <div className="flex items-center justify-end gap-4">
+            <SecondaryButton
+              onClick={() =>
+                router.get(route('lists.show', { list: emailList.id }))
+              }
+              disabled={processing}
+            >
+              Go back
+            </SecondaryButton>
+            <TertiaryButton disabled={processing}>Save List</TertiaryButton>
+          </div>
+        </Form>
       </div>
     </AuthenticatedLayout>
   )

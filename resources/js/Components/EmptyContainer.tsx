@@ -1,4 +1,5 @@
-import LinkButton from '@/Components/LinkButton'
+import TertiaryButton from './TertiaryButton'
+import { router } from '@inertiajs/react'
 
 type Props = {
   imagePath: string
@@ -12,7 +13,11 @@ export function EmptyContainer({ imagePath, title, content, url }: Props) {
     <div className="flex flex-col items-center justify-center flex-grow h-full py-12">
       <img src={imagePath} alt="" />
       <p className="mt-10 mb-4 text-large text-content">{content}</p>
-      <LinkButton href={url}>{title}</LinkButton>
+      <TertiaryButton isBigger onClick={() =>
+              router.get(
+                route(url),
+              )
+            }>{title}</TertiaryButton>
     </div>
   )
 }

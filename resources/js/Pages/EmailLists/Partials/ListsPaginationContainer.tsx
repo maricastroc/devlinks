@@ -1,5 +1,4 @@
 import PaginationButton from '@/Components/PaginationButton'
-import { EmailListProps } from '@/types/emailList'
 import { router } from '@inertiajs/react'
 import { EmailListsResult } from '../Index'
 

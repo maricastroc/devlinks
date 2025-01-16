@@ -5,11 +5,11 @@ import { Head, Link, router } from '@inertiajs/react'
 import EmptySvg from '/public/assets/empty_lists.svg'
 import { useEffect, useState } from 'react'
 import { EmailListProps } from '@/types/emailList'
-import LinkButton from '@/Components/LinkButton'
 import { ListsTable } from './Partials/ListsTable'
 import SearchInput from '@/Components/SearchInput'
 import { ListsPaginationContainer } from './Partials/ListsPaginationContainer'
 import Checkbox from '@/Components/Checkbox'
+import TertiaryButton from '@/Components/TertiaryButton'
 
 export type EmailListsResult = {
   data: EmailListProps[]
@@ -94,13 +94,18 @@ export default function EmailList({ emailLists }: Props) {
         <div className="flex flex-col pb-12 lg:pb-0">
           <Link
             href={route('lists.index')}
-            className="mt-10 mb-2 ml-1 text-xs text-gray-400 lg:mt-0"
+            className="w-[2rem] mt-10 mb-2 ml-1 text-xs text-gray-400 lg:mt-0"
           >
             Lists
           </Link>
           <section className="w-[90vw] max-w-[30rem] lg:max-w-[45rem] p-5 py-7 lg:p-8 lg:w-[45rem] rounded-xl bg-background-secondary">
             <div className="flex flex-col lg:grid lg:grid-cols-[1fr,3.5fr] gap-4">
-              <LinkButton href={route('lists.create')}>Create List</LinkButton>
+              <TertiaryButton
+                isBigger
+                onClick={() => router.get(route('lists.create'))}
+              >
+                Create List
+              </TertiaryButton>
               <SearchInput
                 id="search"
                 name="search"

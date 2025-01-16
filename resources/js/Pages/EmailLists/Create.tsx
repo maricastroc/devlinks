@@ -10,6 +10,7 @@ import { FormEventHandler, useState } from 'react'
 import { notyf } from '@/libs/notyf'
 import axios from 'axios'
 import { Inertia } from '@inertiajs/inertia'
+import Form from '@/Layouts/FormLayout'
 
 type FormErrors = {
   title?: string
@@ -84,55 +85,53 @@ export default function Index() {
             Create
           </Link>
         </Link>
-        <section className="p-5 py-7 lg:p-8 w-[90vw] max-w-[30rem] lg:w-[30rem] rounded-xl bg-background-secondary">
-          <form onSubmit={submit} className="space-y-6 ">
-            <div>
-              <InputLabel htmlFor="name" value="Name" />
+        <Form onSubmit={submit}>
+          <div>
+            <InputLabel htmlFor="name" value="Name" />
 
-              <TextInput
-                id="name"
-                name="name"
-                className="block w-full mt-1"
-                placeholder="Choose a name for your list"
-                value={data.title}
-                disabled={processing}
-                onChange={(e) => setData('title', e.target.value)}
-                isFocused
-                autoComplete="name"
-              />
+            <TextInput
+              id="name"
+              name="name"
+              className="block w-full mt-1"
+              placeholder="Choose a name for your list"
+              value={data.title}
+              disabled={processing}
+              onChange={(e) => setData('title', e.target.value)}
+              isFocused
+              autoComplete="name"
+            />
 
-              <InputError className="mt-2" message={errors.title} />
-            </div>
+            <InputError className="mt-2" message={errors.title} />
+          </div>
 
-            <div>
-              <InputLabel htmlFor="listFile" value="E-mails List" />
-              <input
-                id="listFile"
-                name="listFile"
-                disabled={processing}
-                type="file"
-                className="w-full mt-2 duration-200 ease-in-out file:bg-zinc-700 bg-background-tertiary text-slate-500 file-input file:cursor-pointer file:text-sm file:font-semibold file:text-gray-100 hover:file:bg-background-primary"
-                accept=".csv"
-                onChange={(e) => {
-                  if (e.target.files && e.target.files.length > 0) {
-                    setData('listFile', e.target.files[0])
-                  }
-                }}
-              />
-              <InputError className="mt-2" message={errors.listFile} />
-            </div>
+          <div>
+            <InputLabel htmlFor="listFile" value="E-mails List" />
+            <input
+              id="listFile"
+              name="listFile"
+              disabled={processing}
+              type="file"
+              className="w-full mt-2 duration-200 ease-in-out file:bg-zinc-700 bg-background-tertiary text-slate-500 file-input file:cursor-pointer file:text-sm file:font-semibold file:text-gray-100 hover:file:bg-background-primary"
+              accept=".csv"
+              onChange={(e) => {
+                if (e.target.files && e.target.files.length > 0) {
+                  setData('listFile', e.target.files[0])
+                }
+              }}
+            />
+            <InputError className="mt-2" message={errors.listFile} />
+          </div>
 
-            <div className="flex items-center justify-end gap-4">
-              <SecondaryButton
-                onClick={() => (window.location.href = '/lists')}
-                disabled={processing}
-              >
-                Go back
-              </SecondaryButton>
-              <TertiaryButton disabled={processing}>Save List</TertiaryButton>
-            </div>
-          </form>
-        </section>
+          <div className="flex items-center justify-end gap-4">
+            <SecondaryButton
+              onClick={() => (window.location.href = '/lists')}
+              disabled={processing}
+            >
+              Go back
+            </SecondaryButton>
+            <TertiaryButton disabled={processing}>Save List</TertiaryButton>
+          </div>
+        </Form>
       </div>
     </AuthenticatedLayout>
   )

@@ -12,6 +12,7 @@ import axios from 'axios'
 import { EmailListProps } from '@/types/emailList'
 import { LinkSimple } from 'phosphor-react'
 import { Inertia } from '@inertiajs/inertia'
+import Form from '@/Layouts/FormLayout'
 
 type FormErrors = {
   title?: string
@@ -79,13 +80,13 @@ export default function Index({ emailList }: Props) {
       <div className="flex flex-col pb-12 mt-10 lg:pb-0 lg:mt-0">
         <Link
           href={route('lists.index')}
-          className="mb-2 ml-1 text-xs text-gray-400"
+          className="w-[5rem] mb-2 ml-1 text-xs text-gray-400 "
         >
           {`Lists > `}
           <Link href={route('lists.edit', { list: emailList.id })}>Edit</Link>
         </Link>
         <section className="p-5 py-7 lg:p-8 w-[90vw] max-w-[30rem] lg:w-[30rem] rounded-xl bg-background-secondary">
-          <form onSubmit={submit}>
+          <Form onSubmit={submit}>
             <div>
               <InputLabel htmlFor="name" value="Name" />
 
@@ -122,7 +123,7 @@ export default function Index({ emailList }: Props) {
               </SecondaryButton>
               <TertiaryButton disabled={processing}>Save List</TertiaryButton>
             </div>
-          </form>
+          </Form>
         </section>
       </div>
     </AuthenticatedLayout>
