@@ -41,7 +41,7 @@ class EmailListController extends Controller
      */
     public function create()
     {
-        return Inertia::render('EmailLists/Create');
+        return Inertia::render('EmailLists/Form');
     }
 
     /**
@@ -96,8 +96,9 @@ class EmailListController extends Controller
      */
     public function edit(EmailList $list)
     {
-        return Inertia::render('EmailLists/Edit', [
+        return Inertia::render('EmailLists/Form', [
             'emailList' => $list,
+            'isEdit' => true,
         ]);
     }
 

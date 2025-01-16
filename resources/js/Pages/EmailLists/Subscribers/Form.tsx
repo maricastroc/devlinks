@@ -9,12 +9,15 @@ import { Link, router, useForm } from '@inertiajs/react'
 import { FormEventHandler, useState } from 'react'
 import { notyf } from '@/libs/notyf'
 import axios from 'axios'
-import { EmailListProps } from '@/types/emailList'
 import { Inertia } from '@inertiajs/inertia'
+import { SubscriberProps } from '@/types/subscriber'
 import Form from '@/Layouts/FormLayout'
+import { EmailListProps } from '@/types/emailList'
 
 type Props = {
-  emailList: EmailListProps
+  emailList?: EmailListProps
+  subscriber?: SubscriberProps
+  isEdit?: boolean
 }
 
 type FormErrors = {
@@ -23,14 +26,14 @@ type FormErrors = {
   email_list_id?: string
 }
 
-export default function Index({ emailList }: Props) {
+export default function Edit({ subscriber, emailList, isEdit }: Props) {
   const [errors, setErrors] = useState<FormErrors>({})
 
   const [processing, setProcessing] = useState(false)
 
   const { data, setData } = useForm({
-    name: '',
-    email: '',
+    name: subscriber?.name,
+    email: subscriber?.email,
   })
 
   const submit: FormEventHandler = async (e) => {
@@ -42,15 +45,24 @@ export default function Index({ emailList }: Props) {
 
     const formData = new FormData()
 
-    formData.append('name', data.name)
-    formData.append('email', data.email)
-    formData.append('email_list_id', emailList.id.toString())
+    formData.append('name', data?.name || '')
+    formData.append('email', data?.email || '')
+    formData.append(
+      'email_list_id',
+      subscriber?.email_list_id.toString() || emailList?.id?.toString() || '',
+    )
+
+    if (isEdit) {
+      formData.append('_method', 'PUT')
+    }
+
+    const routeName = isEdit ? 'subscribers.update' : 'subscribers.store'
+    const routeParams = isEdit
+      ? { list: subscriber?.email_list_id, subscriber: subscriber?.id }
+      : { list: emailList?.id }
 
     try {
-      const response = await axios.post(
-        route('subscribers.store', { list: emailList.id }),
-        formData,
-      )
+      const response = await axios.post(route(routeName, routeParams), formData)
 
       if (response?.data.message) {
         await new Promise((resolve) => {
@@ -59,7 +71,11 @@ export default function Index({ emailList }: Props) {
         })
       }
 
-      Inertia.visit(route('lists.show', { list: emailList.id }))
+      Inertia.visit(
+        route('lists.show', {
+          list: subscriber?.email_list_id || emailList?.id,
+        }),
+      )
     } catch (error: any) {
       if (error.response?.data?.errors) {
         setErrors(error.response.data.errors)
@@ -75,31 +91,37 @@ export default function Index({ emailList }: Props) {
     <AuthenticatedLayout
       header={
         <h2 className="text-xl font-semibold leading-tight text-gray-800 dark:text-gray-200">
-          Subscriber - Create
+          {isEdit ? 'Subscriber - Edit' : 'Subscriber - Create'}
         </h2>
       }
     >
       <div className="flex flex-col pb-12 mt-10 lg:pb-0 lg:mt-0">
         <Link
           href={route('lists.index')}
-          className="mb-2 ml-1 text-xs text-gray-400 w-[11rem]"
+          className="mb-2 ml-1 text-xs text-gray-400 w-[12rem]"
         >
           {`Lists > `}
           <Link
             href={route('lists.show', {
-              list: emailList.id,
+              list: subscriber?.email_list_id || emailList?.id,
             })}
             className="text-gray-400"
           >
             {`Show > `}
           </Link>
           <Link
-            href={route('subscribers.create', {
-              list: emailList.id,
-            })}
+            href={route(
+              !isEdit ? 'subscribers.create' : 'subscribers.edit',
+              !isEdit
+                ? { list: emailList?.id }
+                : {
+                  list: subscriber?.email_list_id,
+                  subscriber: subscriber?.id,
+                },
+            )}
             className="text-gray-200"
           >
-            Add Subscriber
+            {isEdit ? 'Edit Subscriber' : 'Create Subscriber'}
           </Link>
         </Link>
         <Form onSubmit={submit}>
@@ -142,7 +164,11 @@ export default function Index({ emailList }: Props) {
           <div className="flex items-center justify-end gap-4">
             <SecondaryButton
               onClick={() =>
-                router.get(route('lists.show', { list: emailList.id }))
+                router.get(
+                  route('lists.show', {
+                    list: subscriber?.email_list_id || emailList?.id,
+                  }),
+                )
               }
               disabled={processing}
             >

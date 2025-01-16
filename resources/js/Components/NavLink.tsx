@@ -8,7 +8,9 @@ export default function NavLink({
   const { url } = usePage()
 
   const isActive = props.href
-    ? url === props.href || url.startsWith(`${props.href}/`) || url.startsWith(`${props.href}?`)
+    ? url === props.href ||
+      url.startsWith(`${props.href}/`) ||
+      url.startsWith(`${props.href}?`)
     : false
 
   return (

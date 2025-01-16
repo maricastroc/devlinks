@@ -16,7 +16,7 @@ export default function Dashboard() {
 
       <EmptyContainer
         imagePath={EmptySvg}
-        url='/'
+        url="/"
         content="It looks like you haven't created any campaigns yet."
         title="Create Campaign"
       />

@@ -16,15 +16,15 @@ type SubscriberRowProps = {
 const SubscriberRow = ({ subscriber }: SubscriberRowProps) => {
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false)
 
-  const textStyle = subscriber.deleted_at === null ? 'text-gray-300' : 'text-red-400'
+  const textStyle = subscriber.deleted_at === null ? 'text-gray-300' : 'text-red-500'
 
   return (
     <tr key={subscriber.id} className="border-b border-zinc-800">
       <td className={`py-2 text-medium ${textStyle}`}>{subscriber.name}</td>
       <td className={`py-2 text-medium ${textStyle}`}>{subscriber.email}</td>
-      <td className="text-gray-300">
+      <td className="flex items-center justify-center text-gray-300">
         <div className="flex items-center gap-3">
-          {subscriber.deleted_at === null && (
+          {subscriber.deleted_at === null ? (
             <>
               <Link
                 className="transition-all duration-150 hover:text-blue-500"
@@ -51,6 +51,8 @@ const SubscriberRow = ({ subscriber }: SubscriberRowProps) => {
                 />
               </Dialog.Root>
             </>
+          ) : (
+            <div className="text-xs text-gray-100 bg-red-700 badge">deleted</div>
           )}
         </div>
       </td>
@@ -58,7 +60,7 @@ const SubscriberRow = ({ subscriber }: SubscriberRowProps) => {
   )
 }
 
-export function SubscribersTable({ subscribers }: Props) {
+export function Table({ subscribers }: Props) {
   return (
     <div className="px-3 py-5 overflow-auto rounded-lg lg:p-5 lg:mt-3 mt-7 bg-background-tertiary text-content">
       <div className="overflow-y-auto lg:max-h-[43vh]">
@@ -68,7 +70,7 @@ export function SubscribersTable({ subscribers }: Props) {
               <tr className="border-b border-zinc-800">
                 <th className="py-2 text-medium">Name</th>
                 <th className="py-2 text-medium">E-mail</th>
-                <th className="py-2 text-medium">Actions</th>
+                <th className="flex items-center justify-center py-2 text-medium">Actions</th>
               </tr>
             </thead>
             <tbody>

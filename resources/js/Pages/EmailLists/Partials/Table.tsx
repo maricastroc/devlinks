@@ -22,9 +22,11 @@ const ListRow = ({ list }: ListRowProps) => {
     <tr key={list.id} className="border-b-zinc-800">
       <td className={`py-2 text-medium ${textStyle}`}>{list.id}</td>
       <td className={`py-2 text-medium ${textStyle}`}>{list.title}</td>
-      <td className={`py-2 text-medium ${textStyle}`}>{list.subscribers.length}</td>
-      <td className="text-gray-300">
-        {list.deleted_at === null && (
+      <td className={`py-2 text-medium ${textStyle}`}>
+        {list.subscribers.length}
+      </td>
+      <td className="flex items-center justify-center text-gray-300">
+        {list.deleted_at === null ? (
           <div className="flex items-center gap-3">
             <Link
               className="transition-all duration-150 hover:text-blue-500"
@@ -54,13 +56,15 @@ const ListRow = ({ list }: ListRowProps) => {
               />
             </Dialog.Root>
           </div>
+        ) : (
+          <div className="text-xs text-gray-100 bg-red-700 badge">deleted</div>
         )}
       </td>
     </tr>
   )
 }
 
-export function ListsTable({ emailLists }: Props) {
+export function Table({ emailLists }: Props) {
   return (
     <div className="px-3 py-5 lg:mt-3 overflow-auto lg:p-5 mt-7 rounded-lg lg:h-[15rem] bg-background-tertiary text-content">
       <table className="table overflow-y-scroll text-content table-md">
@@ -69,7 +73,9 @@ export function ListsTable({ emailLists }: Props) {
             <th className="text-content text-medium w-[20%]">ID</th>
             <th className="text-content text-medium w-[30%]">List</th>
             <th className="text-content text-medium w-[30%]">Subscribers</th>
-            <th className="text-content text-medium w-[20%]">Actions</th>
+            <th className="flex items-center justify-center text-content text-medium">
+              Actions
+            </th>
           </tr>
         </thead>
         <tbody>

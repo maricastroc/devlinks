@@ -10,7 +10,7 @@ type Props = {
   withTrashed: boolean
 }
 
-export function SubscribersPaginationContainer({
+export function PaginationSection({
   subscribers,
   emailList,
   search,

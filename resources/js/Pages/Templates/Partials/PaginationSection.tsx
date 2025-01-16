@@ -1,20 +1,21 @@
 import PaginationButton from '@/Components/PaginationButton'
 import { router } from '@inertiajs/react'
-import { EmailListsResult } from '../Index'
+import { TemplatesResults } from '../Index'
+
 
 type Props = {
-  emailLists: EmailListsResult
+  templates: TemplatesResults
   search: string
   withTrashed: boolean
 }
 
-export function ListsPaginationContainer({
-  emailLists,
+export function PaginationSection({
+  templates,
   search,
   withTrashed,
 }: Props) {
-  const totalPages = Math.ceil(emailLists.total / emailLists.per_page)
-  const currentPage = emailLists.current_page
+  const totalPages = Math.ceil(templates.total / templates.per_page)
+  const currentPage = templates.current_page
 
   let middlePages: number[] = []
 
@@ -34,9 +35,9 @@ export function ListsPaginationContainer({
     <div className="flex flex-col-reverse items-start justify-between gap-5 mt-8 lg:mt-4 lg:items-center lg:gap-0 lg:flex-row">
       <p className="text-sm">
         Showing{' '}
-        <span className="font-bold text-gray-200">{emailLists.from}</span> to{' '}
-        <span className="font-bold text-gray-200">{emailLists.to}</span> |{' '}
-        <span className="font-bold text-gray-200">{emailLists.total}</span>{' '}
+        <span className="font-bold text-gray-200">{templates.from}</span> to{' '}
+        <span className="font-bold text-gray-200">{templates.to}</span> |{' '}
+        <span className="font-bold text-gray-200">{templates.total}</span>{' '}
         lists
       </p>
 

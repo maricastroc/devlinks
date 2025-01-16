@@ -3,6 +3,7 @@
 use App\Http\Controllers\EmailListController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SubscriberController;
+use App\Http\Controllers\TemplateController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -19,6 +20,7 @@ Route::middleware('auth')->prefix('profile')->name('profile.')->group(function (
 
 Route::middleware('auth')->group(function () {
     Route::resource('lists', EmailListController::class);
+    Route::resource('templates', TemplateController::class);
 });
 
 Route::middleware('auth')->prefix('lists/{list}')->group(function () {

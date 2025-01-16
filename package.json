@@ -30,11 +30,12 @@
         "@inertiajs/inertia": "^0.11.1",
         "@radix-ui/react-dialog": "^1.1.4",
         "@react-hook/debounce": "^4.0.0",
-        "@tailwindcss/typography": "^0.5.15",
+        "@tailwindcss/typography": "^0.5.16",
         "daisyui": "^4.12.23",
         "iconoir-react": "^7.10.1",
         "material-icons": "^1.13.12",
         "notyf": "^3.10.0",
-        "phosphor-react": "^1.4.1"
+        "phosphor-react": "^1.4.1",
+        "react-quill": "^2.0.0"
     }
 }

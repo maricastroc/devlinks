@@ -11,7 +11,8 @@ export default {
         './resources/ts/**/*.tsx',
         './resources/js/**/*.{jsx,tsx}',
         './index.html',
-        './src/**/*.{vue,js,ts,jsx,tsx}'
+        './src/**/*.{vue,js,ts,jsx,tsx}',
+        './public/**/*.html'
     ],
 
     theme: {
@@ -48,7 +49,7 @@ export default {
             },
         },
     },
-    plugins: [forms, require('daisyui')],
+    plugins: [forms, require('daisyui'), require('@tailwindcss/typography')],
     daisyui: {
         themes: ['light', 'dark']
         },

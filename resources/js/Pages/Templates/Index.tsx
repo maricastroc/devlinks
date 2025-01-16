@@ -2,17 +2,17 @@
 import { EmptyContainer } from '@/Components/EmptyContainer'
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout'
 import { Head, Link, router } from '@inertiajs/react'
-import EmptySvg from '/public/assets/empty_lists.svg'
+import EmptySvg from '/public/assets/empty_template.svg'
 import { useEffect, useState } from 'react'
-import { EmailListProps } from '@/types/emailList'
-import { Table } from './Partials/Table'
 import SearchInput from '@/Components/SearchInput'
-import { PaginationSection } from './Partials/PaginationSection'
 import Checkbox from '@/Components/Checkbox'
 import TertiaryButton from '@/Components/TertiaryButton'
+import { TemplateProps } from '@/types/template'
+import { PaginationSection } from './Partials/PaginationSection'
+import { Table } from './Partials/Table'
 
-export type EmailListsResult = {
-  data: EmailListProps[]
+export type TemplatesResults = {
+  data: TemplateProps[]
   total: number
   current_page: number
   per_page: number
@@ -23,10 +23,10 @@ export type EmailListsResult = {
 }
 
 type Props = {
-  emailLists: EmailListsResult
+  templates: TemplatesResults
 }
 
-export default function Index({ emailLists }: Props) {
+export default function Index({ templates }: Props) {
   const [search, setSearch] = useState('')
 
   const [withTrashed, setWithTrashed] = useState(false)
@@ -35,7 +35,7 @@ export default function Index({ emailLists }: Props) {
     const timer = setTimeout(() => {
       if (search === '') {
         router.get(
-          route('lists.index'),
+          route('templates.index'),
           {},
           {
             preserveState: true,
@@ -45,7 +45,7 @@ export default function Index({ emailLists }: Props) {
         )
       } else {
         router.get(
-          route('lists.index', {
+          route('templates.index', {
             search,
           }),
           {},
@@ -64,7 +64,7 @@ export default function Index({ emailLists }: Props) {
   useEffect(() => {
     const timer = setTimeout(() => {
       router.get(
-        route('lists.index', {
+        route('templates.index', {
           search,
           withTrashed: withTrashed ? 1 : 0,
         }),
@@ -90,27 +90,27 @@ export default function Index({ emailLists }: Props) {
     >
       <Head title="List" />
 
-      {(emailLists?.data.length > 0 && search === '') || search !== '' ? (
+      {(templates?.data.length > 0 && search === '') || search !== '' ? (
         <div className="flex flex-col pb-12 lg:pb-0">
           <Link
             href={route('lists.index')}
             className="w-[2rem] mt-10 mb-2 ml-1 text-xs text-gray-400 lg:mt-0"
           >
-            Lists
+            Templates
           </Link>
           <section className="w-[90vw] max-w-[30rem] lg:max-w-[45rem] p-5 py-7 lg:p-8 lg:w-[45rem] rounded-xl bg-background-secondary">
-            <div className="flex flex-col lg:grid lg:grid-cols-[1fr,3.5fr] gap-4">
+            <div className="flex flex-col lg:grid lg:grid-cols-[1fr,2.8fr] gap-4">
               <TertiaryButton
                 isBigger
-                onClick={() => router.get(route('lists.create'))}
+                onClick={() => router.get(route('templates.create'))}
               >
-                Create List
+                Create Template
               </TertiaryButton>
               <SearchInput
                 id="search"
                 name="search"
                 className="block w-full py-2"
-                placeholder="Search by title or ID"
+                placeholder="Search by name or ID"
                 value={search}
                 search={search}
                 onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
@@ -133,21 +133,21 @@ export default function Index({ emailLists }: Props) {
               </label>
             </div>
 
-            <Table emailLists={emailLists} />
+            <Table templates={templates} />
 
             <PaginationSection
               withTrashed={withTrashed}
               search={search}
-              emailLists={emailLists}
+              templates={templates}
             />
           </section>
         </div>
       ) : (
         <EmptyContainer
-          url="lists.create"
+          url="templates.create"
           imagePath={EmptySvg}
-          content="It looks like you haven't created any lists yet."
-          title="Create List"
+          content="It looks like you haven't created any templates yet."
+          title="Create Template"
         />
       )}
     </AuthenticatedLayout>

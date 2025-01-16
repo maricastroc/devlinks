@@ -15,7 +15,7 @@ class SubscriberController extends Controller
      */
     public function create(EmailList $list)
     {
-        return Inertia::render('EmailLists/Subscribers/Create', [
+        return Inertia::render('EmailLists/Subscribers/Form', [
             'emailList' => $list,
         ]);
     }
@@ -46,8 +46,9 @@ class SubscriberController extends Controller
      */
     public function edit(EmailList $list, Subscriber $subscriber)
     {
-        return Inertia::render('EmailLists/Subscribers/Edit', [
+        return Inertia::render('EmailLists/Subscribers/Form', [
             'subscriber' => $subscriber,
+            'isEdit' => true,
         ]);
     }
 

@@ -5,8 +5,8 @@ import { useEffect, useState } from 'react'
 import { EmailListProps } from '@/types/emailList'
 import { SubscriberProps } from '@/types/subscriber'
 import SearchInput from '@/Components/SearchInput'
-import { SubscribersPaginationContainer } from './Subscribers/Partials/SubscribersPaginationContainer'
-import { SubscribersTable } from './Subscribers/Partials/SubscribersTable'
+import { PaginationSection } from './Subscribers/Partials/PaginationSection'
+import { Table } from './Subscribers/Partials/Table'
 import Checkbox from '@/Components/Checkbox'
 import TertiaryButton from '@/Components/TertiaryButton'
 
@@ -153,9 +153,9 @@ export default function EmailList({ emailList, subscribers }: Props) {
             </label>
           </div>
 
-          <SubscribersTable subscribers={subscribers} />
+          <Table subscribers={subscribers} />
 
-          <SubscribersPaginationContainer
+          <PaginationSection
             emailList={emailList}
             subscribers={subscribers}
             withTrashed={withTrashed}

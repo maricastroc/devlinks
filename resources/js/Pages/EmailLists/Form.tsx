@@ -9,6 +9,7 @@ import { Link, useForm } from '@inertiajs/react'
 import { FormEventHandler, useState } from 'react'
 import { notyf } from '@/libs/notyf'
 import axios from 'axios'
+import { EmailListProps } from '@/types/emailList'
 import { Inertia } from '@inertiajs/inertia'
 import Form from '@/Layouts/FormLayout'
 
@@ -17,13 +18,16 @@ type FormErrors = {
   listFile?: string
 }
 
-export default function Index() {
-  const [errors, setErrors] = useState<FormErrors>({})
+type Props = {
+  emailList?: EmailListProps
+}
 
+export default function ListForm({ emailList }: Props) {
+  const [errors, setErrors] = useState<FormErrors>({})
   const [processing, setProcessing] = useState(false)
 
   const { data, setData } = useForm({
-    title: '',
+    title: emailList?.title || '',
     listFile: null as File | null,
   })
 
@@ -31,18 +35,21 @@ export default function Index() {
     e.preventDefault()
 
     setProcessing(true)
-
     setErrors({})
 
     const formData = new FormData()
     formData.append('title', data.title)
-
     if (data.listFile) {
       formData.append('listFile', data.listFile)
     }
 
     try {
-      const response = await axios.post(route('lists.store'), formData, {
+      const url = emailList ? `lists/${emailList.id}` : route('lists.store')
+
+      const method = emailList ? 'PUT' : 'POST'
+      formData.append('_method', method)
+
+      const response = await axios.post(url, formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
@@ -71,7 +78,7 @@ export default function Index() {
     <AuthenticatedLayout
       header={
         <h2 className="text-xl font-semibold leading-tight text-gray-800 dark:text-gray-200">
-          Lists - Create
+          Lists - {emailList ? 'Edit' : 'Create'}
         </h2>
       }
     >
@@ -81,10 +88,18 @@ export default function Index() {
           className="mt-10 mb-2 ml-1 text-xs text-gray-400 lg:mt-0"
         >
           {`Lists > `}
-          <Link href={route('lists.create')} className="text-gray-200">
-            Create
+          <Link
+            href={
+              emailList
+                ? route('lists.edit', { list: emailList.id })
+                : route('lists.create')
+            }
+            className="text-gray-200"
+          >
+            {emailList ? 'Edit' : 'Create'}
           </Link>
         </Link>
+
         <Form onSubmit={submit}>
           <div>
             <InputLabel htmlFor="name" value="Name" />
@@ -104,23 +119,25 @@ export default function Index() {
             <InputError className="mt-2" message={errors.title} />
           </div>
 
-          <div>
-            <InputLabel htmlFor="listFile" value="E-mails List" />
-            <input
-              id="listFile"
-              name="listFile"
-              disabled={processing}
-              type="file"
-              className="w-full mt-2 duration-200 ease-in-out file:bg-zinc-700 bg-background-tertiary text-slate-500 file-input file:cursor-pointer file:text-sm file:font-semibold file:text-gray-100 hover:file:bg-background-primary"
-              accept=".csv"
-              onChange={(e) => {
-                if (e.target.files && e.target.files.length > 0) {
-                  setData('listFile', e.target.files[0])
-                }
-              }}
-            />
-            <InputError className="mt-2" message={errors.listFile} />
-          </div>
+          {!emailList && (
+            <div>
+              <InputLabel htmlFor="listFile" value="E-mails List" />
+              <input
+                id="listFile"
+                name="listFile"
+                disabled={processing}
+                type="file"
+                className="w-full mt-2 duration-200 ease-in-out file:bg-zinc-700 bg-background-tertiary text-slate-500 file-input file:cursor-pointer file:text-sm file:font-semibold file:text-gray-100 hover:file:bg-background-primary"
+                accept=".csv"
+                onChange={(e) => {
+                  if (e.target.files && e.target.files.length > 0) {
+                    setData('listFile', e.target.files[0])
+                  }
+                }}
+              />
+              <InputError className="mt-2" message={errors.listFile} />
+            </div>
+          )}
 
           <div className="flex items-center justify-end gap-4">
             <SecondaryButton
@@ -129,7 +146,9 @@ export default function Index() {
             >
               Go back
             </SecondaryButton>
-            <TertiaryButton disabled={processing}>Save List</TertiaryButton>
+            <TertiaryButton disabled={processing}>
+              {emailList ? 'Save Changes' : 'Save List'}
+            </TertiaryButton>
           </div>
         </Form>
       </div>
