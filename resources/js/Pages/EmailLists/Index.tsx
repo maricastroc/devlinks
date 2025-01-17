@@ -2,7 +2,7 @@
 import { EmptyContainer } from '@/Components/EmptyContainer'
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout'
 import { Head, Link, router } from '@inertiajs/react'
-import EmptySvg from '../../../../../../../../../../../../public/assets/empty_lists.svg'
+import EmptySvg from '/public/assets/empty_lists.svg'
 import { useEffect, useState } from 'react'
 import { EmailListProps } from '@/types/emailList'
 import { Table } from './Partials/Table'
@@ -98,7 +98,7 @@ export default function Index({ emailLists }: Props) {
           >
             Lists
           </Link>
-          <section className="w-[90vw] max-w-[30rem] lg:max-w-[55rem] p-5 py-7 lg:p-8 lg:w-[55rem] rounded-xl bg-background-secondary">
+          <section className="w-[90vw] max-w-[30rem] lg:max-w-[60rem] p-5 py-7 lg:p-8 rounded-xl bg-background-secondary">
             <div className="flex flex-col lg:grid lg:grid-cols-[1fr,4fr] gap-4">
               <TertiaryButton
                 isBigger

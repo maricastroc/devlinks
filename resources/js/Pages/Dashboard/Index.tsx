@@ -97,7 +97,7 @@ export default function Dashboard({ campaigns }: Props) {
           >
             Campaigns
           </Link>
-          <section className="w-[90vw] max-w-[55rem] lg:max-w-[55rem] p-5 py-7 lg:p-8 lg:w-[55rem] rounded-xl bg-background-secondary">
+          <section className="w-[90vw] max-w-[55rem] lg:max-w-[60rem] p-5 py-7 lg:p-8 rounded-xl bg-background-secondary">
             <div className="flex flex-col lg:grid lg:grid-cols-[1fr,3.3fr] gap-4">
               <TertiaryButton
                 isBigger

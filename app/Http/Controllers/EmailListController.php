@@ -15,13 +15,15 @@ class EmailListController extends Controller
      */
     public function index(Request $request)
     {
+        $this->authorize('viewAny', EmailList::class);
+
         $user = $request->user();
 
         $search = $request->query('search', '');
         $withTrashed = $request->query('withTrashed', false);
 
         $emailListsQuery = $user->emailLists()
-        ->search($search);
+            ->search($search);
     
         if ($withTrashed) {
             $emailListsQuery->withTrashed();
@@ -41,6 +43,8 @@ class EmailListController extends Controller
      */
     public function create()
     {
+        $this->authorize('create', EmailList::class);
+
         return Inertia::render('EmailLists/Form');
     }
 
@@ -72,6 +76,8 @@ class EmailListController extends Controller
      */
     public function show(EmailList $list, Request $request)
     {
+        $this->authorize('view', $list);
+
         $search = $request->query('search', '');
         $withTrashed = $request->query('withTrashed', false);
     
@@ -96,6 +102,8 @@ class EmailListController extends Controller
      */
     public function edit(EmailList $list)
     {
+        $this->authorize('edit', $list);
+
         return Inertia::render('EmailLists/Form', [
             'emailList' => $list,
             'isEdit' => true,
@@ -107,6 +115,8 @@ class EmailListController extends Controller
      */
     public function update(UpdateEmailListRequest $request, EmailList $list)
     {
+        $this->authorize('update', $list);
+
         try {
             $data = $request->validated();
             $list->update($data);
@@ -128,6 +138,8 @@ class EmailListController extends Controller
      */
     public function destroy(EmailList $list)
     {
+        $this->authorize('delete', $list);
+
         try {
             $list->delete();
     

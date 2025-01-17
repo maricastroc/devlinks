@@ -15,6 +15,8 @@ class SubscriberController extends Controller
      */
     public function create(EmailList $list)
     {
+        $this->authorize('create', Subscriber::class);
+
         return Inertia::render('EmailLists/Subscribers/Form', [
             'emailList' => $list,
         ]);
@@ -46,6 +48,8 @@ class SubscriberController extends Controller
      */
     public function edit(EmailList $list, Subscriber $subscriber)
     {
+        $this->authorize('edit', $subscriber);
+
         return Inertia::render('EmailLists/Subscribers/Form', [
             'subscriber' => $subscriber,
             'isEdit' => true,
@@ -57,6 +61,8 @@ class SubscriberController extends Controller
      */
     public function update(SubscriberRequest $request, EmailList $list, Subscriber $subscriber)
     {
+        $this->authorize('update', $subscriber);
+
         try {
             $data = $request->validated();
             $subscriber->update($data);
@@ -78,6 +84,8 @@ class SubscriberController extends Controller
      */
     public function destroy(EmailList $list, Subscriber $subscriber)
     {
+        $this->authorize('delete', $subscriber);
+
         try {
             $subscriber->delete();
     

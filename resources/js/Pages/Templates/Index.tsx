@@ -2,7 +2,7 @@
 import { EmptyContainer } from '@/Components/EmptyContainer'
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout'
 import { Head, Link, router } from '@inertiajs/react'
-import EmptySvg from '../../../../../../../../../../../../public/assets/empty_template.svg'
+import EmptySvg from '/public/assets/empty_template.svg'
 import { useEffect, useState } from 'react'
 import SearchInput from '@/Components/SearchInput'
 import Checkbox from '@/Components/Checkbox'
