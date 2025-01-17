@@ -10,6 +10,7 @@ export function FormField({
   onChange,
   error,
   disabled = false,
+  autoComplete = '',
 }: {
   label: string
   id: string
@@ -18,6 +19,7 @@ export function FormField({
   onChange: (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => void
   error?: string
   disabled?: boolean
+  autoComplete?: string
 }) {
   return (
     <div>
@@ -30,6 +32,7 @@ export function FormField({
         value={value}
         disabled={disabled}
         onChange={onChange}
+        autoComplete={autoComplete}
       />
       {error && <InputError className="mt-2" message={error} />}
     </div>

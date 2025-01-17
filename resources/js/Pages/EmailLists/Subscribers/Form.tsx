@@ -1,18 +1,16 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-import InputError from '@/Components/InputError'
-import InputLabel from '@/Components/InputLabel'
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout'
-import TextInput from '@/Components/TextInput'
 import SecondaryButton from '@/Components/SecondaryButton'
 import TertiaryButton from '@/Components/TertiaryButton'
 import { Link, router, useForm } from '@inertiajs/react'
 import { FormEventHandler, useState } from 'react'
 import { notyf } from '@/libs/notyf'
-import axios from 'axios'
+import axios, { AxiosError } from 'axios'
 import { Inertia } from '@inertiajs/inertia'
 import { SubscriberProps } from '@/types/subscriber'
 import Form from '@/Layouts/FormLayout'
 import { EmailListProps } from '@/types/emailList'
+import { handleReqError } from '@/utils/handleReqError'
+import { FormField } from '@/Components/FormField'
 
 type Props = {
   emailList?: EmailListProps
@@ -76,11 +74,11 @@ export default function Edit({ subscriber, emailList, isEdit }: Props) {
           list: subscriber?.email_list_id || emailList?.id,
         }),
       )
-    } catch (error: any) {
-      if (error.response?.data?.errors) {
-        setErrors(error.response.data.errors)
+    } catch (error: AxiosError | unknown) {
+      if (axios.isAxiosError(error) && error.response?.data?.errors) {
+        setErrors(error.response.data.errors);
       } else {
-        notyf?.error(error.response?.data?.message || 'An error occurred.')
+        handleReqError(error);
       }
     } finally {
       setProcessing(false)
@@ -125,41 +123,27 @@ export default function Edit({ subscriber, emailList, isEdit }: Props) {
           </Link>
         </Link>
         <Form onSubmit={submit}>
-          <div>
-            <InputLabel htmlFor="name" value="Name" />
+          <FormField
+            label='Name'
+            id="name"
+            placeholder="Subscriber's name"
+            value={data.name || ''}
+            disabled={processing}
+            onChange={(e) => setData('name', e.target.value)}
+            autoComplete="name"
+            error={errors.name}
+          />
 
-            <TextInput
-              id="name"
-              name="name"
-              className="block w-full mt-1"
-              placeholder="Subscriber's name"
-              value={data.name}
-              disabled={processing}
-              onChange={(e) => setData('name', e.target.value)}
-              isFocused
-              autoComplete="name"
-            />
-
-            <InputError className="mt-2" message={errors.name} />
-          </div>
-
-          <div>
-            <InputLabel htmlFor="email" value="Email" />
-
-            <TextInput
-              id="email"
-              name="email"
-              className="block w-full mt-1"
-              placeholder="subscriber@email.com"
-              value={data.email}
-              disabled={processing}
-              onChange={(e) => setData('email', e.target.value)}
-              isFocused
-              autoComplete="email"
-            />
-
-            <InputError className="mt-2" message={errors.email} />
-          </div>
+          <FormField
+            label='Email'
+            id="email"
+            placeholder="Subscriber's email"
+            value={data.email || ''}
+            disabled={processing}
+            onChange={(e) => setData('email', e.target.value)}
+            autoComplete="email"
+            error={errors.email}
+          />
 
           <div className="flex items-center justify-end gap-4">
             <SecondaryButton

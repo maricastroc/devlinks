@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useState } from 'react'
 import { useForm, Link } from '@inertiajs/react'
 import ReactQuill from 'react-quill'
@@ -11,12 +10,13 @@ import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout'
 import Form from '@/Layouts/FormLayout'
 import SecondaryButton from '@/Components/SecondaryButton'
 import TertiaryButton from '@/Components/TertiaryButton'
-import axios from 'axios'
-import TextInput from '@/Components/TextInput'
+import axios, { AxiosError } from 'axios'
 import { TemplateProps } from '@/types/template'
 import { Eye } from 'phosphor-react'
 import * as Dialog from '@radix-ui/react-dialog'
 import { PreviewModal } from '@/Components/PreviewModal'
+import { handleReqError } from '@/utils/handleReqError'
+import { FormField } from '@/Components/FormField'
 
 type FormErrors = {
   name?: string
@@ -65,11 +65,11 @@ export default function TemplateForm({ template, isEdit }: Props) {
       }
 
       Inertia.visit(route('templates.index'))
-    } catch (error: any) {
-      if (error.response?.data?.errors) {
-        setErrors(error.response.data.errors)
+    } catch (error: AxiosError | unknown) {
+      if (axios.isAxiosError(error) && error.response?.data?.errors) {
+        setErrors(error.response.data.errors);
       } else {
-        notyf?.error(error.response?.data?.message || 'An error occurred.')
+        handleReqError(error);
       }
     } finally {
       setProcessing(false)
@@ -99,21 +99,16 @@ export default function TemplateForm({ template, isEdit }: Props) {
           </Link>
         </Link>
         <Form isBigger onSubmit={submit}>
-          <div>
-            <InputLabel htmlFor="name" value="Name" />
-            <TextInput
-              id="name"
-              name="name"
-              className="block w-full mt-1"
-              placeholder="Choose a name for your template"
-              value={data.name}
-              disabled={processing}
-              onChange={(e) => setData('name', e.target.value)}
-              isFocused
-              autoComplete="name"
-            />
-            <InputError className="mt-2" message={errors.name} />
-          </div>
+          <FormField
+            label='Name'
+            id="name"
+            placeholder="Choose a name for your template"
+            value={data.name}
+            onChange={(e) => setData('name', e.target.value)}
+            disabled={processing}
+            error={errors.name}
+            autoComplete="name"
+          />
 
           <div>
             <div className="flex items-center justify-between">

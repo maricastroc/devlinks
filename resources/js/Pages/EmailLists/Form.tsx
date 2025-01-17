@@ -1,17 +1,17 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import InputError from '@/Components/InputError'
 import InputLabel from '@/Components/InputLabel'
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout'
-import TextInput from '@/Components/TextInput'
 import SecondaryButton from '@/Components/SecondaryButton'
 import TertiaryButton from '@/Components/TertiaryButton'
 import { Link, useForm } from '@inertiajs/react'
 import { FormEventHandler, useState } from 'react'
 import { notyf } from '@/libs/notyf'
-import axios from 'axios'
+import axios, { AxiosError } from 'axios'
 import { EmailListProps } from '@/types/emailList'
 import { Inertia } from '@inertiajs/inertia'
 import Form from '@/Layouts/FormLayout'
+import { handleReqError } from '@/utils/handleReqError'
+import { FormField } from '@/Components/FormField'
 
 type FormErrors = {
   title?: string
@@ -63,11 +63,11 @@ export default function ListForm({ emailList }: Props) {
       }
 
       Inertia.visit(route('lists.index'))
-    } catch (error: any) {
-      if (error.response?.data?.errors) {
-        setErrors(error.response.data.errors)
+    } catch (error: AxiosError | unknown) {
+      if (axios.isAxiosError(error) && error.response?.data?.errors) {
+        setErrors(error.response.data.errors);
       } else {
-        notyf?.error(error.response?.data?.message || 'An error occurred.')
+        handleReqError(error);
       }
     } finally {
       setProcessing(false)
@@ -101,23 +101,16 @@ export default function ListForm({ emailList }: Props) {
         </Link>
 
         <Form onSubmit={submit}>
-          <div>
-            <InputLabel htmlFor="name" value="Name" />
-
-            <TextInput
-              id="name"
-              name="name"
-              className="block w-full mt-1"
-              placeholder="Choose a name for your list"
-              value={data.title}
-              disabled={processing}
-              onChange={(e) => setData('title', e.target.value)}
-              isFocused
-              autoComplete="name"
-            />
-
-            <InputError className="mt-2" message={errors.title} />
-          </div>
+          <FormField
+            label='Title'
+            id="title"
+            placeholder="Choose a title for your list"
+            value={data.title || ''}
+            disabled={processing}
+            onChange={(e) => setData('title', e.target.value)}
+            autoComplete="title"
+            error={errors.title}
+          />
 
           {!emailList && (
             <div>
