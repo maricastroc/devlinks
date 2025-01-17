@@ -1,18 +1,17 @@
-/* eslint-disable react-hooks/exhaustive-deps */
-import { EmptyContainer } from '@/Components/EmptyContainer'
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout'
 import { Head, Link, router } from '@inertiajs/react'
-import EmptySvg from '../../../../../../../../../../../../public/assets/empty_template.svg'
+import EmptySvg from '/public/assets/empty_campaign.svg'
+import { EmptyContainer } from '@/Components/EmptyContainer'
+import { CampaignProps } from '@/types/campaign'
 import { useEffect, useState } from 'react'
+import TertiaryButton from '@/Components/TertiaryButton'
 import SearchInput from '@/Components/SearchInput'
 import Checkbox from '@/Components/Checkbox'
-import TertiaryButton from '@/Components/TertiaryButton'
-import { TemplateProps } from '@/types/template'
-import { PaginationSection } from './Partials/PaginationSection'
 import { Table } from './Partials/Table'
+import { PaginationSection } from './Partials/PaginationSection'
 
-export type TemplatesResults = {
-  data: TemplateProps[]
+export type CampaignsResults = {
+  data: CampaignProps[]
   total: number
   current_page: number
   per_page: number
@@ -23,10 +22,10 @@ export type TemplatesResults = {
 }
 
 type Props = {
-  templates: TemplatesResults
+  campaigns: CampaignsResults
 }
 
-export default function Index({ templates }: Props) {
+export default function Dashboard({ campaigns }: Props) {
   const [search, setSearch] = useState('')
 
   const [withTrashed, setWithTrashed] = useState(false)
@@ -35,7 +34,7 @@ export default function Index({ templates }: Props) {
     const timer = setTimeout(() => {
       if (search === '') {
         router.get(
-          route('templates.index'),
+          route('dashboard'),
           {},
           {
             preserveState: true,
@@ -45,7 +44,7 @@ export default function Index({ templates }: Props) {
         )
       } else {
         router.get(
-          route('templates.index', {
+          route('dashboard', {
             search,
           }),
           {},
@@ -64,7 +63,7 @@ export default function Index({ templates }: Props) {
   useEffect(() => {
     const timer = setTimeout(() => {
       router.get(
-        route('templates.index', {
+        route('dashboard', {
           search,
           withTrashed: withTrashed ? 1 : 0,
         }),
@@ -84,33 +83,33 @@ export default function Index({ templates }: Props) {
     <AuthenticatedLayout
       header={
         <h2 className="text-xl font-semibold leading-tight text-gray-800 dark:text-gray-200">
-          Lists
+          Dashboard
         </h2>
       }
     >
-      <Head title="List" />
+      <Head title="Dashboard" />
 
-      {(templates?.data.length > 0 && search === '') || search !== '' ? (
+      {(campaigns?.data.length > 0 && search === '') || search !== '' ? (
         <div className="flex flex-col pb-12 lg:pb-0">
           <Link
-            href={route('lists.index')}
+            href={route('dashboard')}
             className="w-[2rem] mt-10 mb-2 ml-1 text-xs text-gray-400 lg:mt-0"
           >
-            Templates
+            Campaigns
           </Link>
-          <section className="w-[90vw] max-w-[30rem] lg:max-w-[55rem] p-5 py-7 lg:p-8 lg:w-[55rem] rounded-xl bg-background-secondary">
-            <div className="flex flex-col lg:grid lg:grid-cols-[1fr,3.5fr] gap-4">
+          <section className="w-[90vw] max-w-[55rem] lg:max-w-[55rem] p-5 py-7 lg:p-8 lg:w-[55rem] rounded-xl bg-background-secondary">
+            <div className="flex flex-col lg:grid lg:grid-cols-[1fr,3.3fr] gap-4">
               <TertiaryButton
                 isBigger
-                onClick={() => router.get(route('templates.create'))}
+                onClick={() => router.get(route('campaigns.create'))}
               >
-                Create Template
+                Create Campaign
               </TertiaryButton>
               <SearchInput
                 id="search"
                 name="search"
                 className="block w-full py-2"
-                placeholder="Search by name or ID"
+                placeholder="Search by name, ID, list or template"
                 value={search}
                 search={search}
                 onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
@@ -133,21 +132,21 @@ export default function Index({ templates }: Props) {
               </label>
             </div>
 
-            <Table templates={templates} />
+            <Table campaigns={campaigns} />
 
             <PaginationSection
               withTrashed={withTrashed}
               search={search}
-              templates={templates}
+              campaigns={campaigns}
             />
           </section>
         </div>
       ) : (
         <EmptyContainer
-          url="templates.create"
           imagePath={EmptySvg}
-          content="It looks like you haven't created any templates yet."
-          title="Create Template"
+          url="/"
+          content="It looks like you haven't created any campaigns yet."
+          title="Create Campaign"
         />
       )}
     </AuthenticatedLayout>

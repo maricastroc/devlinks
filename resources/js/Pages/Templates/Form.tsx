@@ -133,25 +133,29 @@ export default function TemplateForm({ template, isEdit }: Props) {
                 />
               </Dialog.Root>
             </div>
-            <ReactQuill
-              value={data.body}
-              onChange={(value) => setData('body', value)}
-              theme="snow"
-              placeholder="Your template here"
-              modules={{
-                toolbar: [
-                  [{ header: '1' }, { header: '2' }, { font: [] }],
-                  [{ list: 'ordered' }, { list: 'bullet' }],
-                  ['bold', 'italic', 'underline'],
-                  [{ align: [] }],
-                  ['link'],
-                  [{ color: [] }, { background: [] }],
-                  ['blockquote', 'image', 'code-block'],
-                  ['clean'],
-                ],
-              }}
-              className="mt-2 text-gray-300 border-transparent rounded-md shadow-sm custom-quill disabled:cursor-not-allowed disabled:text-gray-500 bg-background-tertiary focus:border-gray-600 focus:ring-gray-600"
-            />
+            <div spellCheck={false}>
+              <ReactQuill
+                value={data.body}
+                onChange={(value) => setData('body', value)}
+                theme="snow"
+                placeholder="Your template here"
+                readOnly={processing}
+                modules={{
+                  toolbar: [
+                    [{ header: '1' }, { header: '2' }, { font: [] }],
+                    [{ list: 'ordered' }, { list: 'bullet' }],
+                    ['bold', 'italic', 'underline'],
+                    [{ align: [] }],
+                    ['link'],
+                    [{ color: [] }, { background: [] }],
+                    ['blockquote', 'image', 'code-block'],
+                    ['clean'],
+                  ],
+                }}
+                className="mt-2 text-gray-300 border-transparent rounded-md shadow-sm custom-quill disabled:cursor-not-allowed disabled:text-gray-500 bg-background-tertiary focus:border-gray-600 focus:ring-gray-600"
+              />
+            </div>
+
             <InputError className="mt-2" message={errors.body} />
           </div>
 

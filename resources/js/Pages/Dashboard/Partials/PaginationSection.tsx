@@ -1,16 +1,16 @@
 import PaginationButton from '@/Components/PaginationButton'
 import { router } from '@inertiajs/react'
-import { TemplatesResults } from '../Index'
+import { CampaignsResults } from '../Index'
 
 type Props = {
-  templates: TemplatesResults
+  campaigns: CampaignsResults
   search: string
   withTrashed: boolean
 }
 
-export function PaginationSection({ templates, search, withTrashed }: Props) {
-  const totalPages = Math.ceil(templates.total / templates.per_page)
-  const currentPage = templates.current_page
+export function PaginationSection({ campaigns, search, withTrashed }: Props) {
+  const totalPages = Math.ceil(campaigns.total / campaigns.per_page)
+  const currentPage = campaigns.current_page
 
   let middlePages: number[] = []
 
@@ -30,16 +30,17 @@ export function PaginationSection({ templates, search, withTrashed }: Props) {
     <div className="flex flex-col-reverse items-start justify-between gap-5 mt-8 lg:mt-4 lg:items-center lg:gap-0 lg:flex-row">
       <p className="text-sm">
         Showing{' '}
-        <span className="font-bold text-gray-200">{templates.from}</span> to{' '}
-        <span className="font-bold text-gray-200">{templates.to}</span> |{' '}
-        <span className="font-bold text-gray-200">{templates.total}</span> lists
+        <span className="font-bold text-gray-200">{campaigns.from}</span> to{' '}
+        <span className="font-bold text-gray-200">{campaigns.to}</span> |{' '}
+        <span className="font-bold text-gray-200">{campaigns.total}</span>{' '}
+        campaigns
       </p>
 
       <div className="flex items-center gap-2">
         <PaginationButton
           onClick={() =>
             router.get(
-              route('lists', {
+              route('dashboard', {
                 page: 1,
                 search,
                 withTrashed,
@@ -60,7 +61,7 @@ export function PaginationSection({ templates, search, withTrashed }: Props) {
             key={page}
             onClick={() =>
               router.get(
-                route('lists', {
+                route('dashboard', {
                   page,
                   search,
                   withTrashed,
@@ -83,7 +84,7 @@ export function PaginationSection({ templates, search, withTrashed }: Props) {
           <PaginationButton
             onClick={() =>
               router.get(
-                route('lists', {
+                route('dashboard', {
                   page: totalPages,
                   search,
                   withTrashed,

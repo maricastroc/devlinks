@@ -26,6 +26,7 @@ export default {
                 'background-tertiary': '#222325',
                 'content': '#FFFFFF',
                 'accent-blue': '#F0F5FF',
+                'accent-blue-disabled': '#2a4480',
                 'accent-blue-mid': '#205bdf',
                 'accent-blue-mid-darker': '#1349C3',
                 'accent-blue-mid-hover': '#407afd',
@@ -51,7 +52,19 @@ export default {
     },
     plugins: [forms, require('daisyui'), require('@tailwindcss/typography')],
     daisyui: {
-        themes: ['light', 'dark']
+        themes: [
+            {
+            mytheme: {
+                ...defaultTheme["[data-theme=dark]"],
+                "primary": "#111113",
+                "secondary": "#111113",
+                "accent": "#205bdf",
+                "base-100": "#393A40",
+            },
+            },
+            "dark",
+            "light",
+        ],
         },
         safelist: [
             'border-b-primary',

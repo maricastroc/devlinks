@@ -13,6 +13,11 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        User::factory()->count(80)->create();
+        $this->call([
+            UserSeeder::class,
+            TemplateSeeder::class,
+            EmailListSeeder::class,
+            CampaignSeeder::class,
+        ]);
     }
 }

@@ -8,13 +8,15 @@ import DangerButton from './DangerButton'
 import SecondaryButton from './SecondaryButton'
 import { Inertia } from '@inertiajs/inertia'
 import { TemplateProps } from '@/types/template'
+import { CampaignProps } from '@/types/campaign'
 
 type Props = {
   closeModal: () => void
   subscriber?: SubscriberProps
   emailList?: EmailListProps
   template?: TemplateProps
-  entity: 'subscriber' | 'list' | 'template'
+  campaign?: CampaignProps
+  entity: 'subscriber' | 'list' | 'template' | 'campaign'
 }
 
 export function DeleteModal({
@@ -22,6 +24,7 @@ export function DeleteModal({
   subscriber,
   emailList,
   template,
+  campaign,
   entity,
 }: Props) {
   const [processing, setProcessing] = useState(false)
@@ -43,8 +46,11 @@ export function DeleteModal({
           case 'list':
             return { list: emailList?.id }
 
-        case 'template':
+          case 'template':
             return { template: template?.id }
+
+          case 'campaign':
+            return { campaign: campaign?.id }
 
           default:
             throw new Error(`Unhandled entity type: ${entity}`)
@@ -59,8 +65,11 @@ export function DeleteModal({
           case 'subscriber':
             return 'subscribers.destroy'
 
-        case 'template':
+          case 'template':
             return 'templates.destroy'
+
+          case 'campaign':
+            return 'campaigns.destroy'
 
           default:
             throw new Error(`Unhandled entity type: ${entity}`)
@@ -91,6 +100,10 @@ export function DeleteModal({
 
         case 'template':
           redirectRoute = route('templates.index')
+          break
+
+        case 'campaign':
+          redirectRoute = route('/')
           break
 
         default:
@@ -130,7 +143,9 @@ export function DeleteModal({
               {entity === 'subscriber' &&
                 `Deleting "${subscriber?.name}" is a permanent action and cannot be undone.`}
               {entity === 'template' &&
-                `Deleting "${template?.name}" is a permanent action and cannot be undone.`}
+                `Deleting "${template?.name}" is a permanent action and cannot be undone. This will also remove all associated campaigns.`}
+              {entity === 'campaign' &&
+                `Deleting "${campaign?.name}" is a permanent action and cannot be undone.`}
             </p>
 
             <div className="flex items-end justify-end gap-3 mt-8">
@@ -138,6 +153,7 @@ export function DeleteModal({
                 {entity === 'list' && `Delete ${emailList?.title}?`}
                 {entity === 'subscriber' && `Delete ${subscriber?.name}?`}
                 {entity === 'template' && `Delete ${template?.name}?`}
+                {entity === 'campaign' && `Delete ${campaign?.name}?`}
               </DangerButton>
               <SecondaryButton disabled={processing} onClick={closeModal}>
                 Cancel

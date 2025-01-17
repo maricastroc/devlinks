@@ -62,8 +62,7 @@ const SubscriberRow = ({ subscriber }: SubscriberRowProps) => {
 
 export function Table({ subscribers }: Props) {
   return (
-    <div className="px-3 py-5 overflow-auto rounded-lg lg:p-5 lg:mt-3 mt-7 bg-background-tertiary text-content">
-      <div className="overflow-y-auto lg:max-h-[43vh]">
+    <div className="px-3 py-5 lg:mt-3 overflow-auto lg:p-5 mt-7 rounded-lg lg:h-[18rem] bg-background-tertiary text-content">
         {subscribers?.data?.length ? (
           <table className="table w-full text-content">
             <thead>
@@ -84,7 +83,6 @@ export function Table({ subscribers }: Props) {
             <p className="text-gray-400">We couldn&apos;t find any subscribers.</p>
           </div>
         )}
-      </div>
     </div>
   )
 }

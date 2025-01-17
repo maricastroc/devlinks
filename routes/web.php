@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CampaignController;
 use App\Http\Controllers\EmailListController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SubscriberController;
@@ -8,8 +9,8 @@ use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
 Route::middleware(['auth', 'verified'])->group(function () {
-    Route::get('/', fn() => Inertia::render('Dashboard'))->name('dashboard');
-    Route::get('/dashboard', fn() => Inertia::render('Dashboard'))->name('dashboard'); // Pode ser removida se duplicada for desnecessária
+    Route::get('/', [CampaignController::class, 'index'])->name('dashboard');
+    Route::resource('campaigns', CampaignController::class)->except(['index']);
 });
 
 Route::middleware('auth')->prefix('profile')->name('profile.')->group(function () {

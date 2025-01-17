@@ -9,8 +9,11 @@ export function cleanHTML(html: string): string {
   html = html
     .replace(/<p>(\s|&nbsp;)*<\/p>/g, '') // Remove `<p>` vazios
     .replace(/<p>(.*?)<\/p>/g, '$1') // Remove `<p>` ao redor de texto simples
-    .replace(/<p><br><\/p>/g, '') // Remove `<p>` com `<br>`
-    .replace(/<br>/g, '') // Remove `<br>` soltos
-  
+
+    // Adiciona classes de margem para h1, h2 e h3
+    .replace(/<h1>/g, '<h1 class="mt-4 mb-2">') // Adiciona classes para `<h1>`
+    .replace(/<h2>/g, '<h2 class="mt-4 mb-2">') // Adiciona classes para `<h2>`
+    .replace(/<h3>/g, '<h3 class="mt-4 mb-2">'); // Adiciona classes para `<h3>`
+
   return html;
 }

@@ -16,7 +16,8 @@ type TemplateRowProps = {
 const TemplateRow = ({ template }: TemplateRowProps) => {
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false)
 
-  const textStyle = template.deleted_at === null ? 'text-gray-300' : 'text-red-400'
+  const textStyle =
+    template.deleted_at === null ? 'text-gray-300' : 'text-red-400'
 
   return (
     <tr key={template.id} className="border-b-zinc-800">
@@ -63,13 +64,15 @@ const TemplateRow = ({ template }: TemplateRowProps) => {
 
 export function Table({ templates }: Props) {
   return (
-    <div className="px-3 py-5 lg:mt-3 overflow-auto lg:p-5 mt-7 rounded-lg lg:h-[15rem] bg-background-tertiary text-content">
+    <div className="px-3 py-5 lg:mt-3 overflow-auto lg:p-5 mt-7 rounded-lg lg:h-[18rem] bg-background-tertiary text-content">
       <table className="table overflow-y-scroll text-content table-md">
         <thead>
           <tr className="border-b-zinc-800">
             <th className="text-content text-medium w-[20%]">ID</th>
             <th className="text-content text-medium w-[45%]">Template</th>
-            <th className="flex items-center justify-center text-content text-medium">Actions</th>
+            <th className="flex items-center justify-center text-content text-medium">
+              Actions
+            </th>
           </tr>
         </thead>
         <tbody>

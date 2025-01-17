@@ -112,8 +112,8 @@ export default function EmailList({ emailList, subscribers }: Props) {
           </Link>
         </Link>
 
-        <section className="lg:max-h-[78vh] p-5 py-7 lg:p-8 w-[90vw] max-w-[30rem] lg:max-w-[45rem] lg:w-[45rem] rounded-xl bg-background-secondary">
-          <div className="flex flex-col lg:grid lg:grid-cols-[1fr,2.5fr] gap-4">
+        <section className="lg:max-h-[78vh] p-5 py-7 lg:p-8 w-[90vw] max-w-[30rem] lg:max-w-[55rem] lg:w-[55rem] rounded-xl bg-background-secondary">
+          <div className="flex flex-col lg:grid lg:grid-cols-[1fr,3.5fr] gap-4">
             <TertiaryButton
               isBigger
               onClick={() =>

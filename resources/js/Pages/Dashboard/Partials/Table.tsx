@@ -1,42 +1,46 @@
 import * as Dialog from '@radix-ui/react-dialog'
 import { Link } from '@inertiajs/react'
 import { Info, PencilSimple, TrashSimple } from 'phosphor-react'
-import { EmailListsResult } from '../Index'
 import { useState } from 'react'
 import { DeleteModal } from '@/Components/DeleteModal'
+import { CampaignsResults } from '../Index'
 
 type Props = {
-  emailLists: EmailListsResult
+  campaigns: CampaignsResults
 }
 
-type ListRowProps = {
-  list: EmailListsResult['data'][0]
+type CampaignRowProps = {
+  campaign: CampaignsResults['data'][0]
 }
 
-const ListRow = ({ list }: ListRowProps) => {
+const CampaignRow = ({ campaign }: CampaignRowProps) => {
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false)
 
-  const textStyle = list.deleted_at === null ? 'text-gray-300' : 'text-red-400'
+  const textStyle =
+    campaign.deleted_at === null ? 'text-gray-300' : 'text-red-400'
 
   return (
-    <tr key={list.id} className="border-b-zinc-800">
-      <td className={`py-2 text-medium ${textStyle}`}>{list.id}</td>
-      <td className={`py-2 text-medium ${textStyle}`}>{list.title}</td>
+    <tr key={campaign.id} className="border-b-zinc-800">
+      <td className={`py-2 text-medium ${textStyle}`}>{campaign.id}</td>
+      <td className={`py-2 text-medium ${textStyle}`}>{campaign.name}</td>
       <td className={`py-2 text-medium ${textStyle}`}>
-        {list.subscribers.length}
+        {campaign.email_list.title}
       </td>
-      <td className="flex items-center justify-center text-gray-300">
-        {list.deleted_at === null ? (
-          <div className="flex items-center gap-3">
+      <td className={`py-2 text-medium ${textStyle}`}>
+        {campaign.template.name}
+      </td>
+      <td className="text-gray-300">
+        {campaign.deleted_at === null ? (
+          <div className="flex items-center h-full gap-3">
             <Link
               className="transition-all duration-150 hover:text-blue-500"
-              href={route('lists.show', { list: list.id })}
+              href={route('lists.show', { list: campaign.id })}
             >
               <Info size={16} />
             </Link>
             <Link
               className="transition-all duration-150 hover:text-blue-500"
-              href={route('lists.edit', { list: list.id })}
+              href={route('lists.edit', { list: campaign.id })}
             >
               <PencilSimple size={16} />
             </Link>
@@ -50,8 +54,8 @@ const ListRow = ({ list }: ListRowProps) => {
                 </button>
               </Dialog.Trigger>
               <DeleteModal
-                entity="list"
-                emailList={list}
+                entity="campaign"
+                campaign={campaign}
                 closeModal={() => setIsDeleteModalOpen(false)}
               />
             </Dialog.Root>
@@ -64,23 +68,24 @@ const ListRow = ({ list }: ListRowProps) => {
   )
 }
 
-export function Table({ emailLists }: Props) {
+export function Table({ campaigns }: Props) {
   return (
     <div className="px-3 py-5 lg:mt-3 overflow-auto lg:p-5 mt-7 rounded-lg lg:h-[18rem] bg-background-tertiary text-content">
       <table className="table overflow-y-scroll text-content table-md">
         <thead>
           <tr className="border-b-zinc-800">
             <th className="text-content text-medium w-[10%]">ID</th>
-            <th className="text-content text-medium w-[40%]">List</th>
-            <th className="text-content text-medium w-[40%]">Subscribers</th>
+            <th className="text-content text-medium w-[30%]">Name</th>
+            <th className="text-content text-medium w-[30%]">List</th>
+            <th className="text-content text-medium w-[30%]">Template</th>
             <th className="flex items-center justify-center text-content text-medium">
               Actions
             </th>
           </tr>
         </thead>
         <tbody>
-          {emailLists.data.map((list) => (
-            <ListRow key={list.id} list={list} />
+          {campaigns.data.map((campaign) => (
+            <CampaignRow key={campaign.id} campaign={campaign} />
           ))}
         </tbody>
       </table>

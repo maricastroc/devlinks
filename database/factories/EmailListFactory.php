@@ -2,13 +2,14 @@
 
 namespace Database\Factories;
 
+use App\Models\EmailList;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Template>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\EmailList>
  */
-class TemplateFactory extends Factory
+class EmailListFactory extends Factory
 {
     /**
      * Define the model's default state.
@@ -18,8 +19,7 @@ class TemplateFactory extends Factory
     public function definition(): array
     {
         return [
-            'name' => fake()->words(3, true),
-            'body' => fake()->randomHtml,
+            'title' => fake()->words(3, true),
             'user_id' => User::factory(),
         ];
     }

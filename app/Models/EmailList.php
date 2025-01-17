@@ -63,6 +63,11 @@ class EmailList extends Model
         return $this->hasMany(Subscriber::class);
     }
 
+    public function campaigns(): HasMany
+    {
+        return $this->hasMany(Campaign::class);
+    }
+
     private static function readEmailsFromCsvFile(array $data) {
         $fileHandle = fopen($data['listFile']->getRealPath(), 'r');
     
