@@ -86,7 +86,7 @@ export function PaginationSection({
           </PaginationButton>
         ))}
 
-        {middlePages[middlePages.length - 1] < totalPages - 1 && (
+          {middlePages[middlePages.length - 1] < totalPages - 1 && (
           <span className="text-gray-400">...</span>
         )}
 
