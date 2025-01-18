@@ -4,11 +4,11 @@ module.exports = {
   plugins: ['@typescript-eslint'],
   extends: ['eslint:recommended', 'plugin:@typescript-eslint/recommended'],
   parserOptions: {
-      ecmaVersion: 2021,
-      sourceType: 'module',
-      project: ['./tsconfig.json', './tsconfig.cypress.json'] // Caminho para o novo arquivo tsconfig.cypress.json
+    ecmaVersion: 2021,
+    sourceType: 'module',
+    project: ['./tsconfig.json', './tsconfig.cypress.json'] // Caminho para o novo arquivo tsconfig.cypress.json
   },
   rules: {
-      // Suas regras personalizadas aqui
+    // Suas regras personalizadas aqui
   }
 };
