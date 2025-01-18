@@ -10,7 +10,8 @@
   "lint-staged": {
     "*.{ts,tsx}": [
       "prettier --write",
-      "npx eslint 'resources/js/**/*.{ts,tsx}' --fix"
+      "npx eslint 'resources/js/**/*.{ts,tsx}' --fix",
+      "npx eslint 'resources/js/Pages/Templates/**/*.{ts,tsx}' --fix"
     ]
   },
   "devDependencies": {
