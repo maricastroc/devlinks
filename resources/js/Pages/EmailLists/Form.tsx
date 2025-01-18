@@ -38,7 +38,9 @@ export default function ListForm({ emailList }: Props) {
     setErrors({})
 
     const formData = new FormData()
+    
     formData.append('title', data.title)
+    
     if (data.listFile) {
       formData.append('listFile', data.listFile)
     }
@@ -85,7 +87,7 @@ export default function ListForm({ emailList }: Props) {
       <div className="flex flex-col pb-12 lg:pb-0">
         <Link
           href={route('lists.index')}
-          className="mt-10 mb-2 ml-1 text-xs text-gray-400 lg:mt-0"
+          className="mt-10 mb-2 ml-1 text-xs text-gray-400"
         >
           {`Lists > `}
           <Link

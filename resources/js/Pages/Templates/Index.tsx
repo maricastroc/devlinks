@@ -91,10 +91,10 @@ export default function Index({ templates }: Props) {
       <Head title="List" />
 
       {(templates?.data.length > 0 && search === '') || search !== '' ? (
-        <div className="flex flex-col pb-12 lg:pb-0">
+        <div className="flex flex-col pb-12">
           <Link
             href={route('lists.index')}
-            className="w-[2rem] mt-10 mb-2 ml-1 text-xs text-gray-400 lg:mt-0"
+            className="w-[2rem] mt-10 mb-2 ml-1 text-xs text-gray-400"
           >
             Templates
           </Link>

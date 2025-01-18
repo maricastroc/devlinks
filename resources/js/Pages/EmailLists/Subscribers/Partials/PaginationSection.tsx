@@ -17,6 +17,7 @@ export function PaginationSection({
   withTrashed,
 }: Props) {
   const totalPages = Math.ceil(subscribers.total / subscribers.per_page)
+  
   const currentPage = subscribers.current_page
 
   let middlePages: number[] = []

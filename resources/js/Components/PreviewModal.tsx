@@ -3,10 +3,7 @@ import { cleanHTML } from '@/utils/cleanHtml'
 
 type Props = {
   closeModal: () => void
-  data: {
-    name: string
-    body: string
-  }
+  data: string
 }
 
 export function PreviewModal({ closeModal, data }: Props) {
@@ -23,7 +20,7 @@ export function PreviewModal({ closeModal, data }: Props) {
         >
           <div
             className="w-full p-4 prose text-gray-200 border border-gray-700 rounded-lg shadow"
-            dangerouslySetInnerHTML={{ __html: cleanHTML(data.body) }}
+            dangerouslySetInnerHTML={{ __html: cleanHTML(data) }}
           />
         </section>
       </Dialog.Content>

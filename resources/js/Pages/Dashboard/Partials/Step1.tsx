@@ -59,6 +59,7 @@ export default function Step1({
           value={data.email_list_id || ''}
           onChange={(e) => {
             setData('email_list_id', e.target.value)
+            
             const selectedList = emailLists.find((list) => {
               return list.id === Number(e.target.value)
             })

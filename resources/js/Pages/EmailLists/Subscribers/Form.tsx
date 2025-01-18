@@ -94,7 +94,7 @@ export default function Edit({ subscriber, emailList, isEdit }: Props) {
         </h2>
       }
     >
-      <div className="flex flex-col pb-12 mt-10 lg:pb-0 lg:mt-0">
+      <div className="flex flex-col pb-12 mt-10">
         <Link
           href={route('lists.index')}
           className="mb-2 ml-1 text-xs text-gray-400 w-[12rem]"

@@ -10,6 +10,7 @@ type Props = {
 
 export function PaginationSection({ emailLists, search, withTrashed }: Props) {
   const totalPages = Math.ceil(emailLists.total / emailLists.per_page)
+  
   const currentPage = emailLists.current_page
 
   let middlePages: number[] = []

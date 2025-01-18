@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\CampaignRequest;
+use App\Http\Requests\UpdateCampaignRequest;
 use App\Models\Campaign;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -14,9 +15,9 @@ class CampaignController extends Controller
      */
     public function index(Request $request)
     {
-        $this->authorize('viewAny', Campaign::class);
-
         $user = $request->user();
+
+        $this->authorize('viewAny', Campaign::class);
 
         $search = $request->query('search', '');
         $withTrashed = $request->query('withTrashed', false);
@@ -31,7 +32,7 @@ class CampaignController extends Controller
         $campaigns = $campaignsQuery
             ->with('emailList', 'template')
             ->orderBy('id', 'asc')
-            ->paginate(7);
+            ->paginate(10);
 
         return Inertia::render('Dashboard/Index', [
             'campaigns' => $campaigns,
@@ -61,8 +62,6 @@ class CampaignController extends Controller
      */
     public function store(CampaignRequest $request)
     {
-        $this->authorize('store', Campaign::class);
-
         try {
             $userId = auth()->id();
             
@@ -103,7 +102,7 @@ class CampaignController extends Controller
     
         $campaigns = $campaignsQuery
             ->search($search)
-            ->paginate(7);
+            ->paginate(10);
     
         return Inertia::render('Dashboard/Show', [
             'campaigns' => $campaigns,
@@ -113,12 +112,19 @@ class CampaignController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Campaign $campaign)
+    public function edit(Request $request, Campaign $campaign)
     {
         $this->authorize('edit', $campaign);
 
+        $user = $request->user();
+
+        $emailLists = $user->emailLists()->with('subscribers')->get();
+        $templates = $user->templates()->with('user:id,name,email')->get();
+
         return Inertia::render('Dashboard/Form', [
             'campaign' => $campaign,
+            'emailLists' => $emailLists,
+            'templates' => $templates,
             'isEdit' => true,
         ]);
     }
@@ -126,21 +132,21 @@ class CampaignController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(CampaignRequest $request, Campaign $campaign)
+    public function update(UpdateCampaignRequest $request, Campaign $campaign)
     {
-        $this->authorize('update', $campaign);
-
         try {
             $data = $request->validated();
-            $campaign->update($data);
-    
-            return response()->json([
-                'message' => 'Campaign successfully updated!',
-                'campaign' => $campaign,
-            ]);
+
+            if ($request->step === 3) {
+                $campaign->update($data);
+
+                return response()->json([
+                    'message' => 'Campaign successfully updated!',
+                ], 200);
+            }
         } catch (\Exception $e) {
             return response()->json([
-                'message' => 'An error occurred while updating the campaign.',
+                'message' => 'Failed to update campaign. Please try again later.',
                 'error' => $e->getMessage(),
             ], 500);
         }

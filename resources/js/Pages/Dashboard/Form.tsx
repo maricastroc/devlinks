@@ -2,7 +2,7 @@ import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout'
 import SecondaryButton from '@/Components/SecondaryButton'
 import TertiaryButton from '@/Components/TertiaryButton'
 import { Link, router, useForm } from '@inertiajs/react'
-import { FormEventHandler, useState } from 'react'
+import { FormEventHandler, useEffect, useState } from 'react'
 import { notyf } from '@/libs/notyf'
 import axios, { AxiosError } from 'axios'
 import { EmailListProps } from '@/types/emailList'
@@ -39,7 +39,7 @@ export type DataProps = {
   body?: string
   track_click?: boolean
   track_open?: boolean
-  send_at?: string
+  send_at?: Date | undefined
   template_id?: number | null
   email_list_id?: number | null
 }
@@ -66,7 +66,7 @@ export default function CampaignForm({
     body: campaign?.body || undefined,
     track_click: campaign?.track_click || false,
     track_open: campaign?.track_open || false,
-    send_at: campaign?.send_at || undefined,
+    send_at: campaign?.send_at || new Date(),
     template_id: campaign?.template_id || null,
     email_list_id: campaign?.email_list_id || null,
   })
@@ -83,39 +83,58 @@ export default function CampaignForm({
         : route('campaigns.store');
       const method = campaign ? 'PUT' : 'POST';
   
-      setData((prevData) => ({
-        ...prevData,
+      const payload = {
+        ...data,
         _method: method,
-        step: step,
-      }));
+        step,
+        send_at: data.send_at.toISOString(),
+      };
   
-      const response = await axios.post(url, data);
+      const response = await axios({
+        method: campaign ? 'put' : 'post',
+        url,
+        data: payload,
+      });
   
-      if (response?.data.message) {
+      if (response?.data?.message) {
         await new Promise((resolve) => {
-          notyf?.success(response?.data?.message);
+          notyf?.success(response.data.message);
           setTimeout(resolve, 2000);
         });
+  
+        Inertia.visit(route('dashboard'));
       }
   
-      if (step === 3) {
-        Inertia.visit(route('dashboard'))
-        return;
+      if (!response?.data?.errors && step < 3) {
+        setStep(step + 1);
       }
-
-      setStep(step + 1)
     } catch (error: AxiosError | unknown) {
       if (axios.isAxiosError(error) && error.response?.data?.errors) {
         setErrors(error.response.data.errors);
+        notyf?.error(error.response.data.message);
       } else {
         handleReqError(error);
       }
-  
-      setStep(1);
     } finally {
       setProcessing(false);
     }
   };
+
+  useEffect(() => {
+    if (campaign) {
+      const selectedList = emailLists?.find((list) => {
+        return list.id === Number(campaign.email_list_id)
+      })
+
+      setSelectedList(selectedList || null)
+
+      const selectedTemplate = templates?.find((template) => {
+        return template.id === Number(campaign.template_id)
+      })
+
+      setSelectedTemplate(selectedTemplate || null)
+    }
+  })
 
   return (
     <AuthenticatedLayout
@@ -177,7 +196,7 @@ export default function CampaignForm({
               />
             )}
 
-            {step === 2 && <Step2 data={data} setData={setData} errors={errors} processing={processing} />}
+            {step === 2 && <Step2 selectedTemplate={selectedTemplate} data={data} setData={setData} errors={errors} processing={processing} />}
 
             {step === 3 && (
               <Step3
@@ -185,6 +204,7 @@ export default function CampaignForm({
                 data={data}
                 setData={setData}
                 templates={templates}
+                errors={errors}
               />
             )}
 

@@ -30,7 +30,7 @@ class TemplateController extends Controller
         }
 
         $templates = $templatesQuery->orderBy('created_at', 'asc')
-            ->paginate(7);
+            ->paginate(10);
 
         return Inertia::render('Templates/Index', [
             'templates' => $templates,

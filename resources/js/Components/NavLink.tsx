@@ -10,7 +10,8 @@ export default function NavLink({
   const isActive = props.href
     ? url === props.href ||
       url.startsWith(`${props.href}/`) ||
-      url.startsWith(`${props.href}?`)
+      url.startsWith(`${props.href}?`) ||
+      (url.startsWith(`/campaigns`) && props.href === '/')
     : false
 
   return (

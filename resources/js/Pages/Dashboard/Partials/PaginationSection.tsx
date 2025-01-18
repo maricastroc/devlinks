@@ -10,6 +10,7 @@ type Props = {
 
 export function PaginationSection({ campaigns, search, withTrashed }: Props) {
   const totalPages = Math.ceil(campaigns.total / campaigns.per_page)
+  
   const currentPage = campaigns.current_page
 
   let middlePages: number[] = []

@@ -64,7 +64,7 @@ const TemplateRow = ({ template }: TemplateRowProps) => {
 
 export function Table({ templates }: Props) {
   return (
-    <div className="px-3 py-5 lg:mt-3 overflow-auto lg:p-5 mt-7 rounded-lg lg:h-[18rem] bg-background-tertiary text-content">
+    <div className="px-3 py-5 overflow-auto rounded-lg lg:mt-3 lg:p-5 mt-7 bg-background-tertiary text-content">
       <table className="table overflow-y-scroll text-content table-md">
         <thead>
           <tr className="border-b-zinc-800">

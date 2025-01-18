@@ -40,7 +40,7 @@ export default forwardRef(function SearchInput(
         {...props}
         type={type}
         className={
-          'pl-0 grow disabled::cursor-not-allowed rounded-md focus:border-transparent focus:ring-transparent border-transparent shadow-sm bg-background-tertiary text-gray-300' +
+          'pl-0 grow disabled:cursor-not-allowed rounded-md focus:border-transparent focus:ring-transparent border-transparent shadow-sm bg-background-tertiary text-gray-300' +
           className
         }
         ref={localRef}

@@ -103,7 +103,7 @@ export function DeleteModal({
           break
 
         case 'campaign':
-          redirectRoute = route('/')
+          redirectRoute = route('dashboard')
           break
 
         default:

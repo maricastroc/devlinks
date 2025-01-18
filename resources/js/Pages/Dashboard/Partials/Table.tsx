@@ -40,7 +40,7 @@ const CampaignRow = ({ campaign }: CampaignRowProps) => {
             </Link>
             <Link
               className="transition-all duration-150 hover:text-blue-500"
-              href={route('lists.edit', { list: campaign.id })}
+              href={route('campaigns.edit', { campaign: campaign.id })}
             >
               <PencilSimple size={16} />
             </Link>
@@ -70,7 +70,7 @@ const CampaignRow = ({ campaign }: CampaignRowProps) => {
 
 export function Table({ campaigns }: Props) {
   return (
-    <div className="px-3 py-5 lg:mt-3 overflow-auto lg:p-5 mt-7 rounded-lg lg:h-[18rem] bg-background-tertiary text-content">
+    <div className="px-3 py-5 overflow-auto rounded-lg lg:p-5 mt-7 bg-background-tertiary text-content">
       <table className="table overflow-y-scroll text-content table-md">
         <thead>
           <tr className="border-b-zinc-800">

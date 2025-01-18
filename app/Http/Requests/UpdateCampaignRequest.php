@@ -5,7 +5,7 @@ namespace App\Http\Requests;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
-class CampaignRequest extends FormRequest
+class UpdateCampaignRequest extends FormRequest
 {
     /**
      * Get the validation rules that apply to the request.
@@ -17,14 +17,14 @@ class CampaignRequest extends FormRequest
         $rules = [];
 
         $step = $this->input('step');
-        
+
         if ($step == 1) {
             $rules = [
                 'name' => [
                     'required',
                     'string',
                     'max:255',
-                    Rule::unique('campaigns', 'name')
+                    Rule::unique('campaigns')->ignoreModel($this->route('campaign'))
                 ],
                 'subject' => ['required', 'string', 'max:255'],
                 'email_list_id' => [
@@ -56,8 +56,9 @@ class CampaignRequest extends FormRequest
             $rules = [
                 'name' => [
                     'required',
-                    'string', 'max:255',
-                    Rule::unique('campaigns', 'name')
+                    'string',
+                    'max:255',
+                    Rule::unique('campaigns')->ignoreModel($this->route('campaign'))
                 ],
                 'subject' => ['required', 'string', 'max:255'],
                 'email_list_id' => [

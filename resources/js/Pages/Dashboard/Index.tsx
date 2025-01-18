@@ -90,15 +90,15 @@ export default function Dashboard({ campaigns }: Props) {
       <Head title="Dashboard" />
 
       {(campaigns?.data.length > 0 && search === '') || search !== '' ? (
-        <div className="flex flex-col pb-12 lg:pb-0">
+        <div className="flex flex-col pb-12">
           <Link
             href={route('dashboard')}
-            className="w-[2rem] mt-10 mb-2 ml-1 text-xs text-gray-400 lg:mt-0"
+            className="w-[2rem] mt-10 mb-2 ml-1 text-xs text-gray-400"
           >
             Campaigns
           </Link>
           <section className="w-[90vw] max-w-[55rem] lg:max-w-[60rem] p-5 py-7 lg:p-8 rounded-xl bg-background-secondary">
-            <div className="flex flex-col lg:grid lg:grid-cols-[1fr,3.3fr] gap-4">
+            <div className="flex flex-col lg:grid lg:grid-cols-[1fr,3.9fr] gap-4">
               <TertiaryButton
                 isBigger
                 onClick={() => router.get(route('campaigns.create'))}

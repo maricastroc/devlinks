@@ -12,7 +12,7 @@ export type CampaignProps = {
   body: string
   track_open: boolean
   track_click: boolean
-  send_at: string
+  send_at: Date
   deleted_at: string | null
   email_list: EmailListProps
   user: UserProps

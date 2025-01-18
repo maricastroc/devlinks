@@ -22,7 +22,7 @@ export default function Authenticated({
   }
 
   return (
-    <div className="flex flex-col min-h-screen lg:items-center bg-background-primary">
+    <div className="flex flex-col min-h-screen bg-background-primary">
       <nav className="w-full border-b border-b-zinc-800 bg-background-secondary">
         <div className="px-4 py-1 mx-auto max-w-7xl md:px-6 lg:px-8">
           <div className="flex justify-between h-16">
@@ -162,7 +162,7 @@ export default function Authenticated({
         </div>
       </nav>
 
-      <main className="flex items-start justify-center flex-grow lg:items-center">
+      <main className="flex items-start justify-center flex-grow">
         {children}
       </main>
     </div>

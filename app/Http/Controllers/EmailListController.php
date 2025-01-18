@@ -31,7 +31,7 @@ class EmailListController extends Controller
 
         $emailLists = $emailListsQuery->with('subscribers')
             ->orderBy('created_at', 'asc')
-            ->paginate(7);
+            ->paginate(10);
 
         return Inertia::render('EmailLists/Index', [
             'emailLists' => $emailLists,
@@ -89,7 +89,7 @@ class EmailListController extends Controller
     
         $subscribers = $subscribersQuery
             ->search($search)
-            ->paginate(7);
+            ->paginate(10);
     
         return Inertia::render('EmailLists/Show', [
             'emailList' => $list,

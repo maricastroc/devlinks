@@ -87,7 +87,7 @@ export default function TemplateForm({ template, isEdit }: Props) {
       <div className="flex flex-col pb-12 lg:pb-0">
         <Link
           href={route('templates.index')}
-          className="mt-10 mb-2 ml-1 text-xs text-gray-400 lg:mt-0"
+          className="mt-10 mb-2 ml-1 text-xs text-gray-400"
         >
           {`Templates > `}
           <Link
@@ -124,7 +124,7 @@ export default function TemplateForm({ template, isEdit }: Props) {
                 </Dialog.Trigger>
                 <PreviewModal
                   closeModal={() => setIsPreviewModalOpen(false)}
-                  data={data}
+                  data={data.body}
                 />
               </Dialog.Root>
             </div>
@@ -144,7 +144,7 @@ export default function TemplateForm({ template, isEdit }: Props) {
                     ['link'],
                     [{ color: [] }, { background: [] }],
                     ['blockquote', 'image', 'code-block'],
-                    ['clean'],
+                    [{ 'separator': 'divider' }] 
                   ],
                 }}
                 className="mt-2 text-gray-300 border-transparent rounded-md shadow-sm custom-quill disabled:cursor-not-allowed disabled:text-gray-500 bg-background-tertiary focus:border-gray-600 focus:ring-gray-600"
