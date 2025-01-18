@@ -15,6 +15,8 @@ class TemplateController extends Controller
      */
     public function index(Request $request)
     {
+        $this->authorize('viewAny', Template::class);
+
         $user = $request->user();
 
         $search = $request->query('search', '');
@@ -40,6 +42,8 @@ class TemplateController extends Controller
      */
     public function create()
     {
+        $this->authorize('create', Template::class);
+
         return Inertia::render('Templates/Form');
     }
 
@@ -73,6 +77,8 @@ class TemplateController extends Controller
      */
     public function show(Template $template)
     {
+        $this->authorize('view', $template);
+
         return Inertia::render('Templates/Show', [
             'template' => $template,
         ]);
@@ -83,6 +89,8 @@ class TemplateController extends Controller
      */
     public function edit(Template $template)
     {
+        $this->authorize('edit', $template);
+
         return Inertia::render('Templates/Form', [
             'template' => $template,
             'isEdit' => true,
@@ -94,6 +102,8 @@ class TemplateController extends Controller
      */
     public function update(UpdateTemplateRequest $request, Template $template)
     {
+        $this->authorize('update', $template);
+
         try {
             $data = $request->validated();
             $template->update($data);
@@ -115,6 +125,8 @@ class TemplateController extends Controller
      */
     public function destroy(Template $template)
     {
+        $this->authorize('delete', $template);
+
         try {
             $template->delete();
     

@@ -3,10 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\CampaignRequest;
-use App\Http\Requests\EmailListRequest;
-use App\Http\Requests\UpdateEmailListRequest;
 use App\Models\Campaign;
-use App\Models\EmailList;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
@@ -17,6 +14,8 @@ class CampaignController extends Controller
      */
     public function index(Request $request)
     {
+        $this->authorize('viewAny', Campaign::class);
+
         $user = $request->user();
 
         $search = $request->query('search', '');
@@ -44,6 +43,8 @@ class CampaignController extends Controller
      */
     public function create(Request $request)
     {
+        $this->authorize('create', Campaign::class);
+
         $user = $request->user();
 
         $emailLists = $user->emailLists()->with('subscribers')->get();
@@ -60,6 +61,8 @@ class CampaignController extends Controller
      */
     public function store(CampaignRequest $request)
     {
+        $this->authorize('store', Campaign::class);
+
         try {
             $userId = auth()->id();
             
@@ -85,34 +88,37 @@ class CampaignController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(EmailList $list, Request $request)
+    public function show(Campaign $campaign, Request $request)
     {
+        $this->authorize('show', $campaign);
+
         $search = $request->query('search', '');
         $withTrashed = $request->query('withTrashed', false);
     
-        $subscribersQuery = $list->subscribers();
+        $campaignsQuery = $campaign->subscribers();
     
         if ($withTrashed) {
-            $subscribersQuery->withTrashed();
+            $campaignsQuery->withTrashed();
         }
     
-        $subscribers = $subscribersQuery
+        $campaigns = $campaignsQuery
             ->search($search)
             ->paginate(7);
     
-        return Inertia::render('EmailLists/Show', [
-            'emailList' => $list,
-            'subscribers' => $subscribers,
+        return Inertia::render('Dashboard/Show', [
+            'campaigns' => $campaigns,
         ]);
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(EmailList $list)
+    public function edit(Campaign $campaign)
     {
-        return Inertia::render('EmailLists/Form', [
-            'emailList' => $list,
+        $this->authorize('edit', $campaign);
+
+        return Inertia::render('Dashboard/Form', [
+            'campaign' => $campaign,
             'isEdit' => true,
         ]);
     }
@@ -120,19 +126,21 @@ class CampaignController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateEmailListRequest $request, EmailList $list)
+    public function update(CampaignRequest $request, Campaign $campaign)
     {
+        $this->authorize('update', $campaign);
+
         try {
             $data = $request->validated();
-            $list->update($data);
+            $campaign->update($data);
     
             return response()->json([
-                'message' => 'List successfully updated!',
-                'list' => $list,
+                'message' => 'Campaign successfully updated!',
+                'campaign' => $campaign,
             ]);
         } catch (\Exception $e) {
             return response()->json([
-                'message' => 'An error occurred while updating the list.',
+                'message' => 'An error occurred while updating the campaign.',
                 'error' => $e->getMessage(),
             ], 500);
         }
@@ -141,17 +149,19 @@ class CampaignController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(EmailList $list)
+    public function destroy(Campaign $campaign)
     {
+        $this->authorize('delete', $campaign);
+
         try {
-            $list->delete();
+            $campaign->delete();
     
             return response()->json([
-                'message' => 'List successfully deleted!',
+                'message' => 'Campaign successfully deleted!',
             ], 200);
         } catch (\Exception $e) {
             return response()->json([
-                'message' => 'Failed to delete list. Please try again later.',
+                'message' => 'Failed to delete campaign. Please try again later.',
                 'error' => $e->getMessage(),
             ], 500);
         }

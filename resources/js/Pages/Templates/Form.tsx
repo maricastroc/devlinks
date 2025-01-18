@@ -54,7 +54,7 @@ export default function TemplateForm({ template, isEdit }: Props) {
     }
 
     try {
-      const url = isEdit ? `templates/${template?.id}` : 'templates.store'
+      const url = isEdit ? route('templates.update', template?.id) : route('templates.store');
       const response = await axios.post(url, formData)
 
       if (response?.data.message) {

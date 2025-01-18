@@ -44,7 +44,7 @@ export default function ListForm({ emailList }: Props) {
     }
 
     try {
-      const url = emailList ? `lists/${emailList.id}` : route('lists.store')
+      const url = emailList ? route('lists.update', emailList?.id) : route('lists.store')
 
       const method = emailList ? 'PUT' : 'POST'
       formData.append('_method', method)

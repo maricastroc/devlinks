@@ -55,6 +55,7 @@ export default function Edit({ subscriber, emailList, isEdit }: Props) {
     }
 
     const routeName = isEdit ? 'subscribers.update' : 'subscribers.store'
+    
     const routeParams = isEdit
       ? { list: subscriber?.email_list_id, subscriber: subscriber?.id }
       : { list: emailList?.id }

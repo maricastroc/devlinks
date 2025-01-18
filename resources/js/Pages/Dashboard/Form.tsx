@@ -79,7 +79,7 @@ export default function CampaignForm({
   
     try {
       const url = campaign
-        ? `campaigns/${campaign?.id}`
+        ? route('campaigns.update', campaign?.id)
         : route('campaigns.store');
       const method = campaign ? 'PUT' : 'POST';
   
