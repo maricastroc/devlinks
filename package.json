@@ -8,7 +8,8 @@
         "lint-staged": "lint-staged"
     },
     "lint-staged": {
-        "*.ts": "prettier --write"
+        "**/*": "prettier --write --ignore-unknown",
+        "resources/**/*{.js,jsx,tsx,ts}": "eslint --max-warnings=0"
     },
     "devDependencies": {
         "@headlessui/react": "^2.0.0",
