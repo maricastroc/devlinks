@@ -117,9 +117,9 @@ export default function Edit({ subscriber, emailList, isEdit }: Props) {
               !isEdit
                 ? { list: emailList?.id }
                 : {
-                  list: subscriber?.email_list_id,
-                  subscriber: subscriber?.id
-                }
+                    list: subscriber?.email_list_id,
+                    subscriber: subscriber?.id
+                  }
             )}
             className="text-gray-200"
           >
