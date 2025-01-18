@@ -10,7 +10,7 @@
   "lint-staged": {
     "*.{ts,tsx}": [
       "prettier --write",
-      "eslint --fix"
+      "npx eslint 'resources/js/**/*.{ts,tsx}' --fix"
     ]
   },
   "devDependencies": {
