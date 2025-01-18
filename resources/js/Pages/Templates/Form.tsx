@@ -126,7 +126,7 @@ export default function TemplateForm({ template, isEdit }: Props) {
                   closeModal={() => setIsPreviewModalOpen(false)}
                   data={data.body}
                 />
-              </Dialog.Root>
+                      </Dialog.Root>
             </div>
             <div spellCheck={false}>
               <ReactQuill
