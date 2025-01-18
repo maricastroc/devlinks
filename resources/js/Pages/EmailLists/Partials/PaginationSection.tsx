@@ -1,29 +1,29 @@
-import PaginationButton from '@/Components/PaginationButton'
-import { router } from '@inertiajs/react'
-import { EmailListsResult } from '../Index'
+import PaginationButton from '@/Components/PaginationButton';
+import { router } from '@inertiajs/react';
+import { EmailListsResult } from '../Index';
 
 type Props = {
-  emailLists: EmailListsResult
-  search: string
-  withTrashed: boolean
-}
+  emailLists: EmailListsResult;
+  search: string;
+  withTrashed: boolean;
+};
 
 export function PaginationSection({ emailLists, search, withTrashed }: Props) {
-  const totalPages = Math.ceil(emailLists.total / emailLists.per_page)
-  
-  const currentPage = emailLists.current_page
+  const totalPages = Math.ceil(emailLists.total / emailLists.per_page);
 
-  let middlePages: number[] = []
+  const currentPage = emailLists.current_page;
+
+  let middlePages: number[] = [];
 
   if (totalPages <= 5) {
-    middlePages = Array.from({ length: totalPages - 2 }, (_, i) => i + 2)
+    middlePages = Array.from({ length: totalPages - 2 }, (_, i) => i + 2);
   } else {
     if (currentPage <= 3) {
-      middlePages = [2, 3, 4]
+      middlePages = [2, 3, 4];
     } else if (currentPage >= totalPages - 2) {
-      middlePages = [totalPages - 3, totalPages - 2, totalPages - 1]
+      middlePages = [totalPages - 3, totalPages - 2, totalPages - 1];
     } else {
-      middlePages = [currentPage - 1, currentPage, currentPage + 1]
+      middlePages = [currentPage - 1, currentPage, currentPage + 1];
     }
   }
 
@@ -44,10 +44,10 @@ export function PaginationSection({ emailLists, search, withTrashed }: Props) {
               route('lists', {
                 page: 1,
                 search,
-                withTrashed,
+                withTrashed
               }),
               {},
-              { preserveState: true, replace: true },
+              { preserveState: true, replace: true }
             )
           }
           isActive={currentPage === 1}
@@ -65,10 +65,10 @@ export function PaginationSection({ emailLists, search, withTrashed }: Props) {
                 route('lists', {
                   page,
                   search,
-                  withTrashed,
+                  withTrashed
                 }),
                 {},
-                { preserveState: true, replace: true },
+                { preserveState: true, replace: true }
               )
             }
             isActive={page === currentPage}
@@ -88,10 +88,10 @@ export function PaginationSection({ emailLists, search, withTrashed }: Props) {
                 route('lists', {
                   page: totalPages,
                   search,
-                  withTrashed,
+                  withTrashed
                 }),
                 {},
-                { preserveState: true, replace: true },
+                { preserveState: true, replace: true }
               )
             }
             isActive={currentPage === totalPages}
@@ -101,5 +101,5 @@ export function PaginationSection({ emailLists, search, withTrashed }: Props) {
         )}
       </div>
     </div>
-  )
+  );
 }

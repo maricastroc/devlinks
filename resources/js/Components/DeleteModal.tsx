@@ -1,23 +1,23 @@
-import * as Dialog from '@radix-ui/react-dialog'
-import { useState } from 'react'
-import axios from 'axios'
-import { notyf } from '@/libs/notyf'
-import { SubscriberProps } from '@/types/subscriber'
-import { EmailListProps } from '@/types/emailList'
-import DangerButton from './DangerButton'
-import SecondaryButton from './SecondaryButton'
-import { Inertia } from '@inertiajs/inertia'
-import { TemplateProps } from '@/types/template'
-import { CampaignProps } from '@/types/campaign'
+import * as Dialog from '@radix-ui/react-dialog';
+import { useState } from 'react';
+import axios from 'axios';
+import { notyf } from '@/libs/notyf';
+import { SubscriberProps } from '@/types/subscriber';
+import { EmailListProps } from '@/types/emailList';
+import DangerButton from './DangerButton';
+import SecondaryButton from './SecondaryButton';
+import { Inertia } from '@inertiajs/inertia';
+import { TemplateProps } from '@/types/template';
+import { CampaignProps } from '@/types/campaign';
 
 type Props = {
-  closeModal: () => void
-  subscriber?: SubscriberProps
-  emailList?: EmailListProps
-  template?: TemplateProps
-  campaign?: CampaignProps
-  entity: 'subscriber' | 'list' | 'template' | 'campaign'
-}
+  closeModal: () => void;
+  subscriber?: SubscriberProps;
+  emailList?: EmailListProps;
+  template?: TemplateProps;
+  campaign?: CampaignProps;
+  entity: 'subscriber' | 'list' | 'template' | 'campaign';
+};
 
 export function DeleteModal({
   closeModal,
@@ -25,103 +25,103 @@ export function DeleteModal({
   emailList,
   template,
   campaign,
-  entity,
+  entity
 }: Props) {
-  const [processing, setProcessing] = useState(false)
+  const [processing, setProcessing] = useState(false);
 
   const handleDelete = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault()
+    e.preventDefault();
 
     try {
-      setProcessing(true)
+      setProcessing(true);
 
       const routeParams = (() => {
         switch (entity) {
           case 'subscriber':
             return {
-            list: subscriber?.email_list_id,
-            subscriber: subscriber?.id,
-          }
+              list: subscriber?.email_list_id,
+              subscriber: subscriber?.id
+            };
 
           case 'list':
-            return { list: emailList?.id }
+            return { list: emailList?.id };
 
           case 'template':
-            return { template: template?.id }
+            return { template: template?.id };
 
           case 'campaign':
-            return { campaign: campaign?.id }
+            return { campaign: campaign?.id };
 
           default:
-            throw new Error(`Unhandled entity type: ${entity}`)
+            throw new Error(`Unhandled entity type: ${entity}`);
         }
-      })()
+      })();
 
       const routeName = (() => {
         switch (entity) {
           case 'list':
-            return 'lists.destroy'
+            return 'lists.destroy';
 
           case 'subscriber':
-            return 'subscribers.destroy'
+            return 'subscribers.destroy';
 
           case 'template':
-            return 'templates.destroy'
+            return 'templates.destroy';
 
           case 'campaign':
-            return 'campaigns.destroy'
+            return 'campaigns.destroy';
 
           default:
-            throw new Error(`Unhandled entity type: ${entity}`)
+            throw new Error(`Unhandled entity type: ${entity}`);
         }
-      })()
+      })();
 
-      const response = await axios.delete(route(routeName, routeParams))
+      const response = await axios.delete(route(routeName, routeParams));
 
       if (response?.data.message) {
         await new Promise((resolve) => {
-          notyf?.success(response?.data?.message)
-          setTimeout(resolve, 2000)
-        })
+          notyf?.success(response?.data?.message);
+          setTimeout(resolve, 2000);
+        });
       }
 
-      let redirectRoute
+      let redirectRoute;
 
       switch (entity) {
         case 'list':
-          redirectRoute = route('lists.index')
-          break
+          redirectRoute = route('lists.index');
+          break;
 
         case 'subscriber':
           redirectRoute = route('lists.show', {
-          list: subscriber?.email_list_id,
-        })
-          break
+            list: subscriber?.email_list_id
+          });
+          break;
 
         case 'template':
-          redirectRoute = route('templates.index')
-          break
+          redirectRoute = route('templates.index');
+          break;
 
         case 'campaign':
-          redirectRoute = route('dashboard')
-          break
+          redirectRoute = route('dashboard');
+          break;
 
         default:
-          throw new Error(`Unhandled entity type: ${entity}`)
+          throw new Error(`Unhandled entity type: ${entity}`);
       }
 
-      Inertia.visit(redirectRoute)
+      Inertia.visit(redirectRoute);
     } catch (error: unknown) {
       if (axios.isAxiosError(error) && error.response?.data?.message) {
-        notyf?.error(error.response?.data?.message)
+        notyf?.error(error.response?.data?.message);
       } else {
-        console.error('Error:', error)
+        console.error('Error:', error);
       }
     } finally {
-      setProcessing(false)
-      closeModal()
+      setProcessing(false);
+      closeModal();
     }
-  }
+  };
 
   return (
     <Dialog.Portal>
@@ -163,5 +163,5 @@ export function DeleteModal({
         </div>
       </Dialog.Content>
     </Dialog.Portal>
-  )
+  );
 }

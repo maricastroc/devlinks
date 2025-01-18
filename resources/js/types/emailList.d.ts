@@ -1,9 +1,9 @@
-import { SubscriberProps } from "./subscriber";
+import { SubscriberProps } from './subscriber';
 
 export type EmailListProps = {
-  user_id: number
-  id: number
-  title: string
-  subscribers: SubscriberProps[]
-  deleted_at: string | null
-}
+  user_id: number;
+  id: number;
+  title: string;
+  subscribers: SubscriberProps[];
+  deleted_at: string | null;
+};

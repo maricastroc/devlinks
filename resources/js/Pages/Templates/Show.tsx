@@ -1,16 +1,15 @@
-/* eslint-disable react-hooks/exhaustive-deps */
-import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout'
-import { Head, router } from '@inertiajs/react'
-import { TemplateProps } from '@/types/template'
-import SecondaryButton from '@/Components/SecondaryButton'
-import { cleanHTML } from '@/utils/cleanHtml'
+import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
+import { Head, router } from '@inertiajs/react';
+import { TemplateProps } from '@/types/template';
+import SecondaryButton from '@/Components/SecondaryButton';
+import { cleanHTML } from '@/utils/cleanHtml';
 
 type Props = {
-  template: TemplateProps
-}
+  template: TemplateProps;
+};
 
 export default function Index({ template }: Props) {
-  console.log(template.body)
+  console.log(template.body);
   return (
     <AuthenticatedLayout
       header={
@@ -51,5 +50,5 @@ export default function Index({ template }: Props) {
         }
       `}</style>
     </AuthenticatedLayout>
-  )
+  );
 }

@@ -1,10 +1,10 @@
-import * as Dialog from '@radix-ui/react-dialog'
-import { cleanHTML } from '@/utils/cleanHtml'
+import * as Dialog from '@radix-ui/react-dialog';
+import { cleanHTML } from '@/utils/cleanHtml';
 
 type Props = {
-  closeModal: () => void
-  data: string
-}
+  closeModal: () => void;
+  data: string;
+};
 
 export function PreviewModal({ closeModal, data }: Props) {
   return (
@@ -37,5 +37,5 @@ export function PreviewModal({ closeModal, data }: Props) {
         }
       `}</style>
     </Dialog.Portal>
-  )
+  );
 }

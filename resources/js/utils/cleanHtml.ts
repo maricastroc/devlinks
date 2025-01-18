@@ -1,8 +1,11 @@
 export function cleanHTML(html: string): string {
   // Preserve classes de fontes (como ql-font-monospace)
-  html = html.replace(/<span class="ql-font-(monospace|sans-serif|serif)">/g, (match) => {
-    return match; // Retorna a tag com a classe sem alteração
-  });
+  html = html.replace(
+    /<span class="ql-font-(monospace|sans-serif|serif)">/g,
+    (match) => {
+      return match; // Retorna a tag com a classe sem alteração
+    }
+  );
 
   html = html.replace(/<p>(.*?)<\/p>/g, (match, content) => {
     const trimmedContent = content.trim();

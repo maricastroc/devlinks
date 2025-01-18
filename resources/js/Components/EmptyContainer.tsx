@@ -1,12 +1,12 @@
-import TertiaryButton from './TertiaryButton'
-import { router } from '@inertiajs/react'
+import TertiaryButton from './TertiaryButton';
+import { router } from '@inertiajs/react';
 
 type Props = {
-  imagePath: string
-  title: string
-  content: string
-  url: string
-}
+  imagePath: string;
+  title: string;
+  content: string;
+  url: string;
+};
 
 export function EmptyContainer({ imagePath, title, content, url }: Props) {
   return (
@@ -17,5 +17,5 @@ export function EmptyContainer({ imagePath, title, content, url }: Props) {
         {title}
       </TertiaryButton>
     </div>
-  )
+  );
 }

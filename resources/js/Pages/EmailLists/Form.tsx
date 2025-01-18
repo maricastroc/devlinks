@@ -1,70 +1,72 @@
-import InputError from '@/Components/InputError'
-import InputLabel from '@/Components/InputLabel'
-import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout'
-import SecondaryButton from '@/Components/SecondaryButton'
-import TertiaryButton from '@/Components/TertiaryButton'
-import { Link, useForm } from '@inertiajs/react'
-import { FormEventHandler, useState } from 'react'
-import { notyf } from '@/libs/notyf'
-import axios, { AxiosError } from 'axios'
-import { EmailListProps } from '@/types/emailList'
-import { Inertia } from '@inertiajs/inertia'
-import Form from '@/Layouts/FormLayout'
-import { handleReqError } from '@/utils/handleReqError'
-import { FormField } from '@/Components/FormField'
+import InputError from '@/Components/InputError';
+import InputLabel from '@/Components/InputLabel';
+import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
+import SecondaryButton from '@/Components/SecondaryButton';
+import TertiaryButton from '@/Components/TertiaryButton';
+import { Link, useForm } from '@inertiajs/react';
+import { FormEventHandler, useState } from 'react';
+import { notyf } from '@/libs/notyf';
+import axios, { AxiosError } from 'axios';
+import { EmailListProps } from '@/types/emailList';
+import { Inertia } from '@inertiajs/inertia';
+import Form from '@/Layouts/FormLayout';
+import { handleReqError } from '@/utils/handleReqError';
+import { FormField } from '@/Components/FormField';
 
 type FormErrors = {
-  title?: string
-  listFile?: string
-}
+  title?: string;
+  listFile?: string;
+};
 
 type Props = {
-  emailList?: EmailListProps
-}
+  emailList?: EmailListProps;
+};
 
 export default function ListForm({ emailList }: Props) {
-  const [errors, setErrors] = useState<FormErrors>({})
-  const [processing, setProcessing] = useState(false)
+  const [errors, setErrors] = useState<FormErrors>({});
+  const [processing, setProcessing] = useState(false);
 
   const { data, setData } = useForm({
     title: emailList?.title || '',
-    listFile: null as File | null,
-  })
+    listFile: null as File | null
+  });
 
   const submit: FormEventHandler = async (e) => {
-    e.preventDefault()
+    e.preventDefault();
 
-    setProcessing(true)
-    setErrors({})
+    setProcessing(true);
+    setErrors({});
 
-    const formData = new FormData()
-    
-    formData.append('title', data.title)
-    
+    const formData = new FormData();
+
+    formData.append('title', data.title);
+
     if (data.listFile) {
-      formData.append('listFile', data.listFile)
+      formData.append('listFile', data.listFile);
     }
 
     try {
-      const url = emailList ? route('lists.update', emailList?.id) : route('lists.store')
+      const url = emailList
+        ? route('lists.update', emailList?.id)
+        : route('lists.store');
 
-      const method = emailList ? 'PUT' : 'POST'
-      formData.append('_method', method)
+      const method = emailList ? 'PUT' : 'POST';
+      formData.append('_method', method);
 
       const response = await axios.post(url, formData, {
         headers: {
-          'Content-Type': 'multipart/form-data',
-        },
-      })
+          'Content-Type': 'multipart/form-data'
+        }
+      });
 
       if (response?.data.message) {
         await new Promise((resolve) => {
-          notyf?.success(response?.data?.message)
-          setTimeout(resolve, 2000)
-        })
+          notyf?.success(response?.data?.message);
+          setTimeout(resolve, 2000);
+        });
       }
 
-      Inertia.visit(route('lists.index'))
+      Inertia.visit(route('lists.index'));
     } catch (error: AxiosError | unknown) {
       if (axios.isAxiosError(error) && error.response?.data?.errors) {
         setErrors(error.response.data.errors);
@@ -72,9 +74,9 @@ export default function ListForm({ emailList }: Props) {
         handleReqError(error);
       }
     } finally {
-      setProcessing(false)
+      setProcessing(false);
     }
-  }
+  };
 
   return (
     <AuthenticatedLayout
@@ -104,7 +106,7 @@ export default function ListForm({ emailList }: Props) {
 
         <Form onSubmit={submit}>
           <FormField
-            label='Title'
+            label="Title"
             id="title"
             placeholder="Choose a title for your list"
             value={data.title || ''}
@@ -126,7 +128,7 @@ export default function ListForm({ emailList }: Props) {
                 accept=".csv"
                 onChange={(e) => {
                   if (e.target.files && e.target.files.length > 0) {
-                    setData('listFile', e.target.files[0])
+                    setData('listFile', e.target.files[0]);
                   }
                 }}
               />
@@ -148,5 +150,5 @@ export default function ListForm({ emailList }: Props) {
         </Form>
       </div>
     </AuthenticatedLayout>
-  )
+  );
 }

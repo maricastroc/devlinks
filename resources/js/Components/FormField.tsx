@@ -1,6 +1,6 @@
-import InputError from "./InputError"
-import InputLabel from "./InputLabel"
-import TextInput from "./TextInput"
+import InputError from './InputError';
+import InputLabel from './InputLabel';
+import TextInput from './TextInput';
 
 export function FormField({
   label,
@@ -10,16 +10,18 @@ export function FormField({
   onChange,
   error,
   disabled = false,
-  autoComplete = '',
+  autoComplete = ''
 }: {
-  label: string
-  id: string
-  placeholder: string
-  value: string
-  onChange: (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => void
-  error?: string
-  disabled?: boolean
-  autoComplete?: string
+  label: string;
+  id: string;
+  placeholder: string;
+  value: string;
+  onChange: (
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+  ) => void;
+  error?: string;
+  disabled?: boolean;
+  autoComplete?: string;
 }) {
   return (
     <div>
@@ -36,5 +38,5 @@ export function FormField({
       />
       {error && <InputError className="mt-2" message={error} />}
     </div>
-  )
+  );
 }

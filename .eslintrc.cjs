@@ -1,14 +1,15 @@
-// eslint-disable-next-line no-undef
+// .eslintrc.cjs
 module.exports = {
   parser: '@typescript-eslint/parser',
-  plugins: ['@typescript-eslint'],
-  extends: ['eslint:recommended', 'plugin:@typescript-eslint/recommended'],
-  parserOptions: {
-    ecmaVersion: 2021,
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.cypress.json'] // Caminho para o novo arquivo tsconfig.cypress.json
-  },
+  plugins: ['@typescript-eslint', 'prettier'],
+  extends: [
+    'eslint:recommended',
+    'plugin:@typescript-eslint/recommended',
+    'plugin:prettier/recommended',  // Integra o Prettier com ESLint
+  ],
   rules: {
-    // Suas regras personalizadas aqui
-  }
+    'indent': ['error', 2],
+    '@typescript-eslint/indent': ['error', 2],
+    'prettier/prettier': ['error', { 'tabWidth': 2, 'useTabs': false }] // Regras do Prettier
+  },
 };

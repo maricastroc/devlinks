@@ -1,23 +1,23 @@
-import * as Dialog from '@radix-ui/react-dialog'
-import { Link } from '@inertiajs/react'
-import { Info, PencilSimple, TrashSimple } from 'phosphor-react'
-import { useState } from 'react'
-import { DeleteModal } from '@/Components/DeleteModal'
-import { CampaignsResults } from '../Index'
+import * as Dialog from '@radix-ui/react-dialog';
+import { Link } from '@inertiajs/react';
+import { Info, PencilSimple, TrashSimple } from 'phosphor-react';
+import { useState } from 'react';
+import { DeleteModal } from '@/Components/DeleteModal';
+import { CampaignsResults } from '../Index';
 
 type Props = {
-  campaigns: CampaignsResults
-}
+  campaigns: CampaignsResults;
+};
 
 type CampaignRowProps = {
-  campaign: CampaignsResults['data'][0]
-}
+  campaign: CampaignsResults['data'][0];
+};
 
 const CampaignRow = ({ campaign }: CampaignRowProps) => {
-  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false)
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
 
   const textStyle =
-    campaign.deleted_at === null ? 'text-gray-300' : 'text-red-400'
+    campaign.deleted_at === null ? 'text-gray-300' : 'text-red-400';
 
   return (
     <tr key={campaign.id} className="border-b-zinc-800">
@@ -65,8 +65,8 @@ const CampaignRow = ({ campaign }: CampaignRowProps) => {
         )}
       </td>
     </tr>
-  )
-}
+  );
+};
 
 export function Table({ campaigns }: Props) {
   return (
@@ -90,5 +90,5 @@ export function Table({ campaigns }: Props) {
         </tbody>
       </table>
     </div>
-  )
+  );
 }

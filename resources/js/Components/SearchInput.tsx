@@ -1,11 +1,11 @@
-import { X } from 'phosphor-react'
+import { X } from 'phosphor-react';
 import {
   forwardRef,
   InputHTMLAttributes,
   useEffect,
   useImperativeHandle,
-  useRef,
-} from 'react'
+  useRef
+} from 'react';
 
 export default forwardRef(function SearchInput(
   {
@@ -16,23 +16,23 @@ export default forwardRef(function SearchInput(
     isFocused = false,
     ...props
   }: InputHTMLAttributes<HTMLInputElement> & {
-    isFocused?: boolean
-    onReset?: () => void
-    search: string
+    isFocused?: boolean;
+    onReset?: () => void;
+    search: string;
   },
-  ref,
+  ref
 ) {
-  const localRef = useRef<HTMLInputElement>(null)
+  const localRef = useRef<HTMLInputElement>(null);
 
   useImperativeHandle(ref, () => ({
-    focus: () => localRef.current?.focus(),
-  }))
+    focus: () => localRef.current?.focus()
+  }));
 
   useEffect(() => {
     if (isFocused) {
-      localRef.current?.focus()
+      localRef.current?.focus();
     }
-  }, [isFocused])
+  }, [isFocused]);
 
   return (
     <label className="flex items-center justify-between h-10 text-sm text-gray-300 border-transparent rounded-md shadow-sm input disabled::cursor-not-allowed bg-background-tertiary focus:border-gray-600 focus:ring-gray-600">
@@ -54,5 +54,5 @@ export default forwardRef(function SearchInput(
         </button>
       )}
     </label>
-  )
-})
+  );
+});

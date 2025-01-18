@@ -1,42 +1,41 @@
-/* eslint-disable react-hooks/exhaustive-deps */
-import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout'
-import { Head, router, Link } from '@inertiajs/react'
-import { useEffect, useState } from 'react'
-import { EmailListProps } from '@/types/emailList'
-import { SubscriberProps } from '@/types/subscriber'
-import SearchInput from '@/Components/SearchInput'
-import { PaginationSection } from './Subscribers/Partials/PaginationSection'
-import { Table } from './Subscribers/Partials/Table'
-import Checkbox from '@/Components/Checkbox'
-import TertiaryButton from '@/Components/TertiaryButton'
+import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
+import { Head, router, Link } from '@inertiajs/react';
+import { useEffect, useState } from 'react';
+import { EmailListProps } from '@/types/emailList';
+import { SubscriberProps } from '@/types/subscriber';
+import SearchInput from '@/Components/SearchInput';
+import { PaginationSection } from './Subscribers/Partials/PaginationSection';
+import { Table } from './Subscribers/Partials/Table';
+import Checkbox from '@/Components/Checkbox';
+import TertiaryButton from '@/Components/TertiaryButton';
 
 type LinksProps = {
-  url: string
-  label: string
-  isActive: boolean
-}
+  url: string;
+  label: string;
+  isActive: boolean;
+};
 
 export type SubscribersResult = {
-  data: SubscriberProps[]
-  total: number
-  links: LinksProps
-  current_page: number
-  per_page: number
-  next_page_url: string
-  prev_page_url: string
-  to: number
-  from: number
-}
+  data: SubscriberProps[];
+  total: number;
+  links: LinksProps;
+  current_page: number;
+  per_page: number;
+  next_page_url: string;
+  prev_page_url: string;
+  to: number;
+  from: number;
+};
 
 type Props = {
-  emailList: EmailListProps
-  subscribers: SubscribersResult
-}
+  emailList: EmailListProps;
+  subscribers: SubscribersResult;
+};
 
 export default function EmailList({ emailList, subscribers }: Props) {
-  const [search, setSearch] = useState('')
+  const [search, setSearch] = useState('');
 
-  const [withTrashed, setWithTrashed] = useState(false)
+  const [withTrashed, setWithTrashed] = useState(false);
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -47,27 +46,27 @@ export default function EmailList({ emailList, subscribers }: Props) {
           {
             preserveState: true,
             preserveScroll: true,
-            replace: true,
-          },
-        )
+            replace: true
+          }
+        );
       } else {
         router.get(
           route('lists.show', {
             list: emailList.id,
-            search,
+            search
           }),
           {},
           {
             preserveState: true,
             preserveScroll: true,
-            replace: true,
-          },
-        )
+            replace: true
+          }
+        );
       }
-    }, 500)
+    }, 500);
 
-    return () => clearTimeout(timer)
-  }, [search])
+    return () => clearTimeout(timer);
+  }, [search]);
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -75,19 +74,19 @@ export default function EmailList({ emailList, subscribers }: Props) {
         route('lists.show', {
           list: emailList.id,
           search,
-          withTrashed: withTrashed ? 1 : 0,
+          withTrashed: withTrashed ? 1 : 0
         }),
         {},
         {
           preserveState: true,
           preserveScroll: true,
-          replace: true,
-        },
-      )
-    }, 500)
+          replace: true
+        }
+      );
+    }, 500);
 
-    return () => clearTimeout(timer)
-  }, [search, withTrashed])
+    return () => clearTimeout(timer);
+  }, [search, withTrashed]);
 
   return (
     <AuthenticatedLayout
@@ -119,8 +118,8 @@ export default function EmailList({ emailList, subscribers }: Props) {
               onClick={() =>
                 router.get(
                   route('subscribers.create', {
-                    list: emailList.id,
-                  }),
+                    list: emailList.id
+                  })
                 )
               }
             >
@@ -134,7 +133,7 @@ export default function EmailList({ emailList, subscribers }: Props) {
               value={search}
               search={search}
               onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                setSearch(e.target.value)
+                setSearch(e.target.value);
               }}
               onReset={() => setSearch('')}
             />
@@ -164,5 +163,5 @@ export default function EmailList({ emailList, subscribers }: Props) {
         </section>
       </div>
     </AuthenticatedLayout>
-  )
+  );
 }

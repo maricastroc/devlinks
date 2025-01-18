@@ -1,10 +1,10 @@
-import { FormEventHandler, ReactNode } from 'react'
+import { FormEventHandler, ReactNode } from 'react';
 
 type Props = {
-  children: ReactNode
-  onSubmit: FormEventHandler
-  isBigger?: boolean
-}
+  children: ReactNode;
+  onSubmit: FormEventHandler;
+  isBigger?: boolean;
+};
 
 export default function Form({ children, onSubmit, isBigger = false }: Props) {
   return (
@@ -17,5 +17,5 @@ export default function Form({ children, onSubmit, isBigger = false }: Props) {
         {children}
       </form>
     </section>
-  )
+  );
 }

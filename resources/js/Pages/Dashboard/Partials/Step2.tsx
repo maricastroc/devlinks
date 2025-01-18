@@ -4,7 +4,7 @@ import { DataProps, FormErrors } from '../Form';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import { TemplateProps } from '@/types/template';
-import * as Dialog from '@radix-ui/react-dialog'
+import * as Dialog from '@radix-ui/react-dialog';
 import { PreviewModal } from '@/Components/PreviewModal';
 import { Eye } from 'phosphor-react';
 import InputLabel from '@/Components/InputLabel';
@@ -22,10 +22,10 @@ export default function Step2({
   setData,
   errors,
   processing,
-  selectedTemplate,
+  selectedTemplate
 }: CampaignStep1Props) {
-  const [isPreviewModalOpen, setIsPreviewModalOpen] = useState(false)
-  
+  const [isPreviewModalOpen, setIsPreviewModalOpen] = useState(false);
+
   useEffect(() => {
     if (selectedTemplate?.body) {
       setData('body', selectedTemplate.body);
@@ -35,23 +35,23 @@ export default function Step2({
   return (
     <div>
       <div spellCheck={false}>
-      <div className="flex items-center justify-between">
-              <InputLabel htmlFor="body" value="Body (HTML)" />
-              <Dialog.Root open={isPreviewModalOpen}>
-                <Dialog.Trigger asChild>
-                  <button
-                    onClick={() => setIsPreviewModalOpen(true)}
-                    className="flex items-center gap-2 text-sm text-gray-200 transition-all duration-150 hover:text-white"
-                  >
-                    <Eye size={15} /> Preview
-                  </button>
-                </Dialog.Trigger>
-                <PreviewModal
-                  closeModal={() => setIsPreviewModalOpen(false)}
-                  data={data.body || ''}
-                />
-              </Dialog.Root>
-            </div>
+        <div className="flex items-center justify-between">
+          <InputLabel htmlFor="body" value="Body (HTML)" />
+          <Dialog.Root open={isPreviewModalOpen}>
+            <Dialog.Trigger asChild>
+              <button
+                onClick={() => setIsPreviewModalOpen(true)}
+                className="flex items-center gap-2 text-sm text-gray-200 transition-all duration-150 hover:text-white"
+              >
+                <Eye size={15} /> Preview
+              </button>
+            </Dialog.Trigger>
+            <PreviewModal
+              closeModal={() => setIsPreviewModalOpen(false)}
+              data={data.body || ''}
+            />
+          </Dialog.Root>
+        </div>
         <ReactQuill
           value={data.body || ''}
           onChange={(value) => setData('body', value)}
@@ -68,8 +68,8 @@ export default function Step2({
               [{ color: [] }, { background: [] }],
               ['blockquote', 'image', 'code-block'],
               ['clean'],
-              [{ 'separator': 'divider' }] 
-            ],
+              [{ separator: 'divider' }]
+            ]
           }}
           className="mt-2 text-gray-300 border-transparent rounded-md shadow-sm custom-quill disabled:cursor-not-allowed disabled:text-gray-500 bg-background-tertiary focus:border-gray-600 focus:ring-gray-600"
         />

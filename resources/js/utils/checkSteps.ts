@@ -1,4 +1,4 @@
-import { DataProps, FormErrors } from "@/Pages/Dashboard/Form";
+import { DataProps, FormErrors } from '@/Pages/Dashboard/Form';
 
 function isValidStep1(data: DataProps, errors: FormErrors): boolean {
   return (
@@ -10,21 +10,23 @@ function isValidStep1(data: DataProps, errors: FormErrors): boolean {
     !errors.subject &&
     !errors.track_click &&
     !errors.track_open &&
-    !errors.email_list_id 
+    !errors.email_list_id
   );
 }
 
 function isValidStep2(data: DataProps, errors: FormErrors): boolean {
-  return isValidStep1(data, errors)
+  return isValidStep1(data, errors);
 }
 
 function isValidStep3(data: DataProps, errors: FormErrors): boolean {
-  return (
-    isValidStep1(data, errors) && data?.body !== undefined && !errors.body
-  );
+  return isValidStep1(data, errors) && data?.body !== undefined && !errors.body;
 }
 
-export function checkSteps(step: number, data: DataProps, errors: FormErrors): boolean {
+export function checkSteps(
+  step: number,
+  data: DataProps,
+  errors: FormErrors
+): boolean {
   if (step === 1) {
     return isValidStep1(data, errors);
   }

@@ -1,12 +1,12 @@
-import { EmailListProps } from '@/types/emailList'
-import { TemplateProps } from '@/types/template'
+import { EmailListProps } from '@/types/emailList';
+import { TemplateProps } from '@/types/template';
 import {
   forwardRef,
   InputHTMLAttributes,
   useEffect,
   useImperativeHandle,
-  useRef,
-} from 'react'
+  useRef
+} from 'react';
 
 export default forwardRef(function SelectInput(
   {
@@ -16,20 +16,24 @@ export default forwardRef(function SelectInput(
     emailLists,
     templates,
     ...props
-  }: InputHTMLAttributes<HTMLSelectElement> & { isFocused?: boolean, emailLists?: EmailListProps[], templates?: TemplateProps[] },
-  ref,
+  }: InputHTMLAttributes<HTMLSelectElement> & {
+    isFocused?: boolean;
+    emailLists?: EmailListProps[];
+    templates?: TemplateProps[];
+  },
+  ref
 ) {
-  const localRef = useRef<HTMLSelectElement>(null)
+  const localRef = useRef<HTMLSelectElement>(null);
 
   useImperativeHandle(ref, () => ({
-    focus: () => localRef.current?.focus(),
-  }))
+    focus: () => localRef.current?.focus()
+  }));
 
   useEffect(() => {
     if (isFocused) {
-      localRef.current?.focus()
+      localRef.current?.focus();
     }
-  }, [isFocused])
+  }, [isFocused]);
 
   return (
     <select
@@ -40,24 +44,22 @@ export default forwardRef(function SelectInput(
       }
       ref={localRef}
     >
-        <option disabled value="">
-          {emailLists ? 'Select a List' : 'Select a Template'}
-        </option>
-        {emailLists && (
-          emailLists.map((item) => (
-            <option key={item.id} value={item.id}>
-              {item?.title}
-            </option>
-          ))
-        )}
+      <option disabled value="">
+        {emailLists ? 'Select a List' : 'Select a Template'}
+      </option>
+      {emailLists &&
+        emailLists.map((item) => (
+          <option key={item.id} value={item.id}>
+            {item?.title}
+          </option>
+        ))}
 
-        {templates && (
-          templates.map((item) => (
-            <option key={item.id} value={item.id}>
-              {item?.name}
-            </option>
-          ))
-        )}
+      {templates &&
+        templates.map((item) => (
+          <option key={item.id} value={item.id}>
+            {item?.name}
+          </option>
+        ))}
     </select>
-  )
-})
+  );
+});

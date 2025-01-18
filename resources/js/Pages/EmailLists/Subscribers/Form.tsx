@@ -1,80 +1,83 @@
-import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout'
-import SecondaryButton from '@/Components/SecondaryButton'
-import TertiaryButton from '@/Components/TertiaryButton'
-import { Link, router, useForm } from '@inertiajs/react'
-import { FormEventHandler, useState } from 'react'
-import { notyf } from '@/libs/notyf'
-import axios, { AxiosError } from 'axios'
-import { Inertia } from '@inertiajs/inertia'
-import { SubscriberProps } from '@/types/subscriber'
-import Form from '@/Layouts/FormLayout'
-import { EmailListProps } from '@/types/emailList'
-import { handleReqError } from '@/utils/handleReqError'
-import { FormField } from '@/Components/FormField'
+import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
+import SecondaryButton from '@/Components/SecondaryButton';
+import TertiaryButton from '@/Components/TertiaryButton';
+import { Link, router, useForm } from '@inertiajs/react';
+import { FormEventHandler, useState } from 'react';
+import { notyf } from '@/libs/notyf';
+import axios, { AxiosError } from 'axios';
+import { Inertia } from '@inertiajs/inertia';
+import { SubscriberProps } from '@/types/subscriber';
+import Form from '@/Layouts/FormLayout';
+import { EmailListProps } from '@/types/emailList';
+import { handleReqError } from '@/utils/handleReqError';
+import { FormField } from '@/Components/FormField';
 
 type Props = {
-  emailList?: EmailListProps
-  subscriber?: SubscriberProps
-  isEdit?: boolean
-}
+  emailList?: EmailListProps;
+  subscriber?: SubscriberProps;
+  isEdit?: boolean;
+};
 
 type FormErrors = {
-  name?: string
-  email?: string
-  email_list_id?: string
-}
+  name?: string;
+  email?: string;
+  email_list_id?: string;
+};
 
 export default function Edit({ subscriber, emailList, isEdit }: Props) {
-  const [errors, setErrors] = useState<FormErrors>({})
+  const [errors, setErrors] = useState<FormErrors>({});
 
-  const [processing, setProcessing] = useState(false)
+  const [processing, setProcessing] = useState(false);
 
   const { data, setData } = useForm({
     name: subscriber?.name,
-    email: subscriber?.email,
-  })
+    email: subscriber?.email
+  });
 
   const submit: FormEventHandler = async (e) => {
-    e.preventDefault()
+    e.preventDefault();
 
-    setProcessing(true)
+    setProcessing(true);
 
-    setErrors({})
+    setErrors({});
 
-    const formData = new FormData()
+    const formData = new FormData();
 
-    formData.append('name', data?.name || '')
-    formData.append('email', data?.email || '')
+    formData.append('name', data?.name || '');
+    formData.append('email', data?.email || '');
     formData.append(
       'email_list_id',
-      subscriber?.email_list_id.toString() || emailList?.id?.toString() || '',
-    )
+      subscriber?.email_list_id.toString() || emailList?.id?.toString() || ''
+    );
 
     if (isEdit) {
-      formData.append('_method', 'PUT')
+      formData.append('_method', 'PUT');
     }
 
-    const routeName = isEdit ? 'subscribers.update' : 'subscribers.store'
-    
+    const routeName = isEdit ? 'subscribers.update' : 'subscribers.store';
+
     const routeParams = isEdit
       ? { list: subscriber?.email_list_id, subscriber: subscriber?.id }
-      : { list: emailList?.id }
+      : { list: emailList?.id };
 
     try {
-      const response = await axios.post(route(routeName, routeParams), formData)
+      const response = await axios.post(
+        route(routeName, routeParams),
+        formData
+      );
 
       if (response?.data.message) {
         await new Promise((resolve) => {
-          notyf?.success(response?.data?.message)
-          setTimeout(resolve, 2000)
-        })
+          notyf?.success(response?.data?.message);
+          setTimeout(resolve, 2000);
+        });
       }
 
       Inertia.visit(
         route('lists.show', {
-          list: subscriber?.email_list_id || emailList?.id,
-        }),
-      )
+          list: subscriber?.email_list_id || emailList?.id
+        })
+      );
     } catch (error: AxiosError | unknown) {
       if (axios.isAxiosError(error) && error.response?.data?.errors) {
         setErrors(error.response.data.errors);
@@ -82,9 +85,9 @@ export default function Edit({ subscriber, emailList, isEdit }: Props) {
         handleReqError(error);
       }
     } finally {
-      setProcessing(false)
+      setProcessing(false);
     }
-  }
+  };
 
   return (
     <AuthenticatedLayout
@@ -102,7 +105,7 @@ export default function Edit({ subscriber, emailList, isEdit }: Props) {
           {`Lists > `}
           <Link
             href={route('lists.show', {
-              list: subscriber?.email_list_id || emailList?.id,
+              list: subscriber?.email_list_id || emailList?.id
             })}
             className="text-gray-400"
           >
@@ -115,8 +118,8 @@ export default function Edit({ subscriber, emailList, isEdit }: Props) {
                 ? { list: emailList?.id }
                 : {
                   list: subscriber?.email_list_id,
-                  subscriber: subscriber?.id,
-                },
+                  subscriber: subscriber?.id
+                }
             )}
             className="text-gray-200"
           >
@@ -125,7 +128,7 @@ export default function Edit({ subscriber, emailList, isEdit }: Props) {
         </Link>
         <Form onSubmit={submit}>
           <FormField
-            label='Name'
+            label="Name"
             id="name"
             placeholder="Subscriber's name"
             value={data.name || ''}
@@ -136,7 +139,7 @@ export default function Edit({ subscriber, emailList, isEdit }: Props) {
           />
 
           <FormField
-            label='Email'
+            label="Email"
             id="email"
             placeholder="Subscriber's email"
             value={data.email || ''}
@@ -151,8 +154,8 @@ export default function Edit({ subscriber, emailList, isEdit }: Props) {
               onClick={() =>
                 router.get(
                   route('lists.show', {
-                    list: subscriber?.email_list_id || emailList?.id,
-                  }),
+                    list: subscriber?.email_list_id || emailList?.id
+                  })
                 )
               }
               disabled={processing}
@@ -164,5 +167,5 @@ export default function Edit({ subscriber, emailList, isEdit }: Props) {
         </Form>
       </div>
     </AuthenticatedLayout>
-  )
+  );
 }

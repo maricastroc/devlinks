@@ -1,23 +1,23 @@
-import * as Dialog from '@radix-ui/react-dialog'
-import { Link } from '@inertiajs/react'
-import { Info, PencilSimple, TrashSimple } from 'phosphor-react'
-import { TemplatesResults } from '../Index'
-import { useState } from 'react'
-import { DeleteModal } from '@/Components/DeleteModal'
+import * as Dialog from '@radix-ui/react-dialog';
+import { Link } from '@inertiajs/react';
+import { Info, PencilSimple, TrashSimple } from 'phosphor-react';
+import { TemplatesResults } from '../Index';
+import { useState } from 'react';
+import { DeleteModal } from '@/Components/DeleteModal';
 
 type Props = {
-  templates: TemplatesResults
-}
+  templates: TemplatesResults;
+};
 
 type TemplateRowProps = {
-  template: TemplatesResults['data'][0]
-}
+  template: TemplatesResults['data'][0];
+};
 
 const TemplateRow = ({ template }: TemplateRowProps) => {
-  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false)
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
 
   const textStyle =
-    template.deleted_at === null ? 'text-gray-300' : 'text-red-400'
+    template.deleted_at === null ? 'text-gray-300' : 'text-red-400';
 
   return (
     <tr key={template.id} className="border-b-zinc-800">
@@ -59,8 +59,8 @@ const TemplateRow = ({ template }: TemplateRowProps) => {
         )}
       </td>
     </tr>
-  )
-}
+  );
+};
 
 export function Table({ templates }: Props) {
   return (
@@ -82,5 +82,5 @@ export function Table({ templates }: Props) {
         </tbody>
       </table>
     </div>
-  )
+  );
 }

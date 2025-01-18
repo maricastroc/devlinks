@@ -1,22 +1,22 @@
-import { FormField } from '@/Components/FormField'
-import { EmailListProps } from '@/types/emailList'
-import { DataProps, FormErrors } from '../Form'
-import InputError from '@/Components/InputError'
-import InputLabel from '@/Components/InputLabel'
-import SelectInput from '@/Components/SelectInput'
-import Checkbox from '@/Components/Checkbox'
-import { TemplateProps } from '@/types/template'
+import { FormField } from '@/Components/FormField';
+import { EmailListProps } from '@/types/emailList';
+import { DataProps, FormErrors } from '../Form';
+import InputError from '@/Components/InputError';
+import InputLabel from '@/Components/InputLabel';
+import SelectInput from '@/Components/SelectInput';
+import Checkbox from '@/Components/Checkbox';
+import { TemplateProps } from '@/types/template';
 
 type CampaignStep1Props = {
-  data: DataProps
-  setData: (key: string, value: any) => void
-  emailLists: EmailListProps[]
-  errors: FormErrors
-  processing: boolean
-  selectList: (list: EmailListProps | null) => void
-  selectTemplate: (template: TemplateProps | null) => void
-  templates: TemplateProps[]
-}
+  data: DataProps;
+  setData: (key: string, value: any) => void;
+  emailLists: EmailListProps[];
+  errors: FormErrors;
+  processing: boolean;
+  selectList: (list: EmailListProps | null) => void;
+  selectTemplate: (template: TemplateProps | null) => void;
+  templates: TemplateProps[];
+};
 
 export default function Step1({
   data,
@@ -26,7 +26,7 @@ export default function Step1({
   errors,
   processing,
   selectList,
-  selectTemplate,
+  selectTemplate
 }: CampaignStep1Props) {
   return (
     <>
@@ -58,13 +58,13 @@ export default function Step1({
           emailLists={emailLists}
           value={data.email_list_id || ''}
           onChange={(e) => {
-            setData('email_list_id', e.target.value)
-            
-            const selectedList = emailLists.find((list) => {
-              return list.id === Number(e.target.value)
-            })
+            setData('email_list_id', e.target.value);
 
-            selectList(selectedList || null)
+            const selectedList = emailLists.find((list) => {
+              return list.id === Number(e.target.value);
+            });
+
+            selectList(selectedList || null);
           }}
         />
         <InputError className="mt-2" message={errors.email_list_id} />
@@ -78,13 +78,13 @@ export default function Step1({
           templates={templates}
           value={data.template_id || ''}
           onChange={(e) => {
-            setData('template_id', e.target.value)
+            setData('template_id', e.target.value);
 
             const selectedTemplate = templates.find((template) => {
-              return template.id === Number(e.target.value)
-            })
+              return template.id === Number(e.target.value);
+            });
 
-            selectTemplate(selectedTemplate || null)
+            selectTemplate(selectedTemplate || null);
           }}
         />
         <InputError className="mt-2" message={errors.template_id} />
@@ -115,5 +115,5 @@ export default function Step1({
         </label>
       </div>
     </>
-  )
+  );
 }

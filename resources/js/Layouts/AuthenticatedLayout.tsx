@@ -1,24 +1,24 @@
-import ApplicationLogo from '@/Components/ApplicationLogo'
-import Dropdown from '@/Components/Dropdown'
-import NavLink from '@/Components/NavLink'
-import ResponsiveNavLink from '@/Components/ResponsiveNavLink'
-import { Link, usePage } from '@inertiajs/react'
-import { PropsWithChildren, ReactNode, useState } from 'react'
+import ApplicationLogo from '@/Components/ApplicationLogo';
+import Dropdown from '@/Components/Dropdown';
+import NavLink from '@/Components/NavLink';
+import ResponsiveNavLink from '@/Components/ResponsiveNavLink';
+import { Link, usePage } from '@inertiajs/react';
+import { PropsWithChildren, ReactNode, useState } from 'react';
 
 export default function Authenticated({
-  children,
+  children
 }: PropsWithChildren<{ header?: ReactNode }>) {
-  const user = usePage().props.auth.user
+  const user = usePage().props.auth.user;
 
   const [showingNavigationDropdown, setShowingNavigationDropdown] =
-    useState(false)
+    useState(false);
 
   function isActive(href: string): boolean {
-    const url = usePage().url
+    const url = usePage().url;
 
     return (
       url === href || url.startsWith(`${href}/`) || url.startsWith(`${href}?`)
-    )
+    );
   }
 
   return (
@@ -123,17 +123,9 @@ export default function Authenticated({
           } md:hidden bg-background-secondary border-t border-gray-600`}
         >
           <div className="pt-2 pb-3 space-y-1">
-            <ResponsiveNavLink href="/">
-              Campaings
-            </ResponsiveNavLink>
-            <ResponsiveNavLink href="/lists">
-              Lists
-            </ResponsiveNavLink>
-            <ResponsiveNavLink
-              href="/templates"
-            >
-              Templates
-            </ResponsiveNavLink>
+            <ResponsiveNavLink href="/">Campaings</ResponsiveNavLink>
+            <ResponsiveNavLink href="/lists">Lists</ResponsiveNavLink>
+            <ResponsiveNavLink href="/templates">Templates</ResponsiveNavLink>
           </div>
 
           <div className="pt-4 pb-1 border-t border-gray-600">
@@ -166,5 +158,5 @@ export default function Authenticated({
         {children}
       </main>
     </div>
-  )
+  );
 }

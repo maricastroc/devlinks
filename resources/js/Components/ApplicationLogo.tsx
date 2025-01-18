@@ -1,5 +1,5 @@
-import Logo from '/public/assets/logo.svg'
+import Logo from '/public/assets/logo.svg';
 
 export default function ApplicationLogo() {
-  return <img src={Logo} alt="" />
+  return <img src={Logo} alt="" />;
 }

@@ -1,70 +1,72 @@
-import { useState } from 'react'
-import { useForm, Link } from '@inertiajs/react'
-import ReactQuill from 'react-quill'
-import 'react-quill/dist/quill.snow.css'
-import { notyf } from '@/libs/notyf'
-import { Inertia } from '@inertiajs/inertia'
-import InputLabel from '@/Components/InputLabel'
-import InputError from '@/Components/InputError'
-import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout'
-import Form from '@/Layouts/FormLayout'
-import SecondaryButton from '@/Components/SecondaryButton'
-import TertiaryButton from '@/Components/TertiaryButton'
-import axios, { AxiosError } from 'axios'
-import { TemplateProps } from '@/types/template'
-import { Eye } from 'phosphor-react'
-import * as Dialog from '@radix-ui/react-dialog'
-import { PreviewModal } from '@/Components/PreviewModal'
-import { handleReqError } from '@/utils/handleReqError'
-import { FormField } from '@/Components/FormField'
+import { useState } from 'react';
+import { useForm, Link } from '@inertiajs/react';
+import ReactQuill from 'react-quill';
+import 'react-quill/dist/quill.snow.css';
+import { notyf } from '@/libs/notyf';
+import { Inertia } from '@inertiajs/inertia';
+import InputLabel from '@/Components/InputLabel';
+import InputError from '@/Components/InputError';
+import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
+import Form from '@/Layouts/FormLayout';
+import SecondaryButton from '@/Components/SecondaryButton';
+import TertiaryButton from '@/Components/TertiaryButton';
+import axios, { AxiosError } from 'axios';
+import { TemplateProps } from '@/types/template';
+import { Eye } from 'phosphor-react';
+import * as Dialog from '@radix-ui/react-dialog';
+import { PreviewModal } from '@/Components/PreviewModal';
+import { handleReqError } from '@/utils/handleReqError';
+import { FormField } from '@/Components/FormField';
 
 type FormErrors = {
-  name?: string
-  body?: string
-}
+  name?: string;
+  body?: string;
+};
 
 type Props = {
-  template?: TemplateProps
-  isEdit?: boolean
-}
+  template?: TemplateProps;
+  isEdit?: boolean;
+};
 
 export default function TemplateForm({ template, isEdit }: Props) {
-  const [errors, setErrors] = useState<FormErrors>({})
+  const [errors, setErrors] = useState<FormErrors>({});
 
-  const [isPreviewModalOpen, setIsPreviewModalOpen] = useState(false)
+  const [isPreviewModalOpen, setIsPreviewModalOpen] = useState(false);
 
-  const [processing, setProcessing] = useState(false)
+  const [processing, setProcessing] = useState(false);
 
   const { data, setData } = useForm({
     name: template?.name || '',
-    body: template?.body || '',
-  })
+    body: template?.body || ''
+  });
 
   const submit = async (e: React.FormEvent) => {
-    e.preventDefault()
-    setProcessing(true)
-    setErrors({})
+    e.preventDefault();
+    setProcessing(true);
+    setErrors({});
 
-    const formData = new FormData()
-    formData.append('name', data.name)
-    formData.append('body', data.body)
+    const formData = new FormData();
+    formData.append('name', data.name);
+    formData.append('body', data.body);
 
     if (isEdit) {
-      formData.append('_method', 'PUT')
+      formData.append('_method', 'PUT');
     }
 
     try {
-      const url = isEdit ? route('templates.update', template?.id) : route('templates.store');
-      const response = await axios.post(url, formData)
+      const url = isEdit
+        ? route('templates.update', template?.id)
+        : route('templates.store');
+      const response = await axios.post(url, formData);
 
       if (response?.data.message) {
         await new Promise((resolve) => {
-          notyf?.success(response?.data?.message)
-          setTimeout(resolve, 2000)
-        })
+          notyf?.success(response?.data?.message);
+          setTimeout(resolve, 2000);
+        });
       }
 
-      Inertia.visit(route('templates.index'))
+      Inertia.visit(route('templates.index'));
     } catch (error: AxiosError | unknown) {
       if (axios.isAxiosError(error) && error.response?.data?.errors) {
         setErrors(error.response.data.errors);
@@ -72,9 +74,9 @@ export default function TemplateForm({ template, isEdit }: Props) {
         handleReqError(error);
       }
     } finally {
-      setProcessing(false)
+      setProcessing(false);
     }
-  }
+  };
 
   return (
     <AuthenticatedLayout
@@ -92,7 +94,7 @@ export default function TemplateForm({ template, isEdit }: Props) {
           {`Templates > `}
           <Link
             href={route(isEdit ? 'templates.edit' : 'templates.create', {
-              template: template?.id,
+              template: template?.id
             })}
           >
             {isEdit ? 'Edit' : 'Create'}
@@ -100,7 +102,7 @@ export default function TemplateForm({ template, isEdit }: Props) {
         </Link>
         <Form isBigger onSubmit={submit}>
           <FormField
-            label='Name'
+            label="Name"
             id="name"
             placeholder="Choose a name for your template"
             value={data.name}
@@ -126,7 +128,7 @@ export default function TemplateForm({ template, isEdit }: Props) {
                   closeModal={() => setIsPreviewModalOpen(false)}
                   data={data.body}
                 />
-                      </Dialog.Root>
+              </Dialog.Root>
             </div>
             <div spellCheck={false}>
               <ReactQuill
@@ -144,8 +146,8 @@ export default function TemplateForm({ template, isEdit }: Props) {
                     ['link'],
                     [{ color: [] }, { background: [] }],
                     ['blockquote', 'image', 'code-block'],
-                    [{ 'separator': 'divider' }] 
-                  ],
+                    [{ separator: 'divider' }]
+                  ]
                 }}
                 className="mt-2 text-gray-300 border-transparent rounded-md shadow-sm custom-quill disabled:cursor-not-allowed disabled:text-gray-500 bg-background-tertiary focus:border-gray-600 focus:ring-gray-600"
               />
@@ -184,5 +186,5 @@ export default function TemplateForm({ template, isEdit }: Props) {
         }
       `}</style>
     </AuthenticatedLayout>
-  )
+  );
 }

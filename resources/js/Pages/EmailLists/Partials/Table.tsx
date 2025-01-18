@@ -1,22 +1,22 @@
-import * as Dialog from '@radix-ui/react-dialog'
-import { Link } from '@inertiajs/react'
-import { Info, PencilSimple, TrashSimple } from 'phosphor-react'
-import { EmailListsResult } from '../Index'
-import { useState } from 'react'
-import { DeleteModal } from '@/Components/DeleteModal'
+import * as Dialog from '@radix-ui/react-dialog';
+import { Link } from '@inertiajs/react';
+import { Info, PencilSimple, TrashSimple } from 'phosphor-react';
+import { EmailListsResult } from '../Index';
+import { useState } from 'react';
+import { DeleteModal } from '@/Components/DeleteModal';
 
 type Props = {
-  emailLists: EmailListsResult
-}
+  emailLists: EmailListsResult;
+};
 
 type ListRowProps = {
-  list: EmailListsResult['data'][0]
-}
+  list: EmailListsResult['data'][0];
+};
 
 const ListRow = ({ list }: ListRowProps) => {
-  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false)
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
 
-  const textStyle = list.deleted_at === null ? 'text-gray-300' : 'text-red-400'
+  const textStyle = list.deleted_at === null ? 'text-gray-300' : 'text-red-400';
 
   return (
     <tr key={list.id} className="border-b-zinc-800">
@@ -61,8 +61,8 @@ const ListRow = ({ list }: ListRowProps) => {
         )}
       </td>
     </tr>
-  )
-}
+  );
+};
 
 export function Table({ emailLists }: Props) {
   return (
@@ -85,5 +85,5 @@ export function Table({ emailLists }: Props) {
         </tbody>
       </table>
     </div>
-  )
+  );
 }

@@ -1,4 +1,4 @@
-import { ButtonHTMLAttributes } from 'react'
+import { ButtonHTMLAttributes } from 'react';
 
 export default function PaginationButton({
   className = '',
@@ -21,5 +21,5 @@ export default function PaginationButton({
     >
       {children}
     </button>
-  )
+  );
 }

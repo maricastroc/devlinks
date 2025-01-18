@@ -1,34 +1,34 @@
-import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout'
-import { Head, Link, router } from '@inertiajs/react'
-import EmptySvg from '/public/assets/empty_campaign.svg'
-import { EmptyContainer } from '@/Components/EmptyContainer'
-import { CampaignProps } from '@/types/campaign'
-import { useEffect, useState } from 'react'
-import TertiaryButton from '@/Components/TertiaryButton'
-import SearchInput from '@/Components/SearchInput'
-import Checkbox from '@/Components/Checkbox'
-import { Table } from './Partials/Table'
-import { PaginationSection } from './Partials/PaginationSection'
+import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
+import { Head, Link, router } from '@inertiajs/react';
+import EmptySvg from '/public/assets/empty_campaign.svg';
+import { EmptyContainer } from '@/Components/EmptyContainer';
+import { CampaignProps } from '@/types/campaign';
+import { useEffect, useState } from 'react';
+import TertiaryButton from '@/Components/TertiaryButton';
+import SearchInput from '@/Components/SearchInput';
+import Checkbox from '@/Components/Checkbox';
+import { Table } from './Partials/Table';
+import { PaginationSection } from './Partials/PaginationSection';
 
 export type CampaignsResults = {
-  data: CampaignProps[]
-  total: number
-  current_page: number
-  per_page: number
-  next_page_url: string
-  prev_page_url: string
-  to: number
-  from: number
-}
+  data: CampaignProps[];
+  total: number;
+  current_page: number;
+  per_page: number;
+  next_page_url: string;
+  prev_page_url: string;
+  to: number;
+  from: number;
+};
 
 type Props = {
-  campaigns: CampaignsResults
-}
+  campaigns: CampaignsResults;
+};
 
 export default function Dashboard({ campaigns }: Props) {
-  const [search, setSearch] = useState('')
+  const [search, setSearch] = useState('');
 
-  const [withTrashed, setWithTrashed] = useState(false)
+  const [withTrashed, setWithTrashed] = useState(false);
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -39,45 +39,45 @@ export default function Dashboard({ campaigns }: Props) {
           {
             preserveState: true,
             preserveScroll: true,
-            replace: true,
-          },
-        )
+            replace: true
+          }
+        );
       } else {
         router.get(
           route('dashboard', {
-            search,
+            search
           }),
           {},
           {
             preserveState: true,
             preserveScroll: true,
-            replace: true,
-          },
-        )
+            replace: true
+          }
+        );
       }
-    }, 500)
+    }, 500);
 
-    return () => clearTimeout(timer)
-  }, [search])
+    return () => clearTimeout(timer);
+  }, [search]);
 
   useEffect(() => {
     const timer = setTimeout(() => {
       router.get(
         route('dashboard', {
           search,
-          withTrashed: withTrashed ? 1 : 0,
+          withTrashed: withTrashed ? 1 : 0
         }),
         {},
         {
           preserveState: true,
           preserveScroll: true,
-          replace: true,
-        },
-      )
-    }, 500)
+          replace: true
+        }
+      );
+    }, 500);
 
-    return () => clearTimeout(timer)
-  }, [search, withTrashed])
+    return () => clearTimeout(timer);
+  }, [search, withTrashed]);
 
   return (
     <AuthenticatedLayout
@@ -113,7 +113,7 @@ export default function Dashboard({ campaigns }: Props) {
                 value={search}
                 search={search}
                 onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                  setSearch(e.target.value)
+                  setSearch(e.target.value);
                 }}
                 onReset={() => setSearch('')}
               />
@@ -150,5 +150,5 @@ export default function Dashboard({ campaigns }: Props) {
         />
       )}
     </AuthenticatedLayout>
-  )
+  );
 }

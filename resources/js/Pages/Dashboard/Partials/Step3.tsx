@@ -1,32 +1,32 @@
-import InputLabel from '@/Components/InputLabel'
-import TertiaryButton from '@/Components/TertiaryButton'
-import TextInput from '@/Components/TextInput'
-import { TemplateProps } from '@/types/template'
-import { DataProps, FormErrors } from '../Form'
-import Checkbox from '@/Components/Checkbox'
-import { EmailListProps } from '@/types/emailList'
-import { useState } from 'react'
-import InputError from '@/Components/InputError'
+import InputLabel from '@/Components/InputLabel';
+import TertiaryButton from '@/Components/TertiaryButton';
+import TextInput from '@/Components/TextInput';
+import { TemplateProps } from '@/types/template';
+import { DataProps, FormErrors } from '../Form';
+import Checkbox from '@/Components/Checkbox';
+import { EmailListProps } from '@/types/emailList';
+import { useState } from 'react';
+import InputError from '@/Components/InputError';
 
 type CampaignStep1Props = {
-  templates: TemplateProps[]
-  data: DataProps
-  selectedList: EmailListProps | null
-  setData: (key: string, value: any) => void
-  errors: FormErrors
-}
+  templates: TemplateProps[];
+  data: DataProps;
+  selectedList: EmailListProps | null;
+  setData: (key: string, value: any) => void;
+  errors: FormErrors;
+};
 
 export default function Step3({
   data,
   templates,
   selectedList,
   errors,
-  setData,
+  setData
 }: CampaignStep1Props) {
-  const [scheduleEmail, setScheduleEmail] = useState(false)
-console.log(errors)
+  const [scheduleEmail, setScheduleEmail] = useState(false);
+  console.log(errors);
   const [date, setDate] = useState('');
-  
+
   const [time, setTime] = useState('');
 
   const handleDateTimeChange = () => {
@@ -34,11 +34,17 @@ console.log(errors)
       const datetime = new Date(`${date}T${time}:00`);
       setData('send_at', datetime);
     } else {
-      setData('send_at', new Date())
+      setData('send_at', new Date());
     }
   };
-  
-  function InfoRow({ label, value }: { label: string; value: string | JSX.Element }) {
+
+  function InfoRow({
+    label,
+    value
+  }: {
+    label: string;
+    value: string | JSX.Element;
+  }) {
     return (
       <div className="flex items-center gap-2">
         <span className="font-bold text-white">{label}:</span>
@@ -46,11 +52,11 @@ console.log(errors)
       </div>
     );
   }
-  
+
   return (
     <div className="flex flex-col w-full">
       <InputLabel value="Test Campaign" />
-      
+
       <div className="flex items-center justify-between w-full gap-4 mt-2">
         <TextInput placeholder="Write an email" className="w-full" />
         <TertiaryButton isBigger>Send</TertiaryButton>
@@ -75,7 +81,7 @@ console.log(errors)
             </div>
           }
         />
-          
+
         <div className="flex items-start gap-3 mt-6">
           <span className="font-bold text-white">Send:</span>
           <div className="flex flex-col">
@@ -84,10 +90,10 @@ console.log(errors)
                 name="send_at"
                 checked={!scheduleEmail}
                 onChange={() => {
-                  setScheduleEmail(false)
-                  setDate('')
-                  setTime('')
-                  handleDateTimeChange()
+                  setScheduleEmail(false);
+                  setDate('');
+                  setTime('');
+                  handleDateTimeChange();
                 }}
               />
               <span className="text-sm text-gray-600 ms-2 dark:text-gray-400">
@@ -105,8 +111,8 @@ console.log(errors)
               </span>
             </label>
             {scheduleEmail && (
-              <div className='flex flex-col gap-2'>
-                <div className='flex items-center gap-3 mt-4'>
+              <div className="flex flex-col gap-2">
+                <div className="flex items-center gap-3 mt-4">
                   <input
                     type="date"
                     placeholder="Select Date"
@@ -133,5 +139,5 @@ console.log(errors)
         </div>
       </div>
     </div>
-  )
+  );
 }

@@ -1,13 +1,13 @@
 type RedirectContainerProps = {
-  title: string
-  redirectLink: string
-  text: string
-}
+  title: string;
+  redirectLink: string;
+  text: string;
+};
 
 export function RedirectContainer({
   title,
   redirectLink,
-  text,
+  text
 }: RedirectContainerProps) {
   return (
     <div className="flex justify-center w-full align-center card-actions">
@@ -21,5 +21,5 @@ export function RedirectContainer({
         </a>
       </div>
     </div>
-  )
+  );
 }

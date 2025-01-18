@@ -1,17 +1,17 @@
-import { InertiaLinkProps, Link, usePage } from '@inertiajs/react'
+import { InertiaLinkProps, Link, usePage } from '@inertiajs/react';
 
 export default function ResponsiveNavLink({
   className = '',
   children,
   ...props
 }: InertiaLinkProps) {
-  const { url } = usePage()
+  const { url } = usePage();
 
   const isActive = props.href
     ? url === props.href ||
       url.startsWith(`${props.href}/`) ||
       url.startsWith(`${props.href}?`)
-    : false
+    : false;
 
   return (
     <Link
@@ -24,5 +24,5 @@ export default function ResponsiveNavLink({
     >
       {children}
     </Link>
-  )
+  );
 }

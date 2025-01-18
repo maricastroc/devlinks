@@ -1,64 +1,64 @@
-import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout'
-import SecondaryButton from '@/Components/SecondaryButton'
-import TertiaryButton from '@/Components/TertiaryButton'
-import { Link, router, useForm } from '@inertiajs/react'
-import { FormEventHandler, useEffect, useState } from 'react'
-import { notyf } from '@/libs/notyf'
-import axios, { AxiosError } from 'axios'
-import { EmailListProps } from '@/types/emailList'
-import { Inertia } from '@inertiajs/inertia'
-import { CampaignProps } from '@/types/campaign'
-import { TemplateProps } from '@/types/template'
-import { StepButton } from './Partials/StepButton'
-import Step1 from './Partials/Step1'
-import Step2 from './Partials/Step2'
-import Step3 from './Partials/Step3'
-import { handleReqError } from '@/utils/handleReqError'
-import { checkSteps } from '@/utils/checkSteps'
+import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
+import SecondaryButton from '@/Components/SecondaryButton';
+import TertiaryButton from '@/Components/TertiaryButton';
+import { Link, router, useForm } from '@inertiajs/react';
+import { FormEventHandler, useEffect, useState } from 'react';
+import { notyf } from '@/libs/notyf';
+import axios, { AxiosError } from 'axios';
+import { EmailListProps } from '@/types/emailList';
+import { Inertia } from '@inertiajs/inertia';
+import { CampaignProps } from '@/types/campaign';
+import { TemplateProps } from '@/types/template';
+import { StepButton } from './Partials/StepButton';
+import Step1 from './Partials/Step1';
+import Step2 from './Partials/Step2';
+import Step3 from './Partials/Step3';
+import { handleReqError } from '@/utils/handleReqError';
+import { checkSteps } from '@/utils/checkSteps';
 
 export type FormErrors = {
-  name?: string
-  subject?: string
-  body?: string
-  track_click?: string
-  track_open?: string
-  send_at?: string
-  email_list_id?: string
-  template_id?: string
-}
+  name?: string;
+  subject?: string;
+  body?: string;
+  track_click?: string;
+  track_open?: string;
+  send_at?: string;
+  email_list_id?: string;
+  template_id?: string;
+};
 
 type Props = {
-  campaign?: CampaignProps
-  emailLists: EmailListProps[]
-  templates: TemplateProps[]
-}
+  campaign?: CampaignProps;
+  emailLists: EmailListProps[];
+  templates: TemplateProps[];
+};
 
 export type DataProps = {
-  name?: string
-  subject?: string
-  body?: string
-  track_click?: boolean
-  track_open?: boolean
-  send_at?: Date | undefined
-  template_id?: number | null
-  email_list_id?: number | null
-}
+  name?: string;
+  subject?: string;
+  body?: string;
+  track_click?: boolean;
+  track_open?: boolean;
+  send_at?: Date | undefined;
+  template_id?: number | null;
+  email_list_id?: number | null;
+};
 
 export default function CampaignForm({
   campaign,
   emailLists,
-  templates,
+  templates
 }: Props) {
-  const [errors, setErrors] = useState<FormErrors>({})
+  const [errors, setErrors] = useState<FormErrors>({});
 
-  const [step, setStep] = useState(1)
+  const [step, setStep] = useState(1);
 
   const [selectedTemplate, setSelectedTemplate] =
-    useState<TemplateProps | null>(null)
+    useState<TemplateProps | null>(null);
 
-  const [selectedList, setSelectedList] = useState<EmailListProps | null>(null)
+  const [selectedList, setSelectedList] = useState<EmailListProps | null>(null);
 
-  const [processing, setProcessing] = useState(false)
+  const [processing, setProcessing] = useState(false);
 
   const { data, setData } = useForm({
     name: campaign?.name || undefined,
@@ -68,43 +68,43 @@ export default function CampaignForm({
     track_open: campaign?.track_open || false,
     send_at: campaign?.send_at || new Date(),
     template_id: campaign?.template_id || null,
-    email_list_id: campaign?.email_list_id || null,
-  })
+    email_list_id: campaign?.email_list_id || null
+  });
 
   const submit: FormEventHandler = async (e) => {
     e.preventDefault();
-  
+
     setProcessing(true);
     setErrors({});
-  
+
     try {
       const url = campaign
         ? route('campaigns.update', campaign?.id)
         : route('campaigns.store');
       const method = campaign ? 'PUT' : 'POST';
-  
+
       const payload = {
         ...data,
         _method: method,
         step,
-        send_at: data.send_at.toISOString(),
+        send_at: data.send_at.toISOString()
       };
-  
+
       const response = await axios({
         method: campaign ? 'put' : 'post',
         url,
-        data: payload,
+        data: payload
       });
-  
+
       if (response?.data?.message) {
         await new Promise((resolve) => {
           notyf?.success(response.data.message);
           setTimeout(resolve, 2000);
         });
-  
+
         Inertia.visit(route('dashboard'));
       }
-  
+
       if (!response?.data?.errors && step < 3) {
         setStep(step + 1);
       }
@@ -123,18 +123,18 @@ export default function CampaignForm({
   useEffect(() => {
     if (campaign) {
       const selectedList = emailLists?.find((list) => {
-        return list.id === Number(campaign.email_list_id)
-      })
+        return list.id === Number(campaign.email_list_id);
+      });
 
-      setSelectedList(selectedList || null)
+      setSelectedList(selectedList || null);
 
       const selectedTemplate = templates?.find((template) => {
-        return template.id === Number(campaign.template_id)
-      })
+        return template.id === Number(campaign.template_id);
+      });
 
-      setSelectedTemplate(selectedTemplate || null)
+      setSelectedTemplate(selectedTemplate || null);
     }
-  })
+  });
 
   return (
     <AuthenticatedLayout
@@ -175,7 +175,9 @@ export default function CampaignForm({
                   currentStep={step}
                   isActive={step === index + 1}
                   onClick={() => setStep(index + 1)}
-                  disabled={index === 0 ? false : !checkSteps(index + 1, data, errors)}
+                  disabled={
+                    index === 0 ? false : !checkSteps(index + 1, data, errors)
+                  }
                 />
               ))}
             </div>
@@ -196,7 +198,15 @@ export default function CampaignForm({
               />
             )}
 
-            {step === 2 && <Step2 selectedTemplate={selectedTemplate} data={data} setData={setData} errors={errors} processing={processing} />}
+            {step === 2 && (
+              <Step2
+                selectedTemplate={selectedTemplate}
+                data={data}
+                setData={setData}
+                errors={errors}
+                processing={processing}
+              />
+            )}
 
             {step === 3 && (
               <Step3
@@ -211,15 +221,15 @@ export default function CampaignForm({
             <div className="flex items-center justify-end gap-4">
               <SecondaryButton
                 onClick={() => {
-                  step === 1 ? router.get(route('dashboard')) : setStep(step - 1)
+                  step === 1
+                    ? router.get(route('dashboard'))
+                    : setStep(step - 1);
                 }}
                 disabled={processing}
               >
                 Go back
               </SecondaryButton>
-              <TertiaryButton
-                disabled={processing}
-              >
+              <TertiaryButton disabled={processing}>
                 {`${step === 3 ? 'Save Changes' : 'Next step'}`}
               </TertiaryButton>
             </div>
@@ -227,5 +237,5 @@ export default function CampaignForm({
         </section>
       </div>
     </AuthenticatedLayout>
-  )
+  );
 }

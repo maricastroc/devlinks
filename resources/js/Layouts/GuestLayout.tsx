@@ -1,22 +1,22 @@
-import ApplicationLogo from '@/Components/ApplicationLogo'
-import { RedirectContainer } from '@/Components/RedirectContainer'
-import { Link } from '@inertiajs/react'
-import { ReactNode } from 'react'
+import ApplicationLogo from '@/Components/ApplicationLogo';
+import { RedirectContainer } from '@/Components/RedirectContainer';
+import { Link } from '@inertiajs/react';
+import { ReactNode } from 'react';
 
 type GuestProps = {
-  children: ReactNode
-  showRedirectContainer?: boolean
-}
+  children: ReactNode;
+  showRedirectContainer?: boolean;
+};
 
 export default function Guest({
   children,
-  showRedirectContainer = false,
+  showRedirectContainer = false
 }: GuestProps) {
   return (
     <div className="flex flex-col items-center min-h-screen pt-6 bg-gray-100 sm:justify-center sm:pt-0 dark:bg-background-primary">
       <div>
         <Link href="/">
-          <ApplicationLogo className="w-20 h-20 text-gray-500 fill-current" />
+          <ApplicationLogo />
         </Link>
       </div>
 
@@ -32,5 +32,5 @@ export default function Guest({
         />
       )}
     </div>
-  )
+  );
 }
