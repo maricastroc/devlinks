@@ -9,9 +9,7 @@
   },
   "lint-staged": {
     "*.{ts,tsx}": [
-      "prettier --write",
-      "npx prettier --write resources/js/*/*.ts",
-      "npx prettier --write resources/js/*/*.tsx"
+      "prettier --write"
     ]
   },
   "devDependencies": {
