@@ -27,7 +27,9 @@ export default function Step3({
 
   const [time, setTime] = useState('');
 
-  const [customizeSendAt, setCustomizeSendAt] = useState(data?.customize_send_at || false);
+  const [customizeSendAt, setCustomizeSendAt] = useState(
+    data?.customize_send_at || false
+  );
 
   const handleDateTimeChange = () => {
     if (date?.length && time?.length) {
@@ -102,7 +104,7 @@ export default function Step3({
                   setDate('');
                   setTime('');
                   setData('send_at', new Date());
-                  setData('customize_send_at', false)
+                  setData('customize_send_at', false);
                 }}
               />
               <span className="text-sm text-gray-600 ms-2 dark:text-gray-400">
@@ -130,10 +132,10 @@ export default function Step3({
                     value={date}
                     placeholder="Select Date"
                     onChange={(e) => {
-                      const date = e.target.value
-                      
-                      setDate(date)
-                      
+                      const date = e.target.value;
+
+                      setDate(date);
+
                       if (date?.length && time?.length) {
                         const datetime = new Date(`${date}T${time}:00`);
                         setData('send_at', datetime);
@@ -146,10 +148,10 @@ export default function Step3({
                     placeholder="Select Hour"
                     value={time}
                     onChange={(e) => {
-                      const time = e.target.value
+                      const time = e.target.value;
 
-                      setTime(time)
-                      
+                      setTime(time);
+
                       if (date?.length && time?.length) {
                         const datetime = new Date(`${date}T${time}:00`);
                         setData('send_at', datetime);

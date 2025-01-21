@@ -35,7 +35,7 @@ type Props = {
 };
 
 export type DataProps = {
-  name?: string;
+      name?: string;
   subject?: string;
   body?: string;
   track_click?: boolean;
@@ -71,7 +71,7 @@ export default function CampaignForm({
     send_at: campaign?.send_at || new Date(),
     template_id: campaign?.template_id || null,
     email_list_id: campaign?.email_list_id || null,
-    customize_send_at: campaign?.customize_send_at || false,
+    customize_send_at: campaign?.customize_send_at || false
   });
 
   const submit: FormEventHandler = async (e) => {
