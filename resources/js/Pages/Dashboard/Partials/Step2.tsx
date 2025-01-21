@@ -27,10 +27,8 @@ export default function Step2({
   const [isPreviewModalOpen, setIsPreviewModalOpen] = useState(false);
 
   useEffect(() => {
-    if (selectedTemplate?.body) {
-      setData('body', selectedTemplate.body);
-    }
-  }, [selectedTemplate]);
+    setData('body', data.body || selectedTemplate?.body);
+  }, []);
 
   return (
     <div>

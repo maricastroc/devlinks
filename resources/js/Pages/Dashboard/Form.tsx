@@ -32,10 +32,11 @@ type Props = {
   campaign?: CampaignProps;
   emailLists: EmailListProps[];
   templates: TemplateProps[];
+  isEdit: boolean;
 };
 
 export type DataProps = {
-      name?: string;
+  name?: string;
   subject?: string;
   body?: string;
   track_click?: boolean;
@@ -49,7 +50,8 @@ export type DataProps = {
 export default function CampaignForm({
   campaign,
   emailLists,
-  templates
+  templates,
+  isEdit,
 }: Props) {
   const [errors, setErrors] = useState<FormErrors>({});
 
@@ -138,7 +140,7 @@ export default function CampaignForm({
       setSelectedTemplate(selectedTemplate || null);
     }
   });
-
+  
   return (
     <AuthenticatedLayout
       header={
@@ -177,9 +179,7 @@ export default function CampaignForm({
                   step={index + 1}
                   currentStep={step}
                   isActive={step === index + 1}
-                  disabled={
-                    index === 0 ? false : !checkSteps(index + 1, data, errors)
-                  }
+                  onClick={() => setStep(index + 1)}
                 />
               ))}
             </div>
@@ -213,6 +213,7 @@ export default function CampaignForm({
             {step === 3 && (
               <Step3
                 selectedList={selectedList}
+                selectedTemplate={selectedTemplate}
                 data={data}
                 setData={setData}
                 templates={templates}

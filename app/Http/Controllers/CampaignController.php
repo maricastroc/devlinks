@@ -4,12 +4,22 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\CampaignRequest;
 use App\Http\Requests\UpdateCampaignRequest;
+use App\Mail\TestCampaignMail;
 use App\Models\Campaign;
+use App\Services\EmailService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 use Inertia\Inertia;
 
 class CampaignController extends Controller
 {
+    protected $emailService;
+
+    public function __construct(EmailService $emailService)
+    {
+        $this->emailService = $emailService;
+    }
+
     /**
      * Display a listing of the resource.
      */

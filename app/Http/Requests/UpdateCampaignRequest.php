@@ -48,6 +48,25 @@ class UpdateCampaignRequest extends FormRequest
 
         if ($step == 2) {
             $rules = [
+                'name' => [
+                    'required',
+                    'string',
+                    'max:255',
+                    Rule::unique('campaigns')->ignoreModel($this->route('campaign'))
+                ],
+                'subject' => ['required', 'string', 'max:255'],
+                'email_list_id' => [
+                    'required',
+                    'integer',
+                    'exists:email_lists,id',
+                ],
+                'template_id' => [
+                    'required',
+                    'integer',
+                    'exists:templates,id',
+                ],
+                'track_click' => ['required', 'boolean'],
+                'track_open' => ['required', 'boolean'],
                 'body' => ['required'],
             ];
         }
