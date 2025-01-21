@@ -15,6 +15,7 @@ import Step2 from './Partials/Step2';
 import Step3 from './Partials/Step3';
 import { handleReqError } from '@/utils/handleReqError';
 import { checkSteps } from '@/utils/checkSteps';
+import { formatDate } from '@/utils/formatDate';
 
 export type FormErrors = {
   name?: string;
@@ -42,6 +43,7 @@ export type DataProps = {
   send_at?: Date | undefined;
   template_id?: number | null;
   email_list_id?: number | null;
+  customize_send_at?: boolean;
 };
 
 export default function CampaignForm({
@@ -68,7 +70,8 @@ export default function CampaignForm({
     track_open: campaign?.track_open || false,
     send_at: campaign?.send_at || new Date(),
     template_id: campaign?.template_id || null,
-    email_list_id: campaign?.email_list_id || null
+    email_list_id: campaign?.email_list_id || null,
+    customize_send_at: campaign?.customize_send_at || false,
   });
 
   const submit: FormEventHandler = async (e) => {
@@ -87,7 +90,7 @@ export default function CampaignForm({
         ...data,
         _method: method,
         step,
-        send_at: data.send_at.toISOString()
+        send_at: formatDate(data?.send_at)
       };
 
       const response = await axios({
@@ -144,7 +147,7 @@ export default function CampaignForm({
         </h2>
       }
     >
-      <div className="flex flex-col pb-12 mt-10 lg:mt-16 lg:pb-0">
+      <div className="flex flex-col pb-12 mt-10 lg:pb-0">
         <Link
           href={route('dashboard')}
           className="mt-10 mb-2 ml-1 text-xs text-gray-400 lg:mt-0"
@@ -174,7 +177,6 @@ export default function CampaignForm({
                   step={index + 1}
                   currentStep={step}
                   isActive={step === index + 1}
-                  onClick={() => setStep(index + 1)}
                   disabled={
                     index === 0 ? false : !checkSteps(index + 1, data, errors)
                   }

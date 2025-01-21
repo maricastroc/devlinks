@@ -100,7 +100,7 @@ export default function EmailList({ emailList, subscribers }: Props) {
       <div className="flex flex-col pb-12">
         <Link
           href={route('lists.index')}
-          className="mt-10 mb-2 ml-1 text-xs text-gray-400 w-[5rem]"
+          className="mt-10 lg:mt-7 mb-2 ml-1 text-xs text-gray-400 w-[5rem]"
         >
           {`Lists > `}
           <Link

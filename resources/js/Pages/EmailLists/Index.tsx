@@ -93,7 +93,7 @@ export default function Index({ emailLists }: Props) {
         <div className="flex flex-col pb-12">
           <Link
             href={route('lists.index')}
-            className="w-[2rem] mt-10 mb-2 ml-1 text-xs text-gray-400"
+            className="w-[2rem] lg:mt-7 mt-10 mb-2 ml-1 text-xs text-gray-400"
           >
             Lists
           </Link>

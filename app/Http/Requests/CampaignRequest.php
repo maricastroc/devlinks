@@ -74,6 +74,7 @@ class CampaignRequest extends FormRequest
                 'track_open' => ['required', 'boolean'],
                 'body' => ['required'],
                 'send_at' => ['required', 'date', 'after_or_equal:today'],
+                'customize_send_at' => ['required', 'boolean'],
             ];
         }
 

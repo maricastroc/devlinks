@@ -66,7 +66,7 @@ const ListRow = ({ list }: ListRowProps) => {
 
 export function Table({ emailLists }: Props) {
   return (
-    <div className="px-3 py-5 overflow-auto rounded-lg lg:mt-3 lg:p-5 mt-7 bg-background-tertiary text-content">
+<div className="px-3 py-5 lg:mt-5 lg:max-h-[45vh] overflow-auto rounded-lg lg:p-5 mt-7 bg-background-tertiary text-content">
       <table className="table overflow-y-scroll text-content table-md">
         <thead>
           <tr className="border-b-zinc-800">

@@ -17,4 +17,5 @@ export type CampaignProps = {
   email_list: EmailListProps;
   user: UserProps;
   template: TemplateProps;
+  customize_send_at: boolean;
 };

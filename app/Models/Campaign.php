@@ -27,6 +27,11 @@ class Campaign extends Model
         'send_at',
         'track_click',
         'track_open',
+        'customize_send_at',
+    ];
+
+    protected $casts = [
+        'customize_send_at' => 'boolean',
     ];
 
     public function user()

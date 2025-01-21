@@ -5,7 +5,7 @@ import { TemplateProps } from '@/types/template';
 import { DataProps, FormErrors } from '../Form';
 import Checkbox from '@/Components/Checkbox';
 import { EmailListProps } from '@/types/emailList';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import InputError from '@/Components/InputError';
 
 type CampaignStep1Props = {
@@ -23,18 +23,17 @@ export default function Step3({
   errors,
   setData
 }: CampaignStep1Props) {
-  const [scheduleEmail, setScheduleEmail] = useState(false);
-  console.log(errors);
   const [date, setDate] = useState('');
 
   const [time, setTime] = useState('');
 
+  const [customizeSendAt, setCustomizeSendAt] = useState(data?.customize_send_at || false);
+
   const handleDateTimeChange = () => {
     if (date?.length && time?.length) {
       const datetime = new Date(`${date}T${time}:00`);
+
       setData('send_at', datetime);
-    } else {
-      setData('send_at', new Date());
     }
   };
 
@@ -52,6 +51,16 @@ export default function Step3({
       </div>
     );
   }
+
+  useEffect(() => {
+    if (data.send_at) {
+      const dateTime = new Date(data.send_at);
+      if (!isNaN(dateTime.getTime())) {
+        setDate(dateTime.toISOString().split('T')[0]);
+        setTime(dateTime.toTimeString().slice(0, 5));
+      }
+    }
+  }, []);
 
   return (
     <div className="flex flex-col w-full">
@@ -88,12 +97,12 @@ export default function Step3({
             <label className="flex items-center">
               <Checkbox
                 name="send_at"
-                checked={!scheduleEmail}
+                checked={data.customize_send_at === false}
                 onChange={() => {
-                  setScheduleEmail(false);
                   setDate('');
                   setTime('');
-                  handleDateTimeChange();
+                  setData('send_at', new Date());
+                  setData('customize_send_at', false)
                 }}
               />
               <span className="text-sm text-gray-600 ms-2 dark:text-gray-400">
@@ -103,31 +112,48 @@ export default function Step3({
             <label className="flex items-center mt-2">
               <Checkbox
                 name="send_at"
-                checked={scheduleEmail}
-                onChange={() => setScheduleEmail(true)}
+                checked={data.customize_send_at === true}
+                onChange={() => {
+                  setData('customize_send_at', true);
+                  setData('send_at', null);
+                }}
               />
               <span className="text-sm text-gray-600 ms-2 dark:text-gray-400">
                 Schedule email
               </span>
             </label>
-            {scheduleEmail && (
+            {data.customize_send_at && (
               <div className="flex flex-col gap-2">
                 <div className="flex items-center gap-3 mt-4">
                   <input
                     type="date"
+                    value={date}
                     placeholder="Select Date"
                     onChange={(e) => {
-                      setDate(e.target.value);
-                      handleDateTimeChange();
+                      const date = e.target.value
+                      
+                      setDate(date)
+                      
+                      if (date?.length && time?.length) {
+                        const datetime = new Date(`${date}T${time}:00`);
+                        setData('send_at', datetime);
+                      }
                     }}
                     className="w-[10rem] border-none rounded-lg focus:outline-none focus:ring-2 disabled:cursor-not-allowed bg-background-tertiary focus:border-transparent focus:ring-gray-500"
                   />
                   <input
                     type="time"
                     placeholder="Select Hour"
+                    value={time}
                     onChange={(e) => {
-                      setTime(e.target.value);
-                      handleDateTimeChange();
+                      const time = e.target.value
+
+                      setTime(time)
+                      
+                      if (date?.length && time?.length) {
+                        const datetime = new Date(`${date}T${time}:00`);
+                        setData('send_at', datetime);
+                      }
                     }}
                     className="w-[10rem] border-none rounded-lg focus:outline-none focus:ring-2 disabled:cursor-not-allowed bg-background-tertiary focus:border-transparent focus:ring-gray-500"
                   />
