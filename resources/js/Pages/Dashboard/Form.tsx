@@ -16,6 +16,7 @@ import Step3 from './Partials/Step3';
 import { handleReqError } from '@/utils/handleReqError';
 import { checkSteps } from '@/utils/checkSteps';
 import { formatDate } from '@/utils/formatDate';
+import PrimaryButton from '@/Components/PrimaryButton';
 
 export type FormErrors = {
   name?: string;
@@ -51,7 +52,7 @@ export default function CampaignForm({
   campaign,
   emailLists,
   templates,
-  isEdit,
+  isEdit
 }: Props) {
   const [errors, setErrors] = useState<FormErrors>({});
 
@@ -140,7 +141,7 @@ export default function CampaignForm({
       setSelectedTemplate(selectedTemplate || null);
     }
   });
-  
+
   return (
     <AuthenticatedLayout
       header={
@@ -221,8 +222,8 @@ export default function CampaignForm({
               />
             )}
 
-            <div className="flex items-center justify-end gap-4">
-              <SecondaryButton
+            <div className="flex flex-col-reverse items-center justify-between w-full gap-4 pt-8 lg:gap-0 lg:flex-row">
+              <SecondaryButton className='lg:w-[7rem] w-full'
                 onClick={() => {
                   step === 1
                     ? router.get(route('dashboard'))
@@ -232,9 +233,16 @@ export default function CampaignForm({
               >
                 Go back
               </SecondaryButton>
-              <TertiaryButton disabled={processing}>
-                {`${step === 3 ? 'Save Changes' : 'Next step'}`}
-              </TertiaryButton>
+              <div className="flex flex-col-reverse items-center w-full gap-4 lg:w-auto lg:flex-row">
+                <TertiaryButton disabled={processing} className='py-3 lg:py-2 lg:w-[7.5rem] w-full'>
+                  {`${step === 3 ? 'Save Draft' : 'Next step'}`}
+                </TertiaryButton>
+                {step === 3 && (
+                  <PrimaryButton className='lg:w-[11rem] w-full py-3 lg:py-2'>
+                    Launch Campaign
+                  </PrimaryButton>
+                )}
+              </div>
             </div>
           </form>
         </section>

@@ -21,7 +21,7 @@ export function StepButton({
       className={`step w-full text-sm font-bold transition-all duration-150 ${
         isActive ? 'text-white' : 'text-gray-300'
       } ${step <= currentStep && 'hover:text-white step-accent'}`}
-      type='button'
+      type="button"
       disabled={disabled}
       {...rest}
     >

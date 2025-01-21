@@ -47,12 +47,12 @@ export default function Step3({
     setTestErrors({});
 
     try {
-      const url = route('campaign.test.email')
+      const url = route('campaign.test.email');
 
       const payload = {
         email,
         subject: data.subject,
-        body: data.body,
+        body: data.body
       };
 
       const response = await axios({
@@ -105,13 +105,13 @@ export default function Step3({
       try {
         const response = await axios.get('/env-variables');
 
-        setEmail(response.data.MAIL_FROM_ADDRESS)
-        setName(response.data.MAIL_FROM_NAME)
+        setEmail(response.data.MAIL_FROM_ADDRESS);
+        setName(response.data.MAIL_FROM_NAME);
       } catch (error) {
         console.error('Erro ao carregar variáveis de ambiente:', error);
       }
     }
-  
+
     fetchEnvVariables();
   }, []);
 
@@ -119,9 +119,16 @@ export default function Step3({
     <div className="flex flex-col w-full">
       <InputLabel value="Test Campaign" />
 
-      <div className="flex items-center justify-between w-full gap-4 mt-2">
-        <TextInput placeholder="Write an email" value={email} className="w-full" onChange={(e) => setEmail(e.target.value)} />
-        <TertiaryButton onClick={submit} isBigger>Send</TertiaryButton>
+      <div className="flex flex-col items-center justify-between w-full gap-4 mt-2 lg:flex-row">
+        <TextInput
+          placeholder="Write an email"
+          value={email}
+          className="w-full"
+          onChange={(e) => setEmail(e.target.value)}
+        />
+        <TertiaryButton onClick={submit} className='lg:w-[5rem] w-full' isBigger>
+          Send
+        </TertiaryButton>
       </div>
 
       <div className="flex flex-col gap-3 mt-10">
@@ -177,7 +184,7 @@ export default function Step3({
             </label>
             {data.customize_send_at && (
               <div className="flex flex-col gap-2">
-                <div className="flex items-center gap-3 mt-4">
+                <div className="flex flex-col items-center gap-3 mt-4 lg:flex-row">
                   <input
                     type="date"
                     value={date}
