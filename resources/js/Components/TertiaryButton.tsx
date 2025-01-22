@@ -15,12 +15,11 @@ export default function TertiaryButton({
           disabled
             ? 'opacity-25 cursor-not-allowed'
             : 'hover:bg-accent-blue-dark'
-        } ` +
-        className
+        } ` + className
       }
       disabled={disabled}
     >
-      <p className='w-full text-center'>{children}</p>
+      <p className="w-full text-center">{children}</p>
     </button>
   );
 }

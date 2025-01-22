@@ -16,7 +16,7 @@ export default function PrimaryButton({
       }
       disabled={disabled}
     >
-      <p className='w-full text-center'>{children}</p>
+      <p className="w-full text-center">{children}</p>
     </button>
   );
 }

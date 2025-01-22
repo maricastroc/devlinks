@@ -22,6 +22,9 @@ const CampaignRow = ({ campaign }: CampaignRowProps) => {
   return (
     <tr key={campaign.id} className="border-b-zinc-800">
       <td className={`py-2 text-medium ${textStyle}`}>{campaign.id}</td>
+      <td className={`py-2 text-medium ${textStyle}`}>
+        {campaign.status === 'draft' ? <div className="text-xs font-semibold text-gray-800 bg-gray-200 badge">{campaign.status}</div> : <div className="text-xs font-semibold text-gray-100 bg-accent-blue-mid badge">{campaign.status}</div>}
+      </td>
       <td className={`py-2 text-medium ${textStyle}`}>{campaign.name}</td>
       <td className={`py-2 text-medium ${textStyle}`}>
         {campaign.email_list.title}
@@ -71,13 +74,14 @@ const CampaignRow = ({ campaign }: CampaignRowProps) => {
 export function Table({ campaigns }: Props) {
   return (
     <div className="px-3 py-5 lg:mt-5 lg:max-h-[45vh] overflow-auto rounded-lg lg:p-5 mt-7 bg-background-tertiary text-content">
-      <table className="table overflow-y-scroll text-content table-md">
+      <table className="table overflow-scroll text-content table-md">
         <thead>
           <tr className="border-b-zinc-800">
-            <th className="text-content text-medium w-[10%]">ID</th>
-            <th className="text-content text-medium w-[30%]">Name</th>
-            <th className="text-content text-medium w-[30%]">List</th>
-            <th className="text-content text-medium w-[30%]">Template</th>
+            <th className="text-content text-medium">ID</th>
+            <th className="text-content text-medium">Status</th>
+            <th className="text-content text-medium">Name</th>
+            <th className="text-content text-medium">List</th>
+            <th className="text-content text-medium">Template</th>
             <th className="flex items-center justify-center text-content text-medium">
               Actions
             </th>

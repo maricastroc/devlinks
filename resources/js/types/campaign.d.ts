@@ -18,4 +18,5 @@ export type CampaignProps = {
   user: UserProps;
   template: TemplateProps;
   customize_send_at: boolean;
+  status?: string;
 };

@@ -12,6 +12,10 @@ class Campaign extends Model
     use HasFactory;
     use SoftDeletes;
 
+    const STATUS_DRAFT = 'draft';
+    const STATUS_SCHEDULED = 'scheduled';
+    const STATUS_SENT = 'sent';
+
     /**
      * The attributes that are mass assignable.
      *
@@ -28,10 +32,12 @@ class Campaign extends Model
         'track_click',
         'track_open',
         'customize_send_at',
+        'status'
     ];
 
     protected $casts = [
         'customize_send_at' => 'boolean',
+        'send_at' => 'datetime',
     ];
 
     public function user()

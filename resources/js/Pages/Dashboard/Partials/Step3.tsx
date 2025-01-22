@@ -10,6 +10,7 @@ import InputError from '@/Components/InputError';
 import axios, { AxiosError } from 'axios';
 import { notyf } from '@/libs/notyf';
 import { handleReqError } from '@/utils/handleReqError';
+import { formatInTimeZone } from 'date-fns-tz';
 
 type CampaignStep1Props = {
   templates: TemplateProps[];
@@ -92,10 +93,13 @@ export default function Step3({
 
   useEffect(() => {
     if (data.send_at) {
-      const dateTime = new Date(data.send_at);
-      if (!isNaN(dateTime.getTime())) {
-        setDate(dateTime.toISOString().split('T')[0]);
-        setTime(dateTime.toTimeString().slice(0, 5));
+      const parsedDate = new Date(data.send_at);
+      
+      if (!isNaN(parsedDate.getTime())) {
+        const dateString = parsedDate.toISOString(); 
+        
+        setDate(dateString.split('T')[0]);
+        setTime(dateString.split('T')[1].slice(0, 5));
       }
     }
   }, []);
@@ -126,7 +130,11 @@ export default function Step3({
           className="w-full"
           onChange={(e) => setEmail(e.target.value)}
         />
-        <TertiaryButton onClick={submit} className='lg:w-[5rem] w-full' isBigger>
+        <TertiaryButton
+          onClick={submit}
+          className="lg:w-[5rem] w-full"
+          isBigger
+        >
           Send
         </TertiaryButton>
       </div>

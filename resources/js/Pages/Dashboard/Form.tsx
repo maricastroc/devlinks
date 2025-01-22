@@ -65,6 +65,8 @@ export default function CampaignForm({
 
   const [processing, setProcessing] = useState(false);
 
+  const [draftMode, setDraftMode] = useState(false)
+
   const { data, setData } = useForm({
     name: campaign?.name || undefined,
     subject: campaign?.subject || undefined,
@@ -77,44 +79,42 @@ export default function CampaignForm({
     customize_send_at: campaign?.customize_send_at || false
   });
 
-  const submit: FormEventHandler = async (e) => {
-    e.preventDefault();
-
+  const handleSubmit = async (isDraft: boolean) => {
     setProcessing(true);
     setErrors({});
-
+  
     try {
       const url = campaign
-        ? route('campaigns.update', campaign?.id)
+        ? route('campaigns.update', campaign.id)
         : route('campaigns.store');
-      const method = campaign ? 'PUT' : 'POST';
-
+  
       const payload = {
         ...data,
-        _method: method,
+        _method: campaign ? 'PUT' : 'POST',
         step,
-        send_at: formatDate(data?.send_at)
+        send_at: formatDate(data.send_at),
+        draft_mode: isDraft,
       };
-
+  
       const response = await axios({
         method: campaign ? 'put' : 'post',
         url,
-        data: payload
+        data: payload,
       });
-
-      if (response?.data?.message) {
+  
+      if (response?.data.message) {
         await new Promise((resolve) => {
-          notyf?.success(response.data.message);
+          notyf?.success(response?.data?.message);
           setTimeout(resolve, 2000);
         });
 
         Inertia.visit(route('dashboard'));
       }
 
-      if (!response?.data?.errors && step < 3) {
+      if (!response.data.errors && step < 3) {
         setStep(step + 1);
       }
-    } catch (error: AxiosError | unknown) {
+    } catch (error) {
       if (axios.isAxiosError(error) && error.response?.data?.errors) {
         setErrors(error.response.data.errors);
         notyf?.error(error.response.data.message);
@@ -171,7 +171,10 @@ export default function CampaignForm({
         <section
           className={`p-5 mb-10 lg:mb-16 overflow-y-auto py-7 lg:p-8 w-[90vw] rounded-xl bg-background-secondary lg:w-[50rem] max-w-[50rem]`}
         >
-          <form onSubmit={submit} className="space-y-6 ">
+          <form onSubmit={(e) => {
+      e.preventDefault();
+      handleSubmit(false);
+    }} className="space-y-6 ">
             <div className="flex items-start mb-10 steps">
               {['Settings', 'Body (HTML)', 'Dispatch'].map((label, index) => (
                 <StepButton
@@ -223,7 +226,8 @@ export default function CampaignForm({
             )}
 
             <div className="flex flex-col-reverse items-center justify-between w-full gap-4 pt-8 lg:gap-0 lg:flex-row">
-              <SecondaryButton className='lg:w-[7rem] w-full'
+              <SecondaryButton
+                className="lg:w-[7rem] w-full"
                 onClick={() => {
                   step === 1
                     ? router.get(route('dashboard'))
@@ -234,11 +238,21 @@ export default function CampaignForm({
                 Go back
               </SecondaryButton>
               <div className="flex flex-col-reverse items-center w-full gap-4 lg:w-auto lg:flex-row">
-                <TertiaryButton disabled={processing} className='py-3 lg:py-2 lg:w-[7.5rem] w-full'>
+                <TertiaryButton
+                  disabled={processing}
+                  className="py-3 lg:py-2 lg:w-[7.5rem] w-full"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    handleSubmit(true);
+                  }}
+                >
                   {`${step === 3 ? 'Save Draft' : 'Next step'}`}
                 </TertiaryButton>
                 {step === 3 && (
-                  <PrimaryButton className='lg:w-[11rem] w-full py-3 lg:py-2'>
+                  <PrimaryButton className="lg:w-[11rem] w-full py-3 lg:py-2" onClick={(e) => {
+                    e.preventDefault();
+                    handleSubmit(false);
+                  }}>
                     Launch Campaign
                   </PrimaryButton>
                 )}

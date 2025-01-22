@@ -4,11 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\CampaignRequest;
 use App\Http\Requests\UpdateCampaignRequest;
-use App\Mail\TestCampaignMail;
+use App\Jobs\SendEmailCampaign;
 use App\Models\Campaign;
 use App\Services\EmailService;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Mail;
 use Inertia\Inertia;
 
 class CampaignController extends Controller
@@ -73,17 +73,33 @@ class CampaignController extends Controller
     public function store(CampaignRequest $request)
     {
         try {
-            $userId = auth()->id();
-            
             $data = $request->validated();
 
-            $data['user_id'] = $userId;
+            if (isset($data['send_at'])) {
+                $data['send_at'] = Carbon::parse($data['send_at'])->setTimezone('America/Sao_Paulo');
+            }
 
             if ($request->step === 3) {
-                Campaign::create($data);
+                $campaign = Campaign::create($data);
+
+                if (isset($request->draft_mode) && !$request->draft_mode) {
+                    $campaign->update(['status' => Campaign::STATUS_SCHEDULED]);
+                    
+                    try {
+                        SendEmailCampaign::dispatch($campaign)->delay($data['send_at']);
+    
+                        return response()->json([
+                            'message' => 'Emails sent successfully!',
+                        ], 200);
+                    } catch (\Exception $e) {
+                        return response()->json([
+                            'message' => 'Failed to send emails. Please try again later.',
+                        ], 500);
+                    }
+                }
 
                 return response()->json([
-                    'message' => 'Campaign successfully created!',
+                    'message' => 'Campaign draft successfully created!',
                 ], 200);
             }
         } catch (\Exception $e) {
@@ -147,11 +163,31 @@ class CampaignController extends Controller
         try {
             $data = $request->validated();
 
+            if (isset($data['send_at'])) {
+                $data['send_at'] = Carbon::parse($data['send_at'])->setTimezone('America/Sao_Paulo');
+            }
+
             if ($request->step === 3) {
                 $campaign->update($data);
 
+                if (isset($request->draft_mode) && !$request->draft_mode) {
+                    $campaign->update(['status' => Campaign::STATUS_SCHEDULED]);
+
+                    try {
+                        SendEmailCampaign::dispatch($campaign)->delay($data['send_at']);
+    
+                        return response()->json([
+                            'message' => 'Emails sent successfully!',
+                        ], 200);
+                    } catch (\Exception $e) {
+                        return response()->json([
+                            'message' => 'Failed to send emails. Please try again later.',
+                        ], 500);
+                    }
+                }
+
                 return response()->json([
-                    'message' => 'Campaign successfully updated!',
+                    'message' => 'Campaign draft successfully updated!',
                 ], 200);
             }
         } catch (\Exception $e) {

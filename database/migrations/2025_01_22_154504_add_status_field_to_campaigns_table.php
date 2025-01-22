@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('campaigns', function (Blueprint $table) {
-            $table->boolean('customize_send_at')->default(false);
+            $table->string('status')->default('draft');
         });
     }
 
@@ -22,7 +22,7 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('campaigns', function (Blueprint $table) {
-            $table->dropIfExists('customize_send_at');
+            $table->dropIfExists('status');
         });
     }
 };
