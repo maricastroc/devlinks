@@ -65,7 +65,7 @@ export default function CampaignForm({
 
   const [processing, setProcessing] = useState(false);
 
-  const [draftMode, setDraftMode] = useState(false)
+  const [draftMode, setDraftMode] = useState(false);
 
   const { data, setData } = useForm({
     name: campaign?.name || undefined,
@@ -82,26 +82,26 @@ export default function CampaignForm({
   const handleSubmit = async (isDraft: boolean) => {
     setProcessing(true);
     setErrors({});
-  
+
     try {
       const url = campaign
         ? route('campaigns.update', campaign.id)
         : route('campaigns.store');
-  
+
       const payload = {
         ...data,
         _method: campaign ? 'PUT' : 'POST',
         step,
         send_at: formatDate(data.send_at),
-        draft_mode: isDraft,
+        draft_mode: isDraft
       };
-  
+
       const response = await axios({
         method: campaign ? 'put' : 'post',
         url,
-        data: payload,
+        data: payload
       });
-  
+
       if (response?.data.message) {
         await new Promise((resolve) => {
           notyf?.success(response?.data?.message);
@@ -171,10 +171,13 @@ export default function CampaignForm({
         <section
           className={`p-5 mb-10 lg:mb-16 overflow-y-auto py-7 lg:p-8 w-[90vw] rounded-xl bg-background-secondary lg:w-[50rem] max-w-[50rem]`}
         >
-          <form onSubmit={(e) => {
-      e.preventDefault();
-      handleSubmit(false);
-    }} className="space-y-6 ">
+          <form
+            onSubmit={(e) => {
+              e.preventDefault();
+              handleSubmit(false);
+            }}
+            className="space-y-6 "
+          >
             <div className="flex items-start mb-10 steps">
               {['Settings', 'Body (HTML)', 'Dispatch'].map((label, index) => (
                 <StepButton
@@ -249,10 +252,13 @@ export default function CampaignForm({
                   {`${step === 3 ? 'Save Draft' : 'Next step'}`}
                 </TertiaryButton>
                 {step === 3 && (
-                  <PrimaryButton className="lg:w-[11rem] w-full py-3 lg:py-2" onClick={(e) => {
-                    e.preventDefault();
-                    handleSubmit(false);
-                  }}>
+                  <PrimaryButton
+                    className="lg:w-[11rem] w-full py-3 lg:py-2"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      handleSubmit(false);
+                    }}
+                  >
                     Launch Campaign
                   </PrimaryButton>
                 )}

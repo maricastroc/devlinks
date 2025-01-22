@@ -19,11 +19,40 @@ const CampaignRow = ({ campaign }: CampaignRowProps) => {
   const textStyle =
     campaign.deleted_at === null ? 'text-gray-300' : 'text-red-400';
 
+    const getStatusBadge = (status: string) => {
+      switch (status) {
+        case 'draft':
+          return (
+            <div className="text-xs font-semibold text-gray-800 bg-gray-200 badge">
+              {status}
+            </div>
+          );
+        case 'sent':
+          return (
+            <div className="text-xs font-semibold text-gray-100 bg-accent-blue-mid badge">
+              {status}
+            </div>
+          );
+        case 'scheduled':
+          return (
+            <div className="text-xs font-semibold text-gray-100 bg-accent-purple-dark badge">
+              {status}
+            </div>
+          );
+        default:
+          return (
+            <div className="text-xs font-semibold text-gray-800 bg-gray-200 badge">
+              {status}
+            </div>
+          );
+      }
+    };
+
   return (
     <tr key={campaign.id} className="border-b-zinc-800">
       <td className={`py-2 text-medium ${textStyle}`}>{campaign.id}</td>
       <td className={`py-2 text-medium ${textStyle}`}>
-        {campaign.status === 'draft' ? <div className="text-xs font-semibold text-gray-800 bg-gray-200 badge">{campaign.status}</div> : <div className="text-xs font-semibold text-gray-100 bg-accent-blue-mid badge">{campaign.status}</div>}
+        {getStatusBadge(campaign?.status || '')}
       </td>
       <td className={`py-2 text-medium ${textStyle}`}>{campaign.name}</td>
       <td className={`py-2 text-medium ${textStyle}`}>

@@ -94,10 +94,10 @@ export default function Step3({
   useEffect(() => {
     if (data.send_at) {
       const parsedDate = new Date(data.send_at);
-      
+
       if (!isNaN(parsedDate.getTime())) {
-        const dateString = parsedDate.toISOString(); 
-        
+        const dateString = parsedDate.toISOString();
+
         setDate(dateString.split('T')[0]);
         setTime(dateString.split('T')[1].slice(0, 5));
       }
