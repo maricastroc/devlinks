@@ -9,7 +9,6 @@ type Props = {
 };
 
 export default function Index({ template }: Props) {
-  console.log(template.body);
   return (
     <AuthenticatedLayout
       header={

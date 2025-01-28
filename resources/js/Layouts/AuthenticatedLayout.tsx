@@ -123,9 +123,9 @@ export default function Authenticated({
           } md:hidden bg-background-secondary border-t border-gray-600`}
         >
           <div className="pt-2 pb-3 space-y-1">
-            <ResponsiveNavLink href="/">Campaings</ResponsiveNavLink>
-            <ResponsiveNavLink href="/lists">Lists</ResponsiveNavLink>
-            <ResponsiveNavLink href="/templates">Templates</ResponsiveNavLink>
+            <ResponsiveNavLink href={route('dashboard')}>Campaings</ResponsiveNavLink>
+            <ResponsiveNavLink href={route('lists.index')}>Lists</ResponsiveNavLink>
+            <ResponsiveNavLink href={route('templates.index')}>Templates</ResponsiveNavLink>
           </div>
 
           <div className="pt-4 pb-1 border-t border-gray-600">

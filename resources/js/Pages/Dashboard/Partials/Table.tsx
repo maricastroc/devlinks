@@ -96,7 +96,7 @@ const CampaignRow = ({ campaign }: CampaignRowProps) => {
           <div className="flex items-center w-full h-full gap-2 justify-evenly">
             <Link
               className="transition-all duration-150 hover:text-blue-500"
-              href={route('lists.show', { list: campaign.id })}
+              href={route('campaign.statistics', { campaign: campaign.id })}
             >
               <Info size={16} />
             </Link>
