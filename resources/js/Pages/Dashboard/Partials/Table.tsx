@@ -54,11 +54,11 @@ const CampaignRow = ({ campaign }: CampaignRowProps) => {
 
   const handleRestore = async () => {
     try {
-      const url = route('campaigns.restore', { id: campaign.id });
+      const url = route('campaigns.restore', { campaign: campaign.id });
 
       const response = await axios({
         method: 'put',
-        url,
+        url
       });
 
       if (response?.data.message) {
@@ -86,10 +86,10 @@ const CampaignRow = ({ campaign }: CampaignRowProps) => {
       </td>
       <td className={`py-2 text-medium ${textStyle}`}>{campaign.name}</td>
       <td className={`py-2 text-medium ${textStyle}`}>
-        {campaign.email_list.title}
+        {campaign.email_list?.title}
       </td>
       <td className={`py-2 text-medium ${textStyle}`}>
-        {campaign.template.name}
+        {campaign.template?.name}
       </td>
       <td className="flex items-center text-gray-300">
         {campaign.deleted_at === null ? (
@@ -123,8 +123,13 @@ const CampaignRow = ({ campaign }: CampaignRowProps) => {
             </Dialog.Root>
           </div>
         ) : (
-          <div className='flex items-center justify-center w-full'>
-            <button onClick={handleRestore} className="flex items-center justify-center text-xs text-gray-100 transition-all duration-150 bg-transparent border border-gray-200 hover:border-white hover:text-white badge">restore</button>
+          <div className="flex items-center justify-center w-full">
+            <button
+              onClick={handleRestore}
+              className="flex items-center justify-center text-xs text-gray-100 transition-all duration-150 bg-transparent border border-gray-200 hover:border-white hover:text-white badge"
+            >
+              restore
+            </button>
           </div>
         )}
       </td>

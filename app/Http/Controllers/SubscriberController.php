@@ -100,10 +100,8 @@ class SubscriberController extends Controller
         }
     }
 
-    public function restore(EmailList $list, $id)
+    public function restore(EmailList $list, Subscriber $subscriber)
     {
-        $subscriber = Subscriber::withTrashed()->find($id);
-    
         if (!$subscriber) {
             return response()->json([
                 'message' => 'Subscriber not found.',
@@ -113,6 +111,14 @@ class SubscriberController extends Controller
         if (!$subscriber->trashed()) {
             return response()->json([
                 'message' => 'This subscriber is not deleted.',
+            ], 400);
+        }
+
+        if (
+            !$subscriber->emailList()->withTrashed()->exists()
+        ) {
+            return response()->json([
+                'message' => 'Cannot restore the subscriber because its associated list is deleted.',
             ], 400);
         }
     

@@ -41,6 +41,17 @@ class Campaign extends Model
         'send_at' => 'datetime',
     ];
 
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::restoring(function ($campaign) {
+            $campaign->emailList()->withTrashed()->restore();
+
+            $campaign->template()->withTrashed()->restore();
+        });
+    }
+
     public function user()
     {
         return $this->belongsTo(User::class);

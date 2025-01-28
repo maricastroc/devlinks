@@ -154,10 +154,8 @@ class EmailListController extends Controller
         }
     }
 
-    public function restore($id)
+    public function restore(EmailList $list)
     {
-        $list = EmailList::withTrashed()->find($id);
-    
         if (!$list) {
             return response()->json([
                 'message' => 'List not found.',

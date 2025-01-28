@@ -141,10 +141,8 @@ class TemplateController extends Controller
         }
     }
 
-    public function restore($id)
+    public function restore(Template $template)
     {
-        $template = Template::withTrashed()->find($id);
-    
         if (!$template) {
             return response()->json([
                 'message' => 'Template not found.',

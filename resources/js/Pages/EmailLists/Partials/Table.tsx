@@ -24,11 +24,11 @@ const ListRow = ({ list }: ListRowProps) => {
 
   const handleRestore = async () => {
     try {
-      const url = route('lists.restore', { id: list.id });
+      const url = route('lists.restore', { list: list.id });
 
       const response = await axios({
         method: 'put',
-        url,
+        url
       });
 
       if (response?.data.message) {
@@ -87,8 +87,13 @@ const ListRow = ({ list }: ListRowProps) => {
             </Dialog.Root>
           </div>
         ) : (
-          <div className='flex items-center justify-center w-full'>
-            <button onClick={handleRestore} className="flex items-center justify-center text-xs text-gray-100 transition-all duration-150 bg-transparent border border-gray-200 hover:border-white hover:text-white badge">restore</button>
+          <div className="flex items-center justify-center w-full">
+            <button
+              onClick={handleRestore}
+              className="flex items-center justify-center text-xs text-gray-100 transition-all duration-150 bg-transparent border border-gray-200 hover:border-white hover:text-white badge"
+            >
+              restore
+            </button>
           </div>
         )}
       </td>

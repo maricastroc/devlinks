@@ -26,31 +26,34 @@ const SubscriberRow = ({ subscriber, list }: SubscriberRowProps) => {
   const textStyle =
     subscriber.deleted_at === null ? 'text-gray-300' : 'text-red-500';
 
-    const handleRestore = async () => {
-      try {
-        const url = route('subscribers.restore', { list: list.id, id: subscriber.id });
-  
-        const response = await axios({
-          method: 'put',
-          url,
+  const handleRestore = async () => {
+    try {
+      const url = route('subscribers.restore', {
+        list: list.id,
+        subscriber: subscriber.id
+      });
+
+      const response = await axios({
+        method: 'put',
+        url
+      });
+
+      if (response?.data.message) {
+        await new Promise((resolve) => {
+          notyf?.success(response?.data?.message);
+          setTimeout(resolve, 2000);
         });
-  
-        if (response?.data.message) {
-          await new Promise((resolve) => {
-            notyf?.success(response?.data?.message);
-            setTimeout(resolve, 2000);
-          });
-  
-          Inertia.visit(route('lists.show', { list: list.id, }));
-        }
-      } catch (error) {
-        if (axios.isAxiosError(error) && error.response?.data?.errors) {
-          notyf?.error(error.response.data.message);
-        } else {
-          handleReqError(error);
-        }
+
+        Inertia.visit(route('lists.show', { list: list.id }));
       }
-    };
+    } catch (error) {
+      if (axios.isAxiosError(error) && error.response?.data?.errors) {
+        notyf?.error(error.response.data.message);
+      } else {
+        handleReqError(error);
+      }
+    }
+  };
 
   return (
     <tr key={subscriber.id} className="border-b border-zinc-800">
@@ -87,9 +90,14 @@ const SubscriberRow = ({ subscriber, list }: SubscriberRowProps) => {
               </Dialog.Root>
             </>
           ) : (
-            <div className='flex items-center justify-center w-full'>
-            <button onClick={handleRestore} className="flex items-center justify-center text-xs text-gray-100 transition-all duration-150 bg-transparent border border-gray-200 hover:border-white hover:text-white badge">restore</button>
-          </div>
+            <div className="flex items-center justify-center w-full">
+              <button
+                onClick={handleRestore}
+                className="flex items-center justify-center text-xs text-gray-100 transition-all duration-150 bg-transparent border border-gray-200 hover:border-white hover:text-white badge"
+              >
+                restore
+              </button>
+            </div>
           )}
         </div>
       </td>
@@ -114,7 +122,11 @@ export function Table({ subscribers, list }: Props) {
           </thead>
           <tbody>
             {subscribers.data.map((subscriber) => (
-              <SubscriberRow key={subscriber.id} subscriber={subscriber} list={list} />
+              <SubscriberRow
+                key={subscriber.id}
+                subscriber={subscriber}
+                list={list}
+              />
             ))}
           </tbody>
         </table>

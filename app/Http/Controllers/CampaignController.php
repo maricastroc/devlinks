@@ -219,10 +219,8 @@ class CampaignController extends Controller
         }
     }
 
-    public function restore($id)
+    public function restore(Campaign $campaign)
     {
-        $campaign = Campaign::withTrashed()->find($id);
-    
         if (!$campaign) {
             return response()->json([
                 'message' => 'Campaign not found.',

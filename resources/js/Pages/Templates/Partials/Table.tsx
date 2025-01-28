@@ -23,31 +23,31 @@ const TemplateRow = ({ template }: TemplateRowProps) => {
   const textStyle =
     template.deleted_at === null ? 'text-gray-300' : 'text-red-400';
 
-    const handleRestore = async () => {
-      try {
-        const url = route('templates.restore', { id: template.id });
-  
-        const response = await axios({
-          method: 'put',
-          url,
+  const handleRestore = async () => {
+    try {
+      const url = route('templates.restore', { template: template.id });
+
+      const response = await axios({
+        method: 'put',
+        url
+      });
+
+      if (response?.data.message) {
+        await new Promise((resolve) => {
+          notyf?.success(response?.data?.message);
+          setTimeout(resolve, 2000);
         });
-  
-        if (response?.data.message) {
-          await new Promise((resolve) => {
-            notyf?.success(response?.data?.message);
-            setTimeout(resolve, 2000);
-          });
-  
-          Inertia.visit(route('templates.index'));
-        }
-      } catch (error) {
-        if (axios.isAxiosError(error) && error.response?.data?.errors) {
-          notyf?.error(error.response.data.message);
-        } else {
-          handleReqError(error);
-        }
+
+        Inertia.visit(route('templates.index'));
       }
-    };
+    } catch (error) {
+      if (axios.isAxiosError(error) && error.response?.data?.errors) {
+        notyf?.error(error.response.data.message);
+      } else {
+        handleReqError(error);
+      }
+    }
+  };
 
   return (
     <tr key={template.id} className="border-b-zinc-800">
@@ -85,8 +85,13 @@ const TemplateRow = ({ template }: TemplateRowProps) => {
             </Dialog.Root>
           </div>
         ) : (
-          <div className='flex items-center justify-center w-full'>
-            <button onClick={handleRestore} className="flex items-center justify-center text-xs text-gray-100 transition-all duration-150 bg-transparent border border-gray-200 hover:border-white hover:text-white badge">restore</button>
+          <div className="flex items-center justify-center w-full">
+            <button
+              onClick={handleRestore}
+              className="flex items-center justify-center text-xs text-gray-100 transition-all duration-150 bg-transparent border border-gray-200 hover:border-white hover:text-white badge"
+            >
+              restore
+            </button>
           </div>
         )}
       </td>
