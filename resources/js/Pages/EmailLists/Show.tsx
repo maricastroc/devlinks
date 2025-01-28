@@ -152,7 +152,7 @@ export default function EmailList({ emailList, subscribers }: Props) {
             </label>
           </div>
 
-          <Table subscribers={subscribers} />
+          <Table subscribers={subscribers} list={emailList} />
 
           <PaginationSection
             emailList={emailList}

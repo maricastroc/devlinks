@@ -153,4 +153,36 @@ class EmailListController extends Controller
             ], 500);
         }
     }
+
+    public function restore($id)
+    {
+        $list = EmailList::withTrashed()->find($id);
+    
+        if (!$list) {
+            return response()->json([
+                'message' => 'List not found.',
+            ], 404);
+        }
+    
+        if (!$list->trashed()) {
+            return response()->json([
+                'message' => 'This list is not deleted.',
+            ], 400);
+        }
+    
+        $this->authorize('restore', $list);
+    
+        try {
+            $list->restore();
+    
+            return response()->json([
+                'message' => 'List successfully restored!',
+            ], 200);
+        } catch (\Exception $e) {
+            return response()->json([
+                'message' => 'Failed to restore list. Please try again later.',
+                'error' => $e->getMessage(),
+            ], 500);
+        }
+    }
 }

@@ -4,6 +4,10 @@ import { Info, PencilSimple, TrashSimple } from 'phosphor-react';
 import { TemplatesResults } from '../Index';
 import { useState } from 'react';
 import { DeleteModal } from '@/Components/DeleteModal';
+import axios from 'axios';
+import { notyf } from '@/libs/notyf';
+import { Inertia } from '@inertiajs/inertia';
+import { handleReqError } from '@/utils/handleReqError';
 
 type Props = {
   templates: TemplatesResults;
@@ -18,6 +22,32 @@ const TemplateRow = ({ template }: TemplateRowProps) => {
 
   const textStyle =
     template.deleted_at === null ? 'text-gray-300' : 'text-red-400';
+
+    const handleRestore = async () => {
+      try {
+        const url = route('templates.restore', { id: template.id });
+  
+        const response = await axios({
+          method: 'put',
+          url,
+        });
+  
+        if (response?.data.message) {
+          await new Promise((resolve) => {
+            notyf?.success(response?.data?.message);
+            setTimeout(resolve, 2000);
+          });
+  
+          Inertia.visit(route('templates.index'));
+        }
+      } catch (error) {
+        if (axios.isAxiosError(error) && error.response?.data?.errors) {
+          notyf?.error(error.response.data.message);
+        } else {
+          handleReqError(error);
+        }
+      }
+    };
 
   return (
     <tr key={template.id} className="border-b-zinc-800">
@@ -55,7 +85,9 @@ const TemplateRow = ({ template }: TemplateRowProps) => {
             </Dialog.Root>
           </div>
         ) : (
-          <div className="text-xs text-gray-100 bg-red-700 badge">deleted</div>
+          <div className='flex items-center justify-center w-full'>
+            <button onClick={handleRestore} className="flex items-center justify-center text-xs text-gray-100 transition-all duration-150 bg-transparent border border-gray-200 hover:border-white hover:text-white badge">restore</button>
+          </div>
         )}
       </td>
     </tr>

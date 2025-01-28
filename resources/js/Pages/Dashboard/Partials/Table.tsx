@@ -4,6 +4,10 @@ import { Info, PencilSimple, TrashSimple } from 'phosphor-react';
 import { useState } from 'react';
 import { DeleteModal } from '@/Components/DeleteModal';
 import { CampaignsResults } from '../Index';
+import axios from 'axios';
+import { notyf } from '@/libs/notyf';
+import { Inertia } from '@inertiajs/inertia';
+import { handleReqError } from '@/utils/handleReqError';
 
 type Props = {
   campaigns: CampaignsResults;
@@ -19,34 +23,60 @@ const CampaignRow = ({ campaign }: CampaignRowProps) => {
   const textStyle =
     campaign.deleted_at === null ? 'text-gray-300' : 'text-red-400';
 
-    const getStatusBadge = (status: string) => {
-      switch (status) {
-        case 'draft':
-          return (
-            <div className="text-xs font-semibold text-gray-800 bg-gray-200 badge">
-              {status}
-            </div>
-          );
-        case 'sent':
-          return (
-            <div className="text-xs font-semibold text-gray-100 bg-accent-blue-mid badge">
-              {status}
-            </div>
-          );
-        case 'scheduled':
-          return (
-            <div className="text-xs font-semibold text-gray-100 bg-accent-purple-dark badge">
-              {status}
-            </div>
-          );
-        default:
-          return (
-            <div className="text-xs font-semibold text-gray-800 bg-gray-200 badge">
-              {status}
-            </div>
-          );
+  const getStatusBadge = (status: string) => {
+    switch (status) {
+      case 'draft':
+        return (
+          <div className="text-xs font-semibold text-gray-800 bg-gray-200 badge">
+            {status}
+          </div>
+        );
+      case 'sent':
+        return (
+          <div className="text-xs font-semibold text-gray-100 bg-accent-blue-mid badge">
+            {status}
+          </div>
+        );
+      case 'scheduled':
+        return (
+          <div className="text-xs font-semibold text-gray-100 bg-accent-purple-dark badge">
+            {status}
+          </div>
+        );
+      default:
+        return (
+          <div className="text-xs font-semibold text-gray-800 bg-gray-200 badge">
+            {status}
+          </div>
+        );
+    }
+  };
+
+  const handleRestore = async () => {
+    try {
+      const url = route('campaigns.restore', { id: campaign.id });
+
+      const response = await axios({
+        method: 'put',
+        url,
+      });
+
+      if (response?.data.message) {
+        await new Promise((resolve) => {
+          notyf?.success(response?.data?.message);
+          setTimeout(resolve, 2000);
+        });
+
+        Inertia.visit(route('dashboard'));
       }
-    };
+    } catch (error) {
+      if (axios.isAxiosError(error) && error.response?.data?.errors) {
+        notyf?.error(error.response.data.message);
+      } else {
+        handleReqError(error);
+      }
+    }
+  };
 
   return (
     <tr key={campaign.id} className="border-b-zinc-800">
@@ -61,9 +91,9 @@ const CampaignRow = ({ campaign }: CampaignRowProps) => {
       <td className={`py-2 text-medium ${textStyle}`}>
         {campaign.template.name}
       </td>
-      <td className="text-gray-300">
+      <td className="flex items-center text-gray-300">
         {campaign.deleted_at === null ? (
-          <div className="flex items-center h-full gap-3">
+          <div className="flex items-center w-full h-full gap-2 justify-evenly">
             <Link
               className="transition-all duration-150 hover:text-blue-500"
               href={route('lists.show', { list: campaign.id })}
@@ -93,7 +123,9 @@ const CampaignRow = ({ campaign }: CampaignRowProps) => {
             </Dialog.Root>
           </div>
         ) : (
-          <div className="text-xs text-gray-100 bg-red-700 badge">deleted</div>
+          <div className='flex items-center justify-center w-full'>
+            <button onClick={handleRestore} className="flex items-center justify-center text-xs text-gray-100 transition-all duration-150 bg-transparent border border-gray-200 hover:border-white hover:text-white badge">restore</button>
+          </div>
         )}
       </td>
     </tr>

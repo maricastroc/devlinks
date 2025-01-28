@@ -41,7 +41,7 @@ export function PaginationSection({ emailLists, search, withTrashed }: Props) {
         <PaginationButton
           onClick={() =>
             router.get(
-              route('lists', {
+              route('lists.index', {
                 page: 1,
                 search,
                 withTrashed
@@ -62,7 +62,7 @@ export function PaginationSection({ emailLists, search, withTrashed }: Props) {
             key={page}
             onClick={() =>
               router.get(
-                route('lists', {
+                route('lists.index', {
                   page,
                   search,
                   withTrashed
@@ -85,7 +85,7 @@ export function PaginationSection({ emailLists, search, withTrashed }: Props) {
           <PaginationButton
             onClick={() =>
               router.get(
-                route('lists', {
+                route('lists.index', {
                   page: totalPages,
                   search,
                   withTrashed

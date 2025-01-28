@@ -140,4 +140,36 @@ class TemplateController extends Controller
             ], 500);
         }
     }
+
+    public function restore($id)
+    {
+        $template = Template::withTrashed()->find($id);
+    
+        if (!$template) {
+            return response()->json([
+                'message' => 'Template not found.',
+            ], 404);
+        }
+    
+        if (!$template->trashed()) {
+            return response()->json([
+                'message' => 'This template is not deleted.',
+            ], 400);
+        }
+    
+        $this->authorize('restore', $template);
+    
+        try {
+            $template->restore();
+    
+            return response()->json([
+                'message' => 'Template successfully restored!',
+            ], 200);
+        } catch (\Exception $e) {
+            return response()->json([
+                'message' => 'Failed to restore template. Please try again later.',
+                'error' => $e->getMessage(),
+            ], 500);
+        }
+    }
 }

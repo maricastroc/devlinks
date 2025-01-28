@@ -15,6 +15,7 @@ use Inertia\Inertia;
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/', [CampaignController::class, 'index'])->name('dashboard');
     Route::resource('campaigns', CampaignController::class)->except(['index']);
+    Route::put('campaigns/{id}/restore', [CampaignController::class, 'restore'])->name('campaigns.restore');
 });
 
 Route::middleware('auth')->prefix('profile')->name('profile.')->group(function () {
@@ -25,13 +26,16 @@ Route::middleware('auth')->prefix('profile')->name('profile.')->group(function (
 
 Route::middleware('auth')->group(function () {
     Route::resource('lists', EmailListController::class);
+    Route::put('lists/{id}/restore', [EmailListController::class, 'restore'])->name('lists.restore');
     Route::resource('templates', TemplateController::class);
+    Route::put('templates/{id}/restore', [TemplateController::class, 'restore'])->name('templates.restore');
     Route::get('/campaigns/{campaign}/emails', [CampaignController::class, 'sendCampaignEmails'])->name('campaign.emails');
     Route::post('/campaigns/test-email', [CampaignEmailController::class, 'test'])->name('campaign.test.email');
 });
 
 Route::middleware('auth')->prefix('lists/{list}')->group(function () {
     Route::resource('subscribers', SubscriberController::class)->except(['index', 'show']);
+    Route::put('subscribers/{id}/restore', [SubscriberController::class, 'restore'])->name('subscribers.restore');
 });
 
 Route::middleware('auth')->group(function () {

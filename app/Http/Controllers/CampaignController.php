@@ -83,9 +83,9 @@ class CampaignController extends Controller
                 $campaign = Campaign::create($data);
 
                 if (isset($request->draft_mode) && !$request->draft_mode) {
-                    $campaign->update(['status' => Campaign::STATUS_SCHEDULED]);
-                    
                     try {
+                        $campaign->update(['status' => Campaign::STATUS_SCHEDULED]);
+
                         SendEmailCampaign::dispatch($campaign)->delay($data['send_at']);
     
                         return response()->json([
@@ -171,9 +171,9 @@ class CampaignController extends Controller
                 $campaign->update($data);
 
                 if (isset($request->draft_mode) && !$request->draft_mode) {
-                    $campaign->update(['status' => Campaign::STATUS_SCHEDULED]);
-
                     try {
+                        $campaign->update(['status' => Campaign::STATUS_SCHEDULED]);
+                        
                         SendEmailCampaign::dispatch($campaign)->delay($data['send_at']);
     
                         return response()->json([
@@ -214,6 +214,38 @@ class CampaignController extends Controller
         } catch (\Exception $e) {
             return response()->json([
                 'message' => 'Failed to delete campaign. Please try again later.',
+                'error' => $e->getMessage(),
+            ], 500);
+        }
+    }
+
+    public function restore($id)
+    {
+        $campaign = Campaign::withTrashed()->find($id);
+    
+        if (!$campaign) {
+            return response()->json([
+                'message' => 'Campaign not found.',
+            ], 404);
+        }
+    
+        if (!$campaign->trashed()) {
+            return response()->json([
+                'message' => 'This campaign is not deleted.',
+            ], 400);
+        }
+    
+        $this->authorize('restore', $campaign);
+    
+        try {
+            $campaign->restore();
+    
+            return response()->json([
+                'message' => 'Campaign successfully restored!',
+            ], 200);
+        } catch (\Exception $e) {
+            return response()->json([
+                'message' => 'Failed to restore campaign. Please try again later.',
                 'error' => $e->getMessage(),
             ], 500);
         }

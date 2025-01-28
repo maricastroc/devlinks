@@ -99,4 +99,36 @@ class SubscriberController extends Controller
             ], 500);
         }
     }
+
+    public function restore(EmailList $list, $id)
+    {
+        $subscriber = Subscriber::withTrashed()->find($id);
+    
+        if (!$subscriber) {
+            return response()->json([
+                'message' => 'Subscriber not found.',
+            ], 404);
+        }
+    
+        if (!$subscriber->trashed()) {
+            return response()->json([
+                'message' => 'This subscriber is not deleted.',
+            ], 400);
+        }
+    
+        $this->authorize('restore', $subscriber);
+    
+        try {
+            $subscriber->restore();
+    
+            return response()->json([
+                'message' => 'Subscriber successfully restored!',
+            ], 200);
+        } catch (\Exception $e) {
+            return response()->json([
+                'message' => 'Failed to restore subscriber. Please try again later.',
+                'error' => $e->getMessage(),
+            ], 500);
+        }
+    }
 }

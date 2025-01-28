@@ -5,11 +5,9 @@ module.exports = {
   extends: [
     'eslint:recommended',
     'plugin:@typescript-eslint/recommended',
-    'plugin:prettier/recommended',  // Integra o Prettier com ESLint
+    'plugin:prettier/recommended',
   ],
   rules: {
-    'indent': ['error', 2],
-    '@typescript-eslint/indent': ['error', 2],
-    'prettier/prettier': ['error', { 'tabWidth': 2, 'useTabs': false }] // Regras do Prettier
+    'prettier/prettier': ['error', { 'tabWidth': 2, 'useTabs': false }]
   },
 };
