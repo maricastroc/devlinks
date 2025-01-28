@@ -14,7 +14,6 @@ import Step1 from './Partials/Step1';
 import Step2 from './Partials/Step2';
 import Step3 from './Partials/Step3';
 import { handleReqError } from '@/utils/handleReqError';
-import { checkSteps } from '@/utils/checkSteps';
 import { formatDate } from '@/utils/formatDate';
 import PrimaryButton from '@/Components/PrimaryButton';
 
@@ -52,7 +51,6 @@ export default function CampaignForm({
   campaign,
   emailLists,
   templates,
-  isEdit
 }: Props) {
   const [errors, setErrors] = useState<FormErrors>({});
 
@@ -64,8 +62,6 @@ export default function CampaignForm({
   const [selectedList, setSelectedList] = useState<EmailListProps | null>(null);
 
   const [processing, setProcessing] = useState(false);
-
-  const [draftMode, setDraftMode] = useState(false);
 
   const { data, setData } = useForm({
     name: campaign?.name || undefined,

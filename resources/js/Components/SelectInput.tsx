@@ -10,7 +10,6 @@ import {
 
 export default forwardRef(function SelectInput(
   {
-    type = 'text',
     className = '',
     isFocused = false,
     emailLists,

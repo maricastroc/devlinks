@@ -13,14 +13,6 @@ export default function Authenticated({
   const [showingNavigationDropdown, setShowingNavigationDropdown] =
     useState(false);
 
-  function isActive(href: string): boolean {
-    const url = usePage().url;
-
-    return (
-      url === href || url.startsWith(`${href}/`) || url.startsWith(`${href}?`)
-    );
-  }
-
   return (
     <div className="flex flex-col min-h-screen bg-background-primary">
       <nav className="w-full border-b border-b-zinc-800 bg-background-secondary">
@@ -123,9 +115,15 @@ export default function Authenticated({
           } md:hidden bg-background-secondary border-t border-gray-600`}
         >
           <div className="pt-2 pb-3 space-y-1">
-            <ResponsiveNavLink href={route('dashboard')}>Campaings</ResponsiveNavLink>
-            <ResponsiveNavLink href={route('lists.index')}>Lists</ResponsiveNavLink>
-            <ResponsiveNavLink href={route('templates.index')}>Templates</ResponsiveNavLink>
+            <ResponsiveNavLink href={route('dashboard')}>
+              Campaings
+            </ResponsiveNavLink>
+            <ResponsiveNavLink href={route('lists.index')}>
+              Lists
+            </ResponsiveNavLink>
+            <ResponsiveNavLink href={route('templates.index')}>
+              Templates
+            </ResponsiveNavLink>
           </div>
 
           <div className="pt-4 pb-1 border-t border-gray-600">

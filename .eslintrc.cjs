@@ -8,6 +8,7 @@ module.exports = {
     'plugin:prettier/recommended',
   ],
   rules: {
-    'prettier/prettier': ['error', { 'tabWidth': 2, 'useTabs': false }]
+    'prettier/prettier': ['error', { 'tabWidth': 2, 'useTabs': false }],
+    '@typescript-eslint/no-empty-function': 'off',
   },
 };

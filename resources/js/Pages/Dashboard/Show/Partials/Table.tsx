@@ -11,9 +11,17 @@ type SubscriberRowProps = {
 const SubscriberRow = ({ subscriber }: SubscriberRowProps) => {
   return (
     <tr key={subscriber.id} className="border-b border-zinc-800">
-            <td className={`flex items-center justify-center py-2 w-[8%] text-medium text-gray-300`}>{'2'}</td>
-      <td className={`py-2 text-medium text-gray-300 w-[46%]`}>{subscriber.name}</td>
-      <td className={`py-2 text-medium text-gray-300 w-[46%]`}>{subscriber.email}</td>
+      <td
+        className={`flex items-center justify-center py-2 w-[8%] text-medium text-gray-300`}
+      >
+        {'2'}
+      </td>
+      <td className={`py-2 text-medium text-gray-300 w-[46%]`}>
+        {subscriber.name}
+      </td>
+      <td className={`py-2 text-medium text-gray-300 w-[46%]`}>
+        {subscriber.email}
+      </td>
     </tr>
   );
 };
@@ -25,17 +33,16 @@ export function Table({ subscribers }: Props) {
         <table className="table w-full text-content">
           <thead>
             <tr className="border-b border-zinc-800">
-            <th className="flex items-center justify-center py-2 text-medium w-[8%]">Clicks</th>
+              <th className="flex items-center justify-center py-2 text-medium w-[8%]">
+                Clicks
+              </th>
               <th className="py-2 text-medium w-[46%]">Name</th>
               <th className="py-2 text-medium w-[46%]">E-mail</th>
             </tr>
           </thead>
           <tbody>
             {subscribers.data.map((subscriber) => (
-              <SubscriberRow
-                key={subscriber.id}
-                subscriber={subscriber}
-              />
+              <SubscriberRow key={subscriber.id} subscriber={subscriber} />
             ))}
           </tbody>
         </table>

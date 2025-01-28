@@ -9,11 +9,7 @@ type Props = {
   search: string;
 };
 
-export function PaginationSection({
-  subscribers,
-  emailList,
-  search,
-}: Props) {
+export function PaginationSection({ subscribers, emailList, search }: Props) {
   const totalPages = Math.ceil(subscribers.total / subscribers.per_page);
 
   const currentPage = subscribers.current_page;
@@ -49,7 +45,7 @@ export function PaginationSection({
               route('lists.show', {
                 list: emailList.id,
                 page: 1,
-                search,
+                search
               }),
               {},
               { preserveState: true, replace: true }
@@ -70,7 +66,7 @@ export function PaginationSection({
                 route('lists.show', {
                   list: emailList.id,
                   page,
-                  search,
+                  search
                 }),
                 {},
                 { preserveState: true, replace: true }
@@ -93,7 +89,7 @@ export function PaginationSection({
                 route('lists.show', {
                   list: emailList.id,
                   page: totalPages,
-                  search,
+                  search
                 }),
                 {},
                 { preserveState: true, replace: true }

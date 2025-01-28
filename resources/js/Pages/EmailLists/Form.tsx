@@ -24,6 +24,7 @@ type Props = {
 
 export default function ListForm({ emailList }: Props) {
   const [errors, setErrors] = useState<FormErrors>({});
+  
   const [processing, setProcessing] = useState(false);
 
   const { data, setData } = useForm({
