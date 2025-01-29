@@ -2,17 +2,18 @@ import PaginationButton from '@/Components/PaginationButton';
 import { SubscribersResult } from '@/Pages/EmailLists/Show';
 import { EmailListProps } from '@/types/emailList';
 import { router } from '@inertiajs/react';
+import { CampaignMailsResult } from '../Index';
 
 type Props = {
-  subscribers: SubscribersResult;
+  campaignMails: CampaignMailsResult;
   emailList: EmailListProps;
   search: string;
 };
 
-export function PaginationSection({ subscribers, emailList, search }: Props) {
-  const totalPages = Math.ceil(subscribers.total / subscribers.per_page);
+export function PaginationSection({ campaignMails, emailList, search }: Props) {
+  const totalPages = Math.ceil(campaignMails.total / campaignMails.per_page);
 
-  const currentPage = subscribers.current_page;
+  const currentPage = campaignMails.current_page;
 
   let middlePages: number[] = [];
 
@@ -32,9 +33,9 @@ export function PaginationSection({ subscribers, emailList, search }: Props) {
     <div className="flex flex-col-reverse items-start justify-between gap-5 mt-8 lg:mt-4 lg:items-center lg:gap-0 lg:flex-row">
       <p className="text-sm">
         Showing{' '}
-        <span className="font-bold text-gray-200">{subscribers.from}</span> to{' '}
-        <span className="font-bold text-gray-200">{subscribers.to}</span> |{' '}
-        <span className="font-bold text-gray-200">{subscribers.total}</span>{' '}
+        <span className="font-bold text-gray-200">{campaignMails.from}</span> to{' '}
+        <span className="font-bold text-gray-200">{campaignMails.to}</span> |{' '}
+        <span className="font-bold text-gray-200">{campaignMails.total}</span>{' '}
         subscribers
       </p>
 

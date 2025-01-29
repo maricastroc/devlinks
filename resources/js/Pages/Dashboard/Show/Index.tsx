@@ -11,13 +11,37 @@ import { format } from 'date-fns';
 import { Statistics } from './Partials/Statistics';
 import { SubscribersResult } from '@/Pages/EmailLists/Show';
 import Opened from './Partials/Opened';
+import { CampaignMailProps } from '@/types/campaign-mail';
+
+export type StatisticsProps = {
+  total_emails: number
+  total_opens: number
+  total_clicks: number
+  open_rate: number
+  click_rate: number
+  unique_opens: number
+  unique_clicks: number
+}
+
+export type CampaignMailsResult = {
+  data: CampaignMailProps[];
+  total: number;
+  current_page: number;
+  per_page: number;
+  next_page_url: string;
+  prev_page_url: string;
+  to: number;
+  from: number;
+};
+
 
 type Props = {
   campaign: CampaignProps;
-  subscribers: SubscribersResult;
+  campaignMails: CampaignMailsResult
+  statistics: StatisticsProps
 };
 
-export default function Index({ campaign, subscribers }: Props) {
+export default function Index({ campaign, campaignMails, statistics }: Props) {
   const [activeTab, setActiveTab] = useState('statistics');
 
   return (
@@ -67,10 +91,10 @@ export default function Index({ campaign, subscribers }: Props) {
             </button>
           </div>
 
-          {activeTab === 'statistics' && <Statistics campaign={campaign} />}
+          {activeTab === 'statistics' && <Statistics statistics={statistics} campaignMails={campaignMails} campaign={campaign} />}
 
           {activeTab === 'opened' && (
-            <Opened subscribers={subscribers} emailList={campaign.email_list} />
+            <Opened campaignMails={campaignMails} emailList={campaign.email_list} />
           )}
         </section>
       </div>

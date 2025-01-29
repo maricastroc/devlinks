@@ -5,6 +5,7 @@ namespace App\Providers;
 use App\Models\EmailList;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 use App\Models\Campaign;
+use App\Models\CampaignMail;
 use App\Models\Subscriber;
 use App\Models\Template;
 use App\Policies\CampaignPolicy;

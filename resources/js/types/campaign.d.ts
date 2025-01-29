@@ -1,3 +1,4 @@
+import { CampaignMailProps } from './campaign-mail';
 import { EmailListProps } from './emailList';
 import { TemplateProps } from './template';
 import { UserProps } from './user';
@@ -19,4 +20,5 @@ export type CampaignProps = {
   template: TemplateProps;
   customize_send_at: boolean;
   status?: string;
+  mails: CampaignMailProps[]
 };

@@ -50,7 +50,7 @@ export type DataProps = {
 export default function CampaignForm({
   campaign,
   emailLists,
-  templates,
+  templates
 }: Props) {
   const [errors, setErrors] = useState<FormErrors>({});
 

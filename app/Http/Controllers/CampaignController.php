@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\CampaignRequest;
 use App\Http\Requests\UpdateCampaignRequest;
-use App\Jobs\SendEmailCampaign;
+use App\Jobs\SendEmailsCampaignJob;
 use App\Models\Campaign;
 use App\Services\EmailService;
 use Carbon\Carbon;
@@ -86,7 +86,7 @@ class CampaignController extends Controller
                     try {
                         $campaign->update(['status' => Campaign::STATUS_SCHEDULED]);
 
-                        SendEmailCampaign::dispatch($campaign)->delay($data['send_at']);
+                        SendEmailsCampaignJob::dispatch($campaign)->delay($data['send_at']);
     
                         return response()->json([
                             'message' => 'Emails sent successfully!',
@@ -174,7 +174,7 @@ class CampaignController extends Controller
                     try {
                         $campaign->update(['status' => Campaign::STATUS_SCHEDULED]);
                         
-                        SendEmailCampaign::dispatch($campaign)->delay($data['send_at']);
+                        SendEmailsCampaignJob::dispatch($campaign)->delay($data['send_at']);
     
                         return response()->json([
                             'message' => 'Emails sent successfully!',

@@ -2,16 +2,16 @@ import { router } from '@inertiajs/react';
 import { useEffect, useState } from 'react';
 import { EmailListProps } from '@/types/emailList';
 import SearchInput from '@/Components/SearchInput';
-import { SubscribersResult } from '@/Pages/EmailLists/Show';
 import { Table } from './Table';
 import { PaginationSection } from './PaginationSection';
+import { CampaignMailsResult } from '../Index';
 
 type Props = {
   emailList: EmailListProps;
-  subscribers: SubscribersResult;
+  campaignMails: CampaignMailsResult;
 };
 
-export default function Opened({ emailList, subscribers }: Props) {
+export default function Opened({ emailList, campaignMails }: Props) {
   const [search, setSearch] = useState('');
 
   return (
@@ -29,11 +29,11 @@ export default function Opened({ emailList, subscribers }: Props) {
         onReset={() => setSearch('')}
       />
 
-      <Table subscribers={subscribers} />
+      <Table campaignMails={campaignMails} />
 
       <PaginationSection
         emailList={emailList}
-        subscribers={subscribers}
+        campaignMails={campaignMails}
         search={search}
       />
     </div>

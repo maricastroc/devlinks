@@ -1,35 +1,35 @@
-import { SubscribersResult } from '@/Pages/EmailLists/Show';
+import { CampaignMailsResult } from '../Index';
 
 type Props = {
-  subscribers: SubscribersResult;
+  campaignMails: CampaignMailsResult;
 };
 
-type SubscriberRowProps = {
-  subscriber: SubscribersResult['data'][0];
+type MailRowProps = {
+  campaignMail: CampaignMailsResult['data'][0];
 };
 
-const SubscriberRow = ({ subscriber }: SubscriberRowProps) => {
+const CampaignMailRow = ({ campaignMail }: MailRowProps) => {
   return (
-    <tr key={subscriber.id} className="border-b border-zinc-800">
+    <tr key={campaignMail.id} className="border-b border-zinc-800">
       <td
         className={`flex items-center justify-center py-2 w-[8%] text-medium text-gray-300`}
       >
         {'2'}
       </td>
       <td className={`py-2 text-medium text-gray-300 w-[46%]`}>
-        {subscriber.name}
+        {campaignMail.subscriber.name}
       </td>
       <td className={`py-2 text-medium text-gray-300 w-[46%]`}>
-        {subscriber.email}
+        {campaignMail.subscriber.email}
       </td>
     </tr>
   );
 };
 
-export function Table({ subscribers }: Props) {
+export function Table({ campaignMails }: Props) {
   return (
     <div className="px-3 py-5 lg:mt-5 lg:max-h-[42vh] overflow-auto rounded-lg lg:p-5 mt-7 bg-background-tertiary text-content">
-      {subscribers?.data?.length ? (
+      {campaignMails?.data?.length ? (
         <table className="table w-full text-content">
           <thead>
             <tr className="border-b border-zinc-800">
@@ -41,15 +41,15 @@ export function Table({ subscribers }: Props) {
             </tr>
           </thead>
           <tbody>
-            {subscribers.data.map((subscriber) => (
-              <SubscriberRow key={subscriber.id} subscriber={subscriber} />
+            {campaignMails.data.map((campaignMail) => (
+              <CampaignMailRow key={campaignMail.id} campaignMail={campaignMail} />
             ))}
           </tbody>
         </table>
       ) : (
         <div className="flex items-center justify-center">
           <p className="text-gray-400">
-            We couldn&apos;t find any subscribers.
+            We couldn&apos;t find any campaignMails.
           </p>
         </div>
       )}
