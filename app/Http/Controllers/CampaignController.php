@@ -75,6 +75,10 @@ class CampaignController extends Controller
         try {
             $data = $request->validated();
 
+            $user = $request->user();
+
+            $data['user_id'] = $user->id;
+
             if (isset($data['send_at'])) {
                 $data['send_at'] = Carbon::parse($data['send_at'])->setTimezone('America/Sao_Paulo');
             }

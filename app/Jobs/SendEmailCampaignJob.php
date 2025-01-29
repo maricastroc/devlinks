@@ -24,13 +24,20 @@ class SendEmailCampaignJob implements ShouldQueue
     public function handle(): void
     {
         try {
-            Mail::to($this->subscriber->email)->send(new EmailCampaign($this->campaign));
-            
-            CampaignMail::query()->create([
+            $mail = CampaignMail::create([
                 'campaign_id' => $this->campaign->id,
                 'subscriber_id' => $this->subscriber->id,
                 'send_at' => $this->campaign->send_at,
             ]);
+
+            if ($mail) {
+                Log::info("CampaignMail successfully created!", ['id' => $mail->id]);
+            } else {
+                Log::error("Failed to create CampaignMail.");
+            }
+    
+            Mail::to($this->subscriber->email)->send(new EmailCampaign($this->campaign, $mail));
+    
         } catch (\Exception $e) {
             Log::error("Failed to send email to {$this->subscriber->email}: {$e->getMessage()}");
         }

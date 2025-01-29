@@ -11,12 +11,13 @@ class EmailService
     public function sendCampaignEmails($campaign)
     {
         $emailList = $campaign->emailList; 
+        $mail = $campaign->mails()->first();
 
         if ($emailList && $emailList->subscribers) {
             foreach ($emailList->subscribers as $subscriber) {
                 Mail::to($subscriber->email)->later(
                     $campaign->send_at,
-                    new EmailCampaign($campaign)
+                    new EmailCampaign($campaign, $mail)
                 );
             }
         }
@@ -24,6 +25,8 @@ class EmailService
 
     public function sendTestEmail($campaign, $email)
     {
-        Mail::to($email)->send(new EmailCampaign($campaign));
+        $mail = $campaign->mails()->first();
+        
+        Mail::to($email)->send(new EmailCampaign($campaign, $mail));
     }
 }

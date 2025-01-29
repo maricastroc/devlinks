@@ -10,7 +10,7 @@ class CampaignMail extends Model
     /** @use HasFactory<\Database\Factories\CampaignMailFactory> */
     use HasFactory;
 
-     /**
+    /**
      * The attributes that are mass assignable.
      *
      * @var list<string>

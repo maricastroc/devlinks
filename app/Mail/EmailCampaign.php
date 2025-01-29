@@ -3,6 +3,7 @@
 namespace App\Mail;
 
 use App\Models\Campaign;
+use App\Models\CampaignMail;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
@@ -20,7 +21,10 @@ class EmailCampaign extends Mailable
     /**
      * @param \App\Models\Campaign $campaign
      */
-    public function __construct(public Campaign $campaign)
+    public function __construct(
+        public Campaign $campaign,
+        public CampaignMail $mail
+    )
     {
 
     }
