@@ -9,13 +9,15 @@ use Illuminate\Support\Facades\Response;
 
 class EmailTrackingController extends Controller
 {
-    public function trackOpening(CampaignMail $campaignMail)
+    public function trackOpening(CampaignMail $mail)
     {
         try {
-            $campaignMail->increment('opens');
+            Log::info('Tracking open for CampaignMail ID: ' . $mail->id);  // Verifique se o ID é o esperado
+    
+            $mail->increment('opens');
         
-            Log::info("E-mail opened!", ['campaign_mail_id' => $campaignMail->id]);
-            
+            Log::info("E-mail opened!", ['campaign_mail_id' => $mail->id]);
+        
             $transparentImage = base64_decode(
                 'R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw=='
             );

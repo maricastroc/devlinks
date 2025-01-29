@@ -23,7 +23,12 @@ class SendEmailsCampaignJob implements ShouldQueue
             return;
         }
 
-
+        if ($this->campaign->status === Campaign::STATUS_SENT) {
+            Log::info("Campaign already marked as sent. Skipping email dispatch.", [
+                'campaign_id' => $this->campaign->id,
+            ]);
+            return;
+        }
 
         $emailList = $this->campaign->emailList;
 
