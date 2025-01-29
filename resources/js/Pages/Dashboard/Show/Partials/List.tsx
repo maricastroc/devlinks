@@ -9,7 +9,7 @@ import { router } from '@inertiajs/react';
 type Props = {
   campaign: CampaignProps;
   campaignMails: CampaignMailsResult;
-  variant: 'clicks' | 'opens'
+  variant: 'clicks' | 'opens';
 };
 
 export default function List({ campaign, campaignMails, variant }: Props) {
@@ -47,7 +47,7 @@ export default function List({ campaign, campaignMails, variant }: Props) {
 
     return () => clearTimeout(timer);
   }, [search]);
-  
+
   return (
     <div className="flex flex-col w-full mt-[-0.8rem]">
       <SearchInput

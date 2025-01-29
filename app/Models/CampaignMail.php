@@ -36,4 +36,14 @@ class CampaignMail extends Model
     {
         return $this->belongsTo(Subscriber::class);
     }
+
+    public function scopeFilterBySubscriber($query, $search)
+    {
+        return $query->when($search, function ($query) use ($search) {
+            $query->whereHas('subscriber', function ($subQuery) use ($search) {
+                $subQuery->where('name', 'LIKE', "%{$search}%")
+                        ->orWhere('email', 'LIKE', "%{$search}%");
+            });
+        });
+    }
 }
