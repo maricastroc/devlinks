@@ -1,27 +1,20 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
-import { Head, Link, router } from '@inertiajs/react';
-import { TemplateProps } from '@/types/template';
-import SecondaryButton from '@/Components/SecondaryButton';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { Head, Link } from '@inertiajs/react';
 import { CampaignProps } from '@/types/campaign';
-import { CheckCircle } from 'phosphor-react';
-import { faCircleCheck } from '@fortawesome/free-solid-svg-icons';
 import { useState } from 'react';
-import { format } from 'date-fns';
 import { Statistics } from './Partials/Statistics';
-import { SubscribersResult } from '@/Pages/EmailLists/Show';
-import Opened from './Partials/Opened';
+import List from './Partials/List';
 import { CampaignMailProps } from '@/types/campaign-mail';
 
 export type StatisticsProps = {
-  total_emails: number
-  total_opens: number
-  total_clicks: number
-  open_rate: number
-  click_rate: number
-  unique_opens: number
-  unique_clicks: number
-}
+  total_emails: number;
+  total_opens: number;
+  total_clicks: number;
+  open_rate: number;
+  click_rate: number;
+  unique_opens: number;
+  unique_clicks: number;
+};
 
 export type CampaignMailsResult = {
   data: CampaignMailProps[];
@@ -34,11 +27,10 @@ export type CampaignMailsResult = {
   from: number;
 };
 
-
 type Props = {
   campaign: CampaignProps;
-  campaignMails: CampaignMailsResult
-  statistics: StatisticsProps
+  campaignMails: CampaignMailsResult;
+  statistics: StatisticsProps;
 };
 
 export default function Index({ campaign, campaignMails, statistics }: Props) {
@@ -78,23 +70,33 @@ export default function Index({ campaign, campaignMails, statistics }: Props) {
               Statistics
             </button>
             <button
-              onClick={() => setActiveTab('opened')}
-              className={`${activeTab === 'opened' ? 'text-white border-b-2 font-bold border-b-accent-blue-mid pb-1' : 'text-gray-400'}`}
+              onClick={() => setActiveTab('opens')}
+              className={`${activeTab === 'opens' ? 'text-white border-b-2 font-bold border-b-accent-blue-mid pb-1' : 'text-gray-400'}`}
             >
               Opened
             </button>
             <button
-              onClick={() => setActiveTab('clicked')}
-              className={`${activeTab === 'clicked' ? 'text-white border-b-2 font-bold border-b-accent-blue-mid pb-1' : 'text-gray-400'}`}
+              onClick={() => setActiveTab('clicks')}
+              className={`${activeTab === 'clicks' ? 'text-white border-b-2 font-bold border-b-accent-blue-mid pb-1' : 'text-gray-400'}`}
             >
               Clicked
             </button>
           </div>
 
-          {activeTab === 'statistics' && <Statistics statistics={statistics} campaignMails={campaignMails} campaign={campaign} />}
+          {activeTab === 'statistics' && (
+            <Statistics
+              statistics={statistics}
+              campaignMails={campaignMails}
+              campaign={campaign}
+            />
+          )}
 
-          {activeTab === 'opened' && (
-            <Opened campaignMails={campaignMails} emailList={campaign.email_list} />
+          {(activeTab === 'opens' || activeTab === 'clicks') && (
+            <List
+              campaignMails={campaignMails}
+              campaign={campaign}
+              variant={activeTab}
+            />
           )}
         </section>
       </div>

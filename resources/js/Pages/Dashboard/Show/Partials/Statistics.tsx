@@ -44,15 +44,16 @@ export const Statistics = ({ campaign, campaignMails, statistics }: Props) => {
           .
         </p>
       </div>
-    )
-  }
+    );
+  };
 
   const unsentReport = () => {
     return (
       <div className="flex items-start mb-10 gap-2 p-3 text-white bg-accent-green-dark rounded-xl text-[0.95rem]">
         <FontAwesomeIcon icon={faCircleCheck} fontSize={18} className="mt-1" />
         <p className="leading-6">
-          Your campaign, <span className="font-bold">{name}</span>, is scheduled to be sent to
+          Your campaign, <span className="font-bold">{name}</span>, is scheduled
+          to be sent to
           <span className="font-bold">
             {' '}
             {campaign?.email_list?.subscribers?.length} subscribers
@@ -65,9 +66,9 @@ export const Statistics = ({ campaign, campaignMails, statistics }: Props) => {
           .
         </p>
       </div>
-    )
-  }
-  
+    );
+  };
+
   return (
     <>
       {campaign.status === 'sent' ? sentReport() : unsentReport()}

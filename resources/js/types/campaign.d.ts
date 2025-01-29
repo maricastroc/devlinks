@@ -20,5 +20,5 @@ export type CampaignProps = {
   template: TemplateProps;
   customize_send_at: boolean;
   status?: string;
-  mails: CampaignMailProps[]
+  mails: CampaignMailProps[];
 };

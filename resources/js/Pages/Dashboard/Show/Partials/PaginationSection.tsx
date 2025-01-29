@@ -1,16 +1,15 @@
 import PaginationButton from '@/Components/PaginationButton';
-import { SubscribersResult } from '@/Pages/EmailLists/Show';
-import { EmailListProps } from '@/types/emailList';
 import { router } from '@inertiajs/react';
 import { CampaignMailsResult } from '../Index';
+import { CampaignProps } from '@/types/campaign';
 
 type Props = {
+  campaign: CampaignProps;
   campaignMails: CampaignMailsResult;
-  emailList: EmailListProps;
   search: string;
 };
 
-export function PaginationSection({ campaignMails, emailList, search }: Props) {
+export function PaginationSection({ campaignMails, campaign, search }: Props) {
   const totalPages = Math.ceil(campaignMails.total / campaignMails.per_page);
 
   const currentPage = campaignMails.current_page;
@@ -43,8 +42,8 @@ export function PaginationSection({ campaignMails, emailList, search }: Props) {
         <PaginationButton
           onClick={() =>
             router.get(
-              route('lists.show', {
-                list: emailList.id,
+              route('campaign.statistics', {
+                campaign: campaign.id,
                 page: 1,
                 search
               }),
@@ -64,8 +63,8 @@ export function PaginationSection({ campaignMails, emailList, search }: Props) {
             key={page}
             onClick={() =>
               router.get(
-                route('lists.show', {
-                  list: emailList.id,
+                route('campaign.statistics', {
+                  campaign: campaign.id,
                   page,
                   search
                 }),
@@ -87,8 +86,8 @@ export function PaginationSection({ campaignMails, emailList, search }: Props) {
           <PaginationButton
             onClick={() =>
               router.get(
-                route('lists.show', {
-                  list: emailList.id,
+                route('campaign.statistics', {
+                  campaign: campaign.id,
                   page: totalPages,
                   search
                 }),
