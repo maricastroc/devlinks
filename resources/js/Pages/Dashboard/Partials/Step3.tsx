@@ -10,10 +10,8 @@ import InputError from '@/Components/InputError';
 import axios, { AxiosError } from 'axios';
 import { notyf } from '@/libs/notyf';
 import { handleReqError } from '@/utils/handleReqError';
-import { formatInTimeZone } from 'date-fns-tz';
 
 type CampaignStep1Props = {
-  templates: TemplateProps[];
   data: DataProps;
   selectedList: EmailListProps | null;
   selectedTemplate: TemplateProps | null;
@@ -23,7 +21,6 @@ type CampaignStep1Props = {
 
 export default function Step3({
   data,
-  templates,
   selectedList,
   selectedTemplate,
   errors,
@@ -37,15 +34,8 @@ export default function Step3({
 
   const [name, setName] = useState('');
 
-  const [testErrors, setTestErrors] = useState<FormErrors>({});
-
-  const [processing, setProcessing] = useState(false);
-
   const submit: FormEventHandler = async (e) => {
     e.preventDefault();
-
-    setProcessing(true);
-    setTestErrors({});
 
     try {
       const url = route('campaign.test.email');
@@ -71,8 +61,6 @@ export default function Step3({
       } else {
         handleReqError(error);
       }
-    } finally {
-      setProcessing(false);
     }
   };
 
@@ -119,6 +107,13 @@ export default function Step3({
     fetchEnvVariables();
   }, []);
 
+  useEffect(() => {
+    if (data.customize_send_at === true) {
+      setDate('')
+      setTime('')
+    }
+  }, [data.customize_send_at])
+  
   return (
     <div className="flex flex-col w-full">
       <InputLabel value="Test Campaign" />

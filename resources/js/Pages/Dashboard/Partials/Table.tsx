@@ -93,7 +93,7 @@ const CampaignRow = ({ campaign }: CampaignRowProps) => {
       </td>
       <td className="flex items-center text-gray-300">
         {campaign.deleted_at === null ? (
-          <div className="flex items-center w-full h-full gap-2 justify-evenly">
+          <div className="flex items-center w-full h-full justify-evenly">
             <Link
               className="transition-all duration-150 hover:text-blue-500"
               href={route('campaign.statistics', { campaign: campaign.id })}

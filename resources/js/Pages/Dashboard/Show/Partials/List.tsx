@@ -54,7 +54,7 @@ export default function List({ campaign, campaignMails, variant }: Props) {
         id="search"
         name="search"
         className="w-full py-5"
-        placeholder="Search by name or email"
+        placeholder={`Search by name, email or ${variant} number`}
         value={search}
         search={search}
         onChange={(e: React.ChangeEvent<HTMLInputElement>) => {

@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\CampaignMail;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Response;
 
 class EmailTrackingController extends Controller
 {

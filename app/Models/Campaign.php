@@ -73,6 +73,7 @@ class Campaign extends Model
         return $query->when($search, function ($query, $search) {
             $query->where('name', 'like', "%$search%")
                 ->orWhere('id', 'like', "%$search%")
+                ->orWhere('status', 'like', "%$search%")
                 ->orWhereHas('emailList', function ($query) use ($search) {
                     $query->where('title', 'like', "%$search%");
                 })

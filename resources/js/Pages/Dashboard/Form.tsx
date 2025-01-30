@@ -67,8 +67,8 @@ export default function CampaignForm({
     name: campaign?.name || undefined,
     subject: campaign?.subject || undefined,
     body: campaign?.body || undefined,
-    track_click: campaign?.track_click || false,
-    track_open: campaign?.track_open || false,
+    track_click: true,
+    track_open: true,
     send_at: campaign?.send_at || new Date(),
     template_id: campaign?.template_id || null,
     email_list_id: campaign?.email_list_id || null,
@@ -88,7 +88,7 @@ export default function CampaignForm({
         ...data,
         _method: campaign ? 'PUT' : 'POST',
         step,
-        send_at: formatDate(data.send_at),
+        send_at: data.customize_send_at ? formatDate(data.send_at) : formatDate(new Date()),
         draft_mode: isDraft
       };
 
@@ -219,7 +219,6 @@ export default function CampaignForm({
                 selectedTemplate={selectedTemplate}
                 data={data}
                 setData={setData}
-                templates={templates}
                 errors={errors}
               />
             )}

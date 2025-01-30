@@ -144,7 +144,7 @@ export default function Dashboard({ campaigns }: Props) {
       ) : (
         <EmptyContainer
           imagePath={EmptySvg}
-          url="/"
+          url="campaigns.create"
           content="It looks like you haven't created any campaigns yet."
           title="Create Campaign"
         />

@@ -18,7 +18,7 @@ class TemplateFactory extends Factory
     public function definition(): array
     {
         return [
-            'name' => fake('en_US')->words(3, true),
+            'name' => fake()->sentence(),
             'body' => fake()->randomHtml,
             'user_id' => User::factory(),
         ];

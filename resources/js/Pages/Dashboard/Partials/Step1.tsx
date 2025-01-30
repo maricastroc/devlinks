@@ -89,31 +89,6 @@ export default function Step1({
         />
         <InputError className="mt-2" message={errors.template_id} />
       </div>
-
-      <div className="flex flex-col mt-7">
-        <InputLabel value="Track email when:" />
-        <label className="flex items-center mt-3">
-          <Checkbox
-            name="remember"
-            size={16}
-            checked={data.track_click}
-            onChange={() => setData('track_click', !data.track_click)}
-          />
-          <span className="text-sm text-gray-600 ms-2 dark:text-gray-400">
-            Someone clicks on some link
-          </span>
-        </label>
-        <label className="flex items-center mt-2">
-          <Checkbox
-            name="remember"
-            checked={data.track_open}
-            onChange={() => setData('track_open', !data.track_open)}
-          />
-          <span className="text-sm text-gray-600 ms-2 dark:text-gray-400">
-            Someone open the email
-          </span>
-        </label>
-      </div>
     </>
   );
 }

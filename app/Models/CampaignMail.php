@@ -42,7 +42,9 @@ class CampaignMail extends Model
         return $query->when($search, function ($query) use ($search) {
             $query->whereHas('subscriber', function ($subQuery) use ($search) {
                 $subQuery->where('name', 'LIKE', "%{$search}%")
-                        ->orWhere('email', 'LIKE', "%{$search}%");
+                        ->orWhere('email', 'LIKE', "%{$search}%")
+                        ->orWhere('clicks', 'LIKE', "%{$search}%")
+                        ->orWhere('opens', 'LIKE', "%{$search}%");
             });
         });
     }
