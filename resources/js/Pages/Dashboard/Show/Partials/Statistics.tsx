@@ -74,12 +74,12 @@ export const Statistics = ({ campaign, campaignMails, statistics }: Props) => {
       {campaign.status === 'sent' ? sentReport() : unsentReport()}
 
       <div className="grid grid-cols-[1fr,1fr,1fr] w-full gap-6">
-        <StatItem value={statistics.total_opens} label="Opens" />
-        <StatItem value={statistics.unique_opens} label="Unique Opens" />
-        <StatItem value={statistics.open_rate} label="Open Rate" />
-        <StatItem value={statistics.total_clicks} label="Clicks" />
-        <StatItem value={statistics.unique_clicks} label="Unique Clicks" />
-        <StatItem value={statistics.click_rate} label="Clicks Rate" />
+        <StatItem value={campaign.track_open ? statistics.total_opens : '-'} label="Opens" />
+        <StatItem value={campaign.track_open ? statistics.unique_opens : '-'} label="Unique Opens" />
+        <StatItem value={campaign.track_open ? statistics.open_rate : '-'} label="Open Rate" />
+        <StatItem value={campaign.track_click ? statistics.total_clicks : '-'} label="Clicks" />
+        <StatItem value={campaign.track_click ? statistics.unique_clicks : '-'} label="Unique Clicks" />
+        <StatItem value={campaign.track_click ? statistics.click_rate : '-'} label="Clicks Rate" />
       </div>
     </>
   );

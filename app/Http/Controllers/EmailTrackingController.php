@@ -10,6 +10,10 @@ class EmailTrackingController extends Controller
 {
     public function trackOpening(CampaignMail $mail)
     {
+        if (!$mail->campaign->track_open) {
+            return;
+        }
+
         try {
             $mail->increment('opens');
         
@@ -27,6 +31,10 @@ class EmailTrackingController extends Controller
 
     public function trackClick(Request $request, CampaignMail $mail)
     {
+        if (!$mail->campaign->track_click) {
+            return;
+        }
+
         try {
             $mail->increment('clicks');
             

@@ -63,7 +63,7 @@ export default function List({ campaign, campaignMails, variant }: Props) {
         onReset={() => setSearch('')}
       />
 
-      <Table variant={variant} campaignMails={campaignMails} />
+      <Table showClicks={campaign.track_click} showOpens={campaign.track_open} variant={variant} campaignMails={campaignMails} />
 
       <PaginationSection
         campaign={campaign}

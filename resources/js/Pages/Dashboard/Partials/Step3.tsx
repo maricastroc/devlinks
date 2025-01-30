@@ -109,11 +109,11 @@ export default function Step3({
 
   useEffect(() => {
     if (data.customize_send_at === true) {
-      setDate('')
-      setTime('')
+      setDate('');
+      setTime('');
     }
-  }, [data.customize_send_at])
-  
+  }, [data.customize_send_at]);
+
   return (
     <div className="flex flex-col w-full">
       <InputLabel value="Test Campaign" />
