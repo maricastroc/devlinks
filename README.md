@@ -23,6 +23,7 @@ This is an email tracking service that allows you to monitor opens and clicks on
 - Tailwind CSS: CSS framework for styling.
 - Inertia.js: Framework for integration between Laravel backend and React frontend.
 - SQLite: Relational database for storing campaign data, email lists, and subscriber information.
+- Mailpit: Used to simulate email sending during development.
 
 ## ⚙️ Key Concepts
 
