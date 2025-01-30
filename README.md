@@ -2,7 +2,7 @@
 ![image](https://github.com/user-attachments/assets/af9d3e26-b8b3-47df-a210-7d574444309e)
 
 
-# Mail Tracking Management System
+# Mail Tracking Service System
 
 This is an email tracking service that allows you to monitor opens and clicks on email campaigns. The application allows you to create and manage campaigns, send emails to subscriber lists, track interactions with templates, and view campaign statistics. The front-end is built with React.js, and the back-end is powered by Laravel and PHP.
 
