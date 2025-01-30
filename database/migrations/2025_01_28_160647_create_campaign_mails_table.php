@@ -18,6 +18,7 @@ return new class extends Migration
             $table->unsignedSmallInteger('clicks')->default(0);
             $table->unsignedSmallInteger('opens')->default(0);
             $table->datetime('send_at')->nullable()->default(null);
+            $table->softDeletes();
             $table->timestamps();
         });
     }

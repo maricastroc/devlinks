@@ -22,6 +22,8 @@ return new class extends Migration
             $table->foreignId('user_id')->constrained()->cascadeOnDelete();
             $table->boolean('track_click')->default(false);
             $table->boolean('track_open')->default(false);
+            $table->boolean('customize_send_at')->default(false);
+            $table->string('status')->default('draft');
             $table->text('body')->nullable();
             $table->dateTime('send_at')->nullable();
         });

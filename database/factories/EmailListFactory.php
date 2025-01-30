@@ -19,7 +19,7 @@ class EmailListFactory extends Factory
     public function definition(): array
     {
         return [
-            'title' => fake()->words(3, true),
+            'title' => fake('en_US')->words(3, true),
             'user_id' => User::factory(),
         ];
     }

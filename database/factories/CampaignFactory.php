@@ -20,7 +20,7 @@ class CampaignFactory extends Factory
     public function definition(): array
     {
         return [
-            'name' => fake()->words(3, true),
+            'name' => fake('en_US')->words(3, true),
             'subject' => fake()->sentence,
             'email_list_id' => EmailList::factory(),
             'template_id' => Template::factory(),

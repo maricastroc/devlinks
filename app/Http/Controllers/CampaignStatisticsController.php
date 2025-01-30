@@ -41,7 +41,7 @@ class CampaignStatisticsController extends Controller
         $uniqueOpens = $this->calculateUnique($campaign, 'opens');
         $uniqueClicks = $this->calculateUnique($campaign, 'clicks');
 
-        $openRate = $totalEmails = $campaign->mails()->count() > 0 ? ($uniqueOpens / $totalEmails) * 100 : 0;
+        $openRate = $totalEmails > 0 ? ($uniqueOpens / $totalEmails) * 100 : 0;
         $clickRate = $totalEmails > 0 ? ($uniqueClicks / $totalEmails) * 100 : 0;
 
         return [

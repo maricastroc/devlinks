@@ -1,6 +1,6 @@
 <x-mail::message>
 
-{!! $campaign->body !!}
+{!! $body !!}
 
 Thanks,<br>
 {{ config('app.name') }}

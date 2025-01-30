@@ -15,7 +15,7 @@ class CampaignSeeder extends Seeder
      */
     public function run(): void
     {
-        for ($i = 0; $i < 10; $i++) { 
+        for ($i = 0; $i < 3; $i++) { 
             $emailList = EmailList::query()->inRandomOrder()->first();
             $template = Template::query()->inRandomOrder()->first();
             $user = User::query()->first();
@@ -24,6 +24,7 @@ class CampaignSeeder extends Seeder
                 'template_id' => $template->id,
                 'email_list_id' => $emailList->id,
                 'user_id' => $user->id,
+                'deleted_at' => null,
             ]);
         }
     }

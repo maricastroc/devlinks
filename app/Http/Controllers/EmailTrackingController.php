@@ -12,11 +12,7 @@ class EmailTrackingController extends Controller
     public function trackOpening(CampaignMail $mail)
     {
         try {
-            Log::info('Tracking open for CampaignMail ID: ' . $mail->id);  // Verifique se o ID é o esperado
-    
             $mail->increment('opens');
-        
-            Log::info("E-mail opened!", ['campaign_mail_id' => $mail->id]);
         
             $transparentImage = base64_decode(
                 'R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw=='
@@ -26,6 +22,24 @@ class EmailTrackingController extends Controller
                 ->header('Content-Type', 'image/gif');
         } catch (\Exception $e) {
             Log::error("Error during tracking open: " . $e->getMessage());
+            return response(null, 500);
+        }
+    }
+
+    public function trackClick(Request $request, CampaignMail $mail)
+    {
+        try {
+            $mail->increment('clicks');
+            
+            $originalUrl = $request->query('url');
+    
+            if (!$originalUrl || !filter_var($originalUrl, FILTER_VALIDATE_URL)) {
+                return response()->json(['error' => 'Invalid or missing URL'], 400);
+            }
+    
+            return redirect()->away($originalUrl);
+        } catch (\Exception $e) {
+            Log::error("Error during tracking click: " . $e->getMessage());
             return response(null, 500);
         }
     }

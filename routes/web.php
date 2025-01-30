@@ -10,11 +10,7 @@ use App\Http\Controllers\SubscriberController;
 use App\Http\Controllers\TemplateController;
 use App\Mail\EmailCampaign;
 use App\Models\Campaign;
-use App\Models\CampaignMail;
-use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Route;
-use Inertia\Inertia;
 
 Route::middleware('auth')->prefix('profile')->name('profile.')->group(function () {
     Route::get('/', [ProfileController::class, 'edit'])->name('edit');
@@ -58,14 +54,18 @@ Route::middleware('auth')->group(function () {
     Route::get('/track/opening/{mail}', [EmailTrackingController::class, 'trackOpening'])
         ->name('tracking.openings');
 
-    Route::get('/email', function () {
-        $campaign = Campaign::find(12);
-        $mail = $campaign->mails()->first();
+        Route::get('/track/click/{mail}', [EmailTrackingController::class, 'trackClick'])
+        ->name('tracking.clicks');
 
-        $email = new EmailCampaign($campaign, $mail);
+        Route::get('/email', function () {
+            $campaign = Campaign::find(7);
 
-        return $email->render();
-    });
+            $mail = $campaign->mails()->first();
+        
+            $email = new EmailCampaign($campaign, $mail);
+        
+            return $email->render();
+        });
 });
 
 require __DIR__ . '/auth.php';

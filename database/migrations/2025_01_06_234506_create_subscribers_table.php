@@ -16,6 +16,7 @@ return new class extends Migration
             $table->foreignId('email_list_id')->constrained()->cascadeOnDelete();
             $table->string('name');
             $table->string('email');
+            $table->softDeletes();
             $table->timestamps();
         });
     }
