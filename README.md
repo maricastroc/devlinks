@@ -1,5 +1,6 @@
 
-![sitemark](https://github.com/user-attachments/assets/d0a7617a-5f95-4e6b-b047-720c2305f3c8)
+![image](https://github.com/user-attachments/assets/af9d3e26-b8b3-47df-a210-7d574444309e)
+
 
 # Movie and Series Link Management System
 
