@@ -6,7 +6,7 @@ import TertiaryButton from '@/Components/TertiaryButton';
 import { Link, useForm } from '@inertiajs/react';
 import { FormEventHandler, useState } from 'react';
 import { notyf } from '@/libs/notyf';
-import axios, { AxiosError } from 'axios';
+import axios from 'axios';
 import { EmailListProps } from '@/types/emailList';
 import { Inertia } from '@inertiajs/inertia';
 import Form from '@/Layouts/FormLayout';
@@ -68,7 +68,7 @@ export default function ListForm({ emailList }: Props) {
       }
 
       Inertia.visit(route('lists.index'));
-    } catch (error: AxiosError | unknown) {
+    } catch (error) {
       if (axios.isAxiosError(error) && error.response?.data?.errors) {
         setErrors(error.response.data.errors);
       } else {

@@ -9,6 +9,7 @@ import SecondaryButton from './SecondaryButton';
 import { Inertia } from '@inertiajs/inertia';
 import { TemplateProps } from '@/types/template';
 import { CampaignProps } from '@/types/campaign';
+import { handleReqError } from '@/utils/handleReqError';
 
 type Props = {
   closeModal: () => void;
@@ -111,11 +112,11 @@ export function DeleteModal({
       }
 
       Inertia.visit(redirectRoute);
-    } catch (error: unknown) {
-      if (axios.isAxiosError(error) && error.response?.data?.message) {
-        notyf?.error(error.response?.data?.message);
+    } catch (error) {
+      if (axios.isAxiosError(error) && error.response?.data?.errors) {
+        notyf?.error(error.response.data.message);
       } else {
-        console.error('Error:', error);
+        handleReqError(error);
       }
     } finally {
       setProcessing(false);

@@ -88,7 +88,9 @@ export default function CampaignForm({
         ...data,
         _method: campaign ? 'PUT' : 'POST',
         step,
-        send_at: data.customize_send_at ? formatDate(data.send_at) : formatDate(new Date()),
+        send_at: data.customize_send_at
+          ? formatDate(data.send_at)
+          : formatDate(new Date()),
         draft_mode: isDraft
       };
 

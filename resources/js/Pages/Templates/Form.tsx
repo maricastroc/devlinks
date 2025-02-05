@@ -10,7 +10,7 @@ import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import Form from '@/Layouts/FormLayout';
 import SecondaryButton from '@/Components/SecondaryButton';
 import TertiaryButton from '@/Components/TertiaryButton';
-import axios, { AxiosError } from 'axios';
+import axios from 'axios';
 import { TemplateProps } from '@/types/template';
 import { Eye } from 'phosphor-react';
 import * as Dialog from '@radix-ui/react-dialog';
@@ -67,7 +67,7 @@ export default function TemplateForm({ template, isEdit }: Props) {
       }
 
       Inertia.visit(route('templates.index'));
-    } catch (error: AxiosError | unknown) {
+    } catch (error) {
       if (axios.isAxiosError(error) && error.response?.data?.errors) {
         setErrors(error.response.data.errors);
       } else {

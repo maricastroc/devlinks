@@ -4,7 +4,7 @@ import TertiaryButton from '@/Components/TertiaryButton';
 import { Link, router, useForm } from '@inertiajs/react';
 import { FormEventHandler, useState } from 'react';
 import { notyf } from '@/libs/notyf';
-import axios, { AxiosError } from 'axios';
+import axios from 'axios';
 import { Inertia } from '@inertiajs/inertia';
 import { SubscriberProps } from '@/types/subscriber';
 import Form from '@/Layouts/FormLayout';
@@ -78,7 +78,7 @@ export default function Edit({ subscriber, emailList, isEdit }: Props) {
           list: subscriber?.email_list_id || emailList?.id
         })
       );
-    } catch (error: AxiosError | unknown) {
+    } catch (error) {
       if (axios.isAxiosError(error) && error.response?.data?.errors) {
         setErrors(error.response.data.errors);
       } else {

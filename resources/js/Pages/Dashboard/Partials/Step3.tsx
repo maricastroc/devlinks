@@ -7,7 +7,7 @@ import Checkbox from '@/Components/Checkbox';
 import { EmailListProps } from '@/types/emailList';
 import { FormEventHandler, useEffect, useState } from 'react';
 import InputError from '@/Components/InputError';
-import axios, { AxiosError } from 'axios';
+import axios from 'axios';
 import { notyf } from '@/libs/notyf';
 import { handleReqError } from '@/utils/handleReqError';
 
@@ -55,7 +55,7 @@ export default function Step3({
       if (response?.data?.message) {
         notyf?.success(response.data.message);
       }
-    } catch (error: AxiosError | unknown) {
+    } catch (error) {
       if (axios.isAxiosError(error) && error.response?.data?.errors) {
         notyf?.error(error.response.data.message);
       } else {
