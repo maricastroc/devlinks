@@ -26,6 +26,13 @@ class EmailList extends Model
         'user_id',
     ];
 
+    protected static function booted()
+    {
+        static::deleting(function ($emailList) {
+            $emailList->subscribers()->delete();
+        });
+    }
+
     /**
      * Create a new email list.
      */

@@ -33,6 +33,10 @@ class EmailListController extends Controller
             ->orderBy('created_at', 'asc')
             ->paginate(10);
 
+        if ($request->expectsJson()) {
+            return response()->json($emailLists);
+        }
+    
         return Inertia::render('EmailLists/Index', [
             'emailLists' => $emailLists,
         ]);
@@ -58,11 +62,12 @@ class EmailListController extends Controller
             
             $data = $request->validated();
             
-            EmailList::createList($data, $userId);
+            $emailList = EmailList::createList($data, $userId);
             
             return response()->json([
                 'message' => 'List successfully created!',
-            ], 200);
+                'data' => $emailList,
+            ], 201);
         } catch (\Exception $e) {
             return response()->json([
                 'message' => 'Failed to create list. Please try again later.',
