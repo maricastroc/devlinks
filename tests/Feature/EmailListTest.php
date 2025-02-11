@@ -161,46 +161,29 @@ test('I should not be able to delete a list from another user', function () {
 });
 
 test('I should only be able to get the lists created by my user', function () {
-  $response = $this->postJson(route('lists.store'), [
-    'title' => 'User 1 Email List',
-    'listFile' => UploadedFile::fake()->createWithContent(
-        'sample_names.csv',
-        <<<'CSV'
-        name,email
-        jon doe,jondoe@gmail.com
-        CSV
-    ),
-]);
-
-  $response->assertStatus(Response::HTTP_CREATED);
-
-  $this->actingAs($this->user2);
-
-  $response = $this->postJson(route('lists.store'), [
-      'title' => 'User 2 Email List',
-      'listFile' => UploadedFile::fake()->createWithContent(
-          'sample_names.csv',
-          <<<'CSV'
-          name,email
-          jane doe,janedoe@gmail.com
-          CSV
-      ),
+  EmailList::factory()->create([
+    'title' => 'User 1 Email List 1',
+    'user_id' => $this->user1->id,
   ]);
 
-  $response->assertStatus(Response::HTTP_CREATED);
+  EmailList::factory()->create([
+    'title' => 'User 1 Email List 2',
+    'user_id' => $this->user1->id,
+  ]);
 
-  $this->actingAs($this->user1);
+  $emailList3 = EmailList::factory()->create([
+      'title' => 'User 2 Email List',
+      'user_id' => $this->user2->id,
+  ]);
 
   $response = $this->getJson(route('lists.index'));
 
   $response->assertStatus(Response::HTTP_OK);
 
-  $response->assertJsonFragment([
-      'title' => 'User 1 Email List',
-  ]);
+  $response->assertJsonCount(2, 'data');
 
   $response->assertJsonMissing([
-      'title' => 'User 2 Email List',
+      'title' => $emailList3->title,
   ]);
 });
 
