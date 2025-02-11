@@ -98,20 +98,10 @@ test('I should be able to delete a list', function () {
 });
 
 test('I should not be able to edit a list from another user', function () {
-  $response = $this->postJson(route('lists.store'), [
-      'title' => 'Email List Title',
-      'listFile' => UploadedFile::fake()->createWithContent(
-          'sample_names.csv',
-          <<<'CSV'
-          name,email
-          jon doe,jondoe@gmail.com
-          CSV
-      ),
+  $emailList = EmailList::factory()->create([
+    'title' => 'Email List Title',
+    'user_id' => $this->user1->id,
   ]);
-
-  $response->assertStatus(Response::HTTP_CREATED);
-
-  $emailList = EmailList::first();
 
   $this->actingAs($this->user2);
 
@@ -133,20 +123,10 @@ test('I should not be able to edit a list from another user', function () {
 });
 
 test('I should not be able to delete a list from another user', function () {
-  $response = $this->postJson(route('lists.store'), [
-      'title' => 'Email List Title',
-      'listFile' => UploadedFile::fake()->createWithContent(
-          'sample_names.csv',
-          <<<'CSV'
-          name,email
-          jon doe,jondoe@gmail.com
-          CSV
-      ),
+  $emailList = EmailList::factory()->create([
+    'title' => 'Email List Title',
+    'user_id' => $this->user1->id,
   ]);
-
-  $response->assertStatus(Response::HTTP_CREATED);
-
-  $emailList = EmailList::first();
 
   $this->actingAs($this->user2);
 
@@ -188,21 +168,12 @@ test('I should only be able to get the lists created by my user', function () {
 });
 
 test('I should not be able to create a list with the same title of an existing list', function () {
-  $response = $this->postJson(route('lists.store'), [
-      'title' => 'Unique Email List Title',
-      'listFile' => UploadedFile::fake()->createWithContent(
-          'sample_names.csv',
-          <<<'CSV'
-          name,email
-          jon doe,jondoe@gmail.com
-          CSV
-      ),
+  EmailList::factory()->create([
+    'title' => 'Email List',
   ]);
 
-  $response->assertStatus(Response::HTTP_CREATED);
-
   $response = $this->postJson(route('lists.store'), [
-      'title' => 'Unique Email List Title',
+      'title' => 'Email List',
       'listFile' => UploadedFile::fake()->createWithContent(
           'sample_names.csv',
           <<<'CSV'
@@ -219,6 +190,6 @@ test('I should not be able to create a list with the same title of an existing l
   $this->assertDatabaseCount('email_lists', 1);
 
   $this->assertDatabaseHas('email_lists', [
-      'title' => 'Unique Email List Title',
+      'title' => 'Email List',
   ]);
 });
