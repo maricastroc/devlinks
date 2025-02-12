@@ -32,6 +32,10 @@ class TemplateController extends Controller
         $templates = $templatesQuery->orderBy('created_at', 'asc')
             ->paginate(10);
 
+        if ($request->expectsJson()) {
+            return response()->json($templates);
+        }
+
         return Inertia::render('Templates/Index', [
             'templates' => $templates,
         ]);
