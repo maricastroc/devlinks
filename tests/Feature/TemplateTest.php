@@ -1,10 +1,8 @@
 <?php
 
-use App\Models\EmailList;
 use App\Models\Template;
 use App\Models\User;
 use Illuminate\Http\Response;
-use Illuminate\Http\UploadedFile;
 
 beforeEach(function () {
   $this->user1 = User::factory()->create(); 
