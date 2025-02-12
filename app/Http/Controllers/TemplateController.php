@@ -63,7 +63,7 @@ class TemplateController extends Controller
             
             return response()->json([
                 'message' => 'Template successfully created!',
-            ], 200);
+            ], 201);
         } catch (\Exception $e) {
             return response()->json([
                 'message' => 'Failed to create template. Please try again later.',
