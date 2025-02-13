@@ -193,3 +193,69 @@ test('I should not be able to create a list with the same title of an existing l
       'title' => 'Email List',
   ]);
 });
+
+test('I should be able to view deleted lists', function () {
+  $response = $this->postJson(route('lists.store'), [
+      'title' => 'Email List Title',
+      'listFile' => UploadedFile::fake()->createWithContent(
+          'sample_names.csv',
+          <<<'CSV'
+          name,email
+          jon doe,jondoe@gmail.com
+          CSV
+      ),
+  ]);
+
+  $response->assertStatus(Response::HTTP_CREATED);
+
+  $emailList = EmailList::first();
+
+  $response = $this->deleteJson(route('lists.destroy', $emailList->id));
+  
+  $response->assertStatus(Response::HTTP_OK);
+
+  $this->assertSoftDeleted('email_lists', [
+      'id' => $emailList->id,
+  ]);
+
+  $response = $this->getJson(route('lists.index', ['withTrashed' => true]));
+  
+  $response->assertStatus(Response::HTTP_OK);
+
+  $response->assertJsonFragment([
+      'id' => $emailList->id,
+      'title' => 'Email List Title',
+  ]);
+});
+
+test('I should be able to search a list by its title or id', function () {
+  $emailList1 = EmailList::factory()->create([
+      'title' => 'A Title',
+      'user_id' => $this->user1->id,
+  ]);
+
+  EmailList::factory()->create([
+      'title' => 'Another Different Title',
+      'user_id' => $this->user1->id,
+  ]);
+
+  $response = $this->getJson(route('lists.index', ['search' => 'another']));
+
+  $response->assertStatus(Response::HTTP_OK);
+  $response->assertJsonFragment([
+      'title' => 'Another Different Title',
+  ]);
+  $response->assertJsonMissing([
+      'title' => 'A Title',
+  ]);
+
+  $response = $this->getJson(route('lists.index', ['search' => $emailList1->id]));
+
+  $response->assertStatus(Response::HTTP_OK);
+  $response->assertJsonFragment([
+      'title' => 'A Title',
+  ]);
+  $response->assertJsonMissing([
+      'title' => 'Another Different Title',
+  ]);
+});
