@@ -34,7 +34,7 @@ class SubscriberController extends Controller
             
             return response()->json([
                 'message' => 'Subscriber successfully created!',
-            ], 200);
+            ], 201);
         } catch (\Exception $e) {
             return response()->json([
                 'message' => 'Failed to create subscriber. Please try again later.',

@@ -95,6 +95,10 @@ class EmailListController extends Controller
         $subscribers = $subscribersQuery
             ->search($search)
             ->paginate(10);
+
+        if ($request->expectsJson()) {
+            return response()->json($subscribers);
+        }
     
         return Inertia::render('EmailLists/Show', [
             'emailList' => $list,
