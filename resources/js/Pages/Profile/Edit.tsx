@@ -5,9 +5,7 @@ import DeleteUserForm from './Partials/DeleteUserForm';
 import UpdatePasswordForm from './Partials/UpdatePasswordForm';
 import UpdateProfileInformationForm from './Partials/UpdateProfileInformationForm';
 
-export default function Edit({
-  status
-}: PageProps<{ status?: string }>) {
+export default function Edit({ status }: PageProps<{ status?: string }>) {
   return (
     <AuthenticatedLayout
       header={
