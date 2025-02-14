@@ -5,7 +5,8 @@
     "build": "tsc && vite build",
     "dev": "vite",
     "prepare": "husky install",
-    "lint-staged": "lint-staged"
+    "lint-staged": "lint-staged",
+    "post-install": "npm install && npm run build"
   },
   "lint-staged": {
     "*.{ts,tsx}": [
