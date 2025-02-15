@@ -1,28 +1,79 @@
 import { useState } from 'react';
 import SecondaryButton from '@/Components/SecondaryButton';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
-import { Head } from '@inertiajs/react';
+import { Head, useForm } from '@inertiajs/react';
 import EmptyMockup from '/public/assets/images/illustration-empty.svg';
 import PrimaryButton from '@/Components/PrimaryButton';
 import { LinkBox } from '@/Components/LinkBox';
 import { PlatformProps } from '@/types/platform';
 import { PhoneMockup } from '@/Components/PhoneMockup';
+import { handleReqError } from '@/utils/handleReqError';
+import axios from 'axios';
+import { notyf } from '@/libs/notyf';
+import { UserLinkProps } from '@/types/user-link';
 
 type Props = {
   platforms: PlatformProps[];
 };
 
+type FormErrors = {
+  links?: string;
+};
+
 export default function Dashboard({ platforms }: Props) {
-  const [links, setLinks] = useState<PlatformProps[] | []>([]);
+  const [links, setLinks] = useState<UserLinkProps[] | []>([]);
+
+  const [processing, setProcessing] = useState(false);
+
+  const [errors, setErrors] = useState<FormErrors>({});
+
+  const { data, setData } = useForm({
+    links: [] as { user_id: number, platform_id: number; url: string }[],
+  });
+  
+  const submit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    
+    setProcessing(true);
+
+    setErrors({});
+
+    const formData = new FormData();
+
+    data.links.forEach((link) => {
+      formData.append('links[]', JSON.stringify({
+        user_id: link.user_id,
+        platform_id: link.platform_id,
+        url: link.url,
+      }));
+    });
+
+    try {
+      const response = await axios.post('/user-links', formData);
+
+      if (response?.data?.message) {
+        notyf?.success(response.data.message);
+      }
+
+    } catch (error) {
+      if (axios.isAxiosError(error) && error.response?.data?.errors) {
+        setErrors(error.response.data.errors);
+      } else {
+        handleReqError(error);
+      }
+    } finally {
+      setProcessing(false);
+    }
+  };
 
   const addNewLink = () => {
     setLinks((prevLinks) => [
       ...prevLinks,
       {
         id: Date.now(),
-        name: 'Github',
-        icon_url: 'icon-github',
-        color: '#000000'
+        platform_id: 1,
+        platform: { id: 1, name: 'Github', icon_url: 'icon-github', color: '#000000' },
+        url: '',
       }
     ]);
   };
@@ -34,10 +85,24 @@ export default function Dashboard({ platforms }: Props) {
   const handleSelect = (platform: PlatformProps, linkId: number) => {
     setLinks((prevLinks) =>
       prevLinks.map((link) =>
-        link.id === linkId ? { ...link, ...platform } : link
+        link.id === linkId
+          ? { ...link, platform_id: platform.id, platform: platform }
+          : link
       )
     );
   };
+
+  const handleChangeUrl = (linkId: number, value: string) => {
+    setLinks((prevLinks) =>
+      prevLinks.map((prevLink) =>
+        prevLink.id === linkId
+          ? { ...prevLink, url: value }
+          : prevLink
+      )
+    );
+  }
+
+console.log(links)
 
   return (
     <AuthenticatedLayout
@@ -74,7 +139,8 @@ export default function Dashboard({ platforms }: Props) {
                   link={link}
                   index={index}
                   handleRemove={handleRemove}
-                  handleSelect={(platform) => handleSelect(platform, link.id)} // Passando o linkId
+                  handleChangeUrl={handleChangeUrl}
+                  handleSelect={(platform) => handleSelect(platform, Number(link.id))}
                 />
               ))}
             </div>

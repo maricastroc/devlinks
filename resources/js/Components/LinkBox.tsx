@@ -7,15 +7,16 @@ import IconLink from '/public/assets/images/icon-links-header.svg';
 import { LinkMark } from './LinkMark';
 import { useState, useRef, useEffect } from 'react';
 import { DropdownMenu } from './DropdownMenu';
-import { DevlinkProps } from '@/types/devlink';
 import { PlatformProps } from '@/types/platform';
+import { UserLinkProps } from '@/types/user-link';
 
 type Props = {
   index: number;
   platforms: PlatformProps[];
-  link: PlatformProps;
+  link: UserLinkProps;
   handleSelect: (item: PlatformProps) => void;
   handleRemove: (id: number) => void;
+  handleChangeUrl: (linkId: number, value: string) => void;
 };
 
 export const LinkBox = ({
@@ -23,11 +24,10 @@ export const LinkBox = ({
   link,
   platforms,
   handleSelect,
-  handleRemove
+  handleRemove,
+  handleChangeUrl,
 }: Props) => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-
-  const [selectedLink, setSelectedLink] = useState<PlatformProps | null>(null);
 
   const dropdownRef = useRef<HTMLDivElement | null>(null);
 
@@ -56,7 +56,7 @@ export const LinkBox = ({
           <p className="font-bold text-medium-gray">{`Link #${index + 1}`}</p>
         </div>
         <button
-          onClick={() => handleRemove(link.id)}
+          onClick={() => handleRemove(Number(link.id))}
           className="text-medium-gray"
         >
           Remove
@@ -76,8 +76,8 @@ export const LinkBox = ({
                   <span>
                     <img
                       src={
-                        link?.icon_url
-                          ? `/assets/images/${link.icon_url}.svg`
+                        link?.platform.icon_url
+                          ? `/assets/images/${link.platform.icon_url}.svg`
                           : Github
                       }
                       alt="Link icon"
@@ -86,7 +86,7 @@ export const LinkBox = ({
                     />
                   </span>
                   <span className="text-dark-grey">
-                    {link?.name ? link.name : 'Github'}
+                    {link?.platform.name ? link.platform.name : 'Github'}
                   </span>
                 </div>
                 <FontAwesomeIcon
@@ -99,7 +99,6 @@ export const LinkBox = ({
                   <DropdownMenu
                     platforms={platforms}
                     handleSelect={(item: PlatformProps) => {
-                      setSelectedLink(item);
                       handleSelect(item);
                     }}
                   />
@@ -116,6 +115,7 @@ export const LinkBox = ({
               name="link"
               placeholder="e.g. https://www.github.com/octocat"
               className="block w-full mt-1"
+              onChange={(e) => handleChangeUrl(Number(link.id), e.target.value)}
               icon={IconLink}
               isFocused={true}
             />

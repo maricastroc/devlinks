@@ -11,7 +11,7 @@ export const DropdownMenu = ({ handleSelect, platforms }: Props) => {
       {platforms?.map((item, index) => (
         <>
           <div
-            key={index}
+            key={Number(new Date())}
             className="flex items-center gap-2 px-4 py-3 cursor-pointer hover:bg-gray-100"
             onClick={() => handleSelect(item)}
           >
