@@ -19,7 +19,10 @@ export const PhoneMockup = ({ links }: Props) => {
               style={{ backgroundColor: link.platform.color }}
             >
               <div className="flex items-center gap-2">
-                <img src={`/assets/images/${link.platform.icon_url}-white.svg`} alt="" />
+                <img
+                  src={`/assets/images/${link.platform.icon_url}-white.svg`}
+                  alt=""
+                />
                 <p
                   className={`${link.platform.name !== 'Frontend Mentor' ? 'text-white text-md' : 'text-dark-gray text-md'}`}
                 >

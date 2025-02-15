@@ -25,7 +25,7 @@ export const LinkBox = ({
   platforms,
   handleSelect,
   handleRemove,
-  handleChangeUrl,
+  handleChangeUrl
 }: Props) => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 

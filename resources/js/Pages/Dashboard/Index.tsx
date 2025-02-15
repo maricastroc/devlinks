@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import SecondaryButton from '@/Components/SecondaryButton';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
-import { Head, useForm } from '@inertiajs/react';
+import { Head, useForm, usePage } from '@inertiajs/react';
 import EmptyMockup from '/public/assets/images/illustration-empty.svg';
 import PrimaryButton from '@/Components/PrimaryButton';
 import { LinkBox } from '@/Components/LinkBox';
@@ -28,33 +28,26 @@ export default function Dashboard({ platforms }: Props) {
   const [errors, setErrors] = useState<FormErrors>({});
 
   const { data, setData } = useForm({
-    links: [] as { user_id: number, platform_id: number; url: string }[],
+    links: [] as { user_id: number; platform_id: number; url: string }[]
   });
-  
+
   const submit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
+  
     setProcessing(true);
-
     setErrors({});
-
-    const formData = new FormData();
-
-    data.links.forEach((link) => {
-      formData.append('links[]', JSON.stringify({
-        user_id: link.user_id,
-        platform_id: link.platform_id,
-        url: link.url,
-      }));
-    });
-
+  
     try {
-      const response = await axios.post('/user-links', formData);
-
+      const response = await axios.post('/user-links', {
+        links: links.map((link) => ({
+          platform_id: link.platform_id,
+          url: link.url,
+        })),
+      });
+  
       if (response?.data?.message) {
         notyf?.success(response.data.message);
       }
-
     } catch (error) {
       if (axios.isAxiosError(error) && error.response?.data?.errors) {
         setErrors(error.response.data.errors);
@@ -72,8 +65,13 @@ export default function Dashboard({ platforms }: Props) {
       {
         id: Date.now(),
         platform_id: 1,
-        platform: { id: 1, name: 'Github', icon_url: 'icon-github', color: '#000000' },
-        url: '',
+        platform: {
+          id: 1,
+          name: 'Github',
+          icon_url: 'icon-github',
+          color: '#000000'
+        },
+        url: ''
       }
     ]);
   };
@@ -95,14 +93,12 @@ export default function Dashboard({ platforms }: Props) {
   const handleChangeUrl = (linkId: number, value: string) => {
     setLinks((prevLinks) =>
       prevLinks.map((prevLink) =>
-        prevLink.id === linkId
-          ? { ...prevLink, url: value }
-          : prevLink
+        prevLink.id === linkId ? { ...prevLink, url: value } : prevLink
       )
     );
-  }
+  };
 
-console.log(links)
+  console.log(links);
 
   return (
     <AuthenticatedLayout
@@ -140,7 +136,9 @@ console.log(links)
                   index={index}
                   handleRemove={handleRemove}
                   handleChangeUrl={handleChangeUrl}
-                  handleSelect={(platform) => handleSelect(platform, Number(link.id))}
+                  handleSelect={(platform) =>
+                    handleSelect(platform, Number(link.id))
+                  }
                 />
               ))}
             </div>
@@ -161,7 +159,7 @@ console.log(links)
           <hr className="my-6 md:my-8" />
 
           <div className="flex justify-end md:items-end">
-            <PrimaryButton className="md:w-[6rem]" disabled>
+            <PrimaryButton onClick={submit} className="md:w-[6rem]" disabled={!links?.length}>
               Save
             </PrimaryButton>
           </div>
