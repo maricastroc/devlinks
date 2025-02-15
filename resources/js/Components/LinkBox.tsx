@@ -1,14 +1,14 @@
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import InputLabel from "./InputLabel";
-import { faChevronDown, faChevronUp } from "@fortawesome/free-solid-svg-icons";
-import Github from "/public/assets/images/icon-github.svg";
-import TextInput from "./TextInput";
-import IconLink from "/public/assets/images/icon-links-header.svg";
-import { LinkMark } from "./LinkMark";
-import { useState, useRef, useEffect } from "react";
-import { DropdownMenu } from "./DropdownMenu";
-import { DevlinkProps } from "@/types/devlink";
-import { PlatformProps } from "@/types/platform";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import InputLabel from './InputLabel';
+import { faChevronDown, faChevronUp } from '@fortawesome/free-solid-svg-icons';
+import Github from '/public/assets/images/icon-github.svg';
+import TextInput from './TextInput';
+import IconLink from '/public/assets/images/icon-links-header.svg';
+import { LinkMark } from './LinkMark';
+import { useState, useRef, useEffect } from 'react';
+import { DropdownMenu } from './DropdownMenu';
+import { DevlinkProps } from '@/types/devlink';
+import { PlatformProps } from '@/types/platform';
 
 type Props = {
   index: number;
@@ -18,24 +18,33 @@ type Props = {
   handleRemove: (id: number) => void;
 };
 
-export const LinkBox = ({ index, link, platforms, handleSelect, handleRemove }: Props) => {
+export const LinkBox = ({
+  index,
+  link,
+  platforms,
+  handleSelect,
+  handleRemove
+}: Props) => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-  
+
   const [selectedLink, setSelectedLink] = useState<PlatformProps | null>(null);
 
   const dropdownRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target as Node)
+      ) {
         setIsDropdownOpen(false);
       }
     };
 
-    document.addEventListener("mousedown", handleClickOutside);
+    document.addEventListener('mousedown', handleClickOutside);
 
     return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
+      document.removeEventListener('mousedown', handleClickOutside);
     };
   }, []);
 
@@ -46,7 +55,12 @@ export const LinkBox = ({ index, link, platforms, handleSelect, handleRemove }: 
           <LinkMark />
           <p className="font-bold text-medium-gray">{`Link #${index + 1}`}</p>
         </div>
-        <button onClick={() => handleRemove(link.id)} className="text-medium-gray">Remove</button>
+        <button
+          onClick={() => handleRemove(link.id)}
+          className="text-medium-gray"
+        >
+          Remove
+        </button>
       </div>
 
       <div>
@@ -60,18 +74,35 @@ export const LinkBox = ({ index, link, platforms, handleSelect, handleRemove }: 
               <div className="flex items-center justify-between w-full">
                 <div className="flex items-center justify-center gap-3">
                   <span>
-                    <img src={link?.icon_url ? `/assets/images/${link.icon_url}.svg` : Github} alt="Link icon" width="16" height="16" />
+                    <img
+                      src={
+                        link?.icon_url
+                          ? `/assets/images/${link.icon_url}.svg`
+                          : Github
+                      }
+                      alt="Link icon"
+                      width="16"
+                      height="16"
+                    />
                   </span>
-                  <span className="text-dark-grey">{link?.name ? link.name : "Github"}</span>
+                  <span className="text-dark-grey">
+                    {link?.name ? link.name : 'Github'}
+                  </span>
                 </div>
-                <FontAwesomeIcon className="text-medium-gray" icon={isDropdownOpen ? faChevronUp : faChevronDown} />
+                <FontAwesomeIcon
+                  className="text-medium-gray"
+                  icon={isDropdownOpen ? faChevronUp : faChevronDown}
+                />
               </div>
               {isDropdownOpen && (
                 <div ref={dropdownRef}>
-                  <DropdownMenu platforms={platforms} handleSelect={(item: PlatformProps) => {
-                    setSelectedLink(item)
-                    handleSelect(item)
-                  }} />
+                  <DropdownMenu
+                    platforms={platforms}
+                    handleSelect={(item: PlatformProps) => {
+                      setSelectedLink(item);
+                      handleSelect(item);
+                    }}
+                  />
                 </div>
               )}
             </div>

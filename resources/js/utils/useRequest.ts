@@ -1,19 +1,19 @@
 // https://github.com/vercel/swr/blob/main/examples/axios-typescript/libs/useRequest.ts
-import useSWR, { SWRConfiguration, SWRResponse } from 'swr'
-import { AxiosRequestConfig, AxiosResponse, AxiosError } from 'axios'
-import { api } from '@/libs/axios'
+import useSWR, { SWRConfiguration, SWRResponse } from 'swr';
+import { AxiosRequestConfig, AxiosResponse, AxiosError } from 'axios';
+import { api } from '@/libs/axios';
 
-export type GetRequest = AxiosRequestConfig | null
+export type GetRequest = AxiosRequestConfig | null;
 
 interface Return<Data, Error>
   extends Pick<
     SWRResponse<AxiosResponse<Data>, AxiosError<Error>>,
     'isValidating' | 'error' | 'mutate'
   > {
-  data: Data | undefined
-  response: AxiosResponse<Data> | undefined
+  data: Data | undefined;
+  response: AxiosResponse<Data> | undefined;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  pagination: any
+  pagination: any;
 }
 
 export interface Config<Data = unknown, Error = unknown>
@@ -21,18 +21,18 @@ export interface Config<Data = unknown, Error = unknown>
     SWRConfiguration<AxiosResponse<Data>, AxiosError<Error>>,
     'fallbackData'
   > {
-  fallbackData?: Data
+  fallbackData?: Data;
 }
 
 export default function useRequest<Data = unknown, Error = unknown>(
   request: GetRequest,
-  { fallbackData, ...config }: Config<Data, Error> = {},
+  { fallbackData, ...config }: Config<Data, Error> = {}
 ): Return<Data, Error> {
   const {
     data: response,
     error,
     isValidating,
-    mutate,
+    mutate
   } = useSWR<AxiosResponse<Data>, AxiosError<Error>>(
     request,
     /**
@@ -50,9 +50,9 @@ export default function useRequest<Data = unknown, Error = unknown>(
           // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
           config: request!,
           headers: {},
-          data: fallbackData,
-        } as AxiosResponse<Data>),
-    },
+          data: fallbackData
+        } as AxiosResponse<Data>)
+    }
   );
 
   const responseData = response?.data; // Não acessar diretamente Object.values
@@ -64,6 +64,6 @@ export default function useRequest<Data = unknown, Error = unknown>(
     error,
     isValidating,
     mutate,
-    pagination,
+    pagination
   };
 }

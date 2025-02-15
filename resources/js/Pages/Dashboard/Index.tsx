@@ -1,16 +1,16 @@
-import { useState } from "react";
-import SecondaryButton from "@/Components/SecondaryButton";
-import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
-import { Head } from "@inertiajs/react";
-import EmptyMockup from "/public/assets/images/illustration-empty.svg";
-import PrimaryButton from "@/Components/PrimaryButton";
-import { LinkBox } from "@/Components/LinkBox";
-import { PlatformProps } from "@/types/platform";
-import { PhoneMockup } from "@/Components/PhoneMockup";
+import { useState } from 'react';
+import SecondaryButton from '@/Components/SecondaryButton';
+import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
+import { Head } from '@inertiajs/react';
+import EmptyMockup from '/public/assets/images/illustration-empty.svg';
+import PrimaryButton from '@/Components/PrimaryButton';
+import { LinkBox } from '@/Components/LinkBox';
+import { PlatformProps } from '@/types/platform';
+import { PhoneMockup } from '@/Components/PhoneMockup';
 
 type Props = {
-  platforms: PlatformProps[]
-}
+  platforms: PlatformProps[];
+};
 
 export default function Dashboard({ platforms }: Props) {
   const [links, setLinks] = useState<PlatformProps[] | []>([]);
@@ -20,17 +20,17 @@ export default function Dashboard({ platforms }: Props) {
       ...prevLinks,
       {
         id: Date.now(),
-        name: "Github",
-        icon_url: "icon-github",
+        name: 'Github',
+        icon_url: 'icon-github',
         color: '#000000'
-      },
+      }
     ]);
   };
 
   const handleRemove = (id: number) => {
     setLinks((prevLinks) => prevLinks.filter((link) => link.id !== id));
   };
-  
+
   const handleSelect = (platform: PlatformProps, linkId: number) => {
     setLinks((prevLinks) =>
       prevLinks.map((link) =>
@@ -72,10 +72,10 @@ export default function Dashboard({ platforms }: Props) {
                   key={link.id}
                   platforms={platforms}
                   link={link}
-                  index={index} 
+                  index={index}
                   handleRemove={handleRemove}
                   handleSelect={(platform) => handleSelect(platform, link.id)} // Passando o linkId
-              />
+                />
               ))}
             </div>
           ) : (

@@ -11,18 +11,18 @@ import Devto from '/public/assets/images/icon-devto.svg';
 import Codewars from '/public/assets/images/icon-codewars.svg';
 
 export const MenuList = [
-  { platform: "GitHub", icon_url: Github },
+  { platform: 'GitHub', icon_url: Github },
   {
-    platform: "Frontend Mentor",
-    icon_url: FrontendMentor,
+    platform: 'Frontend Mentor',
+    icon_url: FrontendMentor
   },
-  { platform: "LinkedIn", icon_url: Linkedin },
-  { platform: "YouTube", icon_url: Youtube },
-  { platform: "Facebook", icon_url: Facebook },
-  { platform: "Dev.to", icon_url: Devto },
-  { platform: "Codewars", icon_url: Codewars },
-  { platform: "freeCodeCamp", icon_url: FreeCodeCamp },
-  { platform: "GitLab", icon_url: Gitlab },
-  { platform: "Hashnode", icon_url: Hashnode },
-  { platform: "Stack Overflow", icon_url: StackOverflow },
+  { platform: 'LinkedIn', icon_url: Linkedin },
+  { platform: 'YouTube', icon_url: Youtube },
+  { platform: 'Facebook', icon_url: Facebook },
+  { platform: 'Dev.to', icon_url: Devto },
+  { platform: 'Codewars', icon_url: Codewars },
+  { platform: 'freeCodeCamp', icon_url: FreeCodeCamp },
+  { platform: 'GitLab', icon_url: Gitlab },
+  { platform: 'Hashnode', icon_url: Hashnode },
+  { platform: 'Stack Overflow', icon_url: StackOverflow }
 ];

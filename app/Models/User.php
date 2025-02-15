@@ -44,8 +44,8 @@ class User extends Authenticatable
         ];
     }
 
-    public function devLinks()
+    public function userLinks()
     {
-        return $this->hasMany(Devlink::class);
+        return $this->hasMany(UserLink::class);
     }
 }
