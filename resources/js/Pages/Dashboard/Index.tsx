@@ -12,7 +12,7 @@ export default function Dashboard() {
     >
       <Head title="Dashboard" />
 
-  <h1>dashboard</h1>
+      <h1>dashboard</h1>
     </AuthenticatedLayout>
   );
 }
