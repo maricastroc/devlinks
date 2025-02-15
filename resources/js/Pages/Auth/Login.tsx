@@ -77,7 +77,7 @@ export default function Login() {
           <div className="flex flex-col items-center mt-6 md:mt-4 md:gap-1 md:flex-row">
             <p className="text-md text-medium-gray">Don't have an account?</p>
             <Link
-              href={route('register')}
+              href={route('web.register.index')}
               className="transition-all hover:text-purple-hover duration-125 text-medium-purple text-md"
             >
               Create Account

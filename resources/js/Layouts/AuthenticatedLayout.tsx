@@ -24,7 +24,6 @@ export default function Authenticated({
                   <ApplicationLogo />
                 </Link>
               </div>
-
             </div>
 
             <div className="hidden md:ms-6 md:flex md:items-center">
