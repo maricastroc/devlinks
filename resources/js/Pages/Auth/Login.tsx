@@ -6,14 +6,10 @@ import TextInput from '@/Components/TextInput';
 import GuestLayout from '@/Layouts/GuestLayout';
 import { Head, Link, useForm } from '@inertiajs/react';
 import { FormEventHandler } from 'react';
+import EmailIcon from '/public/assets/images/icon-email.svg';
+import PasswordIcon from '/public/assets/images/icon-password.svg';
 
-export default function Login({
-  status,
-  canResetPassword
-}: {
-  status?: string;
-  canResetPassword: boolean;
-}) {
+export default function Login() {
   const { data, setData, post, processing, errors, reset } = useForm({
     email: '',
     password: '',
@@ -31,15 +27,11 @@ export default function Login({
   return (
     <GuestLayout showRedirectContainer>
       <Head title="Log in" />
-
-      {status && (
-        <div className="mb-4 text-sm font-medium text-green-600">{status}</div>
-      )}
-
-      <form onSubmit={submit}>
+      <form className='p-2 py-6 md:p-4' onSubmit={submit}>
         <div>
+        <h2 className='mb-2 text-[1.7rem] md:text-[2rem] font-bold text-gray-950'>Login</h2>
+        <p className='mb-8 text-medium-gray'>Add your details below to get back into the app</p>
           <InputLabel htmlFor="email" value="Email" />
-
           <TextInput
             id="email"
             type="email"
@@ -48,8 +40,10 @@ export default function Login({
             placeholder="Your email here"
             className="block w-full mt-1"
             autoComplete="username"
+            icon={EmailIcon}
             isFocused={true}
             onChange={(e) => setData('email', e.target.value)}
+            hasError={errors?.email !== undefined}
           />
 
           <InputError message={errors.email} className="mt-2" />
@@ -65,39 +59,23 @@ export default function Login({
             placeholder="Your password here"
             value={data.password}
             className="block w-full mt-1"
+            icon={PasswordIcon}
             autoComplete="current-password"
             onChange={(e) => setData('password', e.target.value)}
+            hasError={errors?.password !== undefined}
           />
 
           <InputError message={errors.password} className="mt-2" />
         </div>
 
-        <div className="block mt-4">
-          <label className="flex items-center">
-            <Checkbox
-              name="remember"
-              checked={data.remember}
-              onChange={(e) => setData('remember', e.target.checked)}
-            />
-            <span className="text-sm text-gray-600 ms-2 dark:text-gray-400">
-              Remember me
-            </span>
-          </label>
-        </div>
-
-        <div className="flex items-center justify-end mt-4">
-          {canResetPassword && (
-            <Link
-              href={route('password.request')}
-              className="text-sm text-gray-600 underline rounded-md hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-accent-blue-mid focus:ring-offset-2 dark:text-gray-400 dark:hover:text-gray-100 dark:focus:ring-offset-gray-800"
-            >
-              Forgot your password?
-            </Link>
-          )}
-
-          <PrimaryButton className="ms-4" disabled={processing}>
+        <div className="flex flex-col items-center justify-end mt-6 text-center">
+          <PrimaryButton disabled={processing}>
             Log in
           </PrimaryButton>
+          <div className='flex flex-col items-center mt-6 md:mt-4 md:gap-1 md:flex-row'>
+            <p className='text-md text-medium-gray'>Don't have an account?</p>
+            <Link href={route('register')} className='transition-all hover:text-purple-hover duration-125 text-medium-purple text-md'>Create Account</Link>
+          </div>
         </div>
       </form>
     </GuestLayout>

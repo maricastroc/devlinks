@@ -27,8 +27,8 @@ class AppServiceProvider extends ServiceProvider
 
         Route::model('list', EmailList::class);
 
-        if (env('APP_ENV') !== 'local') {
-            URL::forceScheme('https');
-        }
+        // if (env('APP_ENV') !== 'local') {
+            //URL::forceScheme('https');
+        //}
     }
 }

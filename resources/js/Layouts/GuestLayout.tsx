@@ -1,5 +1,4 @@
 import ApplicationLogo from '@/Components/ApplicationLogo';
-import { RedirectContainer } from '@/Components/RedirectContainer';
 import { Link } from '@inertiajs/react';
 import { ReactNode } from 'react';
 
@@ -10,27 +9,18 @@ type GuestProps = {
 
 export default function Guest({
   children,
-  showRedirectContainer = false
 }: GuestProps) {
   return (
-    <div className="flex flex-col items-center min-h-screen pt-6 bg-gray-100 sm:justify-center sm:pt-0 dark:bg-background-primary">
-      <div>
+    <div className="flex flex-col items-center min-h-screen pt-6 bg-light-gray sm:justify-center sm:pt-0">
+      <div className='mb-6'>
         <Link href="/">
           <ApplicationLogo />
         </Link>
       </div>
 
-      <div className="w-full px-6 py-4 mt-6 overflow-hidden bg-white shadow-md sm:max-w-md sm:rounded-lg dark:bg-background-secondary">
+      <div className="w-full px-6 py-4 overflow-hidden md:mt-6 md:shadow-md bg-light-gray md:bg-white sm:max-w-lg sm:rounded-lg dark:bg-background-secondary">
         {children}
       </div>
-
-      {showRedirectContainer && (
-        <RedirectContainer
-          redirectLink="/register"
-          text="Sign up here"
-          title="Don't have an account?"
-        />
-      )}
     </div>
   );
 }
