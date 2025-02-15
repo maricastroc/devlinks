@@ -25,11 +25,6 @@ export default function Authenticated({
                 </Link>
               </div>
 
-              <div className="items-center hidden gap-4 md:flex">
-                <NavLink href="/">Campaings</NavLink>
-                <NavLink href="/lists">Lists</NavLink>
-                <NavLink href="/templates">Templates</NavLink>
-              </div>
             </div>
 
             <div className="hidden md:ms-6 md:flex md:items-center">
