@@ -25,11 +25,11 @@ export default function Login() {
   };
 
   return (
-    <GuestLayout showRedirectContainer>
+    <GuestLayout>
       <Head title="Log in" />
       <form className="p-2 py-6 md:p-4" onSubmit={submit}>
         <div>
-          <h2 className="mb-2 text-[1.7rem] md:text-[2rem] font-bold text-gray-950">
+          <h2 className="mb-2 text-[1.7rem] md:text-[2rem] font-bold text-dark-gray">
             Login
           </h2>
           <p className="mb-8 text-medium-gray">
@@ -41,7 +41,7 @@ export default function Login() {
             type="email"
             name="email"
             value={data.email}
-            placeholder="Your email here"
+            placeholder="e.g. alex@email.com"
             className="block w-full mt-1"
             autoComplete="username"
             icon={EmailIcon}
@@ -60,7 +60,7 @@ export default function Login() {
             id="password"
             type="password"
             name="password"
-            placeholder="Your password here"
+            placeholder="Enter your password"
             value={data.password}
             className="block w-full mt-1"
             icon={PasswordIcon}
@@ -77,7 +77,7 @@ export default function Login() {
           <div className="flex flex-col items-center mt-6 md:mt-4 md:gap-1 md:flex-row">
             <p className="text-md text-medium-gray">Don't have an account?</p>
             <Link
-              href={route('web.register.index')}
+              href={route('register')}
               className="transition-all hover:text-purple-hover duration-125 text-medium-purple text-md"
             >
               Create Account

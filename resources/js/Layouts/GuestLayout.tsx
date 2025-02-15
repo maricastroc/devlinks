@@ -4,7 +4,6 @@ import { ReactNode } from 'react';
 
 type GuestProps = {
   children: ReactNode;
-  showRedirectContainer?: boolean;
 };
 
 export default function Guest({ children }: GuestProps) {

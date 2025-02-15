@@ -30,7 +30,7 @@ export default function Register() {
 
       <form className="p-2 py-6 md:p-4" onSubmit={submit}>
         <div>
-          <h2 className="mb-2 text-[1.7rem] md:text-[2rem] font-bold text-gray-950">
+          <h2 className="mb-2 text-[1.7rem] md:text-[2rem] font-bold text-dark-gray">
             Create account
           </h2>
           <p className="mb-8 text-medium-gray">
@@ -42,7 +42,7 @@ export default function Register() {
             type="email"
             name="email"
             value={data.email}
-            placeholder="Your email here"
+            placeholder="e.g. alex@email.com"
             className="block w-full mt-1"
             autoComplete="username"
             icon={EmailIcon}
@@ -61,7 +61,7 @@ export default function Register() {
             id="password"
             type="password"
             name="password"
-            placeholder="Your password here"
+            placeholder="At least 8 characters"
             value={data.password}
             className="block w-full mt-1"
             icon={PasswordIcon}
@@ -80,7 +80,7 @@ export default function Register() {
             id="password_confirmation"
             type="password"
             name="password_confirmation"
-            placeholder="Your password here"
+            placeholder="At least 8 characters"
             value={data.password_confirmation}
             className="block w-full mt-1"
             icon={PasswordIcon}
@@ -97,7 +97,7 @@ export default function Register() {
           <div className="flex flex-col items-center mt-6 md:mt-4 md:gap-1 md:flex-row">
             <p className="text-md text-medium-gray">Already have an account?</p>
             <Link
-              href={route('web.login.index')}
+              href={route('login')}
               className="transition-all hover:text-purple-hover duration-125 text-medium-purple text-md"
             >
               Login

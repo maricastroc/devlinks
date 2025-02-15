@@ -43,4 +43,9 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+    public function devLinks()
+    {
+        return $this->hasMany(Devlink::class);
+    }
 }

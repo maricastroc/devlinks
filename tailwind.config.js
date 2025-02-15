@@ -42,23 +42,4 @@ export default {
         },
     },
     plugins: [forms, require('daisyui'), require('@tailwindcss/typography')],
-    daisyui: {
-        themes: [
-            {
-            mytheme: {
-                ...defaultTheme["[data-theme=dark]"],
-                "primary": "#111113",
-                "secondary": "#111113",
-                "accent": "#205bdf",
-                "base-100": "#393A40",
-            },
-            },
-            "dark",
-            "light",
-        ],
-        },
-        safelist: [
-            'border-b-primary',
-            'max-h-[20rem]',
-        ]
 };

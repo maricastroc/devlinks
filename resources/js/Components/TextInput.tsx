@@ -37,7 +37,7 @@ export default forwardRef(function TextInput(
     <div className="relative w-full">
       {icon && (
         <img
-          className="absolute text-gray-400 transform -translate-y-1/2 left-3 top-[55%]"
+          className="absolute text-gray-400 active:bg-white transform -translate-y-1/2 left-3 top-[55%]"
           src={icon}
           alt=""
         />
@@ -45,7 +45,7 @@ export default forwardRef(function TextInput(
 
       <input
         className={
-          `w-full pl-10 pr-4 py-3 rounded-md border ${hasError ? 'border-medium-red' : 'border-borders'} shadow-sm bg-white text-dark-gray focus:border-medium-purple focus:ring-medium-purple disabled:cursor-not-allowed disabled:text-gray-500` +
+          `w-full pl-10 pr-4 active:bg-white py-3 rounded-md border ${hasError ? 'border-medium-red' : 'border-borders'} shadow-sm bg-white text-dark-gray focus:border-medium-purple focus:ring-medium-purple disabled:cursor-not-allowed disabled:text-gray-500` +
           className
         }
         ref={localRef}
