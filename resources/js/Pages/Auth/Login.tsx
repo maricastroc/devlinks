@@ -27,10 +27,14 @@ export default function Login() {
   return (
     <GuestLayout showRedirectContainer>
       <Head title="Log in" />
-      <form className='p-2 py-6 md:p-4' onSubmit={submit}>
+      <form className="p-2 py-6 md:p-4" onSubmit={submit}>
         <div>
-        <h2 className='mb-2 text-[1.7rem] md:text-[2rem] font-bold text-gray-950'>Login</h2>
-        <p className='mb-8 text-medium-gray'>Add your details below to get back into the app</p>
+          <h2 className="mb-2 text-[1.7rem] md:text-[2rem] font-bold text-gray-950">
+            Login
+          </h2>
+          <p className="mb-8 text-medium-gray">
+            Add your details below to get back into the app
+          </p>
           <InputLabel htmlFor="email" value="Email" />
           <TextInput
             id="email"
@@ -69,12 +73,15 @@ export default function Login() {
         </div>
 
         <div className="flex flex-col items-center justify-end mt-6 text-center">
-          <PrimaryButton disabled={processing}>
-            Log in
-          </PrimaryButton>
-          <div className='flex flex-col items-center mt-6 md:mt-4 md:gap-1 md:flex-row'>
-            <p className='text-md text-medium-gray'>Don't have an account?</p>
-            <Link href={route('register')} className='transition-all hover:text-purple-hover duration-125 text-medium-purple text-md'>Create Account</Link>
+          <PrimaryButton disabled={processing}>Log in</PrimaryButton>
+          <div className="flex flex-col items-center mt-6 md:mt-4 md:gap-1 md:flex-row">
+            <p className="text-md text-medium-gray">Don't have an account?</p>
+            <Link
+              href={route('register')}
+              className="transition-all hover:text-purple-hover duration-125 text-medium-purple text-md"
+            >
+              Create Account
+            </Link>
           </div>
         </div>
       </form>

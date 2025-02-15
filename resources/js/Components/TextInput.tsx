@@ -14,7 +14,11 @@ export default forwardRef(function TextInput(
     isFocused = false,
     hasError = false,
     ...props
-  }: InputHTMLAttributes<HTMLInputElement> & { isFocused?: boolean, icon?: string | null, hasError?: boolean },
+  }: InputHTMLAttributes<HTMLInputElement> & {
+    isFocused?: boolean;
+    icon?: string | null;
+    hasError?: boolean;
+  },
   ref
 ) {
   const localRef = useRef<HTMLInputElement>(null);
@@ -32,8 +36,11 @@ export default forwardRef(function TextInput(
   return (
     <div className="relative w-full">
       {icon && (
-        <img className="absolute text-gray-400 transform -translate-y-1/2 left-3 top-[55%]"
-          src={icon} alt="" />
+        <img
+          className="absolute text-gray-400 transform -translate-y-1/2 left-3 top-[55%]"
+          src={icon}
+          alt=""
+        />
       )}
 
       <input

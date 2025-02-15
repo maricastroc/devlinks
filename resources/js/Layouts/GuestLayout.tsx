@@ -7,12 +7,10 @@ type GuestProps = {
   showRedirectContainer?: boolean;
 };
 
-export default function Guest({
-  children,
-}: GuestProps) {
+export default function Guest({ children }: GuestProps) {
   return (
     <div className="flex flex-col items-center min-h-screen pt-6 bg-light-gray sm:justify-center sm:pt-0">
-      <div className='mb-6'>
+      <div className="mb-6">
         <Link href="/">
           <ApplicationLogo />
         </Link>

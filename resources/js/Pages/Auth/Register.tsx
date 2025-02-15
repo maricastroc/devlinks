@@ -28,10 +28,14 @@ export default function Register() {
     <GuestLayout>
       <Head title="Register" />
 
-      <form className='p-2 py-6 md:p-4' onSubmit={submit}>
-      <div>
-        <h2 className='mb-2 text-[1.7rem] md:text-[2rem] font-bold text-gray-950'>Create account</h2>
-        <p className='mb-8 text-medium-gray'>Let’s get you started sharing your links!</p>
+      <form className="p-2 py-6 md:p-4" onSubmit={submit}>
+        <div>
+          <h2 className="mb-2 text-[1.7rem] md:text-[2rem] font-bold text-gray-950">
+            Create account
+          </h2>
+          <p className="mb-8 text-medium-gray">
+            Let’s get you started sharing your links!
+          </p>
           <InputLabel htmlFor="email" value="Email" />
           <TextInput
             id="email"
@@ -89,12 +93,15 @@ export default function Register() {
         </div>
 
         <div className="flex flex-col items-center justify-end mt-6 text-center">
-          <PrimaryButton disabled={processing}>
-            Create account
-          </PrimaryButton>
-          <div className='flex flex-col items-center mt-6 md:mt-4 md:gap-1 md:flex-row'>
-            <p className='text-md text-medium-gray'>Already have an account?</p>
-            <Link href={route('login')} className='transition-all hover:text-purple-hover duration-125 text-medium-purple text-md'>Login</Link>
+          <PrimaryButton disabled={processing}>Create account</PrimaryButton>
+          <div className="flex flex-col items-center mt-6 md:mt-4 md:gap-1 md:flex-row">
+            <p className="text-md text-medium-gray">Already have an account?</p>
+            <Link
+              href={route('login')}
+              className="transition-all hover:text-purple-hover duration-125 text-medium-purple text-md"
+            >
+              Login
+            </Link>
           </div>
         </div>
       </form>
