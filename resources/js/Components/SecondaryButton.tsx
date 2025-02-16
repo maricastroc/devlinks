@@ -10,7 +10,7 @@ export default function SecondaryButton({
     <button
       {...props}
       className={
-        `disabled:cursor-not-allowed disabled:bg-purple-hover w-full inline-flex items-center rounded-lg bg-transparent border border-medium-purple px-4 py-3 text-md font-semibold text-medium-purple transition duration-150 ease-in-out hover:bg-purple-hover hover:bg-opacity-30 focus:outline-none` +
+        `disabled:cursor-not-allowed disabled:bg-purple-hover w-full inline-flex items-center rounded-lg bg-transparent border border-medium-purple px-4 py-3 text-md font-semibold text-medium-purple transition duration-150 ease-in-out hover:bg-purple-hover hover:bg-opacity-30 focus:outline-none ` +
         className
       }
       disabled={disabled}

@@ -14,7 +14,7 @@ type Props = {
   publicEmail?: string | null;
 };
 
-const LinkCard = ({ link }: { link: UserLinkProps }) => {
+export const LinkCard = ({ link }: { link: UserLinkProps }) => {
   const isFrontendMentor = link.platform.name === 'Frontend Mentor';
 
   const isValidUrl = link.url && link.url !== '';

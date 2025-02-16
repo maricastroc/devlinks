@@ -8,12 +8,14 @@ import { faLink } from '@fortawesome/free-solid-svg-icons';
 import { UserCircle } from 'phosphor-react';
 
 export const Navbar = () => {
-  const { currentRoute } = usePage().props;
+  const { currentRoute, auth } = usePage().props;
 
+  const user = auth.user;
+  
   return (
     <nav className="flex items-center justify-between w-full p-6 py-4 pl-2 bg-white md:w-auto md:m-6 md:rounded-md md:p-5">
       <Link
-        href={route('register')}
+        href={route('dashboard')}
         className="flex items-center justify-center p-3 py-2 md:p-0"
       >
         <img className="md:hidden" src={SmallLogo} alt="Small Logo" />
@@ -27,7 +29,7 @@ export const Navbar = () => {
 
       <div className="flex items-center gap-2">
         <NavLink
-          className="flex items-center md:gap-2"
+          className="flex items-center transition-all duration-150 md:gap-2 hover:text-medium-purple"
           href={route('dashboard')}
           isActive={currentRoute === 'dashboard'}
         >
@@ -36,7 +38,7 @@ export const Navbar = () => {
         </NavLink>
 
         <NavLink
-          className="flex items-center md:gap-2"
+          className="flex items-center transition-all duration-150 md:gap-2 hover:text-medium-purple"
           href={route('profile')}
           isActive={currentRoute === 'profile'}
         >
@@ -46,7 +48,7 @@ export const Navbar = () => {
       </div>
 
       <Link
-        href={route('register')}
+        href={route('shared', { user: user.id })}
         className="flex items-center justify-center p-3 py-2 border rounded-md md:px-5 md:py-3 border-medium-purple"
       >
         <img src={Preview} alt="" className="md:hidden" />

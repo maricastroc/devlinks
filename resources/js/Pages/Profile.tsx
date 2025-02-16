@@ -119,14 +119,14 @@ export default function Profile({ user, userLinks }: Props) {
           />
         </div>
         <div className="flex flex-col w-full p-6 m-4 bg-white rounded-md lg:m-0 md:m-6 md:p-10">
-          <div className='flex items-center justify-between w-full'>
+          <div className="flex items-center justify-between w-full">
             <h2 className="mb-1 md:text-[2rem] text-2xl font-bold text-dark-gray">
-              Profile details
+              Profile Details
             </h2>
             <NavLink
               className="flex items-center transition-all duration-150 md:gap-2 hover:text-medium-red"
               href={route('logout')}
-              method='post'
+              method="post"
             >
               <p className="hidden md:block">Logout</p>
               <FontAwesomeIcon icon={faArrowRightFromBracket} />
@@ -141,7 +141,7 @@ export default function Profile({ user, userLinks }: Props) {
               <PhotoInput
                 isProfileScreen
                 withMarginTop={false}
-                photoPreview={photoPreview || user?.avatar_url as string}
+                photoPreview={photoPreview || (user?.avatar_url as string)}
                 onChange={handleAvatarChange}
                 error={errors?.avatar_url}
                 inputFileRef={inputFileRef as React.RefObject<HTMLInputElement>}

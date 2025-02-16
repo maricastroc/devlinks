@@ -90,15 +90,12 @@ export default function Dashboard({ platforms, userLinks, user }: Props) {
     setErrors({});
 
     try {
-      const response = await axios.post(
-        '/user-links',
-        {
-          links: links.map((link) => ({
-            platform_id: link.platform_id,
-            url: link.url
-          }))
-        }
-      );
+      const response = await axios.post('/user-links', {
+        links: links.map((link) => ({
+          platform_id: link.platform_id,
+          url: link.url
+        }))
+      });
 
       if (response?.data?.message) {
         notyf?.success(response.data.message);

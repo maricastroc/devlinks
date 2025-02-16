@@ -20,7 +20,7 @@ class ProfileController extends Controller
     
         $userLinks = $user->userLinks()->with('platform')->get();
     
-        return Inertia::render('Profile/Index', [
+        return Inertia::render('Profile', [
             'user' => $user,
             'userLinks' => $userLinks,
             'currentRoute' => Route::currentRouteName(),
