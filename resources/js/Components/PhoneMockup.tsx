@@ -10,7 +10,7 @@ type Props = {
 
 const LinkCard = ({ link }: { link: UserLinkProps }) => {
   const isFrontendMentor = link.platform.name === 'Frontend Mentor';
-  
+
   const isValidUrl = link.url && link.url !== '';
 
   const handleClick = (e: React.MouseEvent) => {
@@ -20,8 +20,8 @@ const LinkCard = ({ link }: { link: UserLinkProps }) => {
   return (
     <a
       key={link.id}
-      href={isValidUrl ? link.url as string : '#'}
-      target='_blank'
+      href={isValidUrl ? (link.url as string) : '#'}
+      target="_blank"
       onClick={handleClick}
       className={clsx(
         'flex items-center justify-between p-[0.72rem] rounded-md duration-150 transition-all',
