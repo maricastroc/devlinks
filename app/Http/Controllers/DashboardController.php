@@ -21,6 +21,7 @@ class DashboardController extends Controller
         $userLinks = $user->userLinks()->with('platform')->get();
     
         return Inertia::render('Dashboard/Index', [
+            'user' => $user,
             'platforms' => $platforms,
             'userLinks' => $userLinks,
             'currentRoute' => Route::currentRouteName(),

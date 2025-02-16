@@ -46,7 +46,6 @@ export default function Register() {
             className="block w-full mt-1"
             autoComplete="username"
             icon={EmailIcon}
-            isFocused={true}
             onChange={(e) => setData('email', e.target.value)}
             hasError={errors?.email !== undefined}
           />

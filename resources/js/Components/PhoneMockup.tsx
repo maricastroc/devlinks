@@ -3,9 +3,15 @@ import { ArrowRight } from 'phosphor-react';
 import PhoneMockupIllustration from '/public/assets/images/illustration-phone-mockup.svg';
 import { UserLinkProps } from '@/types/user-link';
 import clsx from 'clsx';
+import { UserProps } from '@/types/user';
 
 type Props = {
   links: UserLinkProps[];
+  user?: UserProps;
+  photoPreview?: string | null;
+  firstName?: string | null;
+  lastName?: string | null;
+  publicEmail?: string | null;
 };
 
 const LinkCard = ({ link }: { link: UserLinkProps }) => {
@@ -48,11 +54,35 @@ const LinkCard = ({ link }: { link: UserLinkProps }) => {
   );
 };
 
-export const PhoneMockup = ({ links }: Props) => {
+export const PhoneMockup = ({ user, photoPreview, firstName, lastName, publicEmail, links }: Props) => {
+  console.log(user)
   return (
     <div className="w-[307px] h-[631px] relative">
       <img src={PhoneMockupIllustration} alt="Phone mockup" />
-      <div className="max-h-[300px] left-[1.05rem] overflow-y-auto bg-red absolute flex flex-col items-center justify-center w-[15.1rem] m-4 top-[16.4rem]">
+      {(photoPreview || user?.avatar_url) && (
+  <div
+    style={{ backgroundImage: `url(${photoPreview || user?.avatar_url})` }}
+    className="absolute border-4 border-medium-purple rounded-full bg-opacity-20 h-[6.1rem] w-[6.1rem] z-[9999] top-[4rem] left-[6.5rem] bg-cover bg-center"
+  />
+)}
+
+      {(firstName || user?.first_name) && (
+        <div
+          className="font-bold w-[17.2rem] text-center absolute bg-white z-[9999] top-[11.3rem] left-[1rem] bg-cover bg-center"
+        >
+          <p>{firstName || user?.first_name} {lastName || user?.last_name}</p>
+          </div>
+      )}
+
+      {(publicEmail || user?.public_email) && (
+        <div
+          className="text-sm w-[17.2rem] text-center absolute bg-white z-[9999] top-[12.8rem] left-[1rem] bg-cover bg-center"
+        >
+          <p>{publicEmail || user?.public_email}</p>
+          </div>
+      )}
+
+      <div className="max-h-[300px] left-[1.05rem] overflow-y-auto absolute flex flex-col items-center justify-center w-[15.1rem] m-4 top-[16.4rem]">
         <div className="w-full overflow-y-auto flex flex-col gap-[0.98rem]">
           {links?.map(
             (link) =>

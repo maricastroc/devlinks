@@ -128,7 +128,6 @@ export const LinkBox = ({
               className={`block w-full mt-1 ${errorUrl ? 'border border-medium-red' : ''}`}
               onChange={(e) => handleChangeUrl(Number(link.id), e.target.value)}
               icon={IconLink}
-              isFocused={true}
             />
 
             <InputError className="mt-1" message={errorUrl} />

@@ -23,6 +23,7 @@ export const PhotoInput = ({
 
       <div className="flex flex-col w-full md:flex-row md:items-center md:justify-end md:gap-6">
         <button
+        type='button'
           onClick={() => {
             if (inputFileRef.current) {
               inputFileRef.current.click();
@@ -59,7 +60,7 @@ export const PhotoInput = ({
           )}
         </button>
 
-        <p className="md:w-[9rem] text-xs text-medium-gray">
+        <p className="md:w-[9rem] mt-3 md:mt-0 text-xs text-medium-gray">
           Image must be below 1024x1024px. Use PNG or JPG format.
         </p>
       </div>

@@ -61,13 +61,17 @@ class User extends Authenticatable
         }
     
         if (isset($data['avatar_url']) && $data['avatar_url']->isValid()) {
-            $photoUrlPath = $data['avatar_url']->store('assets/users', 'public');
-            $data['avatar_url'] = $photoUrlPath;
+            $destinationPath = public_path('assets/users');
+            $fileName = time() . '_' . $data['avatar_url']->getClientOriginalName();
+            $data['avatar_url']->move($destinationPath, $fileName);
+        
+            $data['avatar_url'] = 'assets/users/' . $fileName;
         } else {
             $data['avatar_url'] = $data['avatar_url'] ?? $user->avatar_url;
         }
         
         $user->first_name = $data['first_name'];
+
         $user->last_name = $data['last_name'];
 
         $user->avatar_url = $data['avatar_url'];

@@ -13,6 +13,7 @@ import { notyf } from '@/libs/notyf';
 import { UserLinkProps } from '@/types/user-link';
 import { z } from 'zod';
 import $ from 'jquery';
+import { UserProps } from '@/types/user';
 
 const linkSchema = z.object({
   platform_id: z.number(),
@@ -26,6 +27,7 @@ const linksSchema = z
 type Props = {
   platforms: PlatformProps[];
   userLinks: UserLinkProps[] | [];
+  user: UserProps;
 };
 
 type FormErrors = Record<
@@ -33,7 +35,7 @@ type FormErrors = Record<
   { url?: string; platform_id?: string }
 >;
 
-export default function Dashboard({ platforms, userLinks }: Props) {
+export default function Dashboard({ platforms, userLinks, user }: Props) {
   const [links, setLinks] = useState<UserLinkProps[] | []>(userLinks || []);
 
   const [processing, setProcessing] = useState(false);
@@ -178,7 +180,7 @@ export default function Dashboard({ platforms, userLinks }: Props) {
 
       <div className="lg:m-6 flex lg:grid lg:grid-cols-[1fr,1.5fr] w-full lg:gap-6">
         <div className="items-center justify-center hidden w-full p-10 bg-white rounded-md lg:flex">
-          <PhoneMockup links={links} />
+          <PhoneMockup links={links} user={user} />
         </div>
 
         <div className="flex flex-col w-full p-6 m-4 mt-6 bg-white rounded-md lg:m-0 md:m-6 md:p-10">

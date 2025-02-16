@@ -35,8 +35,7 @@ class ProfileUpdateRequest extends FormRequest
             'last_name' => ['required', 'string'],
             'avatar_url' => [
                 'nullable',
-                'string',
-                'max:1024',
+                'image',
                 'mimes:jpeg,png',
                 'dimensions:max_width=1024,max_height=1024'
             ],
