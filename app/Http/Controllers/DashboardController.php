@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Platform;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -14,8 +15,14 @@ class DashboardController extends Controller
     {
         $platforms = Platform::all();
 
+        /** @var \App\Models\User $user */
+        $user = Auth::user();
+    
+        $userLinks = $user->userLinks()->with('platform')->get();
+    
         return Inertia::render('Dashboard/Index', [
             'platforms' => $platforms,
+            'userLinks' => $userLinks,
             'currentRoute' => Route::currentRouteName(),
         ]);
     }

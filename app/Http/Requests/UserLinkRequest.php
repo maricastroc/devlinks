@@ -24,8 +24,9 @@ class UserLinkRequest extends FormRequest
     public function rules()
     {
         return [
-            'platform_id' => 'required|exists:platforms,id',
-            'url' => 'required|url',
+            'links' => 'required|array',
+            'links.*.platform_id' => 'required|exists:platforms,id',
+            'links.*.url' => 'required|url',
         ];
     }
 }

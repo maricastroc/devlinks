@@ -9,6 +9,7 @@ import { useState, useRef, useEffect } from 'react';
 import { DropdownMenu } from './DropdownMenu';
 import { PlatformProps } from '@/types/platform';
 import { UserLinkProps } from '@/types/user-link';
+import InputError from './InputError';
 
 type Props = {
   index: number;
@@ -17,12 +18,16 @@ type Props = {
   handleSelect: (item: PlatformProps) => void;
   handleRemove: (id: number) => void;
   handleChangeUrl: (linkId: number, value: string) => void;
+  errorUrl?: string
+  errorPlatform?: string
 };
 
 export const LinkBox = ({
   index,
   link,
   platforms,
+  errorUrl,
+  errorPlatform,
   handleSelect,
   handleRemove,
   handleChangeUrl
@@ -49,7 +54,7 @@ export const LinkBox = ({
   }, []);
 
   return (
-    <div className="flex flex-col p-4 rounded-lg bg-light-gray">
+    <div className={`flex flex-col p-4 rounded-lg bg-light-gray`}>
       <div className="flex items-center justify-between w-full">
         <div className="flex items-center gap-2">
           <LinkMark />
@@ -66,27 +71,29 @@ export const LinkBox = ({
       <div>
         <div className="flex flex-col gap-4 mt-5">
           <div>
-            <InputLabel htmlFor="link" value="Link" />
+            <InputLabel htmlFor="platform" value="Platform" />
             <div
               onClick={() => setIsDropdownOpen(!isDropdownOpen)}
               className="relative w-full mt-1 h-[48px] flex items-center justify-between cursor-pointer bg-white transition-all duration-300 ease-in-out rounded-lg py-3 px-3 border border-neutral-borders hover:border-primary-index hover:shadow-3xl"
             >
               <div className="flex items-center justify-between w-full">
                 <div className="flex items-center justify-center gap-3">
-                  <span>
+                  {link?.platform?.icon_url && link?.platform?.icon_url !== '' && (
+                    <span>
                     <img
                       src={
                         link?.platform.icon_url
                           ? `/assets/images/${link.platform.icon_url}.svg`
-                          : Github
+                          : ''
                       }
                       alt="Link icon"
                       width="16"
                       height="16"
                     />
                   </span>
+                  )}
                   <span className="text-dark-grey">
-                    {link?.platform.name ? link.platform.name : 'Github'}
+                    {link?.platform.name || ''}
                   </span>
                 </div>
                 <FontAwesomeIcon
@@ -98,6 +105,7 @@ export const LinkBox = ({
                 <div ref={dropdownRef}>
                   <DropdownMenu
                     platforms={platforms}
+                    link={link}
                     handleSelect={(item: PlatformProps) => {
                       handleSelect(item);
                     }}
@@ -105,6 +113,7 @@ export const LinkBox = ({
                 </div>
               )}
             </div>
+            <InputError className='mt-1' message={errorPlatform} />
           </div>
 
           <div>
@@ -113,12 +122,15 @@ export const LinkBox = ({
               id="link"
               type="text"
               name="link"
+              value={link?.url || ''}
               placeholder="e.g. https://www.github.com/octocat"
-              className="block w-full mt-1"
+              className={`block w-full mt-1 ${errorUrl ? 'border border-medium-red' : ''}`}
               onChange={(e) => handleChangeUrl(Number(link.id), e.target.value)}
               icon={IconLink}
               isFocused={true}
             />
+
+            <InputError className='mt-1' message={errorUrl} />
           </div>
         </div>
       </div>

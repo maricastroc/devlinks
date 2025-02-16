@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import SecondaryButton from '@/Components/SecondaryButton';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { Head, useForm, usePage } from '@inertiajs/react';
@@ -11,28 +11,65 @@ import { handleReqError } from '@/utils/handleReqError';
 import axios from 'axios';
 import { notyf } from '@/libs/notyf';
 import { UserLinkProps } from '@/types/user-link';
+import { z } from "zod";
+
+const linkSchema = z.object({
+  platform_id: z.number(),
+  url: z.string().url({ message: "Invalid URL. Please, use a valid format." }),
+});
+
+const linksSchema = z.array(linkSchema).nonempty({ message: "You need to add at least one link." });
 
 type Props = {
   platforms: PlatformProps[];
+  userLinks: UserLinkProps[] | [];
 };
 
-type FormErrors = {
-  links?: string;
-};
+type FormErrors = Record<string | number, { url?: string; platform_id?: string }>;
 
-export default function Dashboard({ platforms }: Props) {
-  const [links, setLinks] = useState<UserLinkProps[] | []>([]);
+export default function Dashboard({ platforms, userLinks }: Props) {
+  const [links, setLinks] = useState<UserLinkProps[] | []>(userLinks || []);
 
   const [processing, setProcessing] = useState(false);
 
-  const [errors, setErrors] = useState<FormErrors>({});
+  const [filteredPlatforms, setFilteredPlatforms] = useState<PlatformProps[] | []>([])
 
-  const { data, setData } = useForm({
-    links: [] as { user_id: number; platform_id: number; url: string }[]
-  });
+  const [errors, setErrors] = useState<FormErrors>({});
 
   const submit = async (e: React.FormEvent) => {
     e.preventDefault();
+  
+    const validationResult = linksSchema.safeParse(links);
+  
+    if (!validationResult.success) {
+      const formattedErrors = validationResult.error.format();
+  
+      setErrors(
+        links.reduce((acc, link, index) => {
+          const error = formattedErrors[index];
+  
+          const urlError = error && "url" in error ? error?.url?._errors[0] : "";
+  
+          const platformError =
+            link.platform_id === -1 || !platforms.some(p => p.id === link.platform_id)
+              ? "Invalid platform selected."
+              : "";
+  
+          if (urlError || platformError) {
+            acc[Number(link.id)] = {
+              url: urlError,
+              platform_id: platformError
+            };
+          } else {
+            acc[Number(link.id)] = { url: "", platform_id: "" };
+          }
+  
+          return acc;
+        }, {} as { [key: number]: { url?: string; platform_id?: string } })
+      );
+      
+      return;
+    }
   
     setProcessing(true);
     setErrors({});
@@ -41,8 +78,8 @@ export default function Dashboard({ platforms }: Props) {
       const response = await axios.post('/user-links', {
         links: links.map((link) => ({
           platform_id: link.platform_id,
-          url: link.url,
-        })),
+          url: link.url
+        }))
       });
   
       if (response?.data?.message) {
@@ -64,12 +101,12 @@ export default function Dashboard({ platforms }: Props) {
       ...prevLinks,
       {
         id: Date.now(),
-        platform_id: 1,
+        platform_id: -1,
         platform: {
-          id: 1,
-          name: 'Github',
-          icon_url: 'icon-github',
-          color: '#000000'
+          id: -1,
+          name: '',
+          icon_url: '',
+          color: ''
         },
         url: ''
       }
@@ -98,7 +135,15 @@ export default function Dashboard({ platforms }: Props) {
     );
   };
 
-  console.log(links);
+  useEffect(() => {
+    if (links) {
+      const filteredPlatforms = platforms.filter(platform => {
+        return !links.some(link => link.platform_id === platform.id);
+      });
+
+      setFilteredPlatforms(filteredPlatforms)
+    }
+  }, [links])
 
   return (
     <AuthenticatedLayout
@@ -126,16 +171,18 @@ export default function Dashboard({ platforms }: Props) {
 
           <SecondaryButton onClick={addNewLink}>+ Add New Link</SecondaryButton>
 
-          {links.length > 0 ? (
+          {links?.length > 0 ? (
             <div className="flex flex-col gap-4 mt-6">
               {links.map((link, index) => (
                 <LinkBox
                   key={link.id}
-                  platforms={platforms}
+                  platforms={filteredPlatforms}
                   link={link}
                   index={index}
                   handleRemove={handleRemove}
                   handleChangeUrl={handleChangeUrl}
+                  errorUrl={errors[String(link.id)]?.url}
+                  errorPlatform={errors[String(link.id)]?.platform_id}
                   handleSelect={(platform) =>
                     handleSelect(platform, Number(link.id))
                   }
@@ -159,7 +206,11 @@ export default function Dashboard({ platforms }: Props) {
           <hr className="my-6 md:my-8" />
 
           <div className="flex justify-end md:items-end">
-            <PrimaryButton onClick={submit} className="md:w-[6rem]" disabled={!links?.length}>
+            <PrimaryButton
+              onClick={submit}
+              className="md:w-[6rem]"
+              disabled={!links?.length || processing}
+            >
               Save
             </PrimaryButton>
           </div>

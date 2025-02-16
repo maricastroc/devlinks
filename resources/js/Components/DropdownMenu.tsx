@@ -1,25 +1,34 @@
 import { PlatformProps } from '@/types/platform';
+import { UserLinkProps } from '@/types/user-link';
 
 type Props = {
   handleSelect: (item: PlatformProps) => void;
   platforms: PlatformProps[];
+  link: UserLinkProps;
 };
 
-export const DropdownMenu = ({ handleSelect, platforms }: Props) => {
+export const DropdownMenu = ({ handleSelect, platforms, link }: Props) => {
   return (
     <div className="top-[3.5rem] right-0 w-[100%] absolute z-50 py-1 max-h-[15rem] flex flex-col overflow-y-auto mt-1 bg-white border border-gray-300 rounded-md shadow-md">
-      {platforms?.map((item, index) => (
-        <>
+      {platforms?.map((platform) => (
+        <div key={platform.id}>
           <div
-            key={Number(new Date())}
             className="flex items-center gap-2 px-4 py-3 cursor-pointer hover:bg-gray-100"
-            onClick={() => handleSelect(item)}
+            onClick={() => handleSelect(platform)}
           >
-            <img src={`/assets/images/${item.icon_url}.svg`} alt="" />
-            <span>{item.name}</span>
+            <img
+              src={`/assets/images/${platform.icon_url}.svg`}
+              alt=""
+              style={{
+                filter: platform.name === link.platform.name ? 'sepia(10%) saturate(5676%) hue-rotate(213deg) brightness(118%) contrast(219%)' : 'none'
+              }}
+            />
+            <span className={`${platform.name === link.platform.name ? 'text-medium-purple' : 'text-dark-gray'}`}>
+              {platform.name}
+            </span>
           </div>
           <hr className="mx-2 text-light-gray" />
-        </>
+        </div>
       ))}
     </div>
   );
