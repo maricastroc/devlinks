@@ -37,7 +37,7 @@ export const Navbar = () => {
 
         <NavLink
           className="flex items-center md:gap-2"
-          href={route('dashboard')}
+          href={route('profile')}
           isActive={currentRoute === 'profile'}
         >
           <UserCircle size={26} />

@@ -6,14 +6,10 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\UserLinkController;
 use Illuminate\Support\Facades\Route;
 
-Route::middleware('auth')->prefix('profile')->name('profile.')->group(function () {
-    Route::get('/', [ProfileController::class, 'edit'])->name('edit');
-    Route::patch('/', [ProfileController::class, 'update'])->name('update');
-    Route::delete('/', [ProfileController::class, 'destroy'])->name('destroy');
-});
-
 Route::middleware('auth')->group(function () {
     Route::get('/', DashboardController::class)->name('dashboard');
+    Route::get('/profile', [ProfileController::class, 'index'])->name('profile');
+    Route::post('/profile/update', [ProfileController::class, 'update'])->name('profile.update');
     Route::get('/api/platforms', [PlatformController::class, 'index'])->name('platforms.index');
     Route::post('/user-links', [UserLinkController::class, 'store'])->name('user-links.store');;
 });

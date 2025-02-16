@@ -18,7 +18,7 @@ export default {
     theme: {
         extend: {
             fontFamily: {
-                sans: ['InstrumentSans', ...defaultTheme.fontFamily.sans],
+                sans: ['Instrument Sans', ...defaultTheme.fontFamily.sans],
             },
             colors: {
                 'white': '#ffffff',

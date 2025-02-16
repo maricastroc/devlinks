@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Hash;
 
 class User extends Authenticatable
 {
@@ -19,6 +20,10 @@ class User extends Authenticatable
     protected $fillable = [
         'email',
         'password',
+        'public_email',
+        'first_name',
+        'last_name',
+        'avatar_url',
     ];
 
     /**
@@ -48,4 +53,34 @@ class User extends Authenticatable
     {
         return $this->hasMany(UserLink::class);
     }
+
+    public function updateWithPhoto(array $data, User $user)
+    {
+        if (isset($data['new_password'])) {
+            $data['new_password'] = Hash::make($data['new_password']);
+        }
+    
+        if (isset($data['avatar_url']) && $data['avatar_url']->isValid()) {
+            $photoUrlPath = $data['avatar_url']->store('assets/users', 'public');
+            $data['avatar_url'] = $photoUrlPath;
+        } else {
+            $data['avatar_url'] = $data['avatar_url'] ?? $user->avatar_url;
+        }
+        
+        $user->first_name = $data['first_name'];
+        $user->last_name = $data['last_name'];
+
+        $user->avatar_url = $data['avatar_url'];
+
+        $user->public_email = $data['public_email'];
+
+        $user->email = $data['email'] ?? $user->email;
+
+
+        $user->password = $data['new_password'] ?? $user->password;
+    
+        // Salva o usuário
+        return $user->save();
+    }
+    
 }

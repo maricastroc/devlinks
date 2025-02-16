@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import SecondaryButton from '@/Components/SecondaryButton';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
-import { Head, useForm, usePage } from '@inertiajs/react';
+import { Head } from '@inertiajs/react';
 import EmptyMockup from '/public/assets/images/illustration-empty.svg';
 import PrimaryButton from '@/Components/PrimaryButton';
 import { LinkBox } from '@/Components/LinkBox';
@@ -12,6 +12,7 @@ import axios from 'axios';
 import { notyf } from '@/libs/notyf';
 import { UserLinkProps } from '@/types/user-link';
 import { z } from 'zod';
+import $ from 'jquery';
 
 const linkSchema = z.object({
   platform_id: z.number(),
@@ -87,12 +88,20 @@ export default function Dashboard({ platforms, userLinks }: Props) {
     setErrors({});
 
     try {
-      const response = await axios.post('/user-links', {
-        links: links.map((link) => ({
-          platform_id: link.platform_id,
-          url: link.url
-        }))
-      });
+      const response = await axios.post(
+        '/user-links',
+        {
+          links: links.map((link) => ({
+            platform_id: link.platform_id,
+            url: link.url
+          }))
+        },
+        {
+          headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+          }
+        }
+      );
 
       if (response?.data?.message) {
         notyf?.success(response.data.message);
@@ -173,7 +182,7 @@ export default function Dashboard({ platforms, userLinks }: Props) {
         </div>
 
         <div className="flex flex-col w-full p-6 m-4 mt-6 bg-white rounded-md lg:m-0 md:m-6 md:p-10">
-          <h2 className="mb-1 text-[1.5rem] md:text-[2rem] font-black text-dark-gray">
+          <h2 className="mb-1 text-[1.5rem] md:text-[2rem] font-bold text-dark-gray">
             Customize your links
           </h2>
           <p className="mb-8 md:mb-10 text-medium-gray">

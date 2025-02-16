@@ -7,11 +7,26 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use Inertia\Response;
 
 class ProfileController extends Controller
 {
+    public function index(Request $request): Response
+    {
+        /** @var \App\Models\User $user */
+        $user = Auth::user();
+    
+        $userLinks = $user->userLinks()->with('platform')->get();
+    
+        return Inertia::render('Profile/Index', [
+            'user' => $user,
+            'userLinks' => $userLinks,
+            'currentRoute' => Route::currentRouteName(),
+        ]);
+    }
+
     /**
      * Display the user's profile form.
      */
@@ -25,17 +40,32 @@ class ProfileController extends Controller
     /**
      * Update the user's profile information.
      */
-    public function update(ProfileUpdateRequest $request): RedirectResponse
+    public function update(ProfileUpdateRequest $request)
     {
-        $request->user()->fill($request->validated());
+        try {
+            /** @var \App\Models\User $user */
+            $user = Auth::user();
 
-        if ($request->user()->isDirty('email')) {
-            $request->user()->email_verified_at = null;
+            $updated = $user->updateWithPhoto($request->validated(), $user);
+
+            if ($updated) {
+                return response()->json([
+                    'message' => 'Profile successfully updated!',
+                    'status' => 'success',
+                    'user' => $user
+                ], 200);
+            }
+
+            return response()->json([
+                'message' => 'Error updating profile.',
+                'status' => 'error'
+            ], 500);
+        } catch (\Exception $e) {
+            return response()->json([
+                'message' => 'An unexpected error has occurred. Please try again.',
+                'status' => 'error'
+            ], 500);
         }
-
-        $request->user()->save();
-
-        return Redirect::route('profile.edit');
     }
 
     /**
