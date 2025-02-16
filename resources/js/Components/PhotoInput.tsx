@@ -15,7 +15,7 @@ export const PhotoInput = ({
   photoPreview,
   onChange,
   inputFileRef,
-  isLoading = false,
+  isLoading = false
 }: PhotoInputProps) => {
   return (
     <div className="flex flex-col items-start w-full gap-4 md:justify-between md:items-center md:flex-row">
@@ -29,7 +29,9 @@ export const PhotoInput = ({
             }
           }}
           className={`hover:border ${
-            photoPreview ? 'hover:border-transparent' : 'hover:border-medium-purple'
+            photoPreview
+              ? 'hover:border-transparent'
+              : 'hover:border-medium-purple'
           } transition-all hover:shadow-lg duration-125 flex flex-col items-center justify-center relative h-[12rem] w-[12rem] rounded-md bg-light-purple`}
         >
           {photoPreview ? (
@@ -37,14 +39,22 @@ export const PhotoInput = ({
               className="relative flex flex-col items-center justify-center w-full h-full gap-1 bg-center bg-cover rounded-lg"
               style={{ backgroundImage: `url(${photoPreview})` }}
             >
-              <img src={UploadImageWhite} alt="Avatar Preview" className="z-50" />
-              <p className="z-50 text-lg font-bold text-white">+ Change Image</p>
+              <img
+                src={UploadImageWhite}
+                alt="Avatar Preview"
+                className="z-50"
+              />
+              <p className="z-50 text-lg font-bold text-white">
+                + Change Image
+              </p>
               <div className="absolute inset-0 bg-black bg-opacity-50 rounded-lg"></div>
             </div>
           ) : (
             <div className="flex flex-col items-center justify-center w-full gap-2">
               <img src={UploadImage} alt="Avatar Preview" />
-              <p className="font-semibold text-md text-medium-purple">+ Upload Image</p>
+              <p className="font-semibold text-md text-medium-purple">
+                + Upload Image
+              </p>
             </div>
           )}
         </button>

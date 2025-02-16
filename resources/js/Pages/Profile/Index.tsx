@@ -31,11 +31,8 @@ export default function Profile({ user, userLinks }: Props) {
           <p className="mb-8 text-medium-gray">
             Add details to personalize your profile
           </p>
-          
-          <ProfileForm 
-            user={user}
-            userLinks={userLinks}
-          />
+
+          <ProfileForm user={user} userLinks={userLinks} />
         </div>
       </div>
     </AuthenticatedLayout>

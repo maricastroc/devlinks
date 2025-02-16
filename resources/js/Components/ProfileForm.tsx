@@ -15,30 +15,30 @@ import { UserProps } from '@/types/user';
 import { handleReqError } from '@/utils/handleReqError';
 
 type Props = {
-  userLinks: UserLinkProps[]
-  user: UserProps
-}
+  userLinks: UserLinkProps[];
+  user: UserProps;
+};
 
 type ProfileFormData = {
   first_name: string;
   last_name: string;
   public_email: string;
   avatar_url: File | null;
-}
+};
 
 type ProfileFormErrors = {
   first_name?: string;
   last_name?: string;
   public_email?: string;
   avatar_url?: string;
-}
+};
 
 export default function ProfileForm({ user, userLinks }: Props) {
   const inputFileRef = useRef<HTMLInputElement>(null);
 
   const [photoPreview, setPhotoPreview] = useState<string | null>(null);
 
-  const [isLoading, setIsLoading] = useState(false)
+  const [isLoading, setIsLoading] = useState(false);
 
   const [errors, setErrors] = useState<ProfileFormErrors>({});
 
@@ -46,7 +46,7 @@ export default function ProfileForm({ user, userLinks }: Props) {
     first_name: user?.first_name || '',
     last_name: user?.last_name || '',
     public_email: user?.public_email || '',
-    avatar_url: null,
+    avatar_url: null
   });
 
   const handleAvatarChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -62,25 +62,25 @@ export default function ProfileForm({ user, userLinks }: Props) {
 
   const submit: FormEventHandler = async (e) => {
     e.preventDefault();
-  
+
     setIsLoading(true);
-  
+
     const formData = new FormData();
     formData.append('first_name', data.first_name);
     formData.append('last_name', data.last_name);
     formData.append('public_email', data.public_email);
-  
+
     if (data.avatar_url) {
       formData.append('avatar_url', data.avatar_url);
     }
-  
+
     try {
       const response = await axios.post('/profile/update', formData, {
         headers: {
-          'Content-Type': 'multipart/form-data',
-        },
+          'Content-Type': 'multipart/form-data'
+        }
       });
-  
+
       if (response.status === 200) {
         notyf?.success(response.data.message);
       }
@@ -91,32 +91,35 @@ export default function ProfileForm({ user, userLinks }: Props) {
         handleReqError(error);
       }
     } finally {
-      setIsLoading(false)
+      setIsLoading(false);
     }
   };
 
   return (
-
-          <form onSubmit={submit} className='flex flex-col w-full gap-6'>
-            <div className='flex flex-col w-full p-5 rounded-md md:p-7 bg-light-gray'>
-            <PhotoInput
-                  isProfileScreen
-                  withMarginTop={false}
-                  photoPreview={photoPreview}
-                  onChange={handleAvatarChange}
-                  error={errors?.avatar_url}
-                  inputFileRef={
-                    inputFileRef as React.RefObject<HTMLInputElement>
-                  }
-                  isLoading={isLoading}
-                />
-                <InputError message={errors.avatar_url} className="mt-1" />
-            </div>
-        <div className='flex flex-col p-5 rounded-md md:p-7 bg-light-gray'>
-        <div className='flex flex-col mt-3 md:flex-row md:items-center'>
-            <InputLabel className='md:hidden' htmlFor="first_name" value="First name" />
-            <p className='hidden md:w-[40%] md:block text-md text-medium-gray'>First name</p>
-            <div className='flex flex-col w-full'>
+    <form onSubmit={submit} className="flex flex-col w-full gap-6">
+      <div className="flex flex-col w-full p-5 rounded-md md:p-7 bg-light-gray">
+        <PhotoInput
+          isProfileScreen
+          withMarginTop={false}
+          photoPreview={photoPreview}
+          onChange={handleAvatarChange}
+          error={errors?.avatar_url}
+          inputFileRef={inputFileRef as React.RefObject<HTMLInputElement>}
+          isLoading={isLoading}
+        />
+        <InputError message={errors.avatar_url} className="mt-1" />
+      </div>
+      <div className="flex flex-col p-5 rounded-md md:p-7 bg-light-gray">
+        <div className="flex flex-col mt-3 md:flex-row md:items-center">
+          <InputLabel
+            className="md:hidden"
+            htmlFor="first_name"
+            value="First name"
+          />
+          <p className="hidden md:w-[40%] md:block text-md text-medium-gray">
+            First name
+          </p>
+          <div className="flex flex-col w-full">
             <TextInput
               id="first_name"
               type="text"
@@ -129,13 +132,19 @@ export default function ProfileForm({ user, userLinks }: Props) {
             />
 
             <InputError message={errors.first_name} className="mt-1" />
-            </div>
           </div>
+        </div>
 
-          <div className='flex flex-col mt-3 md:flex-row md:items-center'>
-            <InputLabel className='md:hidden' htmlFor="last_name" value="Last name" />
-            <p className='hidden md:w-[40%] md:block text-md text-medium-gray'>Last name</p>
-            <div className='flex flex-col w-full'>
+        <div className="flex flex-col mt-3 md:flex-row md:items-center">
+          <InputLabel
+            className="md:hidden"
+            htmlFor="last_name"
+            value="Last name"
+          />
+          <p className="hidden md:w-[40%] md:block text-md text-medium-gray">
+            Last name
+          </p>
+          <div className="flex flex-col w-full">
             <TextInput
               id="last_name"
               type="text"
@@ -148,13 +157,15 @@ export default function ProfileForm({ user, userLinks }: Props) {
             />
 
             <InputError message={errors.last_name} className="mt-1" />
-            </div>
           </div>
-          
-          <div className='flex flex-col mt-3 md:flex-row md:items-center'>
-            <InputLabel className='md:hidden' htmlFor="email" value="Email" />
-            <p className='hidden md:w-[40%] md:block text-md text-medium-gray'>Email</p>
-            <div className='flex flex-col w-full'>
+        </div>
+
+        <div className="flex flex-col mt-3 md:flex-row md:items-center">
+          <InputLabel className="md:hidden" htmlFor="email" value="Email" />
+          <p className="hidden md:w-[40%] md:block text-md text-medium-gray">
+            Email
+          </p>
+          <div className="flex flex-col w-full">
             <TextInput
               id="email"
               type="email"
@@ -162,25 +173,27 @@ export default function ProfileForm({ user, userLinks }: Props) {
               value={data.public_email}
               placeholder="e.g. alex@email.com"
               className="block w-full mt-1"
-              onChange={(e) => setData({ ...data, public_email: e.target.value })}
+              onChange={(e) =>
+                setData({ ...data, public_email: e.target.value })
+              }
               hasError={errors?.public_email !== undefined}
             />
 
             <InputError message={errors.public_email} className="mt-2" />
-            </div>
           </div>
         </div>
+      </div>
 
-        <hr className="my-6 md:my-8" />
+      <hr className="my-6 md:my-8" />
 
-        <div className="flex justify-end md:items-end">
-          <PrimaryButton
-            className="md:w-[6rem]"
-            disabled={!userLinks?.length || isLoading}
-          >
-            Save
-          </PrimaryButton>
-        </div>
-      </form>
+      <div className="flex justify-end md:items-end">
+        <PrimaryButton
+          className="md:w-[6rem]"
+          disabled={!userLinks?.length || isLoading}
+        >
+          Save
+        </PrimaryButton>
+      </div>
+    </form>
   );
 }
