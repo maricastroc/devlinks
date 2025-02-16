@@ -49,7 +49,7 @@ export default function Login() {
             hasError={errors?.email !== undefined}
           />
 
-          <InputError message={errors.email} className="mt-2" />
+          <InputError message={errors.email} className="mt-1" />
         </div>
 
         <div className="mt-4">
@@ -68,7 +68,7 @@ export default function Login() {
             hasError={errors?.password !== undefined}
           />
 
-          <InputError message={errors.password} className="mt-2" />
+          <InputError message={errors.password} className="mt-1" />
         </div>
 
         <div className="flex flex-col items-center justify-end mt-6 text-center">

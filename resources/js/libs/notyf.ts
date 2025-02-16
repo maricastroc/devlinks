@@ -12,11 +12,11 @@ export const notyf =
         types: [
           {
             type: 'success',
-            background: '#15803d'
+            background: '#333333'
           },
           {
             type: 'error',
-            background: '#c94736'
+            background: '#333333'
           }
         ]
       })

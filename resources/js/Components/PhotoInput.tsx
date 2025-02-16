@@ -23,7 +23,7 @@ export const PhotoInput = ({
 
       <div className="flex flex-col w-full md:flex-row md:items-center md:justify-end md:gap-6">
         <button
-        type='button'
+          type="button"
           onClick={() => {
             if (inputFileRef.current) {
               inputFileRef.current.click();

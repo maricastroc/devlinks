@@ -97,11 +97,6 @@ export default function Dashboard({ platforms, userLinks, user }: Props) {
             platform_id: link.platform_id,
             url: link.url
           }))
-        },
-        {
-          headers: {
-            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-          }
         }
       );
 
