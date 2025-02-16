@@ -26,10 +26,10 @@ const LinkCard = ({ link }: { link: UserLinkProps }) => {
       className={clsx(
         'flex items-center justify-between p-[0.72rem] rounded-md duration-150 transition-all',
         { 'border border-gray-300': isFrontendMentor },
-        `bg-${link.platform.color}`,
         { 'disabled:cursor-not-allowed': !isValidUrl },
         isFrontendMentor ? 'text-dark-gray' : 'text-white'
       )}
+      style={{ backgroundColor: link.platform.color }}
     >
       <div className="flex items-center gap-2">
         {link.platform.icon_url && (
