@@ -18,8 +18,8 @@ type Props = {
   handleSelect: (item: PlatformProps) => void;
   handleRemove: (id: number) => void;
   handleChangeUrl: (linkId: number, value: string) => void;
-  errorUrl?: string
-  errorPlatform?: string
+  errorUrl?: string;
+  errorPlatform?: string;
 };
 
 export const LinkBox = ({
@@ -74,24 +74,25 @@ export const LinkBox = ({
             <InputLabel htmlFor="platform" value="Platform" />
             <div
               onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-              className="relative w-full mt-1 h-[48px] flex items-center justify-between cursor-pointer bg-white transition-all duration-300 ease-in-out rounded-lg py-3 px-3 border border-neutral-borders hover:border-primary-index hover:shadow-3xl"
+              className="hover:shadow-lg relative w-full mt-1 h-[48px] flex items-center justify-between cursor-pointer bg-white transition-all duration-300 ease-in-out rounded-lg py-3 px-3 border border-neutral-borders hover:border-primary-index hover:shadow-3xl"
             >
               <div className="flex items-center justify-between w-full">
                 <div className="flex items-center justify-center gap-3">
-                  {link?.platform?.icon_url && link?.platform?.icon_url !== '' && (
-                    <span>
-                    <img
-                      src={
-                        link?.platform.icon_url
-                          ? `/assets/images/${link.platform.icon_url}.svg`
-                          : ''
-                      }
-                      alt="Link icon"
-                      width="16"
-                      height="16"
-                    />
-                  </span>
-                  )}
+                  {link?.platform?.icon_url &&
+                    link?.platform?.icon_url !== '' && (
+                      <span>
+                        <img
+                          src={
+                            link?.platform.icon_url
+                              ? `/assets/images/${link.platform.icon_url}.svg`
+                              : ''
+                          }
+                          alt="Link icon"
+                          width="16"
+                          height="16"
+                        />
+                      </span>
+                    )}
                   <span className="text-dark-grey">
                     {link?.platform.name || ''}
                   </span>
@@ -113,7 +114,7 @@ export const LinkBox = ({
                 </div>
               )}
             </div>
-            <InputError className='mt-1' message={errorPlatform} />
+            <InputError className="mt-1" message={errorPlatform} />
           </div>
 
           <div>
@@ -130,7 +131,7 @@ export const LinkBox = ({
               isFocused={true}
             />
 
-            <InputError className='mt-1' message={errorUrl} />
+            <InputError className="mt-1" message={errorUrl} />
           </div>
         </div>
       </div>

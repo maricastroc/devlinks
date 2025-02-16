@@ -11,69 +11,81 @@ import { handleReqError } from '@/utils/handleReqError';
 import axios from 'axios';
 import { notyf } from '@/libs/notyf';
 import { UserLinkProps } from '@/types/user-link';
-import { z } from "zod";
+import { z } from 'zod';
 
 const linkSchema = z.object({
   platform_id: z.number(),
-  url: z.string().url({ message: "Invalid URL. Please, use a valid format." }),
+  url: z.string().url({ message: 'Invalid URL. Please, use a valid format.' })
 });
 
-const linksSchema = z.array(linkSchema).nonempty({ message: "You need to add at least one link." });
+const linksSchema = z
+  .array(linkSchema)
+  .nonempty({ message: 'You need to add at least one link.' });
 
 type Props = {
   platforms: PlatformProps[];
   userLinks: UserLinkProps[] | [];
 };
 
-type FormErrors = Record<string | number, { url?: string; platform_id?: string }>;
+type FormErrors = Record<
+  string | number,
+  { url?: string; platform_id?: string }
+>;
 
 export default function Dashboard({ platforms, userLinks }: Props) {
   const [links, setLinks] = useState<UserLinkProps[] | []>(userLinks || []);
 
   const [processing, setProcessing] = useState(false);
 
-  const [filteredPlatforms, setFilteredPlatforms] = useState<PlatformProps[] | []>([])
+  const [filteredPlatforms, setFilteredPlatforms] = useState<
+    PlatformProps[] | []
+  >([]);
 
   const [errors, setErrors] = useState<FormErrors>({});
 
   const submit = async (e: React.FormEvent) => {
     e.preventDefault();
-  
+
     const validationResult = linksSchema.safeParse(links);
-  
+
     if (!validationResult.success) {
       const formattedErrors = validationResult.error.format();
-  
+
       setErrors(
-        links.reduce((acc, link, index) => {
-          const error = formattedErrors[index];
-  
-          const urlError = error && "url" in error ? error?.url?._errors[0] : "";
-  
-          const platformError =
-            link.platform_id === -1 || !platforms.some(p => p.id === link.platform_id)
-              ? "Invalid platform selected."
-              : "";
-  
-          if (urlError || platformError) {
-            acc[Number(link.id)] = {
-              url: urlError,
-              platform_id: platformError
-            };
-          } else {
-            acc[Number(link.id)] = { url: "", platform_id: "" };
-          }
-  
-          return acc;
-        }, {} as { [key: number]: { url?: string; platform_id?: string } })
+        links.reduce(
+          (acc, link, index) => {
+            const error = formattedErrors[index];
+
+            const urlError =
+              error && 'url' in error ? error?.url?._errors[0] : '';
+
+            const platformError =
+              link.platform_id === -1 ||
+              !platforms.some((p) => p.id === link.platform_id)
+                ? 'Invalid platform selected.'
+                : '';
+
+            if (urlError || platformError) {
+              acc[Number(link.id)] = {
+                url: urlError,
+                platform_id: platformError
+              };
+            } else {
+              acc[Number(link.id)] = { url: '', platform_id: '' };
+            }
+
+            return acc;
+          },
+          {} as { [key: number]: { url?: string; platform_id?: string } }
+        )
       );
-      
+
       return;
     }
-  
+
     setProcessing(true);
     setErrors({});
-  
+
     try {
       const response = await axios.post('/user-links', {
         links: links.map((link) => ({
@@ -81,7 +93,7 @@ export default function Dashboard({ platforms, userLinks }: Props) {
           url: link.url
         }))
       });
-  
+
       if (response?.data?.message) {
         notyf?.success(response.data.message);
       }
@@ -137,13 +149,13 @@ export default function Dashboard({ platforms, userLinks }: Props) {
 
   useEffect(() => {
     if (links) {
-      const filteredPlatforms = platforms.filter(platform => {
-        return !links.some(link => link.platform_id === platform.id);
+      const filteredPlatforms = platforms.filter((platform) => {
+        return !links.some((link) => link.platform_id === platform.id);
       });
 
-      setFilteredPlatforms(filteredPlatforms)
+      setFilteredPlatforms(filteredPlatforms);
     }
-  }, [links])
+  }, [links]);
 
   return (
     <AuthenticatedLayout
@@ -161,7 +173,7 @@ export default function Dashboard({ platforms, userLinks }: Props) {
         </div>
 
         <div className="flex flex-col w-full p-6 m-4 mt-6 bg-white rounded-md lg:m-0 md:m-6 md:p-10">
-          <h2 className="mb-2 text-[1.5rem] md:text-[2rem] font-black text-dark-gray">
+          <h2 className="mb-1 text-[1.5rem] md:text-[2rem] font-black text-dark-gray">
             Customize your links
           </h2>
           <p className="mb-8 md:mb-10 text-medium-gray">

@@ -20,10 +20,15 @@ export const DropdownMenu = ({ handleSelect, platforms, link }: Props) => {
               src={`/assets/images/${platform.icon_url}.svg`}
               alt=""
               style={{
-                filter: platform.name === link.platform.name ? 'sepia(10%) saturate(5676%) hue-rotate(213deg) brightness(118%) contrast(219%)' : 'none'
+                filter:
+                  platform.name === link.platform.name
+                    ? 'sepia(10%) saturate(5676%) hue-rotate(213deg) brightness(118%) contrast(219%)'
+                    : 'none'
               }}
             />
-            <span className={`${platform.name === link.platform.name ? 'text-medium-purple' : 'text-dark-gray'}`}>
+            <span
+              className={`${platform.name === link.platform.name ? 'text-medium-purple' : 'text-dark-gray'}`}
+            >
               {platform.name}
             </span>
           </div>

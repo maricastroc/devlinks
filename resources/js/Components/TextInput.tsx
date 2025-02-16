@@ -45,7 +45,7 @@ export default forwardRef(function TextInput(
 
       <input
         className={
-          `w-full pl-10 pr-4 active:bg-white py-3 rounded-md border ${hasError ? 'border-medium-red' : 'border-borders'} shadow-sm bg-white text-dark-gray focus:border-medium-purple focus:ring-medium-purple disabled:cursor-not-allowed disabled:text-gray-500` +
+          `w-full pl-10 hover:shadow-lg pr-4 active:bg-white py-3 rounded-md border ${hasError ? 'border-medium-red' : 'border-borders'} shadow-sm bg-white text-dark-gray focus:border-medium-purple focus:ring-medium-purple disabled:cursor-not-allowed disabled:text-gray-500` +
           className
         }
         ref={localRef}
