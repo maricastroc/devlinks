@@ -69,6 +69,10 @@ class User extends Authenticatable
         } else {
             $data['avatar_url'] = $data['avatar_url'] ?? $user->avatar_url;
         }
+
+        if (isset($data['public_email'])) {
+            $user->public_email = $data['public_email'];
+        }
         
         $user->first_name = $data['first_name'];
 
@@ -76,15 +80,10 @@ class User extends Authenticatable
 
         $user->avatar_url = $data['avatar_url'];
 
-        $user->public_email = $data['public_email'];
-
         $user->email = $data['email'] ?? $user->email;
-
 
         $user->password = $data['new_password'] ?? $user->password;
     
-        // Salva o usuário
         return $user->save();
     }
-    
 }

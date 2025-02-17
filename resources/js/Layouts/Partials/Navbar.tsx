@@ -11,7 +11,7 @@ export const Navbar = () => {
   const { currentRoute, auth } = usePage().props;
 
   const user = auth.user;
-  
+
   return (
     <nav className="flex items-center justify-between w-full p-6 py-4 pl-2 bg-white md:w-auto md:m-6 md:rounded-md md:p-5">
       <Link
@@ -49,7 +49,7 @@ export const Navbar = () => {
 
       <Link
         href={route('shared', { user: user.id })}
-        className="flex items-center justify-center p-3 py-2 border rounded-md md:px-5 md:py-3 border-medium-purple"
+        className="flex items-center justify-center p-3 py-2 transition-all duration-150 border rounded-md md:px-5 md:py-3 border-medium-purple hover:bg-purple-hover hover:bg-opacity-30"
       >
         <img src={Preview} alt="" className="md:hidden" />
         <p className="hidden font-semibold md:block text-medium-purple">

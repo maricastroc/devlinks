@@ -2,11 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use Barryvdh\Debugbar\Controllers\BaseController;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 
-class Controller extends BaseController
+class Controller
 {
     use AuthorizesRequests, ValidatesRequests;
 }

@@ -7,9 +7,9 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\User>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Platform>
  */
-class UserFactory extends Factory
+class PlatformFactory extends Factory
 {
     /**
      * The current password being used by the factory.
@@ -24,12 +24,9 @@ class UserFactory extends Factory
     public function definition(): array
     {
         return [
-            'first_name' => fake()->name(),
-            'last_name' => fake()->name(),
-            'email' => fake()->unique()->safeEmail(),
-            'public_email' => fake()->safeEmail(),
-            'password' => static::$password ??= Hash::make('password'),
-            'remember_token' => Str::random(10),
+            'name' => fake()->name(),
+            'icon_url' => fake()->text(),
+            'color' => fake()->text(),
         ];
     }
 

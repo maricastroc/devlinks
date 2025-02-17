@@ -1,5 +1,4 @@
 import UploadImage from '/public/assets/images/icon-upload-image.svg';
-import UploadImageWhite from '/public/assets/images/icon-upload-image-white.svg';
 
 type PhotoInputProps = {
   photoPreview: string | null;
@@ -41,9 +40,10 @@ export const PhotoInput = ({
               style={{ backgroundImage: `url(${photoPreview})` }}
             >
               <img
-                src={UploadImageWhite}
+                src={UploadImage}
                 alt="Avatar Preview"
                 className="z-50"
+                style={{ filter: 'saturate(0%) brightness(318%)'}}
               />
               <p className="z-50 text-lg font-bold text-white">
                 + Change Image

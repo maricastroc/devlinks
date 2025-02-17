@@ -55,11 +55,6 @@ class ProfileController extends Controller
                     'user' => $user
                 ], 200);
             }
-
-            return response()->json([
-                'message' => 'Error updating profile.',
-                'status' => 'error'
-            ], 500);
         } catch (\Exception $e) {
             return response()->json([
                 'message' => 'An unexpected error has occurred. Please try again.',

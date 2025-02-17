@@ -4,12 +4,23 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Inertia\Inertia;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class SharedLinkController extends Controller
 {
-    public function __invoke(User $user)
+    public function __invoke($userId)
     {
-        return Inertia::render('Shared', [
+        if (!is_numeric($userId)) {
+            return Inertia::render('ErrorPage');
+        }
+
+        try {
+            $user = User::findOrFail($userId);
+        } catch (ModelNotFoundException $e) {
+            return Inertia::render('ErrorPage');
+        }
+
+        $data = [
             'user' => [
                 'first_name'   => $user->first_name,
                 'last_name'    => $user->last_name,
@@ -21,6 +32,15 @@ class SharedLinkController extends Controller
             'authUser' => auth()->user() ? [
                 'id' => auth()->user()->id,
             ] : null,
-        ]);
-    }    
+        ];
+
+        /** @var \Illuminate\Http\Request $request */
+        $request = request();
+
+        if ($request->expectsJson()) {
+            return response()->json($data);
+        }
+
+        return Inertia::render('Shared', $data);
+    }
 }

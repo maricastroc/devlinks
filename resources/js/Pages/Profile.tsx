@@ -77,6 +77,10 @@ export default function Profile({ user, userLinks }: Props) {
       formData.append('avatar_url', data.avatar_url);
     }
 
+    formData.append('_method', 'PUT');
+
+    setErrors({})
+
     try {
       const response = await axios.post('/profile/update', formData, {
         headers: {
@@ -237,7 +241,7 @@ export default function Profile({ user, userLinks }: Props) {
             <div className="flex justify-end md:items-end">
               <PrimaryButton
                 className="md:w-[6rem]"
-                disabled={!userLinks?.length || isLoading}
+                disabled={isLoading}
               >
                 Save
               </PrimaryButton>

@@ -27,6 +27,8 @@ class UserLinkController extends Controller
                     ->first();
 
                 if ($existingLink) {
+                    $this->authorize('update', $existingLink);
+
                     $existingLink->update([
                         'url' => $link['url'],
                     ]);
@@ -45,6 +47,4 @@ class UserLinkController extends Controller
             ], 500);
         }
     }
-
-    
 }

@@ -30,17 +30,23 @@ class RegisteredUserController extends Controller
     public function store(Request $request): RedirectResponse
     {
         $request->validate([
-            'email' => 'required|string|lowercase|email|max:255|unique:'.User::class,
+            'email' => 'required|string|lowercase|email|max:255|unique:' . User::class,
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
         ]);
-
-        $user = User::create([
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
-        ]);
-
-        Auth::login($user);
-
-        return redirect(route('dashboard', absolute: false));
+    
+        try {
+            $user = User::create([
+                'email' => $request->email,
+                'password' => Hash::make($request->password),
+            ]);
+    
+            Auth::login($user);
+    
+            return redirect()->route('dashboard');
+        } catch (\Exception $e) {
+            return redirect()->back()->withErrors([
+                'error' => 'An unexpected error has occurred. Please try again.',
+            ]);
+        }
     }
 }

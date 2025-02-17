@@ -40,8 +40,9 @@ export const LinkCard = ({ link }: { link: UserLinkProps }) => {
       <div className="flex items-center gap-2">
         {link.platform.icon_url && (
           <img
-            src={`/assets/images/${link.platform.icon_url}-white.svg`}
+            src={`/assets/images/${link.platform.icon_url}.svg`}
             alt={`${link.platform.name} icon`}
+            style={{ filter: 'saturate(0%) brightness(318%)'}}
           />
         )}
         <p className="text-md">{link.platform.name}</p>

@@ -1,85 +1,108 @@
 <?php
 
+use Illuminate\Http\Response;
 use App\Models\User;
+use Illuminate\Http\UploadedFile;
 
-test('profile page is displayed', function () {
-    $user = User::factory()->create();
+test('I should be able to create a user', function () {
+    $this->withoutExceptionHandling();
 
-    $response = $this
-        ->actingAs($user)
-        ->get('/profile');
+    $response = $this->post(route('register'), [
+        'email' => 'jondoe@gmail.com',
+        'password' => '12345678',
+        'password_confirmation' => '12345678'
+    ]);
 
-    $response->assertOk();
+    $response->assertRedirect(route('dashboard'));
+
+    $this->assertDatabaseHas('users', [
+        'email' => 'jondoe@gmail.com',
+    ]);
+
+    $this->assertAuthenticated();
 });
 
-test('profile information can be updated', function () {
-    $user = User::factory()->create();
+test('I should not be able to create an user with a password with less than eight characters', function () {
+    $response = $this->post(route('register'), [
+        'email' => 'jondoe@gmail.com',
+        'password' => '12345',
+        'password_confirmation' => '12345',
+    ]);
 
-    $response = $this
-        ->actingAs($user)
-        ->patch('/profile', [
-            'name' => 'Test User',
-            'email' => 'test@example.com',
-        ]);
+    $response->assertSessionHasErrors(['password']);
 
-    $response
-        ->assertSessionHasNoErrors()
-        ->assertRedirect('/profile');
-
-    $user->refresh();
-
-    $this->assertSame('Test User', $user->name);
-    $this->assertSame('test@example.com', $user->email);
-    $this->assertNull($user->email_verified_at);
+    $this->assertDatabaseMissing('users', [
+        'email' => 'jondoe@gmail.com',
+    ]);
 });
 
-test('email verification status is unchanged when the email address is unchanged', function () {
-    $user = User::factory()->create();
+test('I should not be able to create an user with an existing email', function () {
+    User::factory()->create([
+        'email' => 'jondoe@gmail.com',
+    ]);
 
-    $response = $this
-        ->actingAs($user)
-        ->patch('/profile', [
-            'name' => 'Test User',
-            'email' => $user->email,
-        ]);
+    $response = $this->post(route('register'), [
+        'email' => 'jondoe@gmail.com',
+        'password' => '12345678',
+        'password_confirmation' => '12345678',
+    ]);
 
-    $response
-        ->assertSessionHasNoErrors()
-        ->assertRedirect('/profile');
+    $response->assertRedirect();
 
-    $this->assertNotNull($user->refresh()->email_verified_at);
+    $response->assertSessionHasErrors(['email']);
+
+    $this->assertDatabaseCount('users', 1);
 });
 
-test('user can delete their account', function () {
-    $user = User::factory()->create();
+test('I should not be able to create a user if password and password_confirmation do not match', function () {
+    $response = $this->post(route('register'), [
+        'email' => 'jondoe@gmail.com',
+        'password' => '12345678',
+        'password_confirmation' => '87654321',
+    ]);
 
-    $response = $this
-        ->actingAs($user)
-        ->delete('/profile', [
-            'password' => 'password',
-        ]);
+    $response->assertRedirect();
 
-    $response
-        ->assertSessionHasNoErrors()
-        ->assertRedirect('/');
+    $response->assertSessionHasErrors(['password']);
 
-    $this->assertGuest();
-    $this->assertNull($user->fresh());
+    $this->assertDatabaseMissing('users', [
+        'email' => 'jondoe@gmail.com',
+    ]);
 });
 
-test('correct password must be provided to delete account', function () {
+test('I should be able to update my profile details', function () {
+    $user = User::factory()->create();
+    $this->actingAs($user);
+
+    $avatar = UploadedFile::fake()->image('avatar.jpg');
+
+    $response = $this->putJson(route('profile.update'), [
+        'avatar_url' => $avatar,
+        'first_name' => 'Jon',
+        'last_name' => 'Doe',
+        'public_email' => 'jondoe@gmail.com',
+    ]);
+    
+    $response->assertStatus(Response::HTTP_OK);
+
+    $this->assertDatabaseHas('users', [
+        'first_name' => 'Jon',
+        'last_name' => 'Doe',
+        'public_email' => 'jondoe@gmail.com',
+    ]);
+});
+
+test('I should not be able to update my profile with invalid data', function () {
     $user = User::factory()->create();
 
-    $response = $this
-        ->actingAs($user)
-        ->from('/profile')
-        ->delete('/profile', [
-            'password' => 'wrong-password',
-        ]);
+    $this->actingAs($user);
 
-    $response
-        ->assertSessionHasErrors('password')
-        ->assertRedirect('/profile');
+    $response = $this->putJson(route('profile.update'), [
+        'first_name' => 'Jon',
+        'last_name' => 'Doe',
+        'public_email' => 'invalid-email',
+    ]);
 
-    $this->assertNotNull($user->fresh());
+    $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY)
+        ->assertJsonValidationErrors(['public_email']);
 });
