@@ -187,7 +187,7 @@ export default function Dashboard({ platforms, userLinks, user }: Props) {
           <SecondaryButton onClick={addNewLink}>+ Add New Link</SecondaryButton>
 
           {links?.length > 0 ? (
-            <div className="flex flex-col gap-4 mt-6">
+            <div className="flex flex-col overflow-y-scroll gap-4 mt-6 max-h-[30rem]">
               {links.map((link, index) => (
                 <LinkBox
                   key={link.id}

@@ -2,36 +2,25 @@
 ![image](https://github.com/user-attachments/assets/af9d3e26-b8b3-47df-a210-7d574444309e)
 
 
-# Mail Tracking Service System
+# Link Management System
 
-This is an email tracking service that allows you to monitor opens and clicks on email campaigns. The application allows you to create and manage campaigns, send emails to subscriber lists, track interactions with templates, and view campaign statistics. The front-end is built with React.js, and the back-end is powered by Laravel and PHP.
+This is a link management system that allows users to create, store, share and manage links with detailed information. The application uses PostgreSQL for database management and provides user-friendly interfaces to handle link details efficiently.
 
 ## 📋 Features
 
-- Campaign Management: Create, view, and delete email campaigns.
-- Email Lists: Create and manage email lists of subscribers.
-- Subscribers: Manage subscribers, including the ability to add, edit, and remove them.
-- Email Tracking: Track email opens and click activity.
-- Email Templates: Create and customize email templates for campaigns.
-- Campaign Statistics: View open and click rates for each campaign.
+- Create, read, update, delete links and see previews in the mobile mockup
+- Receive validations if the links form is submitted without a URL or with the wrong URL pattern for the platform
+- Add profile details like profile picture, first name, last name, and email
+- Receive validations if the profile details form is saved with no first or last name
+- Preview their devlinks profile and copy the link to their clipboard
 
 ## 🛠 Technologies Used
 
 - Laravel (PHP): Backend to manage the system, user authentication, and business logic.
+- PostgreSQL: Relational database for storing link and user data.
 - React.js: Frontend for user interaction.
-- SQLite: Database used to store data locally.
 - Tailwind CSS: CSS framework for styling.
 - Inertia.js: Framework for integration between Laravel backend and React frontend.
-- SQLite: Relational database for storing campaign data, email lists, and subscriber information.
-- Mailpit: Used to simulate email sending during development.
-
-## ⚙️ Key Concepts
-
-- Authentication Middleware: Ensures only authorized users can access campaign data.
-- Factories & Seeders: Used for generating and seeding test data (campaigns, subscribers).
-- Controllers: Handle campaign logic and interactions.
-- Models: Represent database tables and relationships (e.g., Campaign, Subscriber).
-- Queues & Jobs: Queue background tasks like sending emails and tracking events to improve performance.
 
 ## 🔧 How to Run the Project
 
@@ -43,12 +32,16 @@ Before running the project, you need to have the following dependencies installe
 - Node.js (for running React)
 - NPM (package manager for Node.js)
 
+## 🌐 Hosting
+
+The project is hosted on [Railway](https://railway.app), providing a scalable and reliable environment for deployment. You can access the live version of the application [here](https://devlinks-maricastroc.up.railway.app/).
+
 ### Steps to Run the Project
 
 > Clone the repository:
 
 ```bash
-git clone https://github.com/maricastroc/sitemark
+git clone https://github.com/maricastroc/devlinks
 ```
 
 > Install PHP dependencies:
@@ -66,8 +59,12 @@ cp .env.example .env
 > Configure the environment variables in the .env file, especially the ones related to the database (SQLite):
 
 ```bash
-DB_CONNECTION=sqlite
-DB_DATABASE=/path/to/your/database/database.sqlite
+DB_CONNECTION=pgsql
+DB_HOST=127.0.0.1
+DB_PORT=5432
+DB_DATABASE=your_database_name
+DB_USERNAME=your_database_user
+DB_PASSWORD=your_database_password
 ```
 
 > Generate the Laravel application key:
