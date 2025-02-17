@@ -43,7 +43,12 @@ export default function Shared({ userLinks, user, authUser }: Props) {
       {!isOwner && (
         <div className="z-50 hidden mt-12 mb-0 md:block">
           <Link href="/">
-            <img style={{ filter: 'saturate(0%) brightness(518%)'}} className="mt-6 scale-75 md:mt-0" src={Logo} alt="" />
+            <img
+              style={{ filter: 'saturate(0%) brightness(518%)' }}
+              className="mt-6 scale-75 md:mt-0"
+              src={Logo}
+              alt=""
+            />
           </Link>
         </div>
       )}
@@ -71,13 +76,13 @@ export default function Shared({ userLinks, user, authUser }: Props) {
         <div className="flex flex-col items-center justify-center w-auto">
           {user.avatar_url ? (
             <img
-            className="border-4 border-medium-purple h-[7rem] rounded-full w-[7rem]"
-            src={`/${user.avatar_url as string}`}
-            alt=""
-          />
+              className="border-4 border-medium-purple h-[7rem] rounded-full w-[7rem]"
+              src={`/${user.avatar_url as string}`}
+              alt=""
+            />
           ) : (
-            <div className='flex items-center justify-center h-[7rem] w-[7rem] rounded-full border-4 border-medium-purple'>
-              <img className='scale-110 opacity-30' src={SmallLogo} alt="" />
+            <div className="flex items-center justify-center h-[7rem] w-[7rem] rounded-full border-4 border-medium-purple">
+              <img className="scale-110 opacity-30" src={SmallLogo} alt="" />
             </div>
           )}
           <h2 className="text-[1.75rem] mt-4 font-bold text-dark-gray">
@@ -87,12 +92,12 @@ export default function Shared({ userLinks, user, authUser }: Props) {
 
           {userLinks?.length > 0 ? (
             <div className="w-[15rem] mt-10 overflow-y-auto flex flex-col gap-4">
-            {userLinks?.map((link) => <LinkCard key={link.id} link={link} />)}
-          </div>
+              {userLinks?.map((link) => <LinkCard key={link.id} link={link} />)}
+            </div>
           ) : (
             <div className="w-[15rem] mt-10 justify-center items-center overflow-y-auto flex flex-col gap-4">
-            <p>There are no links yet.</p>
-          </div>
+              <p>There are no links yet.</p>
+            </div>
           )}
         </div>
       </div>

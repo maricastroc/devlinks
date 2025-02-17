@@ -42,7 +42,7 @@ export const LinkCard = ({ link }: { link: UserLinkProps }) => {
           <img
             src={`/assets/images/${link.platform.icon_url}.svg`}
             alt={`${link.platform.name} icon`}
-            style={{ filter: 'saturate(0%) brightness(318%)'}}
+            style={{ filter: 'saturate(0%) brightness(318%)' }}
           />
         )}
         <p className="text-md">{link.platform.name}</p>

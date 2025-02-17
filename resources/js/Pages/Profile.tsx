@@ -79,7 +79,7 @@ export default function Profile({ user, userLinks }: Props) {
 
     formData.append('_method', 'PUT');
 
-    setErrors({})
+    setErrors({});
 
     try {
       const response = await axios.post('/profile/update', formData, {
@@ -239,10 +239,7 @@ export default function Profile({ user, userLinks }: Props) {
             <hr className="my-6 md:my-8" />
 
             <div className="flex justify-end md:items-end">
-              <PrimaryButton
-                className="md:w-[6rem]"
-                disabled={isLoading}
-              >
+              <PrimaryButton className="md:w-[6rem]" disabled={isLoading}>
                 Save
               </PrimaryButton>
             </div>
