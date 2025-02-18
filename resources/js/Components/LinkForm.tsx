@@ -23,7 +23,7 @@ type Props = {
   provided?: DraggableProvided;
 };
 
-export const LinkBox = ({
+export const LinkForm = ({
   index,
   link,
   platforms,

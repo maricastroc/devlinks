@@ -1,30 +1,21 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import SecondaryButton from '@/Components/SecondaryButton';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { Head } from '@inertiajs/react';
 import EmptyMockup from '/public/assets/images/illustration-empty.svg';
 import PrimaryButton from '@/Components/PrimaryButton';
-import { LinkBox } from '@/Components/LinkBox';
+import { LinkForm } from '@/Components/LinkForm';
 import { PlatformProps } from '@/types/platform';
 import { PhoneMockup } from '@/Components/PhoneMockup';
 import { handleReqError } from '@/utils/handleReqError';
 import axios from 'axios';
 import { notyf } from '@/libs/notyf';
 import { UserLinkProps } from '@/types/user-link';
-import { z } from 'zod';
-import $ from 'jquery';
 import { UserProps } from '@/types/user';
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 import { DropResult } from 'react-beautiful-dnd';
-
-const linkSchema = z.object({
-  platform_id: z.number(),
-  url: z.string().url({ message: 'Invalid URL. Please, use a valid format.' })
-});
-
-const linksSchema = z
-  .array(linkSchema)
-  .nonempty({ message: 'You need to add at least one link.' });
+import { validateLinks } from '@/utils/validateLink';
+import { useLinks } from '@/utils/useLinks';
 
 type Props = {
   platforms: PlatformProps[];
@@ -38,68 +29,35 @@ type FormErrors = Record<
 >;
 
 export default function Dashboard({ platforms, userLinks, user }: Props) {
-  const [links, setLinks] = useState<UserLinkProps[] | []>(userLinks || []);
-
   const [processing, setProcessing] = useState(false);
-
-  const [filteredPlatforms, setFilteredPlatforms] = useState<
-    PlatformProps[] | []
-  >([]);
 
   const [errors, setErrors] = useState<FormErrors>({});
 
+  const { links, setLinks, filteredPlatforms, handleAddLink, handleRemoveLink, handleUpdatePlatform, handleUpdateUrl } =
+  useLinks(userLinks, platforms);
+
   const onDragEnd = (result: DropResult) => {
     if (!result.destination) return;
-
-    const reorderedLinks = Array.from(links);
+  
+    const reorderedLinks = [...links];
     const [movedLink] = reorderedLinks.splice(result.source.index, 1);
     reorderedLinks.splice(result.destination.index, 0, movedLink);
-
+  
     setLinks(reorderedLinks);
   };
-  console.log(links);
-  console.log(links);
+  
   const submit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    const validationResult = linksSchema.safeParse(links);
-
-    if (!validationResult.success) {
-      const formattedErrors = validationResult.error.format();
-
-      setErrors(
-        links.reduce(
-          (acc, link, index) => {
-            const error = formattedErrors[index];
-
-            const urlError =
-              error && 'url' in error ? error?.url?._errors[0] : '';
-
-            const platformError =
-              link.platform_id === -1 ||
-              !platforms.some((p) => p.id === link.platform_id)
-                ? 'Invalid platform selected.'
-                : '';
-
-            if (urlError || platformError) {
-              acc[Number(link.id)] = {
-                url: urlError,
-                platform_id: platformError
-              };
-            } else {
-              acc[Number(link.id)] = { url: '', platform_id: '' };
-            }
-
-            return acc;
-          },
-          {} as { [key: number]: { url?: string; platform_id?: string } }
-        )
-      );
-
+    const validationErrors = validateLinks(links, platforms);
+    
+    if (validationErrors) {
+      setErrors(validationErrors);
       return;
     }
 
     setProcessing(true);
+    
     setErrors({});
 
     try {
@@ -124,57 +82,7 @@ export default function Dashboard({ platforms, userLinks, user }: Props) {
       setProcessing(false);
     }
   };
-
-  const addNewLink = () => {
-    setLinks((prevLinks) => [
-      ...prevLinks,
-      {
-        id: Date.now(),
-        platform_id: -1,
-        platform: {
-          id: -1,
-          name: '',
-          icon_url: '',
-          color: ''
-        },
-        url: '',
-        order: links.length + 1
-      }
-    ]);
-  };
-
-  const handleRemove = (id: number) => {
-    setLinks((prevLinks) => prevLinks.filter((link) => link.id !== id));
-  };
-
-  const handleSelect = (platform: PlatformProps, linkId: number) => {
-    setLinks((prevLinks) =>
-      prevLinks.map((link) =>
-        link.id === linkId
-          ? { ...link, platform_id: platform.id, platform: platform }
-          : link
-      )
-    );
-  };
-
-  const handleChangeUrl = (linkId: number, value: string) => {
-    setLinks((prevLinks) =>
-      prevLinks.map((prevLink) =>
-        prevLink.id === linkId ? { ...prevLink, url: value } : prevLink
-      )
-    );
-  };
-
-  useEffect(() => {
-    if (links) {
-      const filteredPlatforms = platforms.filter((platform) => {
-        return !links.some((link) => link.platform_id === platform.id);
-      });
-
-      setFilteredPlatforms(filteredPlatforms);
-    }
-  }, [links]);
-
+  
   return (
     <AuthenticatedLayout
       header={
@@ -199,7 +107,7 @@ export default function Dashboard({ platforms, userLinks, user }: Props) {
             the world!
           </p>
 
-          <SecondaryButton onClick={addNewLink}>+ Add New Link</SecondaryButton>
+          <SecondaryButton onClick={handleAddLink}>+ Add New Link</SecondaryButton>
 
           {links?.length > 0 ? (
             <div className="flex flex-col overflow-y-scroll gap-4 mt-6 max-h-[30rem]">
@@ -223,19 +131,19 @@ export default function Dashboard({ platforms, userLinks, user }: Props) {
                               {...provided.draggableProps}
                               {...provided.dragHandleProps}
                             >
-                              <LinkBox
+                              <LinkForm
                                 platforms={filteredPlatforms}
                                 link={link}
                                 provided={provided}
                                 index={index}
-                                handleRemove={handleRemove}
-                                handleChangeUrl={handleChangeUrl}
+                                handleRemove={handleRemoveLink}
+                                handleChangeUrl={handleUpdateUrl}
                                 errorUrl={errors[String(link.id)]?.url}
                                 errorPlatform={
                                   errors[String(link.id)]?.platform_id
                                 }
                                 handleSelect={(platform) =>
-                                  handleSelect(platform, Number(link.id))
+                                  handleUpdatePlatform(platform, Number(link.id))
                                 }
                               />
                             </div>

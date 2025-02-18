@@ -28,7 +28,7 @@ class SharedLinkController extends Controller
                 'avatar_url'   => $user->avatar_url,
                 'id' => $user->id,
             ],
-            'userLinks' => $user->userLinks()->with('platform')->get(),
+            'userLinks' => $user->userLinks()->with('platform')->orderBy('order')->get(),
             'authUser' => auth()->user() ? [
                 'id' => auth()->user()->id,
             ] : null,
