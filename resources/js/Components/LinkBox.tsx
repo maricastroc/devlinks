@@ -1,7 +1,6 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import InputLabel from './InputLabel';
 import { faChevronDown, faChevronUp } from '@fortawesome/free-solid-svg-icons';
-import Github from '/public/assets/images/icon-github.svg';
 import TextInput from './TextInput';
 import IconLink from '/public/assets/images/icon-links-header.svg';
 import { LinkMark } from './LinkMark';
@@ -10,6 +9,7 @@ import { DropdownMenu } from './DropdownMenu';
 import { PlatformProps } from '@/types/platform';
 import { UserLinkProps } from '@/types/user-link';
 import InputError from './InputError';
+import { DraggableProvided } from 'react-beautiful-dnd';
 
 type Props = {
   index: number;
@@ -20,6 +20,7 @@ type Props = {
   handleChangeUrl: (linkId: number, value: string) => void;
   errorUrl?: string;
   errorPlatform?: string;
+  provided?: DraggableProvided;
 };
 
 export const LinkBox = ({
@@ -28,6 +29,7 @@ export const LinkBox = ({
   platforms,
   errorUrl,
   errorPlatform,
+  provided,
   handleSelect,
   handleRemove,
   handleChangeUrl
@@ -55,15 +57,12 @@ export const LinkBox = ({
 
   return (
     <div className={`flex flex-col p-4 rounded-lg bg-light-gray`}>
-      <div className="flex items-center justify-between w-full">
+      <div className="flex items-center justify-between w-full" {...provided?.dragHandleProps}>
         <div className="flex items-center gap-2">
           <LinkMark />
           <p className="font-bold text-medium-gray">{`Link #${index + 1}`}</p>
         </div>
-        <button
-          onClick={() => handleRemove(Number(link.id))}
-          className="text-medium-gray"
-        >
+        <button onClick={() => handleRemove(Number(link.id))} className="text-medium-gray">
           Remove
         </button>
       </div>

@@ -18,7 +18,7 @@ class DashboardController extends Controller
         /** @var \App\Models\User $user */
         $user = Auth::user();
     
-        $userLinks = $user->userLinks()->with('platform')->get();
+        $userLinks = $user->userLinks()->with('platform')->orderBy('order')->get();
     
         return Inertia::render('Dashboard', [
             'user' => $user,

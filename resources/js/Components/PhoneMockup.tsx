@@ -42,7 +42,9 @@ export const LinkCard = ({ link }: { link: UserLinkProps }) => {
           <img
             src={`/assets/images/${link.platform.icon_url}.svg`}
             alt={`${link.platform.name} icon`}
-            style={{ filter: `${!isFrontendMentor ? 'saturate(0%) brightness(318%)' : '' }`}}
+            style={{
+              filter: `${!isFrontendMentor ? 'saturate(0%) brightness(318%)' : ''}`
+            }}
           />
         )}
         <p className="text-md">{link.platform.name}</p>
@@ -89,11 +91,11 @@ export const PhoneMockup = ({
         </div>
       )}
 
-      <div className="max-h-[300px] left-[1.05rem] overflow-y-auto absolute flex flex-col items-center justify-center w-[15.1rem] m-4 top-[16.4rem]">
+      <div className="max-h-[300px] left-[1.05rem] overflow-y-scroll absolute flex flex-col items-center justify-center w-[16.7rem] m-4 top-[16.4rem]">
         <div className="w-full overflow-y-auto flex flex-col gap-[0.98rem]">
           {links?.map(
             (link) =>
-              link.platform_id !== -1 && <LinkCard key={link.id} link={link} />
+              <LinkCard key={link.id} link={link} />
           )}
         </div>
       </div>

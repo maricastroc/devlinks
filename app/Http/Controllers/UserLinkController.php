@@ -17,6 +17,7 @@ class UserLinkController extends Controller
                 'links' => 'required|array',
                 'links.*.platform_id' => 'required|exists:platforms,id',
                 'links.*.url' => 'required|url',
+                'links.*.order' => 'required|integer',
             ]);
 
             foreach ($links['links'] as $link) {
@@ -31,6 +32,7 @@ class UserLinkController extends Controller
 
                     $existingLink->update([
                         'url' => $link['url'],
+                        'order' => $link['order'],
                     ]);
                 } else {
                     UserLink::create($link);

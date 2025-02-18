@@ -27,6 +27,7 @@ class UserLinkRequest extends FormRequest
             'links' => 'required|array',
             'links.*.platform_id' => 'required|exists:platforms,id',
             'links.*.url' => 'required|url',
+            'links.*.order' => 'required|integer',
         ];
     }
 }
