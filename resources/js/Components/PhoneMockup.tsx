@@ -93,10 +93,7 @@ export const PhoneMockup = ({
 
       <div className="max-h-[300px] left-[1.05rem] overflow-y-scroll absolute flex flex-col items-center justify-center w-[16.7rem] m-4 top-[16.4rem]">
         <div className="w-full overflow-y-auto flex flex-col gap-[0.98rem]">
-          {links?.map(
-            (link) =>
-              <LinkCard key={link.id} link={link} />
-          )}
+          {links?.map((link) => <LinkCard key={link.id} link={link} />)}
         </div>
       </div>
     </div>

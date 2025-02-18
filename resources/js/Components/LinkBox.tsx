@@ -57,12 +57,18 @@ export const LinkBox = ({
 
   return (
     <div className={`flex flex-col p-4 rounded-lg bg-light-gray`}>
-      <div className="flex items-center justify-between w-full" {...provided?.dragHandleProps}>
+      <div
+        className="flex items-center justify-between w-full"
+        {...provided?.dragHandleProps}
+      >
         <div className="flex items-center gap-2">
           <LinkMark />
           <p className="font-bold text-medium-gray">{`Link #${index + 1}`}</p>
         </div>
-        <button onClick={() => handleRemove(Number(link.id))} className="text-medium-gray">
+        <button
+          onClick={() => handleRemove(Number(link.id))}
+          className="text-medium-gray"
+        >
           Remove
         </button>
       </div>

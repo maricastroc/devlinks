@@ -56,9 +56,9 @@ export default function Dashboard({ platforms, userLinks, user }: Props) {
     reorderedLinks.splice(result.destination.index, 0, movedLink);
 
     setLinks(reorderedLinks);
-};
-console.log(links)
-console.log(links)
+  };
+  console.log(links);
+  console.log(links);
   const submit = async (e: React.FormEvent) => {
     e.preventDefault();
 
@@ -107,7 +107,7 @@ console.log(links)
         links: links.map((link, index) => ({
           platform_id: link.platform_id,
           url: link.url,
-          order: index + 1,
+          order: index + 1
         }))
       });
 
@@ -135,10 +135,10 @@ console.log(links)
           id: -1,
           name: '',
           icon_url: '',
-          color: '',
+          color: ''
         },
         url: '',
-        order: (links.length + 1)
+        order: links.length + 1
       }
     ]);
   };
@@ -204,33 +204,49 @@ console.log(links)
           {links?.length > 0 ? (
             <div className="flex flex-col overflow-y-scroll gap-4 mt-6 max-h-[30rem]">
               <DragDropContext onDragEnd={onDragEnd}>
-                  <Droppable droppableId="linksList">
-                    {(provided) => (
-                      <div {...provided.droppableProps} ref={provided.innerRef} className="flex flex-col gap-4 mt-6 max-h-[30rem] overflow-y-scroll">
-                        {links.map((link, index) => (
-                          <Draggable key={link.id.toString()} draggableId={link.id.toString()} index={index}>
-                            {(provided) => (
-                              <div ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}>
-                                <LinkBox
-                                  platforms={filteredPlatforms}
-                                  link={link}
-                                  provided={provided}
-                                  index={index}
-                                  handleRemove={handleRemove}
-                                  handleChangeUrl={handleChangeUrl}
-                                  errorUrl={errors[String(link.id)]?.url}
-                                  errorPlatform={errors[String(link.id)]?.platform_id}
-                                  handleSelect={(platform) => handleSelect(platform, Number(link.id))}
-                                />
-                              </div>
-                            )}
-                          </Draggable>
-                        ))}
-                        {provided.placeholder}
-                      </div>
-                    )}
-                  </Droppable>
-                </DragDropContext>
+                <Droppable droppableId="linksList">
+                  {(provided) => (
+                    <div
+                      {...provided.droppableProps}
+                      ref={provided.innerRef}
+                      className="flex flex-col gap-4 mt-6 max-h-[30rem] overflow-y-scroll"
+                    >
+                      {links.map((link, index) => (
+                        <Draggable
+                          key={link.id.toString()}
+                          draggableId={link.id.toString()}
+                          index={index}
+                        >
+                          {(provided) => (
+                            <div
+                              ref={provided.innerRef}
+                              {...provided.draggableProps}
+                              {...provided.dragHandleProps}
+                            >
+                              <LinkBox
+                                platforms={filteredPlatforms}
+                                link={link}
+                                provided={provided}
+                                index={index}
+                                handleRemove={handleRemove}
+                                handleChangeUrl={handleChangeUrl}
+                                errorUrl={errors[String(link.id)]?.url}
+                                errorPlatform={
+                                  errors[String(link.id)]?.platform_id
+                                }
+                                handleSelect={(platform) =>
+                                  handleSelect(platform, Number(link.id))
+                                }
+                              />
+                            </div>
+                          )}
+                        </Draggable>
+                      ))}
+                      {provided.placeholder}
+                    </div>
+                  )}
+                </Droppable>
+              </DragDropContext>
             </div>
           ) : (
             <div className="flex flex-col items-center justify-center p-6 mt-10 text-center rounded-md bg-light-gray">
