@@ -1,21 +1,21 @@
 import { useState } from 'react';
-import SecondaryButton from '@/Components/SecondaryButton';
-import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
+import axios from 'axios';
 import { Head } from '@inertiajs/react';
 import EmptyMockup from '/public/assets/images/illustration-empty.svg';
+import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import PrimaryButton from '@/Components/PrimaryButton';
 import { LinkForm } from '@/Components/LinkForm';
-import { PlatformProps } from '@/types/platform';
+import SecondaryButton from '@/Components/SecondaryButton';
 import { PhoneMockup } from '@/Components/PhoneMockup';
-import { handleReqError } from '@/utils/handleReqError';
-import axios from 'axios';
 import { notyf } from '@/libs/notyf';
-import { UserLinkProps } from '@/types/user-link';
-import { UserProps } from '@/types/user';
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 import { DropResult } from 'react-beautiful-dnd';
+import { PlatformProps } from '@/types/platform';
+import { UserLinkProps } from '@/types/user-link';
+import { UserProps } from '@/types/user';
 import { validateLinks } from '@/utils/validateLink';
 import { useLinks } from '@/utils/useLinks';
+import { handleReqError } from '@/utils/handleReqError';
 
 type Props = {
   platforms: PlatformProps[];
@@ -33,31 +33,38 @@ export default function Dashboard({ platforms, userLinks, user }: Props) {
 
   const [errors, setErrors] = useState<FormErrors>({});
 
-  const { links, setLinks, filteredPlatforms, handleAddLink, handleRemoveLink, handleUpdatePlatform, handleUpdateUrl } =
-  useLinks(userLinks, platforms);
+  const {
+    links,
+    setLinks,
+    filteredPlatforms,
+    handleAddLink,
+    handleRemoveLink,
+    handleUpdatePlatform,
+    handleUpdateUrl
+  } = useLinks(userLinks, platforms);
 
   const onDragEnd = (result: DropResult) => {
     if (!result.destination) return;
-  
+
     const reorderedLinks = [...links];
     const [movedLink] = reorderedLinks.splice(result.source.index, 1);
     reorderedLinks.splice(result.destination.index, 0, movedLink);
-  
+
     setLinks(reorderedLinks);
   };
-  
+
   const submit = async (e: React.FormEvent) => {
     e.preventDefault();
 
     const validationErrors = validateLinks(links, platforms);
-    
+
     if (validationErrors) {
       setErrors(validationErrors);
       return;
     }
 
     setProcessing(true);
-    
+
     setErrors({});
 
     try {
@@ -82,7 +89,7 @@ export default function Dashboard({ platforms, userLinks, user }: Props) {
       setProcessing(false);
     }
   };
-  
+
   return (
     <AuthenticatedLayout
       header={
@@ -107,7 +114,9 @@ export default function Dashboard({ platforms, userLinks, user }: Props) {
             the world!
           </p>
 
-          <SecondaryButton onClick={handleAddLink}>+ Add New Link</SecondaryButton>
+          <SecondaryButton onClick={handleAddLink}>
+            + Add New Link
+          </SecondaryButton>
 
           {links?.length > 0 ? (
             <div className="flex flex-col overflow-y-scroll gap-4 mt-6 max-h-[30rem]">
@@ -143,7 +152,10 @@ export default function Dashboard({ platforms, userLinks, user }: Props) {
                                   errors[String(link.id)]?.platform_id
                                 }
                                 handleSelect={(platform) =>
-                                  handleUpdatePlatform(platform, Number(link.id))
+                                  handleUpdatePlatform(
+                                    platform,
+                                    Number(link.id)
+                                  )
                                 }
                               />
                             </div>

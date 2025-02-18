@@ -2,10 +2,15 @@ import { useState, useEffect } from 'react';
 import { UserLinkProps } from '@/types/user-link';
 import { PlatformProps } from '@/types/platform';
 
-export const useLinks = (userLinks: UserLinkProps[], platforms: PlatformProps[]) => {
+export const useLinks = (
+  userLinks: UserLinkProps[],
+  platforms: PlatformProps[]
+) => {
   const [links, setLinks] = useState<UserLinkProps[]>(userLinks || []);
-  
-  const [filteredPlatforms, setFilteredPlatforms] = useState<PlatformProps[]>([]);
+
+  const [filteredPlatforms, setFilteredPlatforms] = useState<PlatformProps[]>(
+    []
+  );
 
   const handleAddLink = () => {
     setLinks((prev) => [
@@ -20,16 +25,23 @@ export const useLinks = (userLinks: UserLinkProps[], platforms: PlatformProps[])
     ]);
   };
 
-  const handleRemoveLink = (id: number) => setLinks((prev) => prev.filter((link) => link.id !== id));
+  const handleRemoveLink = (id: number) =>
+    setLinks((prev) => prev.filter((link) => link.id !== id));
 
   const handleUpdatePlatform = (platform: PlatformProps, linkId: number) => {
     setLinks((prev) =>
-      prev.map((link) => (link.id === linkId ? { ...link, platform_id: platform.id, platform } : link))
+      prev.map((link) =>
+        link.id === linkId
+          ? { ...link, platform_id: platform.id, platform }
+          : link
+      )
     );
   };
 
   const handleUpdateUrl = (linkId: number, value: string) => {
-    setLinks((prev) => prev.map((link) => (link.id === linkId ? { ...link, url: value } : link)));
+    setLinks((prev) =>
+      prev.map((link) => (link.id === linkId ? { ...link, url: value } : link))
+    );
   };
 
   useEffect(() => {
@@ -39,5 +51,13 @@ export const useLinks = (userLinks: UserLinkProps[], platforms: PlatformProps[])
     setFilteredPlatforms(filtered);
   }, [links, platforms]);
 
-  return { links, setLinks, filteredPlatforms, handleAddLink, handleRemoveLink, handleUpdatePlatform, handleUpdateUrl };
+  return {
+    links,
+    setLinks,
+    filteredPlatforms,
+    handleAddLink,
+    handleRemoveLink,
+    handleUpdatePlatform,
+    handleUpdateUrl
+  };
 };

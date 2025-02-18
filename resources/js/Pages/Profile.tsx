@@ -1,21 +1,20 @@
-import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
-import { Head } from '@inertiajs/react';
-import { PhoneMockup } from '@/Components/PhoneMockup';
-import { UserLinkProps } from '@/types/user-link';
-import { UserProps } from '@/types/user';
-import PrimaryButton from '@/Components/PrimaryButton';
-import InputError from '@/Components/InputError';
-import InputLabel from '@/Components/InputLabel';
-import { FormEventHandler } from 'react';
-import TextInput from '@/Components/TextInput';
-import { PhotoInput } from '@/Components/PhotoInput';
 import { useRef, useState } from 'react';
+import { FormEventHandler } from 'react';
+import { Head } from '@inertiajs/react';
 import axios from 'axios';
+import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
+import { PhoneMockup } from '@/Components/PhoneMockup';
+import InputError from '@/Components/InputError';
+import PrimaryButton from '@/Components/PrimaryButton';
+import { PhotoInput } from '@/Components/PhotoInput';
+import NavLink from '@/Components/NavLink';
+import { InputField } from '@/Components/InputField';
 import { notyf } from '@/libs/notyf';
 import { handleReqError } from '@/utils/handleReqError';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowRightFromBracket } from '@fortawesome/free-solid-svg-icons';
-import NavLink from '@/Components/NavLink';
+import { UserLinkProps } from '@/types/user-link';
+import { UserProps } from '@/types/user';
 
 type Props = {
   userLinks: UserLinkProps[];
@@ -153,87 +152,41 @@ export default function Profile({ user, userLinks }: Props) {
               />
               <InputError message={errors.avatar_url} className="mt-1" />
             </div>
+            
             <div className="flex flex-col p-5 rounded-md md:p-7 bg-light-gray">
-              <div className="flex flex-col mt-3 md:flex-row md:items-center">
-                <InputLabel
-                  className="md:hidden"
-                  htmlFor="first_name"
-                  value="First name"
-                />
-                <p className="hidden md:w-[40%] md:block text-md text-medium-gray">
-                  First name
-                </p>
-                <div className="flex flex-col w-full">
-                  <TextInput
-                    id="first_name"
-                    type="text"
-                    name="first_name"
-                    value={data.first_name}
-                    placeholder="Ben"
-                    className="block w-full mt-1"
-                    onChange={(e) =>
-                      setData({ ...data, first_name: e.target.value })
-                    }
-                    hasError={errors?.first_name !== undefined}
-                  />
-
-                  <InputError message={errors.first_name} className="mt-1" />
-                </div>
-              </div>
-
-              <div className="flex flex-col mt-3 md:flex-row md:items-center">
-                <InputLabel
-                  className="md:hidden"
-                  htmlFor="last_name"
-                  value="Last name"
-                />
-                <p className="hidden md:w-[40%] md:block text-md text-medium-gray">
-                  Last name
-                </p>
-                <div className="flex flex-col w-full">
-                  <TextInput
-                    id="last_name"
-                    type="text"
-                    name="last_name"
-                    value={data.last_name}
-                    placeholder="Wright"
-                    className="block w-full mt-1"
-                    onChange={(e) =>
-                      setData({ ...data, last_name: e.target.value })
-                    }
-                    hasError={errors?.last_name !== undefined}
-                  />
-
-                  <InputError message={errors.last_name} className="mt-1" />
-                </div>
-              </div>
-
-              <div className="flex flex-col mt-3 md:flex-row md:items-center">
-                <InputLabel
-                  className="md:hidden"
-                  htmlFor="email"
-                  value="Email"
-                />
-                <p className="hidden md:w-[40%] md:block text-md text-medium-gray">
-                  Email
-                </p>
-                <div className="flex flex-col w-full">
-                  <TextInput
-                    id="email"
-                    type="email"
-                    name="email"
-                    value={data.public_email}
-                    placeholder="e.g. alex@email.com"
-                    className="block w-full mt-1"
-                    onChange={(e) =>
-                      setData({ ...data, public_email: e.target.value })
-                    }
-                    hasError={errors?.public_email !== undefined}
-                  />
-
-                  <InputError message={errors.public_email} className="mt-2" />
-                </div>
-              </div>
+              <InputField
+                label="First name"
+                id="first_name"
+                type="text"
+                value={data.first_name}
+                placeholder="Ben"
+                onChange={(e) =>
+                  setData({ ...data, first_name: e.target.value })
+                }
+                error={errors.first_name}
+              />
+              <InputField
+                label="Last name"
+                id="last_name"
+                type="text"
+                value={data.last_name}
+                placeholder="Wright"
+                onChange={(e) =>
+                  setData({ ...data, last_name: e.target.value })
+                }
+                error={errors.last_name}
+              />
+              <InputField
+                label="Email"
+                id="email"
+                type="email"
+                value={data.public_email}
+                placeholder="e.g. alex@email.com"
+                onChange={(e) =>
+                  setData({ ...data, public_email: e.target.value })
+                }
+                error={errors.public_email}
+              />
             </div>
 
             <hr className="my-6 md:my-8" />
