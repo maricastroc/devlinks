@@ -152,7 +152,7 @@ export default function Profile({ user, userLinks }: Props) {
               />
               <InputError message={errors.avatar_url} className="mt-1" />
             </div>
-            
+
             <div className="flex flex-col p-5 rounded-md md:p-7 bg-light-gray">
               <InputField
                 label="First name"

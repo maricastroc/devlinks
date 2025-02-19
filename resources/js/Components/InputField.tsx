@@ -9,7 +9,7 @@ export function InputField({
   value,
   onChange,
   type = 'text',
-  error,
+  error
 }: {
   label: string;
   id: string;
@@ -26,7 +26,9 @@ export function InputField({
   return (
     <div className="flex flex-col mt-3 md:flex-row md:items-center">
       <InputLabel className="md:hidden" htmlFor={id} value={label} />
-      <p className="hidden md:w-[40%] md:block text-md text-medium-gray">{label}</p>
+      <p className="hidden md:w-[40%] md:block text-md text-medium-gray">
+        {label}
+      </p>
       <div className="flex flex-col w-full">
         <TextInput
           id={id}
@@ -40,6 +42,6 @@ export function InputField({
         />
         <InputError message={error} className="mt-1" />
       </div>
-  </div>
+    </div>
   );
 }
