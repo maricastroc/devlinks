@@ -1,22 +1,26 @@
 import { useState } from 'react';
 import axios from 'axios';
 import { Head } from '@inertiajs/react';
+import { notyf } from '@/libs/notyf';
+import {
+  DragDropContext,
+  Droppable,
+  Draggable,
+  DropResult
+} from 'react-beautiful-dnd';
 import EmptyMockup from '/public/assets/images/illustration-empty.svg';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import PrimaryButton from '@/Components/PrimaryButton';
 import { LinkForm } from '@/Components/LinkForm';
 import SecondaryButton from '@/Components/SecondaryButton';
 import { PhoneMockup } from '@/Components/PhoneMockup';
-import { notyf } from '@/libs/notyf';
-import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
-import { DropResult } from 'react-beautiful-dnd';
+import { LoadingComponent } from '@/Components/LoadingComponent';
 import { PlatformProps } from '@/types/platform';
 import { UserLinkProps } from '@/types/user-link';
 import { UserProps } from '@/types/user';
 import { validateLinks } from '@/utils/validateLink';
 import { useLinks } from '@/utils/useLinks';
 import { handleReqError } from '@/utils/handleReqError';
-import { LoadingComponent } from '@/Components/LoadingComponent';
 
 type Props = {
   platforms: PlatformProps[];

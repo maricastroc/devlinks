@@ -1,4 +1,6 @@
 import { Head, Link, router } from '@inertiajs/react';
+import { Inertia } from '@inertiajs/inertia';
+import { notyf } from '@/libs/notyf';
 import { UserLinkProps } from '@/types/user-link';
 import { UserProps } from '@/types/user';
 import { LinkCard } from '@/Components/PhoneMockup';
@@ -6,7 +8,8 @@ import PrimaryButton from '@/Components/PrimaryButton';
 import SecondaryButton from '@/Components/SecondaryButton';
 import Logo from '/public/assets/images/logo-devlinks-large.svg';
 import SmallLogo from '/public/assets/images/logo-devlinks-small.svg';
-import { notyf } from '@/libs/notyf';
+import { useEffect, useState } from 'react';
+import { LoadingComponent } from '@/Components/LoadingComponent';
 
 type Props = {
   userLinks: UserLinkProps[];
@@ -16,6 +19,8 @@ type Props = {
 
 export default function Shared({ userLinks, user, authUser }: Props) {
   const isOwner = authUser?.id === user.id;
+
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleCopyLink = async () => {
     const currentUrl = window.location.href;
@@ -29,9 +34,18 @@ export default function Shared({ userLinks, user, authUser }: Props) {
     }
   };
 
+  useEffect(() => {
+    const start = () => setIsLoading(true);
+    const end = () => setIsLoading(false);
+
+    Inertia.on('start', start);
+    Inertia.on('finish', end);
+  }, []);
+
   return (
     <div className="relative flex flex-col items-center min-h-screen md:pt-0 md:mt-0 bg-light-gray sm:justify-center md:justify-start">
       <Head title="Shared" />
+      {isLoading && <LoadingComponent hasOverlay />}
       {!isOwner && (
         <div className="mb-16 md:hidden">
           <Link href="/">

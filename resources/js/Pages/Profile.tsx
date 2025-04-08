@@ -3,21 +3,21 @@ import { Controller, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Head } from '@inertiajs/react';
 import axios from 'axios';
+import { notyf } from '@/libs/notyf';
+import { z } from 'zod';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faArrowRightFromBracket } from '@fortawesome/free-solid-svg-icons';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { PhoneMockup } from '@/Components/PhoneMockup';
 import PrimaryButton from '@/Components/PrimaryButton';
 import { PhotoInput } from '@/Components/PhotoInput';
 import NavLink from '@/Components/NavLink';
 import { InputField } from '@/Components/InputField';
-import { notyf } from '@/libs/notyf';
-import { handleReqError } from '@/utils/handleReqError';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faArrowRightFromBracket } from '@fortawesome/free-solid-svg-icons';
-import { UserLinkProps } from '@/types/user-link';
-import { UserProps } from '@/types/user';
-import { z } from 'zod';
 import { FormError } from '@/Components/FormError';
 import { LoadingComponent } from '@/Components/LoadingComponent';
+import { handleReqError } from '@/utils/handleReqError';
+import { UserLinkProps } from '@/types/user-link';
+import { UserProps } from '@/types/user';
 
 type Props = {
   userLinks: UserLinkProps[];

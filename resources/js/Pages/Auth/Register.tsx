@@ -1,15 +1,15 @@
-import InputLabel from '@/Components/InputLabel';
-import PrimaryButton from '@/Components/PrimaryButton';
-import TextInput from '@/Components/TextInput';
-import GuestLayout from '@/Layouts/GuestLayout';
 import { Head, Link, router } from '@inertiajs/react';
-import EmailIcon from '/public/assets/images/icon-email.svg';
-import PasswordIcon from '/public/assets/images/icon-password.svg';
 import { z } from 'zod';
 import { Controller, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { FormError } from '@/Components/FormError';
 import { notyf } from '@/libs/notyf';
+import InputLabel from '@/Components/InputLabel';
+import PrimaryButton from '@/Components/PrimaryButton';
+import TextInput from '@/Components/TextInput';
+import { FormError } from '@/Components/FormError';
+import GuestLayout from '@/Layouts/GuestLayout';
+import EmailIcon from '/public/assets/images/icon-email.svg';
+import PasswordIcon from '/public/assets/images/icon-password.svg';
 
 const signUpFormSchema = z
   .object({
