@@ -17,7 +17,7 @@ export const DropdownMenu = ({ handleSelect, platforms, link }: Props) => {
             onClick={() => handleSelect(platform)}
           >
             <img
-              src={`/assets/images/${platform.icon_url}.svg`}
+              src={`/assets/images/${platform.icon_url}`}
               alt=""
               style={{
                 filter:

@@ -89,7 +89,7 @@ export const LinkForm = ({
                         <img
                           src={
                             link?.platform.icon_url
-                              ? `/assets/images/${link.platform.icon_url}.svg`
+                              ? `/assets/images/${link.platform.icon_url}`
                               : ''
                           }
                           alt="Link icon"

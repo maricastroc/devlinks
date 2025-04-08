@@ -1,4 +1,3 @@
-import { PlatformProps } from '@/types/platform';
 import { ArrowRight } from 'phosphor-react';
 import PhoneMockupIllustration from '/public/assets/images/illustration-phone-mockup.svg';
 import { UserLinkProps } from '@/types/user-link';
@@ -40,7 +39,7 @@ export const LinkCard = ({ link }: { link: UserLinkProps }) => {
       <div className="flex items-center gap-2">
         {link.platform.icon_url && (
           <img
-            src={`/assets/images/${link.platform.icon_url}.svg`}
+            src={`/assets/images/${link.platform.icon_url}`}
             alt={`${link.platform.name} icon`}
             style={{
               filter: `${!isFrontendMentor ? 'saturate(0%) brightness(318%)' : ''}`
@@ -91,7 +90,7 @@ export const PhoneMockup = ({
         </div>
       )}
 
-      <div className="max-h-[300px] left-[1.05rem] overflow-y-scroll absolute flex flex-col items-center justify-center w-[16.7rem] m-4 top-[16.4rem]">
+      <div className="max-h-[300px] left-[1.3rem] overflow-y-scroll absolute flex flex-col items-center justify-center w-[15.7rem] m-4 top-[16.4rem]">
         <div className="w-full overflow-y-auto flex flex-col gap-[0.98rem]">
           {links?.map((link) => <LinkCard key={link.id} link={link} />)}
         </div>

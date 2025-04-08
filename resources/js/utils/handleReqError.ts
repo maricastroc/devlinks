@@ -5,8 +5,6 @@ export function handleReqError(error: unknown) {
   if (axios.isAxiosError(error) && error.response) {
     let errorMessage = 'Ooops, something went wrong. Please try again later.';
 
-    console.log(error.response);
-
     if (typeof error.response.data.message === 'string') {
       errorMessage = error.response.data.message;
     } else if (

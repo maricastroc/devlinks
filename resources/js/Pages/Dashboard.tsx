@@ -23,7 +23,7 @@ type Props = {
   user: UserProps;
 };
 
-type FormErrors = Record<
+export type FormErrors = Record<
   string | number,
   { url?: string; platform_id?: string }
 >;
