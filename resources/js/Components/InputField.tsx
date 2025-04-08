@@ -8,20 +8,28 @@ export function InputField({
   placeholder,
   value,
   onChange,
+  onBlur,
   type = 'text',
-  error
+  error,
+  disabled,
+  autoComplete,
+  name,
+  inputRef
 }: {
   label: string;
   id: string;
+  name?: string;
   placeholder: string;
   type?: string;
-  value: string;
+  value?: string;
   onChange: (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
   ) => void;
+  onBlur?: React.FocusEventHandler<HTMLInputElement>;
   error?: string;
   disabled?: boolean;
   autoComplete?: string;
+  inputRef?: React.Ref<HTMLInputElement>;
 }) {
   return (
     <div className="flex flex-col mt-3 md:flex-row md:items-center">
@@ -32,13 +40,16 @@ export function InputField({
       <div className="flex flex-col w-full">
         <TextInput
           id={id}
-          name={id}
+          name={name || id}
+          ref={inputRef}
           type={type}
-          value={value}
           placeholder={placeholder}
-          className="block w-full mt-1"
+          className={`block w-full mt-1 ${error ? 'border border-medium-red' : ''}`}
+          value={value}
           onChange={onChange}
-          hasError={error !== undefined}
+          onBlur={onBlur}
+          disabled={disabled}
+          autoComplete={autoComplete}
         />
         <InputError message={error} className="mt-1" />
       </div>

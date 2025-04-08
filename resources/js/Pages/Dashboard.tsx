@@ -16,6 +16,7 @@ import { UserProps } from '@/types/user';
 import { validateLinks } from '@/utils/validateLink';
 import { useLinks } from '@/utils/useLinks';
 import { handleReqError } from '@/utils/handleReqError';
+import { LoadingComponent } from '@/Components/LoadingComponent';
 
 type Props = {
   platforms: PlatformProps[];
@@ -58,7 +59,7 @@ export default function Dashboard({ platforms, userLinks, user }: Props) {
 
     const validationErrors = validateLinks(links, platforms);
 
-    if (validationErrors) {
+    if (validationErrors && Object.keys(validationErrors).length > 0) {
       setErrors(validationErrors);
       return;
     }
@@ -99,7 +100,7 @@ export default function Dashboard({ platforms, userLinks, user }: Props) {
       }
     >
       <Head title="Dashboard" />
-
+      {processing && <LoadingComponent hasOverlay />}
       <div className="lg:m-6 flex lg:grid lg:grid-cols-[1fr,1.5fr] w-full lg:gap-6">
         <div className="items-center justify-center hidden w-full p-10 bg-white rounded-md lg:flex">
           <PhoneMockup links={links} user={user} />

@@ -4,7 +4,6 @@ type PhotoInputProps = {
   photoPreview: string | null;
   onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
   inputFileRef: React.RefObject<HTMLInputElement>;
-  error: string | undefined;
   isProfileScreen?: boolean;
   withMarginTop?: boolean;
   isLoading?: boolean;

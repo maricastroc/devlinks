@@ -1,10 +1,10 @@
-import { useRef, useState } from 'react';
-import { FormEventHandler } from 'react';
+import { useEffect, useRef, useState } from 'react';
+import { Controller, useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
 import { Head } from '@inertiajs/react';
 import axios from 'axios';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { PhoneMockup } from '@/Components/PhoneMockup';
-import InputError from '@/Components/InputError';
 import PrimaryButton from '@/Components/PrimaryButton';
 import { PhotoInput } from '@/Components/PhotoInput';
 import NavLink from '@/Components/NavLink';
@@ -15,25 +15,25 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowRightFromBracket } from '@fortawesome/free-solid-svg-icons';
 import { UserLinkProps } from '@/types/user-link';
 import { UserProps } from '@/types/user';
+import { z } from 'zod';
+import { FormError } from '@/Components/FormError';
+import { LoadingComponent } from '@/Components/LoadingComponent';
 
 type Props = {
   userLinks: UserLinkProps[];
   user: UserProps;
 };
 
-type ProfileFormData = {
-  first_name: string;
-  last_name: string;
-  public_email: string;
-  avatar_url: File | null;
-};
+const profileFormSchema = z.object({
+  first_name: z.string().min(3, 'First name is required'),
+  last_name: z.string().min(3, 'Last name is required'),
+  public_email: z.string().email('E-mail is required'),
+  avatar_url: z
+    .custom<File>((file) => file instanceof File && file.size > 0)
+    .optional()
+});
 
-type ProfileFormErrors = {
-  first_name?: string;
-  last_name?: string;
-  public_email?: string;
-  avatar_url?: string;
-};
+type ProfileFormSchema = z.infer<typeof profileFormSchema>;
 
 export default function Profile({ user, userLinks }: Props) {
   const inputFileRef = useRef<HTMLInputElement>(null);
@@ -42,64 +42,71 @@ export default function Profile({ user, userLinks }: Props) {
 
   const [isLoading, setIsLoading] = useState(false);
 
-  const [errors, setErrors] = useState<ProfileFormErrors>({});
-
-  const [data, setData] = useState<ProfileFormData>({
-    first_name: user?.first_name || '',
-    last_name: user?.last_name || '',
-    public_email: user?.public_email || '',
-    avatar_url: null
+  const {
+    control,
+    handleSubmit,
+    setValue,
+    watch,
+    formState: { errors, isSubmitting }
+  } = useForm<ProfileFormSchema>({
+    resolver: zodResolver(profileFormSchema),
+    defaultValues: {
+      first_name: user?.first_name || '',
+      last_name: user?.last_name || '',
+      public_email: user?.public_email || ''
+    }
   });
 
   const handleAvatarChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
 
     if (file) {
-      setData({ ...data, avatar_url: file });
+      setValue('avatar_url', file);
       const reader = new FileReader();
       reader.onload = () => setPhotoPreview(reader.result as string);
       reader.readAsDataURL(file);
     }
   };
 
-  const submit: FormEventHandler = async (e) => {
-    e.preventDefault();
-
-    setIsLoading(true);
-
+  const onSubmit = async (data: ProfileFormSchema) => {
     const formData = new FormData();
     formData.append('first_name', data.first_name);
     formData.append('last_name', data.last_name);
     formData.append('public_email', data.public_email);
+    formData.append('_method', 'PUT');
 
     if (data.avatar_url) {
       formData.append('avatar_url', data.avatar_url);
     }
 
-    formData.append('_method', 'PUT');
-
-    setErrors({});
-
     try {
+      setIsLoading(true);
+
       const response = await axios.post('/profile/update', formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data'
-        }
+        headers: { 'Content-Type': 'multipart/form-data' }
       });
 
       if (response.status === 200) {
         notyf?.success(response.data.message);
       }
     } catch (error) {
-      if (axios.isAxiosError(error) && error.response?.data?.errors) {
-        setErrors(error.response.data.errors);
-      } else {
-        handleReqError(error);
-      }
+      handleReqError(error);
     } finally {
       setIsLoading(false);
     }
   };
+
+  useEffect(() => {
+    if (user) {
+      setValue('first_name', user?.first_name || '');
+      setValue('last_name', user?.last_name || '');
+      setValue('public_email', user?.public_email || '');
+
+      if (user?.avatar_url) {
+        setPhotoPreview(user.avatar_url as string);
+      }
+    }
+  }, [user]);
 
   return (
     <AuthenticatedLayout
@@ -110,14 +117,15 @@ export default function Profile({ user, userLinks }: Props) {
       }
     >
       <Head title="Profile" />
+      {(isLoading || isSubmitting) && <LoadingComponent hasOverlay />}
       <div className="lg:m-6 flex lg:grid lg:grid-cols-[1fr,1.5fr] w-full lg:gap-6">
         <div className="items-center justify-center hidden w-full p-10 bg-white rounded-md lg:flex">
           <PhoneMockup
             links={userLinks}
-            publicEmail={data?.public_email}
-            lastName={data?.last_name}
+            publicEmail={watch().public_email}
+            lastName={watch().last_name}
             photoPreview={photoPreview}
-            firstName={data?.first_name}
+            firstName={watch().first_name}
             user={user}
           />
         </div>
@@ -139,53 +147,66 @@ export default function Profile({ user, userLinks }: Props) {
             Add details to personalize your profile
           </p>
 
-          <form onSubmit={submit} className="flex flex-col w-full gap-6">
+          <form
+            onSubmit={handleSubmit(onSubmit)}
+            className="flex flex-col w-full gap-6"
+          >
             <div className="flex flex-col w-full p-5 rounded-md md:p-7 bg-light-gray">
               <PhotoInput
                 isProfileScreen
                 withMarginTop={false}
                 photoPreview={photoPreview || (user?.avatar_url as string)}
                 onChange={handleAvatarChange}
-                error={errors?.avatar_url}
                 inputFileRef={inputFileRef as React.RefObject<HTMLInputElement>}
                 isLoading={isLoading}
               />
-              <InputError message={errors.avatar_url} className="mt-1" />
+              {errors.avatar_url && (
+                <FormError error={errors.avatar_url.message} />
+              )}
             </div>
 
             <div className="flex flex-col p-5 rounded-md md:p-7 bg-light-gray">
-              <InputField
-                label="First name"
-                id="first_name"
-                type="text"
-                value={data.first_name}
-                placeholder="Ben"
-                onChange={(e) =>
-                  setData({ ...data, first_name: e.target.value })
-                }
-                error={errors.first_name}
+              <Controller
+                name="first_name"
+                control={control}
+                render={({ field }) => (
+                  <InputField
+                    label="First name"
+                    id="first_name"
+                    type="text"
+                    placeholder="Ben"
+                    error={errors.first_name?.message}
+                    {...field}
+                  />
+                )}
               />
-              <InputField
-                label="Last name"
-                id="last_name"
-                type="text"
-                value={data.last_name}
-                placeholder="Wright"
-                onChange={(e) =>
-                  setData({ ...data, last_name: e.target.value })
-                }
-                error={errors.last_name}
+              <Controller
+                name="last_name"
+                control={control}
+                render={({ field }) => (
+                  <InputField
+                    label="Last name"
+                    id="last_name"
+                    type="text"
+                    placeholder="Wright"
+                    error={errors.last_name?.message}
+                    {...field}
+                  />
+                )}
               />
-              <InputField
-                label="Email"
-                id="email"
-                type="email"
-                value={data.public_email}
-                placeholder="e.g. alex@email.com"
-                onChange={(e) =>
-                  setData({ ...data, public_email: e.target.value })
-                }
-                error={errors.public_email}
+              <Controller
+                name="public_email"
+                control={control}
+                render={({ field }) => (
+                  <InputField
+                    label="Email"
+                    id="email"
+                    type="email"
+                    placeholder="e.g. alex@email.com"
+                    error={errors.public_email?.message}
+                    {...field}
+                  />
+                )}
               />
             </div>
 

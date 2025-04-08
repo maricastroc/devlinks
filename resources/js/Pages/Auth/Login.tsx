@@ -1,33 +1,48 @@
-import Checkbox from '@/Components/Checkbox';
-import InputError from '@/Components/InputError';
 import InputLabel from '@/Components/InputLabel';
 import PrimaryButton from '@/Components/PrimaryButton';
 import TextInput from '@/Components/TextInput';
 import GuestLayout from '@/Layouts/GuestLayout';
-import { Head, Link, useForm } from '@inertiajs/react';
-import { FormEventHandler } from 'react';
+import { Head, Link, router } from '@inertiajs/react';
 import EmailIcon from '/public/assets/images/icon-email.svg';
 import PasswordIcon from '/public/assets/images/icon-password.svg';
+import { z } from 'zod';
+import { Controller, useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { FormError } from '@/Components/FormError';
+
+const signInFormSchema = z.object({
+  email: z.string().min(3, { message: 'E-mail is required.' }),
+  password: z.string().min(3, { message: 'Password is required' })
+});
+
+type SignInFormData = z.infer<typeof signInFormSchema>;
 
 export default function Login() {
-  const { data, setData, post, processing, errors, reset } = useForm({
-    email: '',
-    password: '',
-    remember: false
+  const {
+    control,
+    handleSubmit,
+    formState: { errors, isSubmitting }
+  } = useForm<SignInFormData>({
+    resolver: zodResolver(signInFormSchema),
+    defaultValues: { email: '', password: '' }
   });
 
-  const submit: FormEventHandler = (e) => {
-    e.preventDefault();
-
-    post(route('login'), {
-      onFinish: () => reset('password')
+  const onSubmit = async (data: SignInFormData) => {
+    router.visit(route('login'), {
+      method: 'post',
+      data,
+      preserveScroll: true,
+      onSuccess: () => {},
+      onError: (errors) => {
+        console.error(errors);
+      }
     });
   };
 
   return (
     <GuestLayout>
       <Head title="Log in" />
-      <form className="p-2 py-6 md:p-4" onSubmit={submit}>
+      <form onSubmit={handleSubmit(onSubmit)} className="p-2 py-6 md:p-3">
         <div>
           <h2 className="mb-2 text-[1.7rem] md:text-[2rem] font-bold text-dark-gray">
             Login
@@ -36,43 +51,49 @@ export default function Login() {
             Add your details below to get back into the app
           </p>
           <InputLabel htmlFor="email" value="Email" />
-          <TextInput
-            id="email"
-            type="email"
+          <Controller
             name="email"
-            value={data.email}
-            placeholder="e.g. alex@email.com"
-            className="block w-full mt-1"
-            autoComplete="username"
-            icon={EmailIcon}
-            onChange={(e) => setData('email', e.target.value)}
-            hasError={errors?.email !== undefined}
+            control={control}
+            render={({ field }) => (
+              <TextInput
+                id="email"
+                type="email"
+                placeholder="e.g. alex@email.com"
+                className="block w-full mt-1"
+                autoComplete="username"
+                icon={EmailIcon}
+                hasError={errors?.email !== undefined}
+                {...field}
+              />
+            )}
           />
 
-          <InputError message={errors.email} className="mt-1" />
+          <FormError error={errors.email?.message} className="mt-2" />
         </div>
 
         <div className="mt-4">
           <InputLabel htmlFor="password" value="Password" />
-
-          <TextInput
-            id="password"
-            type="password"
+          <Controller
             name="password"
-            placeholder="Enter your password"
-            value={data.password}
-            className="block w-full mt-1"
-            icon={PasswordIcon}
-            autoComplete="current-password"
-            onChange={(e) => setData('password', e.target.value)}
-            hasError={errors?.password !== undefined}
+            control={control}
+            render={({ field }) => (
+              <TextInput
+                id="password"
+                type="password"
+                placeholder="At least 8 characters"
+                className="block w-full mt-1"
+                icon={PasswordIcon}
+                autoComplete="current-password"
+                hasError={errors?.password !== undefined}
+                {...field}
+              />
+            )}
           />
-
-          <InputError message={errors.password} className="mt-1" />
+          <FormError error={errors.password?.message} className="mt-2" />
         </div>
 
         <div className="flex flex-col items-center justify-end mt-6 text-center">
-          <PrimaryButton disabled={processing}>Log in</PrimaryButton>
+          <PrimaryButton disabled={isSubmitting}>Log in</PrimaryButton>
           <div className="flex flex-col items-center mt-6 md:mt-4 md:gap-1 md:flex-row">
             <p className="text-md text-medium-gray">Don't have an account?</p>
             <Link

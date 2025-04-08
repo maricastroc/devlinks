@@ -47,6 +47,7 @@
     "@fortawesome/fontawesome-svg-core": "^6.4.0",
     "@fortawesome/free-solid-svg-icons": "^6.4.0",
     "@fortawesome/react-fontawesome": "^0.2.0",
+    "@hookform/resolvers": "^5.0.1",
     "@inertiajs/inertia": "^0.11.1",
     "@radix-ui/react-dialog": "^1.1.4",
     "@react-hook/debounce": "^4.0.0",
@@ -57,6 +58,8 @@
     "notyf": "^3.10.0",
     "phosphor-react": "^1.4.1",
     "react-beautiful-dnd": "^13.1.1",
+    "react-hook-form": "^7.55.0",
+    "react-loading-icons": "^1.1.0",
     "react-quill": "^2.0.0",
     "swr": "^2.3.2",
     "zod": "^3.24.2"

@@ -13,7 +13,6 @@ class UserLinkController extends Controller
         try {
             $userId = auth()->id();
     
-            // Validação dos links enviados
             $links = $request->validate([
                 'links' => 'required|array',
                 'links.*.platform_id' => 'required|exists:platforms,id',
@@ -21,10 +20,8 @@ class UserLinkController extends Controller
                 'links.*.order' => 'required|integer',
             ]);
     
-            // Recupera os links existentes para o usuário
             $existingLinks = UserLink::where('user_id', $userId)->get();
     
-            // IDs dos links enviados
             $submittedPlatformIds = collect($links['links'])->pluck('platform_id')->toArray();
     
             foreach ($links['links'] as $link) {
@@ -48,7 +45,6 @@ class UserLinkController extends Controller
                 }
             }
     
-            // Deleta links que não estão mais presentes nos links enviados
             UserLink::where('user_id', $userId)
                 ->whereNotIn('platform_id', $submittedPlatformIds)
                 ->delete();
