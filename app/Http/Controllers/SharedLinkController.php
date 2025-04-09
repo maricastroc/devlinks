@@ -14,6 +14,7 @@ class SharedLinkController extends Controller
                 'first_name'   => $user->first_name,
                 'last_name'    => $user->last_name,
                 'public_email' => $user->public_email,
+                'template' => $user->template,
                 'avatar_url'   => $user->avatar_url,
                 'id'           => $user->id,
             ],

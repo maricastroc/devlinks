@@ -7,4 +7,5 @@ export type UserProps = {
   avatar_url?: string | File | null;
   public_email?: string;
   username?: string;
+  template: string;
 };
