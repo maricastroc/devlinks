@@ -9,7 +9,7 @@ type Props = {
 
 export const DropdownMenu = ({ handleSelect, platforms, link }: Props) => {
   return (
-    <div className="top-[3.5rem] right-0 w-[100%] absolute z-50 py-1 max-h-[15rem] flex flex-col overflow-y-auto mt-1 bg-white border border-gray-300 rounded-md shadow-md">
+    <div className="top-[3.5rem] right-0 w-[100%] absolute z-[9998] py-1 max-h-[15rem] flex flex-col overflow-y-auto mt-1 bg-white border border-gray-300 rounded-md shadow-md">
       {platforms?.map((platform) => (
         <div key={platform.id}>
           <div

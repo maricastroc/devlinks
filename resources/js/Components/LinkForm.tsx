@@ -83,24 +83,25 @@ export const LinkForm = ({
             >
               <div className="flex items-center justify-between w-full">
                 <div className="flex items-center justify-center gap-3">
-                  {link?.platform?.icon_url &&
-                    link?.platform?.icon_url !== '' && (
-                      <span>
-                        <img
-                          src={
-                            link?.platform.icon_url
-                              ? `/assets/images/${link.platform.icon_url}`
-                              : ''
-                          }
-                          alt="Link icon"
-                          width="16"
-                          height="16"
-                        />
-                      </span>
-                    )}
-                  <span className="text-dark-grey">
-                    {link?.platform.name || ''}
+                  <span>
+                    <img
+                      src={
+                        link?.platform.icon_url
+                          ? `/assets/images/${link.platform.icon_url}`
+                          : 'assets/images/icon-platform.svg'
+                      }
+                      alt="Link icon"
+                      width="16"
+                      height="16"
+                    />
                   </span>
+                  {link?.platform.name ? (
+                    <span className="text-dark-grey">{link.platform.name}</span>
+                  ) : (
+                    <span className="text-medium-gray">
+                      Please, select a platform
+                    </span>
+                  )}
                 </div>
                 <FontAwesomeIcon
                   className="text-medium-gray"

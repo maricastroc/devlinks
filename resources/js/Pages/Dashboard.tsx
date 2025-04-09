@@ -105,7 +105,7 @@ export default function Dashboard({ platforms, userLinks, user }: Props) {
     >
       <Head title="Dashboard" />
       {processing && <LoadingComponent hasOverlay />}
-      <div className="lg:m-6 flex lg:grid lg:grid-cols-[1fr,1.5fr] w-full lg:gap-6">
+      <div className="lg:m-6 flex lg:grid lg:grid-cols-[1fr,1.5fr] w-full lg:gap-6 lg:my-0">
         <div className="items-center justify-center hidden w-full p-10 bg-white rounded-md lg:flex">
           <PhoneMockup links={links} user={user} />
         </div>
@@ -124,14 +124,14 @@ export default function Dashboard({ platforms, userLinks, user }: Props) {
           </SecondaryButton>
 
           {links?.length > 0 ? (
-            <div className="flex flex-col overflow-y-scroll gap-4 mt-6 max-h-[30rem]">
+            <div className="flex flex-col overflow-y-scroll max-h-[30rem] gap-4 mt-6 h-full">
               <DragDropContext onDragEnd={onDragEnd}>
                 <Droppable droppableId="linksList">
                   {(provided) => (
                     <div
                       {...provided.droppableProps}
                       ref={provided.innerRef}
-                      className="flex flex-col gap-4 mt-6 max-h-[30rem] overflow-y-scroll"
+                      className="flex flex-col gap-4 mt-6 h-full overflow-y-scroll"
                     >
                       {links.map((link, index) => (
                         <Draggable
