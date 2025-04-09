@@ -105,7 +105,7 @@ export default function Dashboard({ platforms, userLinks, user }: Props) {
     >
       <Head title="Dashboard" />
       {processing && <LoadingComponent hasOverlay />}
-      <div className="lg:m-6 flex lg:grid lg:grid-cols-[1fr,1.5fr] w-full lg:gap-6 lg:my-0">
+      <div className="lg:m-6 flex lg:grid lg:grid-cols-[1fr,1.5fr] w-full lg:gap-6 lg:mt-0">
         <div className="items-center justify-center hidden w-full p-10 bg-white rounded-md lg:flex">
           <PhoneMockup links={links} user={user} />
         </div>
