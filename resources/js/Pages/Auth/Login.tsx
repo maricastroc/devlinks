@@ -10,7 +10,6 @@ import { FormError } from '@/Components/FormError';
 import GuestLayout from '@/Layouts/GuestLayout';
 import EmailIcon from '/public/assets/images/icon-email.svg';
 import PasswordIcon from '/public/assets/images/icon-password.svg';
-import axios from 'axios';
 
 const signInFormSchema = z.object({
   email: z.string().min(3, { message: 'E-mail is required.' }),
@@ -30,25 +29,19 @@ export default function Login() {
   });
 
   const onSubmit = async (data: SignInFormData) => {
-    try {
-      await axios.post(route('login'), data, {
-        headers: {
-          'X-Requested-With': 'XMLHttpRequest'
-        },
-        withCredentials: true // se estiver usando cookies para autenticação
-      });
-
-      notyf?.success('Welcome to Devlinks!');
-      window.location.href = route('dashboard'); // ou redireciona pra onde quiser
-    } catch (error: any) {
-      if (error.response && error.response.data?.errors) {
-        Object.values(error.response.data.errors).forEach((msg) => {
-          notyf?.error(msg as string);
+    router.visit(route('login'), {
+      method: 'post',
+      data,
+      preserveScroll: true,
+      onSuccess: () => {
+        notyf?.success('Welcome to Devlinks!');
+      },
+      onError: (errors) => {
+        Object.values(errors).forEach((errorMessage) => {
+          notyf?.error(errorMessage);
         });
-      } else {
-        notyf?.error('Something went wrong. Please try again.');
       }
-    }
+    });
   };
 
   return (
