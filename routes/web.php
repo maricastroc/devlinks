@@ -15,6 +15,6 @@ Route::middleware('auth')->group(function () {
     Route::post('/user-links', [UserLinkController::class, 'store'])->name('user-links.store');;
 });
 
-Route::get('/shared/{user}', SharedLinkController::class)->name('shared');
+Route::get('/shared/{user:username}', SharedLinkController::class)->name('shared');
 
 require __DIR__ . '/auth.php';

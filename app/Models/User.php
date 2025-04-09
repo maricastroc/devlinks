@@ -24,6 +24,7 @@ class User extends Authenticatable
         'first_name',
         'last_name',
         'avatar_url',
+        'username'
     ];
 
     /**
@@ -73,6 +74,8 @@ class User extends Authenticatable
         if (isset($data['public_email'])) {
             $user->public_email = $data['public_email'];
         }
+
+        $user->username = $data['username'];
         
         $user->first_name = $data['first_name'];
 
@@ -85,5 +88,10 @@ class User extends Authenticatable
         $user->password = $data['new_password'] ?? $user->password;
     
         return $user->save();
+    }
+
+    public function getRouteKeyName()
+    {
+        return 'username';
     }
 }

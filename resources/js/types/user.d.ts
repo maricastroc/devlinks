@@ -6,4 +6,5 @@ export type UserProps = {
   last_name?: string;
   avatar_url?: string | File | null;
   public_email?: string;
+  username?: string;
 };

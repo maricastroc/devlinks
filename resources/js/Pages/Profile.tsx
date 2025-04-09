@@ -28,6 +28,9 @@ const profileFormSchema = z.object({
   first_name: z.string().min(3, 'First name is required'),
   last_name: z.string().min(3, 'Last name is required'),
   public_email: z.string().email('E-mail is required'),
+  username: z
+    .string()
+    .min(8, { message: 'Username must have at least 3 characters' }),
   avatar_url: z
     .custom<File>((file) => file instanceof File && file.size > 0)
     .optional()
@@ -53,7 +56,8 @@ export default function Profile({ user, userLinks }: Props) {
     defaultValues: {
       first_name: user?.first_name || '',
       last_name: user?.last_name || '',
-      public_email: user?.public_email || ''
+      public_email: user?.public_email || '',
+      username: user?.username || ''
     }
   });
 
@@ -72,6 +76,7 @@ export default function Profile({ user, userLinks }: Props) {
     const formData = new FormData();
     formData.append('first_name', data.first_name);
     formData.append('last_name', data.last_name);
+    formData.append('username', data.username);
     formData.append('public_email', data.public_email);
     formData.append('_method', 'PUT');
 
@@ -190,6 +195,20 @@ export default function Profile({ user, userLinks }: Props) {
                     type="text"
                     placeholder="Wright"
                     error={errors.last_name?.message}
+                    {...field}
+                  />
+                )}
+              />
+              <Controller
+                name="username"
+                control={control}
+                render={({ field }) => (
+                  <InputField
+                    label="Username"
+                    id="username"
+                    type="text"
+                    placeholder="e.g. myuser"
+                    error={errors.username?.message}
                     {...field}
                   />
                 )}

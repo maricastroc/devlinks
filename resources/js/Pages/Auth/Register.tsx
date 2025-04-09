@@ -10,37 +10,18 @@ import { FormError } from '@/Components/FormError';
 import GuestLayout from '@/Layouts/GuestLayout';
 import EmailIcon from '/public/assets/images/icon-email.svg';
 import PasswordIcon from '/public/assets/images/icon-password.svg';
+import UserIcon from '/public/assets/images/icon-user-circle.svg';
+import { UserCircle } from 'phosphor-react';
 
-const signUpFormSchema = z
-  .object({
-    email: z.string().min(3, { message: 'E-mail is required.' }),
-    password: z
-      .string()
-      .min(8, { message: 'Password must have at least 8 characters' }),
-    password_confirmation: z.string().optional()
-  })
-  .superRefine((data, ctx) => {
-    if (data.password && data.password.length > 0) {
-      if (data.password.length < 8) {
-        ctx.addIssue({
-          code: z.ZodIssueCode.too_small,
-          minimum: 8,
-          type: 'string',
-          inclusive: true,
-          path: ['password'],
-          message: 'Password must have at least 8 characters'
-        });
-      }
-
-      if (data.password !== data.password_confirmation) {
-        ctx.addIssue({
-          code: z.ZodIssueCode.custom,
-          path: ['password_confirmation'],
-          message: 'Passwords do not match'
-        });
-      }
-    }
-  });
+const signUpFormSchema = z.object({
+  email: z.string().min(3, { message: 'E-mail is required.' }),
+  password: z
+    .string()
+    .min(8, { message: 'Password must have at least 8 characters' }),
+  username: z
+    .string()
+    .min(8, { message: 'Username must have at least 3 characters' })
+});
 
 type SignUpFormData = z.infer<typeof signUpFormSchema>;
 
@@ -51,7 +32,7 @@ export default function Register() {
     formState: { errors, isSubmitting }
   } = useForm<SignUpFormData>({
     resolver: zodResolver(signUpFormSchema),
-    defaultValues: { email: '', password: '' }
+    defaultValues: { email: '', password: '', username: '' }
   });
 
   const onSubmit = async (data: SignUpFormData) => {
@@ -127,28 +108,28 @@ export default function Register() {
         </div>
 
         <div className="mt-4">
-          <InputLabel
-            htmlFor="password_confirmation"
-            value="Password Confirmation"
-          />
+          <InputLabel htmlFor="username" value="Username" />
           <Controller
-            name="password_confirmation"
+            name="username"
             control={control}
             render={({ field }) => (
               <TextInput
-                id="password_confirmation"
-                type="password"
-                placeholder="At least 8 characters"
+                id="username"
+                type="text"
+                placeholder="At least 3 characters"
                 className="block w-full mt-1"
-                icon={PasswordIcon}
+                icon={UserIcon}
                 autoComplete="current-password"
-                hasError={errors?.password_confirmation !== undefined}
+                hasError={errors?.username !== undefined}
                 {...field}
               />
             )}
           />
           <FormError
-            error={errors.password_confirmation?.message}
+            error={
+              errors.username?.message &&
+              'Username must have at least 3 characters'
+            }
             className="mt-2"
           />
         </div>
