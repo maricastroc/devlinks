@@ -11,7 +11,6 @@ import GuestLayout from '@/Layouts/GuestLayout';
 import EmailIcon from '/public/assets/images/icon-email.svg';
 import PasswordIcon from '/public/assets/images/icon-password.svg';
 import UserIcon from '/public/assets/images/icon-user-circle.svg';
-import { UserCircle } from 'phosphor-react';
 
 const signUpFormSchema = z.object({
   email: z.string().min(3, { message: 'E-mail is required.' }),
@@ -20,7 +19,7 @@ const signUpFormSchema = z.object({
     .min(8, { message: 'Password must have at least 8 characters' }),
   username: z
     .string()
-    .min(8, { message: 'Username must have at least 3 characters' })
+    .min(3, { message: 'Username must have at least 3 characters' })
 });
 
 type SignUpFormData = z.infer<typeof signUpFormSchema>;
