@@ -23,7 +23,7 @@ class SharedLinkController extends Controller
         if (!$user) {
             return Inertia::render('ErrorPage', [
                 'status' => 404,
-                'message' => 'Perfil não encontrado'
+                'message' => 'Profile not found'
             ]);
         }
 

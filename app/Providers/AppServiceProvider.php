@@ -13,16 +13,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        app('Illuminate\Contracts\Debug\ExceptionHandler')->renderable(function (NotFoundHttpException $e, $request) {
-            if ($request->expectsJson()) {
-                return response()->json(['message' => 'Recurso não encontrado'], 404);
-            }
-    
-            return Inertia::render('ErrorPage', [
-                'status' => 404,
-                'message' => 'Página não encontrada',
-            ])->toResponse($request)->setStatusCode(404);
-        });
+        //
     }
     /**
      * Bootstrap any application services.
