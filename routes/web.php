@@ -12,7 +12,9 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'index'])->name('profile');
     Route::put('/profile/update', [ProfileController::class, 'update'])->name('profile.update');
     Route::get('/api/platforms', [PlatformController::class, 'index'])->name('platforms.index');
-    Route::post('/user-links', [UserLinkController::class, 'store'])->name('user-links.store');;
+    Route::post('/user-links', [UserLinkController::class, 'store'])->name('user-links.store');
+    Route::patch('/profile/theme', [ProfileController::class, 'updateTheme'])
+    ->name('profile.theme.update');
 });
 
 Route::get('/devlinks/{user:username}', [SharedLinkController::class, 'handle'])->name('shared');

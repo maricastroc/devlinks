@@ -10,7 +10,7 @@ export const LoadingComponent = ({ hasOverlay = false }: Props) => {
       {hasOverlay && (
         <div className={`fixed inset-0 w-screen h-screen bg-black/30`} />
       )}
-      <ThreeDots height="12px" fill="#633CFF" className="animated-spin" />
+      <ThreeDots height="12px" fill="#2d2d2d" className="animated-spin" />
     </div>
   );
 };

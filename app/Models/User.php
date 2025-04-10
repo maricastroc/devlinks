@@ -24,6 +24,7 @@ class User extends Authenticatable
         'first_name',
         'last_name',
         'avatar_url',
+        'theme',
         'username'
     ];
 
@@ -61,14 +62,18 @@ class User extends Authenticatable
             $data['new_password'] = Hash::make($data['new_password']);
         }
     
-        if (isset($data['avatar_url']) && $data['avatar_url']->isValid()) {
+        if (
+            isset($data['avatar_url']) &&
+            $data['avatar_url'] instanceof \Illuminate\Http\UploadedFile &&
+            $data['avatar_url']->isValid()
+        ) {
             $destinationPath = public_path('assets/users');
+            
             $fileName = time() . '_' . $data['avatar_url']->getClientOriginalName();
+    
             $data['avatar_url']->move($destinationPath, $fileName);
-        
-            $data['avatar_url'] = 'assets/users/' . $fileName;
-        } else {
-            $data['avatar_url'] = $data['avatar_url'] ?? $user->avatar_url;
+    
+            $user->avatar_url = asset('assets/users/' . $fileName);
         }
 
         if (isset($data['public_email'])) {
@@ -80,8 +85,6 @@ class User extends Authenticatable
         $user->first_name = $data['first_name'];
 
         $user->last_name = $data['last_name'];
-
-        $user->avatar_url = $data['avatar_url'];
 
         $user->email = $data['email'] ?? $user->email;
 

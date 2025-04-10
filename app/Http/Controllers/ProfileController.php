@@ -83,4 +83,29 @@ class ProfileController extends Controller
 
         return Redirect::to('/');
     }
+
+    public function updateTheme(Request $request)
+{
+    $request->validate([
+        'template' => ['required', 'string', 'in:Default,Coffee,Midnight,Dark,Gradient,Terracota,Ocean,Eclipse'],
+    ]);
+
+    try {
+        /** @var \App\Models\User $user */
+        $user = Auth::user();
+        $user->template = $request->template;
+        $user->save();
+
+        return response()->json([
+            'message' => 'Theme updated successfully!',
+            'template' => $user->template
+        ], 200);
+        
+    } catch (\Exception $e) {
+        return response()->json([
+            'message' => 'Failed to update theme',
+            'error' => $e->getMessage()
+        ], 500);
+    }
+}
 }

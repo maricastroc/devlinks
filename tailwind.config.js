@@ -40,7 +40,16 @@ export default {
                 'label-medium': '14px',
                 'label-small': '12px'
             },
+            screens: {
+                'min-550': '550px',
+            },
+            
         },
     },
-    plugins: [forms, require('daisyui'), require('@tailwindcss/typography')],
+    plugins: [forms, require('@tailwindcss/typography')],
+    safelist: [
+        'bg-[#EAB560]',
+        'bg-[#488587]',
+        'bg-[#633CFF]',
+    ],
 };
