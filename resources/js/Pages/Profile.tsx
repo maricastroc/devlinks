@@ -123,7 +123,7 @@ export default function Profile({ user, userLinks }: Props) {
     >
       <Head title="Profile" />
       {(isLoading || isSubmitting) && <LoadingComponent hasOverlay />}
-      <div className="lg:m-6 flex lg:grid lg:grid-cols-[1fr,1.5fr] w-full lg:gap-6">
+      <div className="lg:m-6 flex lg:grid lg:grid-cols-[1fr,1.5fr] w-full lg:gap-6 lg:mt-0">
         <div className="items-center justify-center hidden w-full p-10 bg-white rounded-md lg:flex">
           <PhoneMockup
             links={userLinks}
