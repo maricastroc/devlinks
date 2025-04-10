@@ -204,10 +204,11 @@ export default function Profile({ user, userLinks }: Props) {
                 control={control}
                 render={({ field }) => (
                   <InputField
-                    label="Username"
+                    prefix="devlinks/"
+                    label="URL for your devlinks"
                     id="username"
                     type="text"
-                    placeholder="e.g. myuser"
+                    placeholder="username"
                     error={errors.username?.message}
                     {...field}
                   />

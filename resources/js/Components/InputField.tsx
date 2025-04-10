@@ -14,6 +14,7 @@ export function InputField({
   disabled,
   autoComplete,
   name,
+  prefix,
   inputRef
 }: {
   label: string;
@@ -29,6 +30,7 @@ export function InputField({
   error?: string;
   disabled?: boolean;
   autoComplete?: string;
+  prefix?: string;
   inputRef?: React.Ref<HTMLInputElement>;
 }) {
   return (
@@ -40,6 +42,7 @@ export function InputField({
       <div className="flex flex-col w-full">
         <TextInput
           id={id}
+          prefix={prefix}
           name={name || id}
           ref={inputRef}
           type={type}

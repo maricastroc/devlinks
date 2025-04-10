@@ -107,17 +107,17 @@ export default function Register() {
         </div>
 
         <div className="mt-4">
-          <InputLabel htmlFor="username" value="Username" />
+          <InputLabel htmlFor="username" value="URL for your devlinks" />
           <Controller
             name="username"
             control={control}
             render={({ field }) => (
               <TextInput
+                prefix="devlinks/"
                 id="username"
                 type="text"
-                placeholder="At least 3 characters"
+                placeholder="username"
                 className="block w-full mt-1"
-                icon={UserIcon}
                 autoComplete="current-password"
                 hasError={errors?.username !== undefined}
                 {...field}
