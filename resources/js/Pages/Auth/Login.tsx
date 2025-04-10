@@ -29,7 +29,9 @@ export default function Login() {
   });
 
   const onSubmit = async (data: SignInFormData) => {
-    router.visit(route('login'), {
+    const baseUrl = window.location.origin;
+
+    router.visit(`${baseUrl}${route('login')}`, {
       method: 'post',
       data,
       preserveScroll: true,
