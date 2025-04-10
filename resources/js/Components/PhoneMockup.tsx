@@ -25,7 +25,7 @@ export const LinkCard = ({ link }: { link: UserLinkProps }) => {
   return (
     <a
       key={link.id}
-      href={isValidUrl ? (link.url as string) : '#'}
+      href={isValidUrl ? `/click/${link.id}` : '#'}
       target="_blank"
       onClick={handleClick}
       className={clsx(

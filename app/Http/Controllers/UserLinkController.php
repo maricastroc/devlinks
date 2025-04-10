@@ -59,4 +59,12 @@ class UserLinkController extends Controller
             ], 500);
         }
     }
+
+    public function trackClick($id)
+{
+    $link = UserLink::findOrFail($id);
+    $link->increment('clicks');
+
+    return redirect($link->url);
+}
 }
