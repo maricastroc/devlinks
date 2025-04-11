@@ -19,60 +19,89 @@ export const TEMPLATE_STYLES: TemplateTypes = {
     primaryText: 'text-dark-gray',
     secondaryText: 'text-medium-gray'
   },
-  Coffee: {
-    color: '#eee9de',
-    header: 'bg-[#221003] md:bg-[#eee9de] text-white',
-    wrapper: 'bg-[#eee9de] text-white',
-    detail: 'bg-[#221003]',
-    card: 'bg-[#f7f3ec]',
-    avatarBorder: 'border-[#221003]',
+  Lavender: {
+    color: '#7E6CAB',
+    header: 'bg-transparent text-[#50427C]',
+    wrapper: 'bg-gradient-to-b from-[#7E6CAB] to-[#EBA3AC] text-[#342B51]',
+    detail: 'hidden',
+    card: 'bg-[#FFFFFF]',
+    avatarBorder: 'border-[#342B51]',
     primaryButton:
-      'hover:bg-opacity-70 border border-[#f7f3ec] bg-[#221003] md:border-[#221003] text-[#f7f3ec]',
+      'bg-[#342B51] border-[#342B51] text-[#FFFFFF] hover:bg-[#FFFFFF] hover:border-[#ffffff] hover:text-[#342B51]',
     secondaryButton:
-      'border hover:bg-[#221003] hover:text-[#f7f3ec] bg-[#f7f3ec] md:bg-transparent border-[#221003] text-[#221003]',
-    primaryText: 'text-[#221003]',
-    secondaryText: 'text-[#221003]'
+      'border border-[#342B51] bg-transparent text-[#342B51] hover:bg-[#342B51] hover:border-[#342B51] hover:text-[#ffffff]',
+    primaryText: 'text-[#5342B51]',
+    secondaryText: 'text-[#342B51]'
   },
   Midnight: {
-    color: '#634777',
-    header: 'bg-[#634777]',
-    wrapper: 'bg-gradient-to-t from-[#462e5b] to-[#251b2d] text-white',
+    color: '#C54D48',
+    header: 'bg-transparent text-[#FFFFFF]',
+    wrapper: 'bg-gradient-to-b from-[#21303D] to-[#C54D48] text-[#1C2431]',
     detail: 'hidden',
-    card: 'bg-[#634777]',
-    avatarBorder: 'border-white',
+    card: 'bg-[#FFFfff]',
+    avatarBorder: 'border-[#1C2431]',
     primaryButton:
-      'hover:bg-opacity-70 bg-[#3d2b49] border-[#55356d] text-white',
+      'border hover:bg-opacity-80 border-[#FFFFFF] bg-transparent text-[#FFFFFF] hover:text-[#D65454] hover:border-[#D65454]',
     secondaryButton:
-      'border hover:bg-[#55356d] hover:text-white bg-transparent border-white text-white',
-    primaryText: 'text-white',
-    secondaryText: 'text-white'
+      'border border-[#FFFFFF] bg-transparent text-[#FFFFFF] hover:text-[#D65454] hover:border-[#D65454]',
+    primaryText: 'text-[#1C2431]',
+    secondaryText: 'text-[#1C2431]'
   },
-  Dark: {
-    color: '#292728',
-    header: 'bg-transparent',
-    wrapper: 'bg-[#191919]',
-    detail: 'bg-[#141414]',
-    card: 'bg-[#292728]',
-    avatarBorder: 'border-[#e8e8e8]',
+  Serenity: {
+    color: '#C57248',
+    header: 'bg-transparent text-[#1C2431]',
+    wrapper: 'bg-gradient-to-b from-[#C57248] to-[#2D2D37] text-[#1C2431]',
+    detail: 'hidden',
+    card: 'bg-[#FFFfff]',
+    avatarBorder: 'border-[#1C2431]',
     primaryButton:
-      'hover:bg-opacity-70 bg-[#292728] border-[#292728] text-[#e8e8e8]',
+      'bg-[#1C2431] border-[#1C2431] text-[#FFFFFF] hover:bg-[#FFFFFF] hover:border-[#ffffff] hover:text-[#1C2431]',
     secondaryButton:
-      'border border-opacity-60 hover:bg-transparent hover:text-white bg-transparent border-[#e8e8e8] text-[#e8e8e8]',
-    primaryText: 'text-[#e8e8e8]',
-    secondaryText: 'text-[#e8e8e8]'
+      'border border-[#1C2431] bg-transparent text-[#1C2431] hover:bg-[#1C2431] hover:border-[#1C2431] hover:text-[#ffffff]',
+    primaryText: 'text-[#1C2431]',
+    secondaryText: 'text-[#1C2431]'
   },
   Ocean: {
-    color: '#4CA1AF',
-    header: 'bg-[#46939B] text-white',
-    wrapper: 'bg-[#D9F2F2] text-[#2E5166]',
-    detail: 'bg-[#4CA1AF]',
-    card: 'bg-white',
-    avatarBorder: 'border-[#2E5166]',
+    color: '#478EA9',
+    header: 'bg-transparent text-[#1C2431]',
+    wrapper: 'bg-gradient-to-b from-[#478EA9] to-[#E29042] text-[#1C2431]',
+    detail: 'hidden',
+    card: 'bg-[#FFFAF3]',
+    avatarBorder: 'border-[#1C2431]',
     primaryButton:
-      'border hover:bg-[#3B8B9A] border-[#D9F2F2] bg-[#4CA1AF] text-white',
+      'bg-[#1C2431] border-[#1C2431] text-[#FFFFFF] hover:bg-[#FFFFFF] hover:border-[#ffffff] hover:text-[#1C2431]',
     secondaryButton:
-      'border border-[#4CA1AF] bg-white text-[#4CA1AF] hover:bg-[#D9F2F2]',
-    primaryText: 'text-[#2E5166]',
-    secondaryText: 'text-[#4CA1AF]'
+      'border border-[#1C2431] bg-transparent text-[#1C2431] hover:bg-[#1C2431] hover:border-[#1C2431] hover:text-[#ffffff]',
+    primaryText: 'text-[#1C2431]',
+    secondaryText: 'text-[#1C2431]'
+  },
+  Gradient: {
+    color: '#EAB560',
+    header: 'bg-transparent',
+    wrapper:
+      'bg-gradient-to-l from-[#C15757] via-[#FFBE57] to-[#3E8E9C] text-[#2B3D40]',
+    detail: 'hidden',
+    card: 'bg-[#FFFFFF]',
+    avatarBorder: 'border-[#2B3D40]',
+    primaryButton:
+      'border hover:bg-opacity-80 bg-[#2B3D40] border-[#2B3D40] text-[#FFFFFF] hover:bg-transparent hover:border-[#2B3D40] hover:text-[#2B3D40]',
+    secondaryButton:
+      'border border-[#2B3D40] bg-transparent text-[#2B3D40] hover:bg-[#2B3D40] hover:border-[#2B3D40] hover:text-[#ffffff]',
+    primaryText: 'text-[#2B3D40]',
+    secondaryText: 'text-[#2B3D40]'
+  },
+  Mist: {
+    color: '#6B8F8E',
+    header: 'bg-transparent text-[#1C2431]',
+    wrapper: 'bg-gradient-to-b from-[#6B8F8E] to-[#D4DCCD] text-[#1C2431]', // Fundo: azul petróleo → bege-claro
+    detail: 'hidden',
+    card: 'bg-[#FFFFFF]',
+    avatarBorder: 'border-[#1C2431]',
+    primaryButton:
+      'border bg-[#1C2431] border-[#1C2431] text-[#FFFFFF] hover:bg-transparent hover:text-[#1C2431] hover:border-[#1C2431]', // Hover azul
+    secondaryButton:
+      'border border-[#1C2431] bg-transparent text-[#1C2431] hover:bg-[#1C2431] hover:text-[#FFFFFF]',
+    primaryText: 'text-[#1C2431]',
+    secondaryText: 'text-[#1C2431]'
   }
 };

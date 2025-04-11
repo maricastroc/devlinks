@@ -10,137 +10,19 @@ import { LoadingComponent } from '@/Components/LoadingComponent';
 
 import Logo from '/public/assets/images/logo-devlinks-large.svg';
 import SmallLogo from '/public/assets/images/logo-devlinks-small.svg';
-import { Copy, Layout } from 'phosphor-react';
+import { Copy, Layout, Share } from 'phosphor-react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBackward } from '@fortawesome/free-solid-svg-icons';
 import { DropdownTheme } from '@/Components/DropdownTheme';
 import axios from 'axios';
 import { TemplateStyles } from '@/types/template-styles';
+import { HeaderButton } from '@/Components/HeaderButton';
+import { TEMPLATE_STYLES } from '@/utils/constants';
 
 type Props = {
   userLinks: UserLinkProps[];
   user: UserProps;
   authUser: UserProps | null;
-};
-
-type TemplateTypes = {
-  [key: string]: TemplateStyles;
-};
-
-export const TEMPLATE_STYLES: TemplateTypes = {
-  Default: {
-    color: '#633CFF',
-    header: 'bg-[#0000] md:bg-light-gray text-white',
-    wrapper: 'bg-[#0000] text-dark-gray',
-    detail: 'bg-medium-purple',
-    card: 'bg-white',
-    avatarBorder: 'border-medium-purple',
-    primaryButton:
-      'hover:bg-purple-hover border border-[#FAFAFA] md:border-[#633CFF] md:text-[#FAFAFA] md:bg-[#633CFF]',
-    secondaryButton:
-      'border text-[#633CFF] border-[#633CFF] bg-[#FAFAFA] hover:bg-purple-hover hover:bg-opacity-30',
-    primaryText: 'text-dark-gray',
-    secondaryText: 'text-medium-gray'
-  },
-  Coffee: {
-    color: '#221003',
-    header: 'bg-[#221003] md:bg-[#eee9de] text-white',
-    wrapper: 'bg-[#eee9de] text-white',
-    detail: 'bg-[#221003]',
-    card: 'bg-[#f7f3ec]',
-    avatarBorder: 'border-[#221003]',
-    primaryButton:
-      'hover:bg-opacity-70 border border-[#f7f3ec] bg-[#221003] md:border-[#221003] text-[#f7f3ec]',
-    secondaryButton:
-      'border hover:bg-opacity-70 bg-[#f7f3ec] md:bg-transparent border-[#221003] text-[#221003]',
-    primaryText: 'text-[#221003]',
-    secondaryText: 'text-[#221003]'
-  },
-  Midnight: {
-    color: '#634777',
-    header: 'bg-transparent md:bg-[#634777]',
-    wrapper: 'bg-gradient-to-t from-[#462e5b] to-[#251b2d] text-white',
-    detail: 'hidden',
-    card: 'bg-[#634777]',
-    avatarBorder: 'border-white',
-    primaryButton:
-      'hover:bg-opacity-70 bg-[#634777] md:bg-[#3d2b49] border-[#55356d] text-white',
-    secondaryButton:
-      'border hover:bg-[#55356d] hover:text-white bg-transparent border-white text-white',
-    primaryText: 'text-white',
-    secondaryText: 'text-white'
-  },
-  Dark: {
-    color: '#292728',
-    header: 'bg-transparent',
-    wrapper: 'bg-[#191919]',
-    detail: 'bg-[#141414]',
-    card: 'bg-[#292728]',
-    avatarBorder: 'border-[#e8e8e8]',
-    primaryButton:
-      'hover:bg-opacity-70 bg-[#292728] border-[#292728] text-[#e8e8e8]',
-    secondaryButton:
-      'border border-opacity-60 hover:bg-transparent hover:text-white bg-transparent border-[#e8e8e8] text-[#e8e8e8]',
-    primaryText: 'text-[#e8e8e8]',
-    secondaryText: 'text-[#e8e8e8]'
-  },
-  Ocean: {
-    color: '#488587',
-    header: 'bg-transparent md:bg-[#488587]',
-    wrapper: 'bg-gradient-to-t from-[#207A7A] to-[#0C3133] text-white',
-    detail: 'hidden',
-    card: 'bg-[#488587]',
-    avatarBorder: 'border-white',
-    primaryButton:
-      'hover:bg-opacity-70 bg-[#227882] md:bg-[#194C52] border-[#227882] text-white',
-    secondaryButton:
-      'border hover:bg-[#227882] hover:text-white bg-transparent border-white text-white',
-    primaryText: 'text-white',
-    secondaryText: 'text-white'
-  },
-  Gradient: {
-    color: '#EAB560',
-    header: 'bg-[#FFFFFF] text-[#2B3D40]',
-    wrapper:
-      'bg-gradient-to-l from-[#C15757] via-[#FFBE57] to-[#3E8E9C] text-[#2B3D40]',
-    detail: 'hidden',
-    card: 'bg-[#FFFFFF]',
-    avatarBorder: 'border-[#2B3D40]',
-    primaryButton:
-      'hover:bg-opacity-80 bg-[#2B3D40] border-[#2B3D40] text-[#FFFFFF]',
-    secondaryButton:
-      'border border-[#2B3D40] bg-transparent text-[#2B3D40] hover:opacity-80',
-    primaryText: 'text-[#2B3D40]',
-    secondaryText: 'text-[#3E8E9C]'
-  },
-  Eclipse: {
-    color: '#161E2D',
-    header: 'bg-transparent md:bg-[#161E2D] text-[#F2DDCD] shadow-lg',
-    wrapper: 'bg-[#0C101C] text-[#F2DDCD]',
-    detail: 'hidden',
-    card: 'bg-[#161E2D]',
-    avatarBorder: 'border-[#F2DDCD]',
-    primaryButton:
-      'hover:bg-opacity-80 bg-[#F2DDCD] border-[#F2DDCD] text-[#0C101C]',
-    secondaryButton:
-      'border border-[#F2DDCD] bg-transparent text-[#F2DDCD] hover:opacity-80',
-    primaryText: 'text-[#F2DDCD]',
-    secondaryText: 'text-[#F2DDCD]'
-  },
-  Terracota: {
-    color: '#A15E55',
-    header: 'bg-[#A15E55] md:bg-[#eee9de] text-white',
-    wrapper: 'bg-[#eee9de] text-white',
-    detail: 'bg-[#A15E55]',
-    card: 'bg-[#f7f3ec]',
-    avatarBorder: 'border-[#633836]',
-    primaryButton:
-      'hover:bg-opacity-70 border border-[#f7f3ec] bg-[#633836] md:border-[#633836] text-[#f7f3ec]',
-    secondaryButton:
-      'border hover:bg-[#633836] hover:text-[#f7f3ec] bg-[#f7f3ec] md:bg-transparent border-[#633836] text-[#633836]',
-    primaryText: 'text-[#633836]',
-    secondaryText: 'text-[#633836]'
-  }
 };
 
 export default function Shared({ userLinks, user, authUser }: Props) {
@@ -245,48 +127,56 @@ export default function Shared({ userLinks, user, authUser }: Props) {
     </div>
   );
 
-  const renderOwnerHeader = () => (
-    <header className="z-50 w-full h-[78px] md:p-4 mb-16">
-      <div
-        className={`md:text-md text-sm flex min-550:flex-nowrap items-center justify-between gap-3 p-4 md:rounded-xl ${styles.header}`}
-      >
-        <button
-          onClick={() => router.get(route('dashboard'))}
-          className={`gap-2 h-[3rem] text-center max-w-[3rem] md:max-w-[8rem] disabled:cursor-not-allowed w-full inline-flex items-center justify-center rounded-lg px-4 py-3 text-md font-semibold transition duration-150 ease-in-out focus:outline-none ${styles.secondaryButton}`}
-        >
-          <FontAwesomeIcon icon={faBackward} />
-          <p className="hidden text-center md:block">Go Back</p>
-        </button>
+  const renderOwnerHeader = () => {
+    const buttonClasses = {
+      primary: styles.primaryButton,
+      secondary: styles.secondaryButton
+    };
 
-        <div className="flex items-center justify-end w-full gap-3">
-          <div className="relative z-[9999]" ref={dropdownRef}>
-            <button
-              onClick={() => setShowThemeDropdown(true)}
-              className={`relative gap-2 text-center h-[3rem] max-w-[8rem] disabled:cursor-not-allowed w-full flex items-center justify-center rounded-lg px-4 py-3 text-md font-semibold transition duration-150 ease-in-out focus:outline-none ${styles.primaryButton}`}
-            >
-              <Layout size={24} />
-              <p className="text-center">Theme</p>
-            </button>
-            {showThemeDropdown && (
-              <DropdownTheme
-                themes={themes}
-                handleSelect={(themeName: string) =>
-                  handleThemeSelect(themeName)
-                }
+    return (
+      <header className="z-50 w-full h-[78px] md:p-4 mb-16 md:mb-10">
+        <div
+          className={`text-md flex items-center justify-between gap-3 p-4 md:rounded-xl ${styles.header}`}
+        >
+          <HeaderButton
+            onClick={() => router.get(route('dashboard'))}
+            icon={<FontAwesomeIcon icon={faBackward} />}
+            text="Go Back"
+            className={buttonClasses.secondary}
+            textVisibility="md-only"
+          />
+
+          <div className="flex items-center justify-end gap-3">
+            <div className="relative z-[9999]" ref={dropdownRef}>
+              <HeaderButton
+                onClick={() => setShowThemeDropdown(true)}
+                icon={<Layout size={24} />}
+                text="Theme"
+                className={buttonClasses.primary}
+                textVisibility="always"
               />
-            )}
+              {showThemeDropdown && (
+                <DropdownTheme
+                  themes={themes}
+                  handleSelect={(themeName: string) =>
+                    handleThemeSelect(themeName)
+                  }
+                />
+              )}
+            </div>
+
+            <HeaderButton
+              onClick={handleCopyLink}
+              icon={<Share size={24} />}
+              text="Share"
+              className={buttonClasses.primary}
+              textVisibility="md-only"
+            />
           </div>
-          <button
-            onClick={handleCopyLink}
-            className={`gap-2 text-center h-[3rem] max-w-[8rem] disabled:cursor-not-allowed w-full inline-flex items-center justify-center rounded-lg px-4 py-3 text-md font-semibold transition duration-150 ease-in-out focus:outline-none ${styles.primaryButton}`}
-          >
-            <Copy size={24} />
-            <p className="text-center">Share</p>
-          </button>
         </div>
-      </div>
-    </header>
-  );
+      </header>
+    );
+  };
 
   const renderAvatar = () =>
     user.avatar_url ? (
@@ -305,7 +195,9 @@ export default function Shared({ userLinks, user, authUser }: Props) {
 
   const renderLinks = () =>
     userLinks?.length > 0 ? (
-      <div className={`w-[15rem] mt-10 overflow-y-auto flex flex-col gap-4`}>
+      <div
+        className={`w-[15rem] max-h-[15rem] custom-scrollbar overflow-y-scroll md:w-[20rem] mt-10 flex flex-col gap-4`}
+      >
         {userLinks?.map((link) => <LinkCard key={link.id} link={link} />)}
       </div>
     ) : (
@@ -328,11 +220,11 @@ export default function Shared({ userLinks, user, authUser }: Props) {
       {isOwner && renderOwnerHeader()}
 
       <div
-        className={`block absolute top-0 right-0 w-full h-[18rem] md:h-[20rem] md:rounded-bl-3xl md:rounded-br-3xl z-10 ${styles.detail}`}
+        className={`block absolute top-0 right-0 w-full h-[18rem] md:h-[19rem] md:rounded-bl-3xl md:rounded-br-3xl z-10 ${styles.detail}`}
       />
 
       <div
-        className={`z-[12] p-6 md:p-12 mb-20 shadow-lg sm:max-w-md md:w-[24rem] rounded-xl md:flex md:items-center md:justify-center md:mt-20 lg:mt-10 md:pb-20 ${styles.card}`}
+        className={`z-[12] p-6 lg:mb-30 md:p-10 md:mt-8 mb-20 shadow-lg lg:shadow-xl sm:max-w-md md:w-[26rem] rounded-xl ${styles.card}`}
       >
         <div className="flex flex-col items-center justify-center w-auto">
           {renderAvatar()}

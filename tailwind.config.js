@@ -40,16 +40,18 @@ export default {
                 'label-medium': '14px',
                 'label-small': '12px'
             },
-            screens: {
-                'min-550': '550px',
-            },
             
         },
     },
     plugins: [forms, require('@tailwindcss/typography')],
     safelist: [
+        'bg-[#C57248]',
+        'bg-[#6B8F8E]',
+        'bg-[#7E6CAB]',
+        'bg-[#478EA9]',
         'bg-[#EAB560]',
-        'bg-[#488587]',
         'bg-[#633CFF]',
+        'bg-[#C54D48]',
+        'md:text-md',
     ],
 };
