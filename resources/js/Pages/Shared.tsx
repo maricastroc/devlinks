@@ -8,7 +8,7 @@ import { LoadingComponent } from '@/Components/LoadingComponent';
 
 import Logo from '/public/assets/images/logo-devlinks-large.svg';
 import SmallLogo from '/public/assets/images/logo-devlinks-small.svg';
-import { Copy, Layout, Share } from 'phosphor-react';
+import { Layout, Share } from 'phosphor-react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBackward } from '@fortawesome/free-solid-svg-icons';
 import { DropdownTheme } from '@/Components/DropdownTheme';
@@ -114,7 +114,7 @@ export const TEMPLATE_STYLES: TemplateTypes = {
       'bg-gradient-to-b from-[#C15757] via-[#FFBE57] to-[#3E8E9C] text-[#2B3D40]',
     detail: 'hidden',
     card: 'bg-transparent',
-    avatarBorder: 'border-[#2B3D40] border-opacity-90',
+    avatarBorder: 'border-[#ffffff] border-opacity-80',
     primaryButton:
       'border hover:bg-opacity-80 bg-[#2B3D40] border-[#2B3D40] text-[#FFFFFF] hover:bg-transparent hover:border-[#2B3D40] hover:text-[#2B3D40]',
     secondaryButton:
