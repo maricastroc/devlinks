@@ -59,6 +59,7 @@
     "phosphor-react": "^1.4.1",
     "react-beautiful-dnd": "^13.1.1",
     "react-hook-form": "^7.55.0",
+    "react-hot-toast": "^2.5.2",
     "react-loading-icons": "^1.1.0",
     "react-quill": "^2.0.0",
     "swr": "^2.3.2",

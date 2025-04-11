@@ -2,7 +2,6 @@ import { useEffect, useRef, useState } from 'react';
 import { Head, Link, router } from '@inertiajs/react';
 import { Inertia } from '@inertiajs/inertia';
 
-import { notyf } from '@/libs/notyf';
 import { UserLinkProps } from '@/types/user-link';
 import { UserProps } from '@/types/user';
 import { LinkCard } from '@/Components/PhoneMockup';
@@ -17,6 +16,7 @@ import { DropdownTheme } from '@/Components/DropdownTheme';
 import axios from 'axios';
 import { TemplateStyles } from '@/types/template-styles';
 import { HeaderButton } from '@/Components/HeaderButton';
+import toast from 'react-hot-toast';
 
 type Props = {
   userLinks: UserLinkProps[];
@@ -154,9 +154,9 @@ export default function Shared({ userLinks, user, authUser }: Props) {
 
     try {
       await navigator.clipboard.writeText(currentUrl);
-      notyf?.success('Copied to clipboard!');
+      toast?.success('Copied to clipboard!');
     } catch (err) {
-      notyf?.success('An unexpected error ocurred.');
+      toast?.success('An unexpected error ocurred.');
     }
   };
 
@@ -180,10 +180,10 @@ export default function Shared({ userLinks, user, authUser }: Props) {
       );
 
       if (response.status === 200) {
-        notyf?.success(response.data.message);
+        toast?.success(response.data.message);
       }
     } catch (error) {
-      notyf?.error('Failed to update theme');
+      toast?.error('Failed to update theme');
 
       setCurrentTheme(user.template || 'default');
 

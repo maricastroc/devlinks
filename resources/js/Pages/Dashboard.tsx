@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import axios from 'axios';
 import { Head } from '@inertiajs/react';
-import { notyf } from '@/libs/notyf';
 import {
   DragDropContext,
   Droppable,
@@ -21,6 +20,7 @@ import { UserProps } from '@/types/user';
 import { validateLinks } from '@/utils/validateLink';
 import { useLinks } from '@/utils/useLinks';
 import { handleReqError } from '@/utils/handleReqError';
+import toast from 'react-hot-toast';
 
 type Props = {
   platforms: PlatformProps[];
@@ -82,7 +82,7 @@ export default function Dashboard({ platforms, userLinks, user }: Props) {
       });
 
       if (response?.data?.message) {
-        notyf?.success(response.data.message);
+        toast?.success(response.data.message);
       }
     } catch (error) {
       if (axios.isAxiosError(error) && error.response?.data?.errors) {
@@ -131,7 +131,7 @@ export default function Dashboard({ platforms, userLinks, user }: Props) {
                     <div
                       {...provided.droppableProps}
                       ref={provided.innerRef}
-                      className="flex flex-col gap-4 mt-6 h-full overflow-y-scroll"
+                      className="flex flex-col h-full gap-4 mt-6 overflow-y-scroll"
                     >
                       {links.map((link, index) => (
                         <Draggable

@@ -3,7 +3,6 @@ import { Controller, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Head } from '@inertiajs/react';
 import axios from 'axios';
-import { notyf } from '@/libs/notyf';
 import { z } from 'zod';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowRightFromBracket } from '@fortawesome/free-solid-svg-icons';
@@ -18,6 +17,7 @@ import { LoadingComponent } from '@/Components/LoadingComponent';
 import { handleReqError } from '@/utils/handleReqError';
 import { UserLinkProps } from '@/types/user-link';
 import { UserProps } from '@/types/user';
+import toast from 'react-hot-toast';
 
 type Props = {
   userLinks: UserLinkProps[];
@@ -92,7 +92,7 @@ export default function Profile({ user, userLinks }: Props) {
       });
 
       if (response.status === 200) {
-        notyf?.success(response.data.message);
+        toast?.success(response.data.message);
       }
     } catch (error) {
       handleReqError(error);

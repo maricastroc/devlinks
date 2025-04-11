@@ -2,7 +2,6 @@ import { Head, Link, router } from '@inertiajs/react';
 import { z } from 'zod';
 import { Controller, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { notyf } from '@/libs/notyf';
 import InputLabel from '@/Components/InputLabel';
 import PrimaryButton from '@/Components/PrimaryButton';
 import TextInput from '@/Components/TextInput';
@@ -10,6 +9,7 @@ import { FormError } from '@/Components/FormError';
 import GuestLayout from '@/Layouts/GuestLayout';
 import EmailIcon from '/public/assets/images/icon-email.svg';
 import PasswordIcon from '/public/assets/images/icon-password.svg';
+import toast from 'react-hot-toast';
 
 const signInFormSchema = z.object({
   email: z.string().min(3, { message: 'E-mail is required.' }),
@@ -36,11 +36,11 @@ export default function Login() {
       data,
       preserveScroll: true,
       onSuccess: () => {
-        notyf?.success('Welcome to Devlinks!');
+        toast?.success('Welcome to Devlinks!');
       },
       onError: (errors) => {
         Object.values(errors).forEach((errorMessage) => {
-          notyf?.error(errorMessage);
+          toast?.error(errorMessage);
         });
       }
     });
