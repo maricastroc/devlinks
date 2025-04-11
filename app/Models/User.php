@@ -62,18 +62,13 @@ class User extends Authenticatable
             $data['new_password'] = Hash::make($data['new_password']);
         }
     
-        if (
-            isset($data['avatar_url']) &&
-            $data['avatar_url'] instanceof \Illuminate\Http\UploadedFile &&
-            $data['avatar_url']->isValid()
-        ) {
-            $destinationPath = public_path('assets/users');
+        if (isset($data['avatar_url']) && $data['avatar_url'] instanceof \Illuminate\Http\UploadedFile) {
+            $this->deleteOldAvatar($user);
             
-            $fileName = time() . '_' . $data['avatar_url']->getClientOriginalName();
-    
-            $data['avatar_url']->move($destinationPath, $fileName);
-    
-            $user->avatar_url = asset('assets/users/' . $fileName);
+            $fileName = 'avatar_'.$user->id.'_'.time().'.'.$data['avatar_url']->extension();
+            $data['avatar_url']->move(public_path('assets/users'), $fileName);
+            
+            $user->avatar_url = 'assets/users/'.$fileName;
         }
 
         if (isset($data['public_email'])) {
@@ -91,6 +86,33 @@ class User extends Authenticatable
         $user->password = $data['new_password'] ?? $user->password;
     
         return $user->save();
+    }
+
+    protected function deleteOldAvatar(User $user)
+    {
+        if ($user->avatar_url && strpos($user->avatar_url, 'assets/users/') === 0) {
+            $oldPath = public_path($user->avatar_url);
+            if (file_exists($oldPath)) {
+                unlink($oldPath);
+            }
+        }
+    }
+
+    public function getAvatarUrlAttribute()
+    {
+        if (!$this->attributes['avatar_url']) {
+            return null;
+        }
+        
+        if (filter_var($this->attributes['avatar_url'], FILTER_VALIDATE_URL)) {
+            return $this->attributes['avatar_url'];
+        }
+        
+        if (strpos($this->attributes['avatar_url'], 'assets/users/') === 0) {
+            return url('/').'/'.$this->attributes['avatar_url'];
+        }
+        
+        return $this->attributes['avatar_url'];
     }
 
     public function getRouteKeyName()
