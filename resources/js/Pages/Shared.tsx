@@ -114,11 +114,11 @@ export const TEMPLATE_STYLES: TemplateTypes = {
     secondaryText: 'text-[#3E8E9C]'
   },
   Eclipse: {
-    color: '#131928',
-    header: 'bg-transparent d:bg-[#131928] text-[#F2DDCD] shadow-lg',
+    color: '#161E2D',
+    header: 'bg-transparent md:bg-[#161E2D] text-[#F2DDCD] shadow-lg',
     wrapper: 'bg-[#0C101C] text-[#F2DDCD]',
     detail: 'hidden',
-    card: 'bg-[#131928]',
+    card: 'bg-[#161E2D]',
     avatarBorder: 'border-[#F2DDCD]',
     primaryButton:
       'hover:bg-opacity-80 bg-[#F2DDCD] border-[#F2DDCD] text-[#0C101C]',
