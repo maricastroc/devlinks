@@ -42,7 +42,7 @@ class ProfileUpdateRequest extends FormRequest
                 'nullable',
                 'image',
                 'mimes:jpeg,png',
-                'dimensions:max_width=1024,max_height=1024'
+                'max:5120',
             ],
         ];
 
