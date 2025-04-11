@@ -46,8 +46,7 @@ export default {
     plugins: [forms, require('@tailwindcss/typography')],
     safelist: [
         'bg-[#C57248]',
-        'bg-[#6B8F8E]',
-        'bg-[#7E6CAB]',
+        'bg-[#72659B]',
         'bg-[#478EA9]',
         'bg-[#EAB560]',
         'bg-[#633CFF]',
