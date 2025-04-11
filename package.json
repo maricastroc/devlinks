@@ -58,6 +58,7 @@
     "notyf": "^3.10.0",
     "phosphor-react": "^1.4.1",
     "react-beautiful-dnd": "^13.1.1",
+    "react-cropper": "^2.3.3",
     "react-hook-form": "^7.55.0",
     "react-hot-toast": "^2.5.2",
     "react-loading-icons": "^1.1.0",

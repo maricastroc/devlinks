@@ -18,6 +18,7 @@ import { handleReqError } from '@/utils/handleReqError';
 import { UserLinkProps } from '@/types/user-link';
 import { UserProps } from '@/types/user';
 import toast from 'react-hot-toast';
+import { ImageCropper } from '@/Components/ImageCropper';
 
 type Props = {
   userLinks: UserLinkProps[];
@@ -45,6 +46,22 @@ export default function Profile({ user, userLinks }: Props) {
 
   const [isLoading, setIsLoading] = useState(false);
 
+  const [showCropper, setShowCropper] = useState(false);
+
+  const [originalImage, setOriginalImage] = useState<string | null>(null);
+
+  const handleCroppedImage = (croppedImage: string) => {
+    // Converter a imagem recortada para Blob/File
+    fetch(croppedImage)
+      .then((res) => res.blob())
+      .then((blob) => {
+        const file = new File([blob], 'avatar.jpg', { type: 'image/jpeg' });
+        setValue('avatar_url', file);
+        setPhotoPreview(croppedImage);
+        setShowCropper(false);
+      });
+  };
+
   const {
     control,
     handleSubmit,
@@ -65,9 +82,11 @@ export default function Profile({ user, userLinks }: Props) {
     const file = event.target.files?.[0];
 
     if (file) {
-      setValue('avatar_url', file);
       const reader = new FileReader();
-      reader.onload = () => setPhotoPreview(reader.result as string);
+      reader.onload = () => {
+        setOriginalImage(reader.result as string);
+        setShowCropper(true);
+      };
       reader.readAsDataURL(file);
     }
   };
@@ -123,6 +142,15 @@ export default function Profile({ user, userLinks }: Props) {
     >
       <Head title="Profile" />
       {(isLoading || isSubmitting) && <LoadingComponent hasOverlay />}
+
+      {showCropper && originalImage && (
+        <ImageCropper
+          src={originalImage}
+          onCrop={handleCroppedImage}
+          aspectRatio={1}
+          onClose={() => setShowCropper(false)}
+        />
+      )}
       <div className="lg:m-6 flex lg:grid lg:grid-cols-[1fr,1.5fr] w-full lg:gap-6 lg:mt-0">
         <div className="items-center justify-center hidden w-full p-10 bg-white rounded-md lg:flex">
           <PhoneMockup

@@ -41,10 +41,10 @@ export const PhotoInput = ({
               <img
                 src={UploadImage}
                 alt="Avatar Preview"
-                className="z-50"
+                className="z-40"
                 style={{ filter: 'saturate(0%) brightness(318%)' }}
               />
-              <p className="z-50 text-lg font-bold text-white">
+              <p className="z-40 text-lg font-bold text-white">
                 + Change Image
               </p>
               <div className="absolute inset-0 bg-black bg-opacity-50 rounded-lg"></div>
