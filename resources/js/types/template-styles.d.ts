@@ -9,4 +9,6 @@ export type TemplateStyles = {
   secondaryButton: string;
   primaryText: string;
   secondaryText: string;
+  backgroundLink?: string;
+  borderLink?: string;
 };

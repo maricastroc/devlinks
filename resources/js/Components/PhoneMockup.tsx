@@ -1,8 +1,7 @@
-import { ArrowRight } from 'phosphor-react';
 import PhoneMockupIllustration from '/public/assets/images/illustration-phone-mockup.svg';
 import { UserLinkProps } from '@/types/user-link';
-import clsx from 'clsx';
 import { UserProps } from '@/types/user';
+import { LinkCard } from './LinkCard';
 
 type Props = {
   links: UserLinkProps[];
@@ -11,49 +10,6 @@ type Props = {
   firstName?: string | null;
   lastName?: string | null;
   publicEmail?: string | null;
-};
-
-export const LinkCard = ({ link }: { link: UserLinkProps }) => {
-  const isFrontendMentor = link.platform.name === 'Frontend Mentor';
-
-  const isValidUrl = link.url && link.url !== '';
-
-  const handleClick = (e: React.MouseEvent) => {
-    if (!isValidUrl) e.preventDefault();
-  };
-
-  return (
-    <a
-      key={link.id}
-      href={isValidUrl ? `/click/${link.id}` : '#'}
-      target="_blank"
-      onClick={handleClick}
-      className={clsx(
-        'flex items-center justify-between p-[0.72rem] rounded-md duration-150 transition-all',
-        { 'border border-gray-300': isFrontendMentor },
-        { 'disabled:cursor-not-allowed': !isValidUrl },
-        isFrontendMentor ? 'text-dark-gray' : 'text-white'
-      )}
-      style={{ backgroundColor: link.platform.color }}
-    >
-      <div className="flex items-center gap-2">
-        {link.platform.icon_url && (
-          <img
-            src={`/assets/images/${link.platform.icon_url}`}
-            alt={`${link.platform.name} icon`}
-            style={{
-              filter: `${!isFrontendMentor ? 'saturate(0%) brightness(318%)' : ''}`
-            }}
-          />
-        )}
-        <p className="text-md">{link.platform.name}</p>
-      </div>
-      <ArrowRight
-        size={16}
-        className={clsx(isFrontendMentor ? 'text-dark-gray' : 'text-white')}
-      />
-    </a>
-  );
 };
 
 export const PhoneMockup = ({

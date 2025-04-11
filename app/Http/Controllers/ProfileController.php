@@ -87,7 +87,7 @@ class ProfileController extends Controller
     public function updateTheme(Request $request)
 {
     $request->validate([
-        'template' => ['required', 'string', 'in:Default,Lavender,Midnight,Dark,Serenity,Gradient,Mist,Ocean'],
+        'template' => ['required', 'string', 'in:Default,Lavender,Midnight,Dark,Serenity,Gradient,Ocean'],
     ]);
 
     try {
