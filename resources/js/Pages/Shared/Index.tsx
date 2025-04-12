@@ -204,17 +204,17 @@ export default function Shared({ userLinks, user, authUser }: Props) {
 
       <div
         className={`block absolute top-0 right-0 w-full h-[18rem]
-        md:h-[19rem] md:rounded-bl-3xl md:rounded-br-3xl z-10
-        ${isDefaultTheme && 'bg-medium-purple'}`}
+          md:h-[19rem] md:rounded-bl-3xl md:rounded-br-3xl z-10
+          ${isDefaultTheme && 'bg-medium-purple'}`}
       />
 
       <div
         className={`z-[12] p-6 lg:mb-30 md:p-10 md:mt-8 mb-20 w-[88vw]
-        max-w-[22rem] md:max-w-[26rem] rounded-xl ${
-          !isDefaultTheme
-            ? 'backdrop-blur-sm bg-white/10 border border-white/20 shadow-lg'
-            : 'bg-white shadow-2xl'
-        }`}
+          max-w-[22rem] md:max-w-[26rem] rounded-xl ${
+            !isDefaultTheme
+              ? 'backdrop-blur-sm bg-white/10 border border-white/20 shadow-lg'
+              : 'bg-white shadow-2xl'
+          }`}
       >
         <div className="flex flex-col items-center justify-center w-auto">
           <AvatarCard

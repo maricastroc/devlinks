@@ -12,13 +12,15 @@ export const AvatarCard = ({ avatarUrl, theme }: AvatarProps) => {
   if (isDefaultTheme) {
     return avatarUrl ? (
       <img
-        className={`border-4 h-[7rem] w-[7rem] rounded-full border-medium-purple`}
+        className={`border-4 h-[7rem] w-[7rem] rounded-full
+          border-medium-purple`}
         src={avatarUrl}
         alt="User Avatar"
       />
     ) : (
       <div
-        className={`flex items-center justify-center h-[7rem] w-[7rem] rounded-full border-4 border-medium-purple`}
+        className={`flex items-center justify-center h-[7rem] w-[7rem]
+          rounded-full border-4 border-medium-purple`}
       >
         <img
           src={SmallLogo}
@@ -30,7 +32,10 @@ export const AvatarCard = ({ avatarUrl, theme }: AvatarProps) => {
   }
 
   return (
-    <div className="relative h-[7rem] w-[7rem] rounded-full p-[2px] bg-gradient-to-br from-white/30 to-transparent">
+    <div
+      className="relative h-[7rem] w-[7rem] rounded-full p-[2px]
+      bg-gradient-to-br from-white/30 to-transparent"
+    >
       <div
         className={`absolute inset-0 rounded-full border ${
           theme === 'Midnight'

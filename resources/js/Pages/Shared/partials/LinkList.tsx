@@ -15,7 +15,9 @@ export const LinkList = ({ links, currentTheme, styles }: Props) => {
   if (!links || links.length === 0) {
     return (
       <div
-        className={`w-[15rem] mt-10 justify-center items-center overflow-y-auto flex flex-col gap-4 ${styles.primaryText}`}
+        className={`w-[15rem] mt-10 justify-center items-center 
+          overflow-y-auto flex flex-col gap-4 ${styles.primaryText}
+        `}
       >
         <p>There are no links yet.</p>
       </div>
