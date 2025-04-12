@@ -7,7 +7,7 @@ type Props = {
 
 export const DropdownTheme = ({ handleSelect, themes }: Props) => {
   return (
-    <div className="top-[3.5rem] left-[0.2rem] w-[220px] absolute z-[9998] py-1 max-h-[15rem] flex flex-col overflow-y-auto mt-1 bg-white border border-gray-300 rounded-md shadow-md">
+    <div className="top-[3.5rem] right-[0.2rem] w-[220px] absolute z-[9998] py-1 max-h-[16rem] flex flex-col overflow-y-auto mt-1 bg-white border border-gray-300 rounded-md shadow-md">
       {themes?.map((theme) => (
         <div key={theme.name}>
           <div

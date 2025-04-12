@@ -2,27 +2,24 @@ export const HeaderButton = ({
   onClick,
   icon,
   text,
+  largeText,
   className,
-  textVisibility = 'always',
   disabled = false
 }: {
   onClick: () => void;
   icon: React.ReactNode;
   text: string;
+  largeText: string;
   className: string;
-  textVisibility?: 'always' | 'md-only';
   disabled?: boolean;
 }) => (
   <button
     onClick={onClick}
     disabled={disabled}
-    className={`gap-2 h-[3.2rem] min-w-[3.5rem] disabled:cursor-not-allowed w-auto inline-flex items-center justify-center rounded-lg px-4 py-3 text-md font-semibold transition duration-150 ease-in-out focus:outline-none ${className}`}
+    className={`bg-transparent md:hover:bg-opacity-20 gap-2 h-[3.2rem] disabled:cursor-not-allowed flex flex-nowrap items-center justify-center rounded-lg md:px-4 md:py-3 text-md font-semibold transition duration-150 ease-in-out focus:outline-none whitespace-nowrap ${className}`}
   >
     {icon}
-    {textVisibility === 'always' ? (
-      <p className="text-center">{text}</p>
-    ) : (
-      <p className="hidden text-center md:block">{text}</p>
-    )}
+    <p className="text-center truncate md:hidden">{text}</p>
+    <p className="hidden text-center truncate md:block">{largeText}</p>
   </button>
 );

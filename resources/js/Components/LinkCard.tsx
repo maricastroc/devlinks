@@ -1,6 +1,7 @@
 import { UserLinkProps } from '@/types/user-link';
 import { ArrowRight } from 'phosphor-react';
 import clsx from 'clsx';
+import { DEFAULT_THEME } from '@/utils/constants';
 
 type LinkCardProps = {
   link: UserLinkProps;
@@ -13,16 +14,16 @@ export const LinkCard = ({
   link,
   backgroundLink,
   borderLink,
-  currentTheme = 'Default'
+  currentTheme = DEFAULT_THEME
 }: LinkCardProps) => {
   const isFrontendMentor = link.platform.name === 'Frontend Mentor';
 
   const isValidUrl = Boolean(link.url);
 
-  const isDefaultTheme = currentTheme === 'Default';
+  const isDefaultTheme = currentTheme === DEFAULT_THEME;
 
   const linkClassNames = clsx(
-    'flex items-center justify-between p-[0.72rem] h-[2.95rem] rounded-md duration-150 transition-all',
+    'flex items-center shadow-md justify-between p-[0.72rem] h-[2.95rem] rounded-md duration-150 transition-all',
     {
       'border border-gray-300': isFrontendMentor && isDefaultTheme,
       'disabled:cursor-not-allowed': !isValidUrl,

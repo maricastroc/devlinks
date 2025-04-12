@@ -5,8 +5,7 @@ export type TemplateStyles = {
   detail: string;
   card: string;
   avatarBorder: string;
-  primaryButton: string;
-  secondaryButton: string;
+  buttonColor: string;
   primaryText: string;
   secondaryText: string;
   backgroundLink?: string;

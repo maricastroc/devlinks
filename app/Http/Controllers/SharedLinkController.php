@@ -44,6 +44,6 @@ class SharedLinkController extends Controller
 
         return request()->expectsJson() 
             ? response()->json($data) 
-            : Inertia::render('Shared', $data);
+            : Inertia::render('Shared/Index', $data);
     }
 }
