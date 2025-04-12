@@ -3,6 +3,7 @@ import InputLabel from './InputLabel';
 import { faChevronDown, faChevronUp } from '@fortawesome/free-solid-svg-icons';
 import TextInput from './TextInput';
 import IconLink from '/public/assets/images/icon-links-header.svg';
+import IconPlatform from '/public/assets/images/icon-platform.svg';
 import { LinkMark } from './LinkMark';
 import { useState, useRef, useEffect } from 'react';
 import { DropdownMenu } from './DropdownMenu';
@@ -10,6 +11,7 @@ import { PlatformProps } from '@/types/platform';
 import { UserLinkProps } from '@/types/user-link';
 import InputError from './InputError';
 import { DraggableProvided } from 'react-beautiful-dnd';
+import { CUSTOM_PLATFORM_NAME } from '@/utils/constants';
 
 type Props = {
   index: number;
@@ -17,9 +19,11 @@ type Props = {
   link: UserLinkProps;
   handleSelect: (item: PlatformProps) => void;
   handleRemove: (id: number) => void;
-  handleChangeUrl: (linkId: number, value: string) => void;
+  handleUpdateUrl: (linkId: number, value: string) => void;
+  handleUpdateCustomName: (linkId: number, value: string) => void;
   errorUrl?: string;
   errorPlatform?: string;
+  errorCustomName?: string;
   provided?: DraggableProvided;
 };
 
@@ -29,10 +33,12 @@ export const LinkForm = ({
   platforms,
   errorUrl,
   errorPlatform,
+  errorCustomName,
   provided,
   handleSelect,
   handleRemove,
-  handleChangeUrl
+  handleUpdateUrl,
+  handleUpdateCustomName
 }: Props) => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
@@ -55,8 +61,14 @@ export const LinkForm = ({
     };
   }, []);
 
+  useEffect(() => {
+    if (link.platform.name !== CUSTOM_PLATFORM_NAME) {
+      link.custom_name = undefined;
+    }
+  }, [link.platform.name]);
+
   return (
-    <div className={`flex flex-col p-4 rounded-lg bg-light-gray`}>
+    <div className={`flex flex-col w-full p-4 rounded-lg bg-light-gray`}>
       <div
         className="flex items-center justify-between w-full"
         {...provided?.dragHandleProps}
@@ -123,6 +135,26 @@ export const LinkForm = ({
             <InputError className="mt-1" message={errorPlatform} />
           </div>
 
+          {link.platform.name === CUSTOM_PLATFORM_NAME && (
+            <div>
+              <InputLabel htmlFor="custom_name" value="Platform Name" />
+              <TextInput
+                id="custom_name"
+                type="text"
+                name="custom_name"
+                value={link?.custom_name || ''}
+                placeholder="e.g. https://www.github.com/octocat"
+                className={`block w-full mt-1 ${errorCustomName ? 'border border-medium-red' : ''}`}
+                onChange={(e) =>
+                  handleUpdateCustomName(Number(link.id), e.target.value)
+                }
+                icon={IconPlatform}
+              />
+
+              <InputError className="mt-1" message={errorCustomName} />
+            </div>
+          )}
+
           <div>
             <InputLabel htmlFor="link" value="Link" />
             <TextInput
@@ -132,7 +164,7 @@ export const LinkForm = ({
               value={link?.url || ''}
               placeholder="e.g. https://www.github.com/octocat"
               className={`block w-full mt-1 ${errorUrl ? 'border border-medium-red' : ''}`}
-              onChange={(e) => handleChangeUrl(Number(link.id), e.target.value)}
+              onChange={(e) => handleUpdateUrl(Number(link.id), e.target.value)}
               icon={IconLink}
             />
 

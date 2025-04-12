@@ -1,6 +1,7 @@
 import { FormErrors } from '@/Pages/Dashboard';
 import { PlatformProps } from '@/types/platform';
 import { UserLinkProps } from '@/types/user-link';
+import { CUSTOM_PLATFORM_NAME } from './constants';
 
 type PlatformName = keyof typeof urlValidationRules;
 
@@ -49,7 +50,11 @@ export const validateLinks = (
   const errors: FormErrors = {};
 
   links.forEach((link) => {
-    const linkErrors: { url?: string; platform_id?: string } = {};
+    const linkErrors: {
+      url?: string;
+      platform_id?: string;
+      custom_name?: string;
+    } = {};
 
     const platform = platforms.find((p) => p.id === link.platform_id);
 
@@ -57,21 +62,38 @@ export const validateLinks = (
       linkErrors.platform_id = 'Invalid platform selected.';
     }
 
+    if (platform?.name === CUSTOM_PLATFORM_NAME) {
+      if (!link.custom_name?.trim()) {
+        linkErrors.custom_name = 'Platform name is required for custom links.';
+      } else if (link.custom_name.trim().length < 2) {
+        linkErrors.custom_name = 'Platform name must be at least 2 characters.';
+      } else if (link.custom_name.trim().length > 30) {
+        linkErrors.custom_name = 'Platform name cannot exceed 30 characters.';
+      }
+    }
+
     try {
-      if (link?.url) {
+      if (!link?.url?.trim()) {
+        linkErrors.url = 'The link cannot be empty.';
+      } else {
         new URL(link.url);
+
+        if (platform?.name === CUSTOM_PLATFORM_NAME) {
+          if (!link.url.match(/^https?:\/\//)) {
+            linkErrors.url = 'URL must start with http:// or https://';
+          }
+        }
       }
     } catch {
       linkErrors.url = 'Invalid URL format';
     }
 
-    const urlValidation = validateUrl(
-      platform?.name as string,
-      link.url as string
-    );
+    if (platform && platform.name !== CUSTOM_PLATFORM_NAME) {
+      const urlValidation = validateUrl(platform.name, link.url as string);
 
-    if (!urlValidation.isValid) {
-      linkErrors.url = urlValidation.message;
+      if (!urlValidation.isValid) {
+        linkErrors.url = urlValidation.message;
+      }
     }
 
     if (Object.keys(linkErrors).length > 0) {

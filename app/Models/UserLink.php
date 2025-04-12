@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class UserLink extends Model {
     use HasFactory;
 
-    protected $fillable = ['user_id', 'platform_id', 'url', 'order'];
+    protected $fillable = ['user_id', 'platform_id', 'url', 'order', 'custom_name', 'custom_color', 'custom_icon'];
 
     public function user() {
         return $this->belongsTo(User::class);
@@ -17,4 +17,9 @@ class UserLink extends Model {
     public function platform() {
         return $this->belongsTo(Platform::class);
     }
+
+    public function getDisplayNameAttribute()
+{
+    return $this->custom_name ?? $this->platform->name;
+}
 }

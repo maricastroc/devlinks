@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { UserLinkProps } from '@/types/user-link';
 import { PlatformProps } from '@/types/platform';
+import { CUSTOM_PLATFORM_NAME } from './constants';
 
 export const useLinks = (
   userLinks: UserLinkProps[],
@@ -19,6 +20,7 @@ export const useLinks = (
         id: Date.now(),
         platform_id: -1,
         platform: { id: -1, name: '', icon_url: '', color: '' },
+        custom_name: '',
         url: '',
         order: links.length + 1
       }
@@ -44,13 +46,27 @@ export const useLinks = (
     );
   };
 
-  useEffect(() => {
-    const filtered = platforms.filter(
-      (platform) => !links.some((link) => link.platform_id === platform.id)
+  const handleUpdateCustomName = (linkId: number, value: string) => {
+    setLinks((prev) =>
+      prev.map((link) =>
+        link.id === linkId ? { ...link, custom_name: value } : link
+      )
     );
+  };
+
+  useEffect(() => {
+    const filtered = platforms.filter((platform) => {
+      const isCustomPlatform = platform.name === CUSTOM_PLATFORM_NAME;
+
+      const isPlatformInUse = links.some(
+        (link) => link.platform_id === platform.id
+      );
+
+      return isCustomPlatform || !isPlatformInUse;
+    });
+
     setFilteredPlatforms(filtered);
   }, [links, platforms]);
-
   return {
     links,
     setLinks,
@@ -58,6 +74,7 @@ export const useLinks = (
     handleAddLink,
     handleRemoveLink,
     handleUpdatePlatform,
+    handleUpdateCustomName,
     handleUpdateUrl
   };
 };

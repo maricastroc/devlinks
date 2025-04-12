@@ -30,7 +30,7 @@ type Props = {
 
 export type FormErrors = Record<
   string | number,
-  { url?: string; platform_id?: string }
+  { url?: string; platform_id?: string; custom_name?: string }
 >;
 
 export default function Dashboard({ platforms, userLinks, user }: Props) {
@@ -45,6 +45,7 @@ export default function Dashboard({ platforms, userLinks, user }: Props) {
     handleAddLink,
     handleRemoveLink,
     handleUpdatePlatform,
+    handleUpdateCustomName,
     handleUpdateUrl
   } = useLinks(userLinks, platforms);
 
@@ -52,6 +53,7 @@ export default function Dashboard({ platforms, userLinks, user }: Props) {
     if (!result.destination) return;
 
     const reorderedLinks = [...links];
+
     const [movedLink] = reorderedLinks.splice(result.source.index, 1);
     reorderedLinks.splice(result.destination.index, 0, movedLink);
 
@@ -77,7 +79,8 @@ export default function Dashboard({ platforms, userLinks, user }: Props) {
         links: links.map((link, index) => ({
           platform_id: link.platform_id,
           url: link.url,
-          order: index + 1
+          order: index + 1,
+          custom_name: link?.custom_name
         }))
       });
 
@@ -104,7 +107,9 @@ export default function Dashboard({ platforms, userLinks, user }: Props) {
       }
     >
       <Head title="Dashboard" />
+
       {processing && <LoadingComponent hasOverlay />}
+
       <div className="lg:m-6 flex lg:grid lg:grid-cols-[1fr,1.5fr] w-full lg:gap-6 lg:mt-0">
         <div className="items-center justify-center hidden w-full p-10 bg-white rounded-md lg:flex">
           <PhoneMockup links={links} user={user} />
@@ -124,14 +129,14 @@ export default function Dashboard({ platforms, userLinks, user }: Props) {
           </SecondaryButton>
 
           {links?.length > 0 ? (
-            <div className="flex flex-col overflow-y-scroll max-h-[30rem] gap-4 mt-6 h-full">
+            <div className="flex flex-col custom-scrollbar overflow-y-scroll max-h-[30rem] gap-4 mt-6 h-full">
               <DragDropContext onDragEnd={onDragEnd}>
                 <Droppable droppableId="linksList">
                   {(provided) => (
                     <div
                       {...provided.droppableProps}
                       ref={provided.innerRef}
-                      className="flex flex-col h-full gap-4 mt-6 overflow-y-scroll"
+                      className="flex flex-col w-full h-full gap-4 mt-6 "
                     >
                       {links.map((link, index) => (
                         <Draggable
@@ -151,8 +156,12 @@ export default function Dashboard({ platforms, userLinks, user }: Props) {
                                 provided={provided}
                                 index={index}
                                 handleRemove={handleRemoveLink}
-                                handleChangeUrl={handleUpdateUrl}
+                                handleUpdateUrl={handleUpdateUrl}
+                                handleUpdateCustomName={handleUpdateCustomName}
                                 errorUrl={errors[String(link.id)]?.url}
+                                errorCustomName={
+                                  errors[String(link.id)]?.custom_name
+                                }
                                 errorPlatform={
                                   errors[String(link.id)]?.platform_id
                                 }

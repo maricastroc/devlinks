@@ -28,6 +28,10 @@ class UserLinkRequest extends FormRequest
             'links.*.platform_id' => 'required_if:links,!=,null|exists:platforms,id',
             'links.*.url' => 'required_if:links,!=,null|url',
             'links.*.order' => 'required_if:links,!=,null|integer',
+            'links.*.custom_name' => [
+                'nullable',
+                'string',
+            ],
         ];
     }
 }

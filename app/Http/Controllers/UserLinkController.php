@@ -18,6 +18,10 @@ class UserLinkController extends Controller
                 'links.*.platform_id' => 'required_if:links,!=,null|exists:platforms,id',
                 'links.*.url' => 'required_if:links,!=,null|url',
                 'links.*.order' => 'required_if:links,!=,null|integer',
+                'links.*.custom_name' => [
+                    'nullable',
+                    'string',
+                ],
             ]);
 
             $existingLinks = UserLink::where('user_id', $userId)->get();
@@ -32,10 +36,15 @@ class UserLinkController extends Controller
                     ->first();
     
                 if ($existingLink) {
-                    if ($existingLink->url !== $link['url'] || $existingLink->order !== $link['order']) {
+                    if (
+                        $existingLink->url !== $link['url'] ||
+                        $existingLink->order !== $link['order'] ||
+                        $existingLink->custom_name !== $link['custom_name']
+                    ) {
                         $this->authorize('update', $existingLink);
                     
                         $existingLink->update([
+                            'custom_name' => $link['custom_name'],
                             'url' => $link['url'],
                             'order' => $link['order'],
                         ]);

@@ -63,7 +63,7 @@ export const LinkCard = ({
             style={{ filter: iconFilter }}
           />
         )}
-        <p className="text-md">{link.platform.name}</p>
+        <p className="text-md">{link?.custom_name || link?.platform?.name}</p>
       </div>
 
       {link.platform?.name && <ArrowRight size={16} className={arrowColor} />}

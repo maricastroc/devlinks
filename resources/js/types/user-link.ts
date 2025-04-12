@@ -8,4 +8,7 @@ export type UserLinkProps = {
   platform_id: number;
   platform: PlatformProps;
   url?: string | null;
+  custom_name?: string;
+  custom_icon?: string;
+  custom_color?: string;
 };
