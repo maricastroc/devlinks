@@ -26,7 +26,7 @@ export const LinkCard = ({
       target="_blank"
       onClick={handleClick}
       className={clsx(
-        'flex items-center justify-between p-[0.72rem] rounded-md duration-150 transition-all',
+        'flex items-center justify-between p-[0.72rem] h-[2.95rem] rounded-md duration-150 transition-all',
         { 'border border-gray-300': isFrontendMentor },
         { 'disabled:cursor-not-allowed': !isValidUrl },
         isFrontendMentor ? 'text-dark-gray' : 'text-white'
@@ -48,10 +48,12 @@ export const LinkCard = ({
         )}
         <p className="text-md">{link.platform.name}</p>
       </div>
-      <ArrowRight
-        size={16}
-        className={clsx(isFrontendMentor ? 'text-dark-gray' : 'text-white')}
-      />
+      {link.platform?.name && (
+        <ArrowRight
+          size={16}
+          className={clsx(isFrontendMentor ? 'text-dark-gray' : 'text-white')}
+        />
+      )}
     </a>
   );
 };

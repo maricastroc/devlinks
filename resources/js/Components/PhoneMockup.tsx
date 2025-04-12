@@ -46,9 +46,15 @@ export const PhoneMockup = ({
         </div>
       )}
 
-      <div className="max-h-[300px] left-[1.3rem] overflow-y-scroll absolute flex flex-col items-center justify-center w-[15.7rem] m-4 top-[16.4rem]">
-        <div className="w-full overflow-y-auto flex flex-col gap-[0.98rem]">
-          {links?.map((link) => <LinkCard key={link.id} link={link} />)}
+      <div className="relative">
+        <div
+          className="max-h-[300px] left-[1.3rem] overflow-y-scroll absolute flex flex-col items-center justify-start w-[15.9rem] custom-scrollbar m-4 top-[-23.1rem] mr-[-8px]" /* -mr-2 empurra a scrollbar para fora */
+        >
+          <div className="w-full flex flex-col gap-[0.98rem] pr-2">
+            {' '}
+            {/* Compensa o espaço */}
+            {links?.map((link) => <LinkCard key={link.id} link={link} />)}
+          </div>
         </div>
       </div>
     </div>
