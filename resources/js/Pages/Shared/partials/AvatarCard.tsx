@@ -4,22 +4,21 @@ import SmallLogo from '/public/assets/images/logo-devlinks-small.svg';
 type AvatarProps = {
   avatarUrl: string | null;
   theme: string;
-  style: string;
 };
 
-export const AvatarCard = ({ avatarUrl, theme, style }: AvatarProps) => {
+export const AvatarCard = ({ avatarUrl, theme }: AvatarProps) => {
   const isDefaultTheme = theme === DEFAULT_THEME;
 
   if (isDefaultTheme) {
     return avatarUrl ? (
       <img
-        className={`border-[4px] h-[7rem] w-[7rem] rounded-full ${style}`}
+        className={`border-4 h-[7rem] w-[7rem] rounded-full border-medium-purple`}
         src={avatarUrl}
         alt="User Avatar"
       />
     ) : (
       <div
-        className={`flex items-center justify-center h-[7rem] w-[7rem] rounded-full border-4 ${style}`}
+        className={`flex items-center justify-center h-[7rem] w-[7rem] rounded-full border-4 border-medium-purple`}
       >
         <img
           src={SmallLogo}
@@ -50,7 +49,12 @@ export const AvatarCard = ({ avatarUrl, theme, style }: AvatarProps) => {
         />
       ) : (
         <div className="flex items-center justify-center w-full h-full rounded-full bg-white/5">
-          <img src={SmallLogo} className="opacity-80" alt="Default Logo" />
+          <img
+            src={SmallLogo}
+            className="opacity-80"
+            alt="Default Logo"
+            style={{ filter: 'saturate(0%) brightness(318%)' }}
+          />
         </div>
       )}
     </div>

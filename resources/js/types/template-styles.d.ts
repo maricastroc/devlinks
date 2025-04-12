@@ -1,13 +1,9 @@
 export type TemplateStyles = {
   color: string;
-  header: string;
-  wrapper: string;
-  detail: string;
-  card: string;
-  avatarBorder: string;
-  buttonColor: string;
+  background: string;
+  button: string;
   primaryText: string;
   secondaryText: string;
   backgroundLink?: string;
-  borderLink?: string;
+  linkCard?: string;
 };

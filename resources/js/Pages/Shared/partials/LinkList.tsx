@@ -5,7 +5,7 @@ type Props = {
   links: UserLinkProps[];
   currentTheme: string;
   styles: {
-    backgroundLink?: string;
+    linkCard?: string;
     borderLink?: string;
     primaryText?: string;
   };
@@ -29,8 +29,7 @@ export const LinkList = ({ links, currentTheme, styles }: Props) => {
           key={link.id}
           currentTheme={currentTheme}
           link={link}
-          backgroundLink={styles.backgroundLink}
-          borderLink={styles.borderLink}
+          backgroundLink={styles.linkCard}
         />
       ))}
     </div>

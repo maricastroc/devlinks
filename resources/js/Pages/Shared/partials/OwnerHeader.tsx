@@ -17,6 +17,7 @@ type Theme = {
 
 type Props = {
   styles: any;
+  currentTheme: string;
   onCopyLink: () => void;
   onSelectTheme: (themeName: string) => void;
   showThemeDropdown: boolean;
@@ -32,7 +33,8 @@ export const OwnerHeader = ({
   showThemeDropdown,
   setShowThemeDropdown,
   dropdownRef,
-  themes
+  themes,
+  currentTheme
 }: Props) => {
   return (
     <header className="z-50 w-full h-[78px] md:p-4 mb-10 md:mb-10">
@@ -44,10 +46,10 @@ export const OwnerHeader = ({
           icon={<FontAwesomeIcon icon={faBackward} className="size-5" />}
           text="Back"
           largeText="Back to Editor"
-          className={styles.buttonColor}
+          className={styles.button}
         />
 
-        <div className="flex items-center justify-end w-full gap-4 md:gap-0">
+        <div className="flex items-center justify-end w-full gap-5 md:gap-0">
           <HeaderButton
             onClick={onCopyLink}
             icon={
@@ -55,7 +57,7 @@ export const OwnerHeader = ({
             }
             text="Share"
             largeText="Share Link"
-            className={styles.buttonColor}
+            className={styles.button}
           />
 
           <div className="relative z-[9999]" ref={dropdownRef}>
@@ -64,10 +66,14 @@ export const OwnerHeader = ({
               icon={<FontAwesomeIcon icon={faPalette} className="size-5" />}
               text="Theme"
               largeText="Theme"
-              className={styles.buttonColor}
+              className={styles.button}
             />
             {showThemeDropdown && (
-              <DropdownTheme themes={themes} handleSelect={onSelectTheme} />
+              <DropdownTheme
+                currentTheme={currentTheme}
+                themes={themes}
+                handleSelect={onSelectTheme}
+              />
             )}
           </div>
         </div>

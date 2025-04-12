@@ -26,79 +26,54 @@ type TemplateTypes = {
 export const TEMPLATE_STYLES: TemplateTypes = {
   Default: {
     color: '#633CFF',
-    header: 'bg-transparent',
-    wrapper: 'bg-[#0000] text-dark-gray',
-    detail: 'bg-medium-purple',
-    card: 'bg-white',
-    avatarBorder: 'border-medium-purple',
-    buttonColor: 'text-white md:text-[#633CFF] md:hover:bg-[#633CFF]',
+    background: 'bg-[#0000] text-dark-gray',
+    button: 'text-white md:text-[#633CFF] md:hover:bg-[#633CFF]',
     primaryText: 'text-dark-gray',
     secondaryText: 'text-medium-gray'
   },
   Lavender: {
     color: '#72659B',
-    header: 'bg-transparent md:bg-[#FFFFFF] text-[#FFFFFF]',
-    wrapper: 'bg-gradient-to-b from-[#72659B] to-[#EBA3AC] text-[#342B51]',
-    detail: 'hidden',
-    card: '',
-    avatarBorder: 'border-[#FFFFFF]',
-    buttonColor: 'text-[#5E4E8B] hover:bg-[#5E4E8B]',
+    background: 'bg-gradient-to-b from-[#72659B] to-[#EBA3AC] text-[#342B51]',
+    button: 'text-[#ffffff] md:text-[#5E4E8B] hover:bg-[#5E4E8B]',
     primaryText: 'text-[#FFFFFF]',
     secondaryText: 'text-[#FFFFFF]',
-    backgroundLink: '#5E4E8B'
+    linkCard: '#5E4E8B'
   },
   Midnight: {
     color: '#C54D48',
-    header: 'bg-transparent border-b border-[#ffffff] text-[#FFFFFF]',
-    wrapper:
+    background:
       'bg-gradient-to-b from-[#C54D48] via-[#383952] to-[#21303D] text-[#1C2431]',
-    detail: 'hidden',
-    card: 'bg-transparent',
-    avatarBorder: '#FFFFFF',
-    buttonColor: 'text-[#C74C48] hover:bg-[#C74C48]',
+    button: 'text-[#ffffff] md:text-[#C74C48] hover:bg-[#C74C48]',
     primaryText: 'text-[#FFFFFF]',
     secondaryText: 'text-[#FFFFFF]',
-    backgroundLink: '#C74C48'
+    linkCard: '#C74C48'
   },
   Serenity: {
-    color: '#C57248',
-    header: 'bg-transparent md:bg-[#FFFFFF] text-[#FFFFFF]',
-    wrapper:
+    color: '#C55A48',
+    background:
       'bg-gradient-to-b from-[#C57248] via-[#4E4848] to-[#2D2D37] text-[#1C2431]',
-    detail: 'hidden',
-    card: 'bg-transparent',
-    avatarBorder: 'border-[#FFFFFF]',
-    buttonColor: 'text-[#8C4A36] hover:bg-[#8C4A36]',
+    button: 'text-[#ffffff] md:text-[#C55A48] hover:bg-[#C55A48]',
     primaryText: 'text-[#FFFFFF]',
     secondaryText: 'text-[#FFFFFF]',
-    backgroundLink: '#8C4A36',
-    borderLink: ''
+    linkCard: '#C55A48'
   },
   Ocean: {
     color: '#478EA9',
-    header: 'bg-transparent md:bg-[#FFFFFF] text-[#FFFFFF]',
-    wrapper:
+    background:
       'bg-gradient-to-b from-[#478EA9] via-[#C99F9A] to-[#E29042] text-[#1C2431]',
-    detail: 'hidden',
-    card: 'bg-transparent',
-    avatarBorder: 'border-[#FFFFFF] border-opacity-70',
-    buttonColor: 'text-[#2A5F7A] hover:bg-[#2A5F7A]',
+    button: 'text-[#ffffff] md:text-[#2A5F7A] hover:bg-[#2A5F7A]',
     primaryText: 'text-[#1C2431]',
     secondaryText: 'text-[#1C2431]',
-    backgroundLink: '#2A5F7A'
+    linkCard: '#2A5F7A'
   },
   Gradient: {
     color: '#EAB560',
-    header: 'bg-transparent md:bg-[#FFFFFF] text-[#FFFFFF]',
-    wrapper:
+    background:
       'bg-gradient-to-b from-[#C15757] via-[#FFBE57] to-[#3E8E9C] text-[#2B3D40]',
-    detail: 'hidden',
-    card: 'bg-transparent',
-    avatarBorder: 'border-[#1C2431] border-opacity-80',
-    buttonColor: 'text-[#2A5F7A] hover:bg-[#2A5F7A]',
+    button: 'text-[#ffffff] md:text-[#2A5F7A] hover:bg-[#2A5F7A]',
     primaryText: 'text-[#2B3D40]',
     secondaryText: 'text-[#2B3D40]',
-    backgroundLink: 'rgba(42, 95, 122, 0.85)'
+    linkCard: 'rgba(42, 95, 122, 0.85)'
   }
 };
 
@@ -116,6 +91,8 @@ export default function Shared({ userLinks, user, authUser }: Props) {
   );
 
   const styles = TEMPLATE_STYLES[currentTheme];
+
+  const isDefaultTheme = currentTheme === DEFAULT_THEME;
 
   const themes = Object.keys(TEMPLATE_STYLES).map((key) => ({
     name: key.charAt(0).toUpperCase() + key.slice(1),
@@ -195,7 +172,7 @@ export default function Shared({ userLinks, user, authUser }: Props) {
 
   return (
     <div
-      className={`relative flex flex-col items-center min-h-screen md:pt-0 md:mt-0 sm:justify-center md:justify-start ${styles.wrapper}`}
+      className={`relative flex flex-col items-center min-h-screen md:pt-0 md:mt-0 sm:justify-center md:justify-start ${styles.background}`}
     >
       <Head title="Shared" />
       {isLoading && <LoadingComponent hasOverlay />}
@@ -220,22 +197,22 @@ export default function Shared({ userLinks, user, authUser }: Props) {
           setShowThemeDropdown={setShowThemeDropdown}
           dropdownRef={dropdownRef}
           themes={themes}
+          currentTheme={currentTheme}
         />
       )}
 
       <div
-        className={`block absolute top-0 right-0 w-full h-[18rem] md:h-[19rem] md:rounded-bl-3xl md:rounded-br-3xl z-10 ${styles.detail}`}
+        className={`block absolute top-0 right-0 w-full h-[18rem] md:h-[19rem] md:rounded-bl-3xl md:rounded-br-3xl z-10 ${isDefaultTheme && 'bg-medium-purple'}`}
       />
 
       <div
         className={`z-[12] p-6 lg:mb-30 md:p-10 md:mt-8 mb-20 w-[88vw] max-w-[22rem] md:max-w-[26rem] rounded-xl 
-  ${currentTheme !== DEFAULT_THEME ? 'backdrop-blur-sm bg-white/10 border border-white/20 shadow-lg' : 'bg-white shadow-2xl'} ${styles.card}`}
+  ${!isDefaultTheme ? 'backdrop-blur-sm bg-white/10 border border-white/20 shadow-lg' : 'bg-white shadow-2xl'}`}
       >
         <div className="flex flex-col items-center justify-center w-auto">
           <AvatarCard
             avatarUrl={user.avatar_url as string}
             theme={currentTheme}
-            style={styles.avatarBorder}
           />
           <h2 className={`text-[1.75rem] mt-4 font-bold ${styles.primaryText}`}>
             {user?.first_name} {user?.last_name}
