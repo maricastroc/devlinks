@@ -52,7 +52,7 @@ export const TEMPLATE_STYLES: TemplateTypes = {
     color: '#C55A48',
     background:
       'bg-gradient-to-b from-[#C57248] via-[#4E4848] to-[#2D2D37] text-[#1C2431]',
-    button: 'text-[#ffffff] md:text-[#C55A48] hover:bg-[#C55A48]',
+    button: 'text-[#ffffff] hover:bg-[#C55A48]',
     primaryText: 'text-[#FFFFFF]',
     secondaryText: 'text-[#FFFFFF]',
     linkCard: '#C55A48'
