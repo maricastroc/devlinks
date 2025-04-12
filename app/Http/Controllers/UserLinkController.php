@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\UserLinkRequest;
 use App\Models\UserLink;
+use App\Models\Platform;
 use Illuminate\Http\Request;
 
 class UserLinkController extends Controller
@@ -12,23 +13,12 @@ class UserLinkController extends Controller
     {
         try {
             $userId = auth()->id();
-    
-            $links = $request->validate([
-                'links' => 'nullable|array',
-                'links.*.platform_id' => 'required_if:links,!=,null|exists:platforms,id',
-                'links.*.url' => 'required_if:links,!=,null|url',
-                'links.*.order' => 'required_if:links,!=,null|integer',
-                'links.*.custom_name' => [
-                    'nullable',
-                    'string',
-                ],
-            ]);
 
-            $existingLinks = UserLink::where('user_id', $userId)->get();
+            $links = $request->input('links', []);
     
-            $submittedPlatformIds = collect($links['links'])->pluck('platform_id')->toArray();
+            $submittedPlatformIds = collect($links)->pluck('platform_id')->toArray();
     
-            foreach ($links['links'] as $link) {
+            foreach ($links as $link) {
                 $link['user_id'] = $userId;
     
                 $existingLink = UserLink::where('user_id', $userId)
@@ -39,12 +29,12 @@ class UserLinkController extends Controller
                     if (
                         $existingLink->url !== $link['url'] ||
                         $existingLink->order !== $link['order'] ||
-                        $existingLink->custom_name !== $link['custom_name']
+                        ($existingLink->custom_name ?? null) !== ($link['custom_name'] ?? null)
                     ) {
                         $this->authorize('update', $existingLink);
                     
                         $existingLink->update([
-                            'custom_name' => $link['custom_name'],
+                            'custom_name' => $link['custom_name'] ?? null,
                             'url' => $link['url'],
                             'order' => $link['order'],
                         ]);
@@ -70,10 +60,10 @@ class UserLinkController extends Controller
     }
 
     public function trackClick($id)
-{
-    $link = UserLink::findOrFail($id);
-    $link->increment('clicks');
+    {
+        $link = UserLink::findOrFail($id);
+        $link->increment('clicks');
 
-    return redirect($link->url);
-}
+        return redirect($link->url);
+    }
 }

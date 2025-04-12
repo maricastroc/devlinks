@@ -6,21 +6,11 @@ use Illuminate\Foundation\Http\FormRequest;
 
 class UserLinkRequest extends FormRequest
 {
-    /**
-     * Determine if the user is authorized to make this request.
-     *
-     * @return bool
-     */
     public function authorize()
     {
         return true;
     }
 
-    /**
-     * Get the validation rules that apply to the request.
-     *
-     * @return array
-     */
     public function rules()
     {
         return [
@@ -28,10 +18,7 @@ class UserLinkRequest extends FormRequest
             'links.*.platform_id' => 'required_if:links,!=,null|exists:platforms,id',
             'links.*.url' => 'required_if:links,!=,null|url',
             'links.*.order' => 'required_if:links,!=,null|integer',
-            'links.*.custom_name' => [
-                'nullable',
-                'string',
-            ],
+            'links.*.custom_name' => 'required_if:links.*.platform_id,'.config('platforms.other_id'),
         ];
     }
 }
