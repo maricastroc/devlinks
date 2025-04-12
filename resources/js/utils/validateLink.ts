@@ -48,13 +48,6 @@ export const validateLinks = (
 ): FormErrors => {
   const errors: FormErrors = {};
 
-  if (links.length === 0) {
-    errors.__error = {
-      url: 'You need to add at least one link.'
-    };
-    return errors;
-  }
-
   links.forEach((link) => {
     const linkErrors: { url?: string; platform_id?: string } = {};
 

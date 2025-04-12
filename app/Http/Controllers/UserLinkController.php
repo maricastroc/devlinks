@@ -14,12 +14,12 @@ class UserLinkController extends Controller
             $userId = auth()->id();
     
             $links = $request->validate([
-                'links' => 'required|array',
-                'links.*.platform_id' => 'required|exists:platforms,id',
-                'links.*.url' => 'required|url',
-                'links.*.order' => 'required|integer',
+                'links' => 'nullable|array',
+                'links.*.platform_id' => 'required_if:links,!=,null|exists:platforms,id',
+                'links.*.url' => 'required_if:links,!=,null|url',
+                'links.*.order' => 'required_if:links,!=,null|integer',
             ]);
-    
+
             $existingLinks = UserLink::where('user_id', $userId)->get();
     
             $submittedPlatformIds = collect($links['links'])->pluck('platform_id')->toArray();

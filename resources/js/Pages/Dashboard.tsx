@@ -193,7 +193,7 @@ export default function Dashboard({ platforms, userLinks, user }: Props) {
             <PrimaryButton
               onClick={submit}
               className="md:w-[6rem]"
-              disabled={!links?.length || processing}
+              disabled={processing}
             >
               Save
             </PrimaryButton>

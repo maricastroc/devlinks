@@ -24,10 +24,10 @@ class UserLinkRequest extends FormRequest
     public function rules()
     {
         return [
-            'links' => 'required|array',
-            'links.*.platform_id' => 'required|exists:platforms,id',
-            'links.*.url' => 'required|url',
-            'links.*.order' => 'required|integer',
+            'links' => 'nullable|array',
+            'links.*.platform_id' => 'required_if:links,!=,null|exists:platforms,id',
+            'links.*.url' => 'required_if:links,!=,null|url',
+            'links.*.order' => 'required_if:links,!=,null|integer',
         ];
     }
 }

@@ -172,8 +172,11 @@ export default function Profile({ user, userLinks }: Props) {
               href={route('logout')}
               method="post"
             >
-              <p className="hidden md:block">Logout</p>
-              <FontAwesomeIcon icon={faArrowRightFromBracket} />
+              <p className="hidden text-[1.1rem] md:block">Logout</p>
+              <FontAwesomeIcon
+                className="text-md size-5"
+                icon={faArrowRightFromBracket}
+              />
             </NavLink>
           </div>
           <p className="mb-8 text-medium-gray w-[80%]">

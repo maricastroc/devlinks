@@ -134,7 +134,7 @@ export default function Shared({ userLinks, user, authUser }: Props) {
 
   const [isLoading, setIsLoading] = useState(false);
 
-  const [currentTheme, setCurrentTheme] = useState(user.template || 'default');
+  const [currentTheme, setCurrentTheme] = useState(user.template || 'Default');
 
   const styles = TEMPLATE_STYLES[currentTheme];
 
@@ -180,7 +180,7 @@ export default function Shared({ userLinks, user, authUser }: Props) {
     } catch (error) {
       toast?.error('Failed to update theme');
 
-      setCurrentTheme(user.template || 'default');
+      setCurrentTheme(user.template || 'Default');
 
       console.error('Error updating theme:', error);
     } finally {
@@ -289,7 +289,12 @@ export default function Shared({ userLinks, user, authUser }: Props) {
       <div
         className={`flex items-center justify-center h-[7rem] w-[7rem] rounded-full border-4 ${styles.avatarBorder}`}
       >
-        <img src={SmallLogo} />
+        <img
+          src={SmallLogo}
+          style={{
+            filter: `${currentTheme !== 'Default' ? 'saturate(0%) brightness(318%)' : ''}`
+          }}
+        />
       </div>
     );
 
@@ -299,6 +304,7 @@ export default function Shared({ userLinks, user, authUser }: Props) {
         {userLinks?.map((link) => (
           <LinkCard
             key={link.id}
+            currentTheme={currentTheme}
             link={link}
             backgroundLink={styles.backgroundLink || undefined}
             borderLink={styles.borderLink || undefined}

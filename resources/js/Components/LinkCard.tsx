@@ -2,18 +2,45 @@ import { UserLinkProps } from '@/types/user-link';
 import { ArrowRight } from 'phosphor-react';
 import clsx from 'clsx';
 
-export const LinkCard = ({
-  link,
-  backgroundLink,
-  borderLink
-}: {
+type LinkCardProps = {
   link: UserLinkProps;
   backgroundLink?: string;
   borderLink?: string;
-}) => {
+  currentTheme?: string;
+};
+
+export const LinkCard = ({
+  link,
+  backgroundLink,
+  borderLink,
+  currentTheme = 'Default'
+}: LinkCardProps) => {
   const isFrontendMentor = link.platform.name === 'Frontend Mentor';
 
-  const isValidUrl = link.url && link.url !== '';
+  const isValidUrl = Boolean(link.url);
+
+  const isDefaultTheme = currentTheme === 'Default';
+
+  const linkClassNames = clsx(
+    'flex items-center justify-between p-[0.72rem] h-[2.95rem] rounded-md duration-150 transition-all',
+    {
+      'border border-gray-300': isFrontendMentor && isDefaultTheme,
+      'disabled:cursor-not-allowed': !isValidUrl,
+      'text-dark-gray': isFrontendMentor && isDefaultTheme,
+      'text-white': !(isFrontendMentor && isDefaultTheme)
+    }
+  );
+
+  const iconFilter =
+    !isFrontendMentor || !isDefaultTheme ? 'saturate(0%) brightness(318%)' : '';
+
+  const linkStyle = {
+    backgroundColor: backgroundLink || link.platform.color,
+    border: borderLink ? `1px solid ${borderLink}` : ''
+  };
+
+  const arrowColor =
+    isFrontendMentor && isDefaultTheme ? 'text-dark-gray' : 'text-white';
 
   const handleClick = (e: React.MouseEvent) => {
     if (!isValidUrl) e.preventDefault();
@@ -21,39 +48,25 @@ export const LinkCard = ({
 
   return (
     <a
-      key={link.id}
       href={isValidUrl ? `/click/${link.id}` : '#'}
       target="_blank"
+      rel="noopener noreferrer"
       onClick={handleClick}
-      className={clsx(
-        'flex items-center justify-between p-[0.72rem] h-[2.95rem] rounded-md duration-150 transition-all',
-        { 'border border-gray-300': isFrontendMentor },
-        { 'disabled:cursor-not-allowed': !isValidUrl },
-        isFrontendMentor ? 'text-dark-gray' : 'text-white'
-      )}
-      style={{
-        backgroundColor: backgroundLink ? backgroundLink : link.platform.color,
-        border: borderLink ? `1px solid ${borderLink}` : ''
-      }}
+      className={linkClassNames}
+      style={linkStyle}
     >
       <div className="flex items-center gap-2">
         {link.platform.icon_url && (
           <img
             src={`/assets/images/${link.platform.icon_url}`}
             alt={`${link.platform.name} icon`}
-            style={{
-              filter: `${!isFrontendMentor ? 'saturate(0%) brightness(318%)' : ''}`
-            }}
+            style={{ filter: iconFilter }}
           />
         )}
         <p className="text-md">{link.platform.name}</p>
       </div>
-      {link.platform?.name && (
-        <ArrowRight
-          size={16}
-          className={clsx(isFrontendMentor ? 'text-dark-gray' : 'text-white')}
-        />
-      )}
+
+      {link.platform?.name && <ArrowRight size={16} className={arrowColor} />}
     </a>
   );
 };
