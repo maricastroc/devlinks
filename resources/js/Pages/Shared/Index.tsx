@@ -7,11 +7,11 @@ import { AvatarCard } from '@/Pages/Shared/partials/AvatarCard';
 import { UserLinkProps } from '@/types/user-link';
 import { UserProps } from '@/types/user';
 import { DEFAULT_THEME } from '@/utils/constants';
-import Logo from '/public/assets/images/logo-devlinks-large.svg';
 import { TemplateStyles } from '@/types/template-styles';
 import { LoadingComponent } from '@/Components/LoadingComponent';
 import { OwnerHeader } from './partials/OwnerHeader';
 import { LinkList } from './partials/LinkList';
+import SmallLogo from '/public/assets/images/logo-devlinks-small.svg';
 
 type Props = {
   userLinks: UserLinkProps[];
@@ -34,7 +34,7 @@ export const TEMPLATE_STYLES: TemplateTypes = {
   Lavender: {
     color: '#72659B',
     background: 'bg-gradient-to-b from-[#72659B] to-[#EBA3AC] text-[#342B51]',
-    button: 'text-[#ffffff] md:text-[#5E4E8B] hover:bg-[#5E4E8B]',
+    button: 'text-[#ffffff] hover:bg-[#5E4E8B]',
     primaryText: 'text-[#FFFFFF]',
     secondaryText: 'text-[#FFFFFF]',
     linkCard: '#5E4E8B'
@@ -43,7 +43,7 @@ export const TEMPLATE_STYLES: TemplateTypes = {
     color: '#C54D48',
     background:
       'bg-gradient-to-b from-[#C54D48] via-[#383952] to-[#21303D] text-[#1C2431]',
-    button: 'text-[#ffffff] md:text-[#C74C48] hover:bg-[#C74C48]',
+    button: 'text-[#ffffff] hover:bg-[#C74C48]',
     primaryText: 'text-[#FFFFFF]',
     secondaryText: 'text-[#FFFFFF]',
     linkCard: '#C74C48'
@@ -61,7 +61,7 @@ export const TEMPLATE_STYLES: TemplateTypes = {
     color: '#478EA9',
     background:
       'bg-gradient-to-b from-[#478EA9] via-[#C99F9A] to-[#E29042] text-[#1C2431]',
-    button: 'text-[#ffffff] md:text-[#2A5F7A] hover:bg-[#2A5F7A]',
+    button: 'text-[#ffffff] hover:bg-[#2A5F7A]',
     primaryText: 'text-[#1C2431]',
     secondaryText: 'text-[#1C2431]',
     linkCard: '#2A5F7A'
@@ -70,7 +70,7 @@ export const TEMPLATE_STYLES: TemplateTypes = {
     color: '#EAB560',
     background:
       'bg-gradient-to-b from-[#C15757] via-[#FFBE57] to-[#3E8E9C] text-[#2B3D40]',
-    button: 'text-[#ffffff] md:text-[#2A5F7A] hover:bg-[#2A5F7A]',
+    button: 'text-[#ffffff] hover:bg-[#2A5F7A]',
     primaryText: 'text-[#2B3D40]',
     secondaryText: 'text-[#2B3D40]',
     linkCard: 'rgba(42, 95, 122, 0.85)'
@@ -178,18 +178,7 @@ export default function Shared({ userLinks, user, authUser }: Props) {
       <Head title="Shared" />
       {isLoading && <LoadingComponent hasOverlay />}
 
-      {!isOwner ? (
-        <div className="z-50 block mt-12 mb-0">
-          <Link href="/">
-            <img
-              style={{ filter: 'saturate(0%) brightness(518%)' }}
-              className="mb-6 scale-75 md:mt-0 md:mb-0"
-              src={Logo}
-              alt=""
-            />
-          </Link>
-        </div>
-      ) : (
+      {isOwner && (
         <OwnerHeader
           styles={styles}
           onCopyLink={handleCopyLink}
@@ -209,12 +198,8 @@ export default function Shared({ userLinks, user, authUser }: Props) {
       />
 
       <div
-        className={`z-[12] p-6 lg:mb-30 md:p-10 md:mt-8 mb-20 w-[88vw]
-          max-w-[22rem] md:max-w-[26rem] rounded-xl ${
-            !isDefaultTheme
-              ? 'backdrop-blur-sm bg-white/10 border border-white/20 shadow-lg'
-              : 'bg-white shadow-2xl'
-          }`}
+        className={`z-[12] p-6 px-4 lg:mb-30 md:p-10 mb-10 w-[90vw]
+          max-w-[35rem] rounded-xl ${isDefaultTheme ? 'bg-white shadow-lg' : 'backdrop-blur-xs bg-white/5 shadow-lg'} ${!isOwner ? 'mt-12 md:mt-20' : 'mt-[-1.75rem] md:mt-10'}`}
       >
         <div className="flex flex-col items-center justify-center w-auto">
           <AvatarCard
@@ -235,6 +220,19 @@ export default function Shared({ userLinks, user, authUser }: Props) {
           />
         </div>
       </div>
+      {!isOwner && (
+        <Link
+          href={route('login')}
+          className="flex gap-1 items-center justify-center bg-white rounded-full text-[#000000] p-2 px-5 font-semibold shadow-md"
+        >
+          <img
+            src={SmallLogo}
+            alt="Default Logo"
+            style={{ filter: 'saturate(0%) brightness(0%)', scale: '0.8' }}
+          />
+          join devlinks
+        </Link>
+      )}
     </div>
   );
 }

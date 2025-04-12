@@ -8,6 +8,7 @@ import {
 import { HeaderButton } from '@/Components/HeaderButton';
 import { DropdownTheme } from '@/Components/DropdownTheme';
 import { RefObject } from 'react';
+import { DEFAULT_THEME } from '@/utils/constants';
 
 type Theme = {
   name: string;
@@ -39,8 +40,8 @@ export const OwnerHeader = ({
   return (
     <header className="z-50 w-full h-[78px] md:p-4 mb-10 md:mb-10">
       <div
-        className={`bg-transparent md:bg-[#ffffff] md:rounded-xl w-full
-          text-md flex items-center justify-between gap-3 p-4 ${styles.header}`}
+        className={`bg-transparent md:rounded-xl w-full
+          text-md flex items-center justify-between gap-3 p-4 ${currentTheme === DEFAULT_THEME ? 'md:bg-[#ffffff]' : 'md:backdrop-blur-xm md:bg-white/10'} ${styles.header}`}
       >
         <HeaderButton
           onClick={() => router.get(route('dashboard'))}

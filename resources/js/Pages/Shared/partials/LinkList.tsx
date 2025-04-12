@@ -25,12 +25,13 @@ export const LinkList = ({ links, currentTheme, styles }: Props) => {
   }
 
   return (
-    <div className="w-full md:w-[20rem] mt-10 flex flex-col gap-4">
+    <div className="w-full max-w-[30rem] mt-10 flex flex-col gap-4">
       {links.map((link) => (
         <LinkCard
           key={link.id}
           currentTheme={currentTheme}
           link={link}
+          className="h-[3.5rem] rounded-xl"
           backgroundLink={styles.linkCard}
         />
       ))}

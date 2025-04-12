@@ -6,14 +6,14 @@ import { DEFAULT_THEME } from '@/utils/constants';
 type LinkCardProps = {
   link: UserLinkProps;
   backgroundLink?: string;
-  borderLink?: string;
   currentTheme?: string;
+  className?: string;
 };
 
 export const LinkCard = ({
   link,
+  className,
   backgroundLink,
-  borderLink,
   currentTheme = DEFAULT_THEME
 }: LinkCardProps) => {
   const isFrontendMentor = link.platform.name === 'Frontend Mentor';
@@ -36,8 +36,7 @@ export const LinkCard = ({
     !isFrontendMentor || !isDefaultTheme ? 'saturate(0%) brightness(318%)' : '';
 
   const linkStyle = {
-    backgroundColor: backgroundLink || link.platform.color,
-    border: borderLink ? `1px solid ${borderLink}` : ''
+    backgroundColor: backgroundLink || link.platform.color
   };
 
   const arrowColor =
@@ -53,7 +52,7 @@ export const LinkCard = ({
       target="_blank"
       rel="noopener noreferrer"
       onClick={handleClick}
-      className={linkClassNames}
+      className={`${linkClassNames} ${className}`}
       style={linkStyle}
     >
       <div className="flex items-center gap-2">
