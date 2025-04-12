@@ -223,7 +223,7 @@ export default function Shared({ userLinks, user, authUser }: Props) {
       {!isOwner && (
         <Link
           href={route('login')}
-          className="flex gap-1 items-center justify-center bg-white rounded-full text-[#000000] p-2 px-5 font-semibold shadow-md"
+          className="mb-10 md:mb-16 flex gap-1 items-center justify-center bg-white rounded-full text-[#000000] p-2 px-5 font-semibold shadow-md"
         >
           <img
             src={SmallLogo}
