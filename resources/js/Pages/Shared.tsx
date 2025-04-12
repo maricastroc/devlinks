@@ -313,7 +313,7 @@ export default function Shared({ userLinks, user, authUser }: Props) {
       </div>
     ) : (
       <div
-        className={`w-[15rem] mt-10 justify-center items-center overflow-y-auto flex flex-col gap-4 ${styles.wrapper}`}
+        className={`w-[15rem] mt-10 justify-center items-center overflow-y-auto flex flex-col gap-4 ${styles.primaryText}`}
       >
         <p>There are no links yet.</p>
       </div>
