@@ -26,7 +26,7 @@ type TemplateTypes = {
 export const TEMPLATE_STYLES: TemplateTypes = {
   Default: {
     color: '#633CFF',
-    background: 'bg-[#0000] text-dark-gray',
+    background: 'bg-light-gray',
     button: 'text-white md:text-[#633CFF] md:hover:bg-[#633CFF]',
     primaryText: 'text-dark-gray',
     secondaryText: 'text-medium-gray'
