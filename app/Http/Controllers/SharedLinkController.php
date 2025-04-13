@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use App\Models\Theme;
 use Inertia\Inertia;
 use Illuminate\Support\Str;
 
@@ -14,11 +15,11 @@ class SharedLinkController extends Controller
         
         if (is_numeric($userIdentifier)) {
             $query->where('id', $userIdentifier);
+        } else {
+            $query->where('username', $userIdentifier);
         }
-        
-        $query->orWhere('username', $userIdentifier);
-        
-        $user = $query->first();
+
+        $user = $query->with('theme')->first();
 
         if (!$user) {
             return Inertia::render('ErrorPage', [
@@ -27,15 +28,24 @@ class SharedLinkController extends Controller
             ]);
         }
 
+        $themes = Theme::where('is_active', true)
+            ->select(['id', 'name', 'styles'])
+            ->get();
+
         $data = [
             'user' => [
                 'first_name'   => $user->first_name,
                 'last_name'    => $user->last_name,
                 'public_email' => $user->public_email,
-                'template'     => $user->template,
-                'avatar_url'  => $user->avatar_url,
+                'avatar_url'   => $user->avatar_url,
                 'id'          => $user->id,
+                'theme'       => $user->theme ? [
+                    'id' => $user->theme->id,
+                    'name' => $user->theme->name,
+                    'styles' => $user->theme->styles
+                ] : null
             ],
+            'themes' => $themes,
             'userLinks' => $user->userLinks()->with('platform')->orderBy('order')->get(),
             'authUser' => auth()->user() ? [
                 'id' => auth()->user()->id,

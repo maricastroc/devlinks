@@ -85,27 +85,29 @@ class ProfileController extends Controller
     }
 
     public function updateTheme(Request $request)
-{
-    $request->validate([
-        'template' => ['required', 'string', 'in:Default,Lavender,Midnight,Dark,Serenity,Gradient,Ocean'],
-    ]);
-
-    try {
-        /** @var \App\Models\User $user */
-        $user = Auth::user();
-        $user->template = $request->template;
-        $user->save();
-
-        return response()->json([
-            'message' => 'Theme updated successfully!',
-            'template' => $user->template
-        ], 200);
-        
-    } catch (\Exception $e) {
-        return response()->json([
-            'message' => 'Failed to update theme',
-            'error' => $e->getMessage()
-        ], 500);
+    {
+        $request->validate([
+            'theme_id' => ['required', 'integer'],
+        ]);
+    
+        try {
+            /** @var \App\Models\User $user */
+            $user = Auth::user();
+            
+            $user->theme_id = $request->theme_id;
+            
+            $user->save();
+    
+            return response()->json([
+                'message' => 'Theme updated successfully!',
+                'theme_id' => $user->theme_id
+            ], 200);
+            
+        } catch (\Exception $e) {
+            return response()->json([
+                'message' => 'Failed to update theme',
+                'error' => $e->getMessage()
+            ], 500);
+        }
     }
-}
 }

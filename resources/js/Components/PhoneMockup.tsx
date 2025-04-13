@@ -3,6 +3,9 @@ import { UserLinkProps } from '@/types/user-link';
 import { UserProps } from '@/types/user';
 import { LinkCard } from './LinkCard';
 import { PhoneIllustration } from './PhoneIllustration';
+import { useTheme } from '@/contexts/ThemeContext';
+import { DEFAULT_THEME } from '@/utils/constants';
+import { AvatarCard } from '@/Pages/Shared/partials/AvatarCard';
 
 type Props = {
   links: UserLinkProps[];
@@ -21,29 +24,44 @@ export const PhoneMockup = ({
   publicEmail,
   links
 }: Props) => {
+  const { currentTheme } = useTheme();
+
+  const isDefaultTheme = currentTheme?.name === DEFAULT_THEME;
+
   return (
     <div className="w-[307px] h-[631px] relative">
-      <PhoneIllustration />
-      {(photoPreview || user?.avatar_url) && (
-        <div
-          style={{
-            backgroundImage: `url(${photoPreview || user?.avatar_url})`
-          }}
-          className="absolute border-4 border-medium-purple rounded-full bg-opacity-20 h-[6.1rem] w-[6.1rem] z-40 top-[4rem] left-[6.5rem] bg-cover bg-center"
+      <PhoneIllustration
+        user={user}
+        firstName={firstName}
+        lastName={lastName}
+        publicEmail={publicEmail}
+      />
+      {(photoPreview || user?.avatar_url) && currentTheme && (
+        <AvatarCard
+          isSharedScreen={false}
+          avatarUrl={photoPreview || (user?.avatar_url as string)}
+          theme={currentTheme}
+          className="absolute rounded-full bg-opacity-20 h-[6.05rem] w-[6.05rem] z-40 top-[3.9rem] left-[6.5rem] bg-cover bg-center"
         />
       )}
 
       {(firstName || user?.first_name) && (
-        <div className="font-bold w-[17.2rem] text-center absolute bg-white z-40 top-[11.3rem] left-[1rem] bg-cover bg-center">
-          <p>
+        <div
+          className={`font-bold w-[17.2rem] text-center absolute z-40 top-[11.3rem] left-[1rem] bg-cover bg-center ${isDefaultTheme ? 'bg-white' : 'bg-transparent'}`}
+        >
+          <p className={`${currentTheme?.styles.secondary_text}`}>
             {firstName || user?.first_name} {lastName || user?.last_name}
           </p>
         </div>
       )}
 
       {(publicEmail || user?.public_email) && (
-        <div className="text-sm w-[17.2rem] text-center absolute bg-white z-40 top-[12.8rem] left-[1rem] bg-cover bg-center">
-          <p>{publicEmail || user?.public_email}</p>
+        <div
+          className={`text-sm w-[17.2rem] text-center absolute  z-40 top-[12.8rem] left-[1rem] bg-cover bg-center ${isDefaultTheme ? 'bg-white' : 'bg-transparent'}`}
+        >
+          <p className={`${currentTheme?.styles.secondary_text}`}>
+            {publicEmail || user?.public_email}
+          </p>
         </div>
       )}
 
@@ -53,7 +71,6 @@ export const PhoneMockup = ({
         >
           <div className="w-full flex flex-col gap-[0.98rem] pr-2">
             {' '}
-            {/* Compensa o espaço */}
             {links?.map((link) => <LinkCard key={link.id} link={link} />)}
           </div>
         </div>

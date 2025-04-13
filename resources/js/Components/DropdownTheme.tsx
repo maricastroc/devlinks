@@ -1,9 +1,8 @@
 import { ThemeProps } from '@/types/theme';
-import { useState } from 'react';
 
 type Props = {
-  handleSelect: (item: string) => void;
-  currentTheme: string;
+  handleSelect: (item: ThemeProps) => void;
+  currentTheme: ThemeProps;
   themes: ThemeProps[];
 };
 
@@ -19,14 +18,16 @@ export const DropdownTheme = ({
           <div
             className="flex items-center gap-2 px-4 py-2 cursor-pointer hover:bg-gray-100"
             onClick={() => {
-              if (theme.name !== currentTheme) {
-                handleSelect(theme.name);
+              if (theme.name !== currentTheme.name) {
+                handleSelect(theme);
               }
             }}
           >
-            <span className={`w-6 h-6 rounded-full bg-[${theme.color}]`}></span>
             <span
-              className={`text-dark-gray ${currentTheme === theme.name && 'font-semibold'}`}
+              className={`w-6 h-6 rounded-full bg-[${theme.styles.color}]`}
+            ></span>
+            <span
+              className={`text-dark-gray ${currentTheme.name === theme.name && 'font-semibold'}`}
             >
               {theme.name}
             </span>

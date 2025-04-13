@@ -8,81 +8,77 @@ import {
 import { HeaderButton } from '@/Pages/Shared/partials/HeaderButton';
 import { DropdownTheme } from '@/Components/DropdownTheme';
 import { RefObject } from 'react';
-import { DEFAULT_THEME } from '@/utils/constants';
-
-type Theme = {
-  name: string;
-  color: string;
-  label: string;
-};
+import { ThemeProps } from '@/types/theme';
+import { useTheme } from '@/contexts/ThemeContext';
 
 type Props = {
-  styles: any;
-  currentTheme: string;
   onCopyLink: () => void;
-  onSelectTheme: (themeName: string) => void;
   showThemeDropdown: boolean;
   setShowThemeDropdown: (value: boolean) => void;
-  dropdownRef: RefObject<HTMLDivElement>;
-  themes: Theme[];
+  dropdownRef: RefObject<HTMLElement>;
+  themes: ThemeProps[];
 };
 
 export const OwnerHeader = ({
-  styles,
   onCopyLink,
-  onSelectTheme,
   showThemeDropdown,
   setShowThemeDropdown,
   dropdownRef,
-  themes,
-  currentTheme
+  themes
 }: Props) => {
-  return (
-    <header className="z-50 w-full h-[78px] md:p-4 mb-8 md:mb-0">
-      <div
-        className={`bg-transparent md:rounded-xl w-full
-          text-md flex items-center justify-between gap-3 p-4 ${currentTheme !== DEFAULT_THEME && ''} ${styles.header}`}
-      >
-        <HeaderButton
-          onClick={() => router.get(route('dashboard'))}
-          theme={currentTheme}
-          icon={<FontAwesomeIcon icon={faBackward} className="size-5" />}
-          text="Back"
-          largeText="Back to Editor"
-          className={styles.button}
-        />
+  const { currentTheme, handleThemeSelect } = useTheme();
 
-        <div className="flex items-center justify-end w-full gap-5 md:gap-4">
+  return (
+    currentTheme && (
+      <header className="z-50 w-full h-[78px] md:p-4 mb-8 md:mb-0">
+        <div
+          className={`bg-transparent md:rounded-xl w-full
+          text-md flex items-center justify-between gap-3 p-4`}
+        >
           <HeaderButton
-            onClick={onCopyLink}
+            onClick={() => router.get(route('dashboard'))}
             theme={currentTheme}
-            icon={
-              <FontAwesomeIcon icon={faShareFromSquare} className="size-5" />
-            }
-            text="Share"
-            largeText="Share Link"
-            className={styles.button}
+            icon={<FontAwesomeIcon icon={faBackward} className="size-5" />}
+            text="Back"
+            largeText="Back to Editor"
+            className={currentTheme.styles.button}
           />
 
-          <div className="relative z-[9999]" ref={dropdownRef}>
+          <div className="flex items-center justify-end w-full gap-5 md:gap-4">
             <HeaderButton
-              onClick={() => setShowThemeDropdown(true)}
+              onClick={onCopyLink}
               theme={currentTheme}
-              icon={<FontAwesomeIcon icon={faPalette} className="size-5" />}
-              text="Theme"
-              largeText="Edit Theme"
-              className={styles.button}
+              icon={
+                <FontAwesomeIcon icon={faShareFromSquare} className="size-5" />
+              }
+              text="Share"
+              largeText="Share Link"
+              className={currentTheme.styles.button}
             />
-            {showThemeDropdown && (
-              <DropdownTheme
-                currentTheme={currentTheme}
-                themes={themes}
-                handleSelect={onSelectTheme}
+
+            <div
+              className="relative z-[9999]"
+              ref={dropdownRef as RefObject<HTMLDivElement>}
+            >
+              <HeaderButton
+                onClick={() => setShowThemeDropdown(true)}
+                theme={currentTheme}
+                icon={<FontAwesomeIcon icon={faPalette} className="size-5" />}
+                text="Theme"
+                largeText="Edit Theme"
+                className={currentTheme.styles.button}
               />
-            )}
+              {showThemeDropdown && (
+                <DropdownTheme
+                  currentTheme={currentTheme}
+                  themes={themes}
+                  handleSelect={handleThemeSelect}
+                />
+              )}
+            </div>
           </div>
         </div>
-      </div>
-    </header>
+      </header>
+    )
   );
 };

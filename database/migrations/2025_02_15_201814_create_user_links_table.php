@@ -11,6 +11,11 @@ return new class extends Migration {
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->foreignId('platform_id')->constrained()->onDelete('cascade');
             $table->string('url');
+            $table->integer('order')->default(0);
+            $table->unsignedBigInteger('clicks')->default(0);
+            $table->string('custom_name')->nullable();
+            $table->string('custom_icon')->nullable();
+            $table->string('custom_color')->nullable();
             $table->timestamps();
 
             $table->unique(['user_id', 'platform_id']);

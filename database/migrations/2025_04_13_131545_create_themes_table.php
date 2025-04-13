@@ -11,8 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('user_links', function (Blueprint $table) {
-            $table->integer('order')->default(0);
+        Schema::create('themes', function (Blueprint $table) {
+            $table->id();
+            $table->string('name')->unique();
+            $table->string('slug')->unique();
+            $table->json('styles');
+            $table->boolean('is_active')->default(true);
+            $table->timestamps();
         });
     }
 
@@ -21,8 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('user_links', function (Blueprint $table) {
-            $table->dropColumn('order');
-        });
+        Schema::dropIfExists('themes');
     }
 };

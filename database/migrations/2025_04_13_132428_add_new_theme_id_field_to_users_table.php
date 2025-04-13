@@ -12,11 +12,17 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->string('first_name')->nullable();
-            $table->string('last_name')->nullable();
-            $table->string('public_email')->nullable();
-            $table->string('avatar_url')->nullable();
+            $table->foreignId('theme_id')
+                ->nullable()
+                ->constrained('themes')
+                ->onDelete('SET NULL');
         });
+
+        $defaultTheme = DB::table('themes')->where('slug', 'default')->first();
+        
+if ($defaultTheme) {
+    DB::table('users')->update(['theme_id' => $defaultTheme->id]);
+}
     }
 
     /**
@@ -25,10 +31,8 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->dropColumn('first_name');
-            $table->dropColumn('last_name');
-            $table->dropColumn('public_email');
-            $table->dropColumn('avatar_url');
+            $table->dropForeign(['theme_id']);
+            $table->dropColumn('theme_id');
         });
     }
 };

@@ -119,4 +119,9 @@ class User extends Authenticatable
     {
         return 'username';
     }
+
+    public function theme()
+{
+    return $this->belongsTo(Theme::class);
+}
 }

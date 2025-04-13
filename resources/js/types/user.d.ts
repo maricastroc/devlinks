@@ -1,3 +1,5 @@
+import { ThemeProps } from './theme';
+
 export type UserProps = {
   id?: number;
   email?: string;
@@ -8,4 +10,6 @@ export type UserProps = {
   public_email?: string;
   username?: string;
   template: string;
+  theme?: ThemeProps;
+  theme_id?: number;
 };

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { RefObject, useEffect, useRef, useState } from 'react';
 import axios from 'axios';
 import { Head } from '@inertiajs/react';
 import {
@@ -21,9 +21,16 @@ import { validateLinks } from '@/utils/validateLink';
 import { useLinks } from '@/utils/useLinks';
 import { handleReqError } from '@/utils/handleReqError';
 import toast from 'react-hot-toast';
+import ColorCircle from '/public/assets/images/icon-color-circle.svg';
+import { DropdownTheme } from '@/Components/DropdownTheme';
+import { ThemeProps } from '@/types/theme';
+import { DEFAULT_THEME } from '@/utils/constants';
+import { useTheme } from '@/contexts/ThemeContext';
+import { useClickOutside } from '@/utils/useClickOutside';
 
 type Props = {
   platforms: PlatformProps[];
+  themes: ThemeProps[];
   userLinks: UserLinkProps[] | [];
   user: UserProps;
 };
@@ -33,10 +40,23 @@ export type FormErrors = Record<
   { url?: string; platform_id?: string; custom_name?: string }
 >;
 
-export default function Dashboard({ platforms, userLinks, user }: Props) {
+export default function Dashboard({
+  platforms,
+  userLinks,
+  user,
+  themes
+}: Props) {
   const [processing, setProcessing] = useState(false);
 
+  const [showThemeDropdown, setShowThemeDropdown] = useState(false);
+
+  const dropdownRef = useClickOutside(() => {
+    setShowThemeDropdown(false);
+  });
+
   const [errors, setErrors] = useState<FormErrors>({});
+
+  const { currentTheme, handleChangeTheme, handleThemeSelect } = useTheme();
 
   const {
     links,
@@ -98,117 +118,161 @@ export default function Dashboard({ platforms, userLinks, user }: Props) {
     }
   };
 
-  return (
-    <AuthenticatedLayout
-      header={
-        <h2 className="text-xl font-semibold leading-tight text-gray-800 dark:text-gray-200">
-          Dashboard
-        </h2>
+  useEffect(() => {
+    if (user) {
+      if (user?.theme) {
+        handleChangeTheme(user.theme);
+      } else {
+        const defaultTheme = themes.find((theme) => {
+          return theme.name === DEFAULT_THEME;
+        });
+
+        handleChangeTheme(defaultTheme as ThemeProps);
       }
-    >
-      <Head title="Dashboard" />
+    }
+  }, [user?.theme]);
 
-      {processing && <LoadingComponent hasOverlay />}
-
-      <div className="lg:m-6 flex lg:grid lg:grid-cols-[1fr,1.5fr] w-full lg:gap-6 lg:mt-0">
-        <div className="items-center justify-center hidden w-full p-10 bg-white rounded-md lg:flex">
-          <PhoneMockup links={links} user={user} />
-        </div>
-
-        <div className="flex flex-col w-full p-6 m-4 mt-6 bg-white rounded-md lg:m-0 md:m-6 md:p-10">
-          <h2 className="mb-1 text-[1.5rem] md:text-[2rem] font-bold text-dark-gray">
-            Customize your links
+  return (
+    currentTheme && (
+      <AuthenticatedLayout
+        header={
+          <h2 className="text-xl font-semibold leading-tight text-gray-800 dark:text-gray-200">
+            Dashboard
           </h2>
-          <p className="mb-8 md:mb-10 text-medium-gray">
-            Add/edit/remove links below and then share all your profiles with
-            the world!
-          </p>
+        }
+      >
+        <Head title="Dashboard" />
 
-          <SecondaryButton onClick={handleAddLink}>
-            + Add New Link
-          </SecondaryButton>
+        {processing && <LoadingComponent hasOverlay />}
 
-          {links?.length > 0 ? (
-            <div className="flex flex-col custom-scrollbar overflow-y-scroll max-h-[30rem] gap-4 mt-6 h-full">
-              <DragDropContext onDragEnd={onDragEnd}>
-                <Droppable droppableId="linksList">
-                  {(provided) => (
-                    <div
-                      {...provided.droppableProps}
-                      ref={provided.innerRef}
-                      className="flex flex-col w-full h-full gap-4 mt-6 "
-                    >
-                      {links.map((link, index) => (
-                        <Draggable
-                          key={link.id.toString()}
-                          draggableId={link.id.toString()}
-                          index={index}
-                        >
-                          {(provided) => (
-                            <div
-                              ref={provided.innerRef}
-                              {...provided.draggableProps}
-                              {...provided.dragHandleProps}
-                            >
-                              <LinkForm
-                                platforms={filteredPlatforms}
-                                link={link}
-                                provided={provided}
-                                index={index}
-                                handleRemove={handleRemoveLink}
-                                handleUpdateUrl={handleUpdateUrl}
-                                handleUpdateCustomName={handleUpdateCustomName}
-                                errorUrl={errors[String(link.id)]?.url}
-                                errorCustomName={
-                                  errors[String(link.id)]?.custom_name
-                                }
-                                errorPlatform={
-                                  errors[String(link.id)]?.platform_id
-                                }
-                                handleSelect={(platform) =>
-                                  handleUpdatePlatform(
-                                    platform,
-                                    Number(link.id)
-                                  )
-                                }
-                              />
-                            </div>
-                          )}
-                        </Draggable>
-                      ))}
-                      {provided.placeholder}
-                    </div>
-                  )}
-                </Droppable>
-              </DragDropContext>
+        <div className="lg:m-6 flex lg:grid lg:grid-cols-[1fr,1.5fr] w-full lg:gap-6 lg:mt-0">
+          <div className="items-center justify-center hidden w-full p-10 bg-white rounded-md lg:flex">
+            <PhoneMockup links={links} user={user} />
+          </div>
+
+          <div className="flex flex-col w-full p-6 m-4 mt-6 bg-white rounded-md lg:m-0 md:m-6 md:p-10">
+            <div className="flex items-start justify-between w-full gap-3">
+              <div>
+                <h2 className="mb-1 text-[1.5rem] md:text-[2rem] font-bold text-dark-gray">
+                  Customize your links
+                </h2>
+                <p className="mb-8 md:mb-10 text-medium-gray">
+                  Add/edit/remove links below and then share all your profiles
+                  with the world!
+                </p>
+              </div>
+
+              <div ref={dropdownRef as RefObject<HTMLDivElement>}>
+                <button
+                  onClick={() => setShowThemeDropdown(!showThemeDropdown)}
+                  className="relative flex items-center gap-2 p-3 font-semibold text-gray-600 transition-all duration-150 rounded-md hover:text-medium-purple"
+                >
+                  <img src={ColorCircle} alt="Theme" className="w-4 h-4" />
+                  <span className="hidden md:inline">Theme</span>
+                </button>
+                {showThemeDropdown && (
+                  <DropdownTheme
+                    handleSelect={(theme: ThemeProps) => {
+                      handleThemeSelect(theme);
+                      setShowThemeDropdown(false);
+                    }}
+                    themes={themes}
+                    currentTheme={currentTheme}
+                  />
+                )}
+              </div>
             </div>
-          ) : (
-            <div className="flex flex-col items-center justify-center p-6 mt-10 text-center rounded-md bg-light-gray">
-              <img src={EmptyMockup} alt="" className="mt-6" />
-              <h2 className="mt-6 mb-2 text-[1.4rem] md:text-[2rem] font-black text-dark-gray">
-                Let's get you started
-              </h2>
-              <p className="mt-2 mb-8 max-w-[32rem] text-medium-gray">
-                Use the “Add new link” button to get started. Once you have more
-                than one link, you can reorder and edit them. We’re here to help
-                you share your profiles with everyone!
-              </p>
+
+            <div className="flex items-center justify-center w-full gap-3">
+              <SecondaryButton onClick={handleAddLink}>
+                + Add New Link
+              </SecondaryButton>
             </div>
-          )}
 
-          <hr className="my-6 md:my-8" />
+            {links?.length > 0 ? (
+              <div className="flex flex-col custom-scrollbar overflow-y-scroll max-h-[30rem] gap-4 mt-6 h-full">
+                <DragDropContext onDragEnd={onDragEnd}>
+                  <Droppable droppableId="linksList">
+                    {(provided) => (
+                      <div
+                        {...provided.droppableProps}
+                        ref={provided.innerRef}
+                        className="flex flex-col w-full h-full gap-4 mt-6 "
+                      >
+                        {links.map((link, index) => (
+                          <Draggable
+                            key={link.id.toString()}
+                            draggableId={link.id.toString()}
+                            index={index}
+                          >
+                            {(provided) => (
+                              <div
+                                ref={provided.innerRef}
+                                {...provided.draggableProps}
+                                {...provided.dragHandleProps}
+                              >
+                                <LinkForm
+                                  platforms={filteredPlatforms}
+                                  link={link}
+                                  provided={provided}
+                                  index={index}
+                                  handleRemove={handleRemoveLink}
+                                  handleUpdateUrl={handleUpdateUrl}
+                                  handleUpdateCustomName={
+                                    handleUpdateCustomName
+                                  }
+                                  errorUrl={errors[String(link.id)]?.url}
+                                  errorCustomName={
+                                    errors[String(link.id)]?.custom_name
+                                  }
+                                  errorPlatform={
+                                    errors[String(link.id)]?.platform_id
+                                  }
+                                  handleSelect={(platform) =>
+                                    handleUpdatePlatform(
+                                      platform,
+                                      Number(link.id)
+                                    )
+                                  }
+                                />
+                              </div>
+                            )}
+                          </Draggable>
+                        ))}
+                        {provided.placeholder}
+                      </div>
+                    )}
+                  </Droppable>
+                </DragDropContext>
+              </div>
+            ) : (
+              <div className="flex flex-col items-center justify-center p-6 mt-10 text-center rounded-md bg-light-gray">
+                <img src={EmptyMockup} alt="" className="mt-6" />
+                <h2 className="mt-6 mb-2 text-[1.4rem] md:text-[2rem] font-black text-dark-gray">
+                  Let's get you started
+                </h2>
+                <p className="mt-2 mb-8 max-w-[32rem] text-medium-gray">
+                  Use the “Add new link” button to get started. Once you have
+                  more than one link, you can reorder and edit them. We’re here
+                  to help you share your profiles with everyone!
+                </p>
+              </div>
+            )}
 
-          <div className="flex justify-end md:items-end">
-            <PrimaryButton
-              onClick={submit}
-              className="md:w-[6rem]"
-              disabled={processing}
-            >
-              Save
-            </PrimaryButton>
+            <hr className="my-6 md:my-8" />
+
+            <div className="flex justify-end md:items-end">
+              <PrimaryButton
+                onClick={submit}
+                className="md:w-[6rem]"
+                disabled={processing}
+              >
+                Save
+              </PrimaryButton>
+            </div>
           </div>
         </div>
-      </div>
-    </AuthenticatedLayout>
+      </AuthenticatedLayout>
+    )
   );
 }

@@ -2,25 +2,21 @@ import { UserLinkProps } from '@/types/user-link';
 import { ArrowRight } from 'phosphor-react';
 import clsx from 'clsx';
 import { DEFAULT_THEME } from '@/utils/constants';
+import { useTheme } from '@/contexts/ThemeContext';
 
 type LinkCardProps = {
   link: UserLinkProps;
-  backgroundLink?: string;
-  currentTheme?: string;
   className?: string;
 };
 
-export const LinkCard = ({
-  link,
-  className,
-  backgroundLink,
-  currentTheme = DEFAULT_THEME
-}: LinkCardProps) => {
+export const LinkCard = ({ link, className }: LinkCardProps) => {
+  const { currentTheme } = useTheme();
+
   const isFrontendMentor = link.platform.name === 'Frontend Mentor';
 
   const isValidUrl = Boolean(link.url);
 
-  const isDefaultTheme = currentTheme === DEFAULT_THEME;
+  const isDefaultTheme = currentTheme?.name === DEFAULT_THEME;
 
   const linkClassNames = clsx(
     'flex items-center shadow-md justify-between p-[0.72rem] h-[2.95rem] rounded-md duration-150 transition-all',
@@ -36,7 +32,9 @@ export const LinkCard = ({
     !isFrontendMentor || !isDefaultTheme ? 'saturate(0%) brightness(318%)' : '';
 
   const linkStyle = {
-    backgroundColor: backgroundLink || link.platform.color
+    backgroundColor: isDefaultTheme
+      ? link.platform.color
+      : currentTheme?.styles.link_card
   };
 
   const arrowColor =

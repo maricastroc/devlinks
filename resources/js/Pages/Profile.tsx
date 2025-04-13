@@ -51,7 +51,6 @@ export default function Profile({ user, userLinks }: Props) {
   const [originalImage, setOriginalImage] = useState<string | null>(null);
 
   const handleCroppedImage = (croppedImage: string) => {
-    // Converter a imagem recortada para Blob/File
     fetch(croppedImage)
       .then((res) => res.blob())
       .then((blob) => {

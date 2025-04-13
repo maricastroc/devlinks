@@ -5,6 +5,7 @@ import { createInertiaApp } from '@inertiajs/react';
 import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers';
 import { createRoot } from 'react-dom/client';
 import { Toaster } from 'react-hot-toast';
+import { ThemeProvider } from './contexts/ThemeContext';
 
 const appName = import.meta.env.VITE_APP_NAME || 'Laravel';
 
@@ -20,15 +21,17 @@ createInertiaApp({
 
     root.render(
       <>
-        <App {...props} />
-        <Toaster
-          toastOptions={{
-            style: {
-              backgroundColor: '#161D2F',
-              color: '#fff'
-            }
-          }}
-        />
+        <ThemeProvider>
+          <App {...props} />
+          <Toaster
+            toastOptions={{
+              style: {
+                backgroundColor: '#161D2F',
+                color: '#fff'
+              }
+            }}
+          />
+        </ThemeProvider>
       </>
     );
   },
