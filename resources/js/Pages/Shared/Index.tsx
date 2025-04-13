@@ -27,7 +27,7 @@ export const TEMPLATE_STYLES: TemplateTypes = {
   Default: {
     color: '#633CFF',
     background: 'bg-light-gray',
-    button: 'text-white md:text-[#633CFF] md:hover:bg-[#633CFF]',
+    button: 'text-white md:text-[#633CFF]',
     primaryText: 'text-dark-gray',
     secondaryText: 'text-medium-gray'
   },
@@ -199,7 +199,7 @@ export default function Shared({ userLinks, user, authUser }: Props) {
 
       <div
         className={`z-[12] p-6 px-4 lg:mb-30 md:p-10 mb-10 w-[90vw]
-          max-w-[35rem] rounded-xl ${isDefaultTheme ? 'bg-white shadow-lg' : 'backdrop-blur-xs bg-white/5 shadow-lg'} ${!isOwner ? 'mt-12 md:mt-20' : 'mt-[-1.75rem] md:mt-10'}`}
+          max-w-[35rem] rounded-xl ${isDefaultTheme ? 'bg-white shadow-lg' : 'md:backdrop-blur-xs md:bg-white/5 md:shadow-lg'} ${!isOwner ? 'mt-12 md:mt-20' : 'mt-[-1.75rem] md:mt-10'}`}
       >
         <div className="flex flex-col items-center justify-center w-auto">
           <AvatarCard
