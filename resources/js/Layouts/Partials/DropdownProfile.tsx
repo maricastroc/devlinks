@@ -16,19 +16,19 @@ export const DropdownProfile = ({ currentRoute }: Props) => {
     >
       <NavLink
         href={route('profile')}
-        className={`${currentRoute === 'profile' && 'text-medium-purple pointer-events-none'} flex items-center gap-2 px-2 py-1 md:px-3 hover:text-medium-purple`}
+        className={`${currentRoute === 'profile' && 'text-medium-purple pointer-events-none'} flex items-center gap-2 px-4 py-1 md:px-[0.9rem] hover:text-medium-purple`}
       >
         <FontAwesomeIcon icon={faPenToSquare} />
-        Details
+        <span className="font-medium">Details</span>
       </NavLink>
       <hr className="w-[150px] mx-2 text-dark-gray" />
       <NavLink
         href={route('logout')}
         method="post"
-        className="flex items-center gap-2 px-2 py-1 md:px-3 hover:text-medium-purple"
+        className="flex items-center gap-2 px-4 py-1 md:px-[0.9rem] hover:text-medium-purple"
       >
         <FontAwesomeIcon icon={faArrowRightFromBracket} />
-        <span>Logout</span>
+        <span className="font-medium">Logout</span>
       </NavLink>
     </div>
   );
