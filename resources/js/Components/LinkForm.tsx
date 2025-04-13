@@ -110,9 +110,7 @@ export const LinkForm = ({
                   {link?.platform.name ? (
                     <span className="text-dark-grey">{link.platform.name}</span>
                   ) : (
-                    <span className="text-medium-gray">
-                      Please, select a platform
-                    </span>
+                    <span className="text-medium-gray">Select a platform</span>
                   )}
                 </div>
                 <FontAwesomeIcon
@@ -143,7 +141,7 @@ export const LinkForm = ({
                 type="text"
                 name="custom_name"
                 value={link?.custom_name || ''}
-                placeholder="e.g. https://www.github.com/octocat"
+                placeholder="e.g. Portfolio"
                 className={`block w-full mt-1 ${errorCustomName ? 'border border-medium-red' : ''}`}
                 onChange={(e) =>
                   handleUpdateCustomName(Number(link.id), e.target.value)

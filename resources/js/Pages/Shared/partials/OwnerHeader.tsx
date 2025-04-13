@@ -1,9 +1,9 @@
 import { router } from '@inertiajs/react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
-  faBackward,
-  faPalette,
-  faShareFromSquare
+  faArrowLeft,
+  faArrowUpRightFromSquare,
+  faPalette
 } from '@fortawesome/free-solid-svg-icons';
 import { HeaderButton } from '@/Pages/Shared/partials/HeaderButton';
 import { DropdownTheme } from '@/Components/DropdownTheme';
@@ -38,7 +38,7 @@ export const OwnerHeader = ({
           <HeaderButton
             onClick={() => router.get(route('dashboard'))}
             theme={currentTheme}
-            icon={<FontAwesomeIcon icon={faBackward} className="size-5" />}
+            icon={<FontAwesomeIcon icon={faArrowLeft} className="size-5" />}
             text="Back"
             largeText="Back to Editor"
             className={currentTheme.styles.button}
@@ -49,7 +49,10 @@ export const OwnerHeader = ({
               onClick={onCopyLink}
               theme={currentTheme}
               icon={
-                <FontAwesomeIcon icon={faShareFromSquare} className="size-5" />
+                <FontAwesomeIcon
+                  icon={faArrowUpRightFromSquare}
+                  className="size-5"
+                />
               }
               text="Share"
               largeText="Share Link"

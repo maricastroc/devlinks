@@ -19,8 +19,9 @@ export const LinkCard = ({ link, className }: LinkCardProps) => {
   const isDefaultTheme = currentTheme?.name === DEFAULT_THEME;
 
   const linkClassNames = clsx(
-    'flex items-center shadow-md justify-between p-[0.72rem] h-[2.95rem] rounded-md duration-150 transition-all',
+    'flex items-center justify-between p-[0.72rem] h-[2.97rem] rounded-md duration-150 transition-all',
     {
+      'shadow-md': !isDefaultTheme,
       'border border-gray-300': isFrontendMentor && isDefaultTheme,
       'disabled:cursor-not-allowed': !isValidUrl,
       'text-dark-gray': isFrontendMentor && isDefaultTheme,

@@ -27,11 +27,12 @@ export const PhoneMockup = ({
   const { currentTheme } = useTheme();
 
   const isDefaultTheme = currentTheme?.name === DEFAULT_THEME;
-  console.log(currentTheme);
+  console.log(links);
   return (
     currentTheme && (
       <div className="w-[307px] h-[631px] relative">
         <PhoneIllustration
+          links={links}
           user={user}
           firstName={firstName}
           lastName={lastName}
@@ -60,7 +61,9 @@ export const PhoneMockup = ({
           <div
             className={`text-sm w-[17.2rem] text-center absolute  z-40 top-[12.8rem] left-[1rem] bg-cover bg-center ${isDefaultTheme ? 'bg-white' : 'bg-transparent'}`}
           >
-            <p className={`${currentTheme?.styles.secondary_text}`}>
+            <p
+              className={`${currentTheme?.styles.secondary_text} no-underline`}
+            >
               {publicEmail || user?.public_email}
             </p>
           </div>

@@ -1,8 +1,10 @@
 import { useTheme } from '@/contexts/ThemeContext';
 import { UserProps } from '@/types/user';
+import { UserLinkProps } from '@/types/user-link';
 import { DEFAULT_THEME } from '@/utils/constants';
 
 type PhoneIllustrationProps = {
+  links: UserLinkProps[];
   firstName?: string | null;
   lastName?: string | null;
   publicEmail?: string | null;
@@ -13,10 +15,10 @@ export const PhoneIllustration = ({
   user,
   firstName,
   lastName,
-  publicEmail
+  publicEmail,
+  links
 }: PhoneIllustrationProps) => {
   const { currentTheme } = useTheme();
-
   const isDefaultTheme = currentTheme?.name === DEFAULT_THEME;
 
   const hasName = Boolean(
@@ -31,7 +33,8 @@ export const PhoneIllustration = ({
 
   const placeholderBg = isDefaultTheme ? 'bg-[#EEEEEE]' : 'bg-transparent';
 
-  const buttons = Array(5).fill(null);
+  // Número de placeholders que devem ser transparentes (igual ao número de links)
+  const transparentPlaceholders = Math.min(links.length, 5);
 
   return (
     <div
@@ -53,12 +56,14 @@ export const PhoneIllustration = ({
             className={`${!isDefaultTheme && hasEmail ? 'bg-transparent' : 'bg-[#EEEEEE]'} w-[5rem] h-[0.8rem] rounded-full mt-[0.8rem]`}
           />
           <div className="flex flex-col items-center justify-start gap-[1.25rem] mt-[3.4rem]">
-            {buttons.map((_, index) => (
-              <span
-                key={index}
-                className="bg-[#EEEEEE] w-[14.6rem] h-[2.7rem] rounded-lg"
-              />
-            ))}
+            {Array(5)
+              .fill(null)
+              .map((_, index) => (
+                <span
+                  key={index}
+                  className={`${index < transparentPlaceholders && !isDefaultTheme ? 'bg-transparent' : 'bg-[#EEEEEE]'} w-[14.6rem] h-[2.7rem] rounded-lg`}
+                />
+              ))}
           </div>
         </div>
       </div>

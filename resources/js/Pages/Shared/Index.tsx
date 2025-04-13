@@ -108,7 +108,9 @@ export default function Shared({ userLinks, user, themes, authUser }: Props) {
             >
               {user?.first_name} {user?.last_name}
             </h2>
-            <p className={`text-md ${currentTheme.styles.secondary_text}`}>
+            <p
+              className={`text-md no-underline ${currentTheme.styles.secondary_text}`}
+            >
               {user?.public_email}
             </p>
 
