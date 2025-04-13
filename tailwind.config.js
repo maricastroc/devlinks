@@ -52,5 +52,6 @@ export default {
         'bg-[#633CFF]',
         'bg-[#C54D48]',
         'md:text-md',
+        'bg-gradient-to-b from-[#C57248] via-[#4E4848] to-[#2D2D37] text-[#1C2431]',
     ],
 };
