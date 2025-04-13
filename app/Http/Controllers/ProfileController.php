@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\ProfileUpdateRequest;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use App\Models\Theme;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Route;
@@ -17,12 +18,19 @@ class ProfileController extends Controller
     {
         /** @var \App\Models\User $user */
         $user = Auth::user();
+
+        $user = $user->with('theme')->first();
+
+        $themes = Theme::where('is_active', true)
+        ->select(['id', 'name', 'styles'])
+        ->get();
     
         $userLinks = $user->userLinks()->with('platform')->get();
     
         return Inertia::render('Profile', [
             'user' => $user,
             'userLinks' => $userLinks,
+            'themes' => $themes,
             'currentRoute' => Route::currentRouteName(),
         ]);
     }

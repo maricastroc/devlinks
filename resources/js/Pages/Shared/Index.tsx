@@ -1,5 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
-import axios from 'axios';
+import { useEffect, useState } from 'react';
 import { Head, Link } from '@inertiajs/react';
 import { Inertia } from '@inertiajs/inertia';
 import toast from 'react-hot-toast';

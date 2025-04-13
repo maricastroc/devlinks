@@ -1,4 +1,4 @@
-import { RefObject, useEffect, useRef, useState } from 'react';
+import { RefObject, useEffect, useState } from 'react';
 import axios from 'axios';
 import { Head } from '@inertiajs/react';
 import {

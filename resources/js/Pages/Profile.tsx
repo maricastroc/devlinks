@@ -19,10 +19,14 @@ import { UserLinkProps } from '@/types/user-link';
 import { UserProps } from '@/types/user';
 import toast from 'react-hot-toast';
 import { ImageCropper } from '@/Components/ImageCropper';
+import { DEFAULT_THEME } from '@/utils/constants';
+import { ThemeProps } from '@/types/theme';
+import { useTheme } from '@/contexts/ThemeContext';
 
 type Props = {
   userLinks: UserLinkProps[];
   user: UserProps;
+  themes: ThemeProps[];
 };
 
 const profileFormSchema = z.object({
@@ -39,8 +43,10 @@ const profileFormSchema = z.object({
 
 type ProfileFormSchema = z.infer<typeof profileFormSchema>;
 
-export default function Profile({ user, userLinks }: Props) {
+export default function Profile({ user, userLinks, themes }: Props) {
   const inputFileRef = useRef<HTMLInputElement>(null);
+
+  const { handleChangeTheme } = useTheme();
 
   const [photoPreview, setPhotoPreview] = useState<string | null>(null);
 
@@ -127,6 +133,16 @@ export default function Profile({ user, userLinks }: Props) {
 
       if (user?.avatar_url) {
         setPhotoPreview(user.avatar_url as string);
+      }
+
+      if (user?.theme) {
+        handleChangeTheme(user.theme);
+      } else {
+        const defaultTheme = themes.find((theme) => {
+          return theme.name === DEFAULT_THEME;
+        });
+
+        handleChangeTheme(defaultTheme as ThemeProps);
       }
     }
   }, [user]);
