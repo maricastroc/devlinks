@@ -51,7 +51,7 @@ export const PhoneMockup = ({
           <div
             className={`font-bold w-[17.2rem] text-center absolute z-40 top-[11.3rem] left-[1rem] bg-cover bg-center ${isDefaultTheme ? 'bg-white' : 'bg-transparent'}`}
           >
-            <p className={`${currentTheme?.styles.secondary_text}`}>
+            <p className={`${currentTheme?.styles.primary_text}`}>
               {firstName || user?.first_name} {lastName || user?.last_name}
             </p>
           </div>
