@@ -162,7 +162,10 @@ export default function Dashboard({
                 </p>
               </div>
 
-              <div ref={dropdownRef as RefObject<HTMLDivElement>}>
+              <div
+                ref={dropdownRef as RefObject<HTMLDivElement>}
+                className="hidden md:block"
+              >
                 <button
                   onClick={() => setShowThemeDropdown(!showThemeDropdown)}
                   className="relative flex items-center gap-2 p-3 font-semibold text-gray-600 transition-all duration-150 rounded-md hover:text-medium-purple"
@@ -172,6 +175,7 @@ export default function Dashboard({
                 </button>
                 {showThemeDropdown && (
                   <DropdownTheme
+                    isSharedScreen={false}
                     handleSelect={(theme: ThemeProps) => {
                       handleThemeSelect(theme);
                       setShowThemeDropdown(false);

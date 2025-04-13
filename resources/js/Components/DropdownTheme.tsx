@@ -4,15 +4,19 @@ type Props = {
   handleSelect: (item: ThemeProps) => void;
   currentTheme: ThemeProps;
   themes: ThemeProps[];
+  isSharedScreen?: boolean;
 };
 
 export const DropdownTheme = ({
   handleSelect,
   themes,
-  currentTheme
+  currentTheme,
+  isSharedScreen = true
 }: Props) => {
   return (
-    <div className="top-[3.5rem] right-[0.2rem] w-[220px] absolute z-[9998] py-1 max-h-[16rem] flex flex-col overflow-y-auto mt-1 bg-white border border-gray-300 rounded-md shadow-md">
+    <div
+      className={`w-[220px] absolute z-[9998] py-1 max-h-[16rem] flex flex-col overflow-y-auto mt-1 bg-white border border-gray-300 rounded-md shadow-md ${isSharedScreen ? 'top-[3.5rem] right-[0.2rem]' : 'top-[15rem] lg:top-[13.6rem] right-[4.5rem]'}`}
+    >
       {themes?.map((theme) => (
         <div key={theme.name}>
           <div
