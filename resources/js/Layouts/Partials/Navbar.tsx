@@ -6,9 +6,18 @@ import NavLink from '@/Components/NavLink';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faLink } from '@fortawesome/free-solid-svg-icons';
 import { UserCircle } from 'phosphor-react';
+import { RefObject, useState } from 'react';
+import { DropdownProfile } from './DropdownProfile';
+import { useClickOutside } from '@/utils/useClickOutside';
 
 export const Navbar = () => {
   const { currentRoute, auth } = usePage().props;
+
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+
+  const dropdownRef = useClickOutside(() => {
+    setIsDropdownOpen(false);
+  });
 
   const user = auth.user;
 
@@ -37,14 +46,17 @@ export const Navbar = () => {
           <p className="hidden md:block">Links</p>
         </NavLink>
 
-        <NavLink
-          className="flex items-center transition-all duration-150 md:gap-2 hover:text-medium-purple"
-          href={route('profile')}
-          isActive={currentRoute === 'profile'}
+        <button
+          className={`relative transition-all duration-150 md:gap-2 hover:text-medium-purple flex items-center justify-center md:px-6 p-4 py-3 font-semibold rounded-md ${currentRoute === 'profile' || isDropdownOpen ? 'bg-purple-hover bg-opacity-25 text-medium-purple' : 'bg-transparent text-gray-600'}`}
+          onClick={() => setIsDropdownOpen(true)}
+          ref={dropdownRef as RefObject<HTMLButtonElement>}
         >
           <UserCircle size={26} />
-          <p className="hidden md:block">Profile Details</p>
-        </NavLink>
+          <p className="hidden md:block">Profile</p>
+          {isDropdownOpen && (
+            <DropdownProfile currentRoute={currentRoute as string} />
+          )}
+        </button>
       </div>
 
       <Link

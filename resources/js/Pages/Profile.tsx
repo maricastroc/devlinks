@@ -1,16 +1,13 @@
-import { useEffect, useRef, useState } from 'react';
+import { RefObject, useEffect, useRef, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Head } from '@inertiajs/react';
 import axios from 'axios';
 import { z } from 'zod';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faArrowRightFromBracket } from '@fortawesome/free-solid-svg-icons';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { PhoneMockup } from '@/Components/PhoneMockup';
 import PrimaryButton from '@/Components/PrimaryButton';
 import { PhotoInput } from '@/Components/PhotoInput';
-import NavLink from '@/Components/NavLink';
 import { InputField } from '@/Components/InputField';
 import { FormError } from '@/Components/FormError';
 import { LoadingComponent } from '@/Components/LoadingComponent';
@@ -22,6 +19,8 @@ import { ImageCropper } from '@/Components/ImageCropper';
 import { DEFAULT_THEME } from '@/utils/constants';
 import { ThemeProps } from '@/types/theme';
 import { useTheme } from '@/contexts/ThemeContext';
+import { ThemeButton } from '@/Components/ThemeButton';
+import { useClickOutside } from '@/utils/useClickOutside';
 
 type Props = {
   userLinks: UserLinkProps[];
@@ -46,7 +45,13 @@ type ProfileFormSchema = z.infer<typeof profileFormSchema>;
 export default function Profile({ user, userLinks, themes }: Props) {
   const inputFileRef = useRef<HTMLInputElement>(null);
 
-  const { handleChangeTheme } = useTheme();
+  const { handleChangeTheme, currentTheme, handleThemeSelect } = useTheme();
+
+  const [showThemeDropdown, setShowThemeDropdown] = useState(false);
+
+  const dropdownRef = useClickOutside(() => {
+    setShowThemeDropdown(false);
+  });
 
   const [photoPreview, setPhotoPreview] = useState<string | null>(null);
 
@@ -178,26 +183,29 @@ export default function Profile({ user, userLinks, themes }: Props) {
           />
         </div>
         <div className="flex flex-col w-full p-6 m-4 bg-white rounded-md lg:m-0 md:m-6 md:p-10">
-          <div className="flex items-center justify-between w-full">
-            <h2 className="mb-1 md:text-[2rem] text-2xl font-bold text-dark-gray">
-              Profile Details
-            </h2>
-            <NavLink
-              className="flex items-center transition-all duration-150 md:gap-2 hover:text-medium-red"
-              href={route('logout')}
-              method="post"
-            >
-              <p className="hidden text-[1.1rem] md:block">Logout</p>
-              <FontAwesomeIcon
-                className="text-md size-5"
-                icon={faArrowRightFromBracket}
-              />
-            </NavLink>
-          </div>
-          <p className="mb-8 text-medium-gray w-[80%]">
-            Add details to personalize your profile
-          </p>
+          <div className="flex items-start justify-between w-full gap-3">
+            <div>
+              <h2 className="mb-1 md:text-[2rem] text-2xl font-bold text-dark-gray">
+                Profile Details
+              </h2>
+              <p className="mb-8 text-medium-gray w-[80%]">
+                Add details to personalize your profile
+              </p>
+            </div>
 
+            {currentTheme && (
+              <ThemeButton
+                currentTheme={currentTheme}
+                themes={themes}
+                onSelect={handleThemeSelect}
+                dropdownRef={dropdownRef as RefObject<HTMLDivElement>}
+                showThemeDropdown={showThemeDropdown}
+                setShowThemeDropdown={() =>
+                  setShowThemeDropdown(!showThemeDropdown)
+                }
+              />
+            )}
+          </div>
           <form
             onSubmit={handleSubmit(onSubmit)}
             className="flex flex-col w-full gap-6"

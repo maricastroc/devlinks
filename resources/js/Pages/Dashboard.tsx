@@ -21,12 +21,11 @@ import { validateLinks } from '@/utils/validateLink';
 import { useLinks } from '@/utils/useLinks';
 import { handleReqError } from '@/utils/handleReqError';
 import toast from 'react-hot-toast';
-import ColorCircle from '/public/assets/images/icon-color-circle.svg';
-import { DropdownTheme } from '@/Components/DropdownTheme';
 import { ThemeProps } from '@/types/theme';
 import { DEFAULT_THEME } from '@/utils/constants';
 import { useTheme } from '@/contexts/ThemeContext';
 import { useClickOutside } from '@/utils/useClickOutside';
+import { ThemeButton } from '@/Components/ThemeButton';
 
 type Props = {
   platforms: PlatformProps[];
@@ -162,29 +161,16 @@ export default function Dashboard({
                 </p>
               </div>
 
-              <div
-                ref={dropdownRef as RefObject<HTMLDivElement>}
-                className="hidden md:block"
-              >
-                <button
-                  onClick={() => setShowThemeDropdown(!showThemeDropdown)}
-                  className="relative flex items-center gap-2 p-3 font-semibold text-gray-600 transition-all duration-150 rounded-md hover:text-medium-purple"
-                >
-                  <img src={ColorCircle} alt="Theme" className="w-4 h-4" />
-                  <span className="hidden md:inline">Theme</span>
-                </button>
-                {showThemeDropdown && (
-                  <DropdownTheme
-                    isSharedScreen={false}
-                    handleSelect={(theme: ThemeProps) => {
-                      handleThemeSelect(theme);
-                      setShowThemeDropdown(false);
-                    }}
-                    themes={themes}
-                    currentTheme={currentTheme}
-                  />
-                )}
-              </div>
+              <ThemeButton
+                currentTheme={currentTheme}
+                themes={themes}
+                onSelect={handleThemeSelect}
+                dropdownRef={dropdownRef as RefObject<HTMLDivElement>}
+                showThemeDropdown={showThemeDropdown}
+                setShowThemeDropdown={() =>
+                  setShowThemeDropdown(!showThemeDropdown)
+                }
+              />
             </div>
 
             <div className="flex items-center justify-center w-full gap-3">
