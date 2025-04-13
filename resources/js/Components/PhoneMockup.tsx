@@ -2,6 +2,7 @@ import PhoneMockupIllustration from '/public/assets/images/illustration-phone-mo
 import { UserLinkProps } from '@/types/user-link';
 import { UserProps } from '@/types/user';
 import { LinkCard } from './LinkCard';
+import { PhoneIllustration } from './PhoneIllustration';
 
 type Props = {
   links: UserLinkProps[];
@@ -22,7 +23,7 @@ export const PhoneMockup = ({
 }: Props) => {
   return (
     <div className="w-[307px] h-[631px] relative">
-      <img src={PhoneMockupIllustration} alt="Phone mockup" />
+      <PhoneIllustration />
       {(photoPreview || user?.avatar_url) && (
         <div
           style={{
