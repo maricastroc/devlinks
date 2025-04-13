@@ -52,6 +52,13 @@ export default {
         'bg-[#633CFF]',
         'bg-[#C54D48]',
         'md:text-md',
+        'text-[#FFFFFF]',
+        'text-[#1C2431]',
+        'text-[#2B3D40]',
         'bg-gradient-to-b from-[#C57248] via-[#4E4848] to-[#2D2D37] text-[#1C2431]',
+        'bg-gradient-to-b from-[#C15757] via-[#FFBE57] to-[#3E8E9C] text-[#2B3D40]',
+        'bg-gradient-to-b from-[#478EA9] via-[#C99F9A] to-[#E29042] text-[#1C2431]',
+        'bg-gradient-to-b from-[#C54D48] via-[#383952] to-[#21303D] text-[#1C2431]',
+        'bg-gradient-to-b from-[#72659B] to-[#EBA3AC] text-[#342B51]',
     ],
 };
