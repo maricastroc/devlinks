@@ -78,17 +78,13 @@ test('I should be able to update my profile details', function () {
 
     $response = $this->putJson(route('profile.update'), [
         'avatar_url' => $avatar,
-        'first_name' => 'Jon',
-        'last_name' => 'Doe',
-        'public_email' => 'jondoe@gmail.com',
+        'name' => 'Jon',
     ]);
     
     $response->assertStatus(Response::HTTP_OK);
 
     $this->assertDatabaseHas('users', [
-        'first_name' => 'Jon',
-        'last_name' => 'Doe',
-        'public_email' => 'jondoe@gmail.com',
+        'name' => 'Jon',
     ]);
 });
 
@@ -98,9 +94,7 @@ test('I should not be able to update my profile with invalid data', function () 
     $this->actingAs($user);
 
     $response = $this->putJson(route('profile.update'), [
-        'first_name' => 'Jon',
-        'last_name' => 'Doe',
-        'public_email' => 'invalid-email',
+        'name' => 'Jon',
     ]);
 
     $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY)

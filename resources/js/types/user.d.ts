@@ -1,15 +1,17 @@
 import { ThemeProps } from './theme';
+import { UserLinkProps } from './user-link';
 
 export type UserProps = {
   id?: number;
   email?: string;
   password?: string;
-  first_name?: string;
-  last_name?: string;
+  name?: string;
   avatar_url?: string | File | null;
   public_email?: string;
   username?: string;
   template: string;
   theme?: ThemeProps;
   theme_id?: number;
+  user_links: UserLinkProps[];
+  social_links: UserLinkProps[];
 };

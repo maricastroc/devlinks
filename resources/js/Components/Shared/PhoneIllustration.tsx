@@ -5,28 +5,26 @@ import { DEFAULT_THEME } from '@/utils/constants';
 
 type PhoneIllustrationProps = {
   links: UserLinkProps[];
-  firstName?: string | null;
-  lastName?: string | null;
-  publicEmail?: string | null;
+  socialLinks?: UserLinkProps[];
+  name?: string | null;
   user?: UserProps;
 };
 
 export const PhoneIllustration = ({
   user,
-  firstName,
-  lastName,
-  publicEmail,
-  links
+  name,
+  links,
+  socialLinks
 }: PhoneIllustrationProps) => {
   const { currentTheme } = useTheme();
 
   const isDefaultTheme = currentTheme?.name === DEFAULT_THEME;
 
-  const hasName = Boolean(
-    firstName?.length || lastName?.length || user?.first_name || user?.last_name
-  );
+  const hasName = Boolean(name?.length || user?.name);
 
-  const hasEmail = Boolean(publicEmail?.length || user?.public_email);
+  const hasSocialLinks = Boolean(
+    socialLinks?.length || user?.social_links?.length
+  );
 
   const containerBg = isDefaultTheme
     ? 'bg-white'
@@ -34,8 +32,7 @@ export const PhoneIllustration = ({
 
   const placeholderBg = 'bg-[#EEEEEE]';
 
-  // Número de placeholders que devem ser transparentes (igual ao número de links)
-  const transparentPlaceholders = Math.min(links.length, 5);
+  const transparentPlaceholders = Math.min(links?.length, 5);
 
   return (
     <div
@@ -54,7 +51,7 @@ export const PhoneIllustration = ({
             className={`${!isDefaultTheme && hasName ? 'bg-transparent' : 'bg-[#EEEEEE]'} w-[10rem] h-[1rem] rounded-full mt-[1.75rem]`}
           />
           <span
-            className={`${!isDefaultTheme && hasEmail ? 'bg-transparent' : 'bg-[#EEEEEE]'} w-[5rem] h-[0.8rem] rounded-full mt-[0.8rem]`}
+            className={`${!isDefaultTheme && hasSocialLinks ? 'bg-transparent' : 'bg-[#EEEEEE]'} w-[5rem] h-[0.8rem] rounded-full mt-[0.8rem]`}
           />
           <div className="flex flex-col items-center justify-start gap-[1.25rem] mt-[3.4rem]">
             {Array(5)

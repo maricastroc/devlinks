@@ -15,13 +15,20 @@ import { useTheme } from '@/contexts/ThemeContext';
 import { useClickOutside } from '@/utils/useClickOutside';
 
 type Props = {
+  socialLinks: UserLinkProps[];
   userLinks: UserLinkProps[];
   user: UserProps;
   themes: ThemeProps[];
   authUser: UserProps | null;
 };
 
-export default function Shared({ userLinks, user, themes, authUser }: Props) {
+export default function Shared({
+  userLinks,
+  user,
+  themes,
+  socialLinks,
+  authUser
+}: Props) {
   const isOwner = authUser?.id === user.id;
 
   const [showThemeDropdown, setShowThemeDropdown] = useState(false);
@@ -106,13 +113,35 @@ export default function Shared({ userLinks, user, themes, authUser }: Props) {
             <h2
               className={`text-[1.75rem] mt-4 font-bold ${currentTheme.styles.primary_text}`}
             >
-              {user?.first_name} {user?.last_name}
+              {user?.name}
             </h2>
-            <p
-              className={`text-md no-underline ${currentTheme.styles.secondary_text}`}
-            >
-              {user?.public_email}
-            </p>
+            {socialLinks?.length > 0 && (
+              <div className="flex justify-center gap-4 mt-2">
+                {socialLinks.map((link) => (
+                  <a
+                    key={link.id}
+                    href={link.url || '#'}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className={`p-2 rounded-full transition-all hover:scale-110 ${
+                      isDefaultTheme
+                        ? 'bg-gray-100 hover:bg-gray-200'
+                        : 'bg-white/10 hover:bg-white/20'
+                    }`}
+                    title={link.platform.name}
+                  >
+                    <img
+                      className="w-5 h-5"
+                      src={`/assets/images/${link.platform.icon_url}`}
+                      alt={link.platform.name}
+                      style={{
+                        filter: `${isDefaultTheme ? '' : 'saturate(0%) brightness(518%)'}`
+                      }}
+                    />
+                  </a>
+                ))}
+              </div>
+            )}
 
             <LinkList links={userLinks} currentTheme={currentTheme} />
           </div>

@@ -7,10 +7,14 @@ type Props = {
   link: UserLinkProps;
 };
 
-export const DropdownMenu = ({ handleSelect, platforms, link }: Props) => {
+export const DropdownLinks = ({ handleSelect, platforms, link }: Props) => {
+  const filteredPlatforms = platforms?.filter((platform) => {
+    return platform.is_social === false;
+  });
+
   return (
     <div className="top-[3.5rem] right-0 w-[100%] absolute z-[9998] py-1 max-h-[15rem] flex flex-col overflow-y-auto mt-1 bg-white border border-gray-300 rounded-md shadow-md">
-      {platforms?.map((platform) => (
+      {filteredPlatforms?.map((platform) => (
         <div key={platform.id}>
           <div
             className="flex items-center gap-2 px-4 py-3 cursor-pointer hover:bg-gray-100"

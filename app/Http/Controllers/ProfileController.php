@@ -6,6 +6,7 @@ use App\Http\Requests\ProfileUpdateRequest;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use App\Models\Theme;
+use App\Models\Platform;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Route;
@@ -17,17 +18,21 @@ class ProfileController extends Controller
     public function index(Request $request): Response
     {
         /** @var \App\Models\User $user */
-        $user = Auth::user()->load('theme');
+        $user = Auth::user()->load([
+            'theme',
+            'userLinks.platform',
+            'socialLinks.platform'
+        ]);
+
+        $platforms = Platform::all();
 
         $themes = Theme::where('is_active', true)
         ->select(['id', 'name', 'styles'])
         ->get();
     
-        $userLinks = $user->userLinks()->with('platform')->get();
-    
-        return Inertia::render('Profile', [
+        return Inertia::render('Profile/Index', [
             'user' => $user,
-            'userLinks' => $userLinks,
+            'platforms' => $platforms,
             'themes' => $themes,
             'currentRoute' => Route::currentRouteName(),
         ]);

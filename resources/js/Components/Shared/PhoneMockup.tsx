@@ -1,4 +1,3 @@
-import PhoneMockupIllustration from '/public/assets/images/illustration-phone-mockup.svg';
 import { UserLinkProps } from '@/types/user-link';
 import { UserProps } from '@/types/user';
 import { LinkCard } from './LinkCard';
@@ -9,63 +8,71 @@ import { AvatarCard } from '@/Pages/Shared/partials/AvatarCard';
 
 type Props = {
   links: UserLinkProps[];
+  socialLinks?: UserLinkProps[];
   user?: UserProps;
   photoPreview?: string | null;
-  firstName?: string | null;
-  lastName?: string | null;
-  publicEmail?: string | null;
+  name: string | null;
 };
 
 export const PhoneMockup = ({
   user,
   photoPreview,
-  firstName,
-  lastName,
-  publicEmail,
-  links
+  name,
+  links,
+  socialLinks
 }: Props) => {
   const { currentTheme } = useTheme();
 
   const isDefaultTheme = currentTheme?.name === DEFAULT_THEME;
-  console.log(links, currentTheme);
+
+  const userSocialLinks = socialLinks || user?.social_links;
+
   return (
     currentTheme && (
       <div className="w-[307px] h-[631px] relative">
         <PhoneIllustration
           links={links}
           user={user}
-          firstName={firstName}
-          lastName={lastName}
-          publicEmail={publicEmail}
+          name={name}
+          socialLinks={socialLinks}
         />
         {(photoPreview || user?.avatar_url) && currentTheme && (
           <AvatarCard
             isSharedScreen={false}
             avatarUrl={photoPreview || (user?.avatar_url as string)}
             theme={currentTheme}
-            className="absolute rounded-full bg-opacity-20 h-[6.02rem] w-[6.02rem] z-40 top-[3.9rem] left-[6.5rem] bg-cover bg-center"
+            className="absolute rounded-full bg-opacity-20 h-[6rem] w-[6rem] z-40 top-[3.9rem] left-[6.5rem] bg-cover bg-center"
           />
         )}
 
-        {(firstName || user?.first_name) && (
+        {(name || user?.name) && (
           <div
             className={`font-bold w-[17.2rem] text-center absolute z-40 top-[11.3rem] left-[1rem] bg-cover bg-center ${isDefaultTheme ? 'bg-white' : 'bg-transparent'}`}
           >
             <p className={`${currentTheme?.styles.primary_text}`}>
-              {firstName || user?.first_name} {lastName || user?.last_name}
+              {name || user?.name}
             </p>
           </div>
         )}
 
-        {(publicEmail || user?.public_email) && (
+        {userSocialLinks && (
           <div
-            className={`text-sm w-[17.2rem] text-center absolute  z-40 top-[12.8rem] left-[1rem] bg-cover bg-center ${isDefaultTheme ? 'bg-white' : 'bg-transparent'}`}
+            className={`flex items-center justify-center font-bold w-[17.2rem] text-center absolute z-40 top-[13.2rem] left-[1rem] bg-cover bg-center ${isDefaultTheme ? 'bg-white' : 'bg-transparent'}`}
           >
-            <p
-              className={`${currentTheme?.styles.secondary_text} no-underline`}
-            >
-              {publicEmail || user?.public_email}
-            </p>
+            {userSocialLinks?.map((link) => {
+              return (
+                <a href={link.url || '#'}>
+                  <img
+                    className="w-6 h-6"
+                    src={`/assets/images/${link.platform.icon_url}`}
+                    alt={link.platform.name}
+                    style={{
+                      filter: `${isDefaultTheme ? '' : 'saturate(0%) brightness(518%)'}`
+                    }}
+                  />
+                </a>
+              );
+            })}
           </div>
         )}
 

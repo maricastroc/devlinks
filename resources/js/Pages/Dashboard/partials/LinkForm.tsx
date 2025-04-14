@@ -6,7 +6,7 @@ import IconLink from '/public/assets/images/icon-links-header.svg';
 import IconPlatform from '/public/assets/images/icon-platform.svg';
 import { LinkMark } from './LinkMark';
 import { useState, useRef, useEffect } from 'react';
-import { DropdownMenu } from '../../../Components/Shared/DropdownMenu';
+import { DropdownLinks } from '../../../Components/Shared/DropdownLinks';
 import { PlatformProps } from '@/types/platform';
 import { UserLinkProps } from '@/types/user-link';
 import InputError from '../../../Components/Core/InputError';
@@ -120,7 +120,7 @@ export const LinkForm = ({
               </div>
               {isDropdownOpen && (
                 <div ref={dropdownRef}>
-                  <DropdownMenu
+                  <DropdownLinks
                     platforms={platforms}
                     link={link}
                     handleSelect={(item: PlatformProps) => {

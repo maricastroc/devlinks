@@ -36,8 +36,7 @@ class ProfileUpdateRequest extends FormRequest
                 'min:3',
                 Rule::unique(User::class)->ignore($this->user()->id)
             ],
-            'first_name' => ['required', 'string'],
-            'last_name' => ['required', 'string'],
+            'name' => ['required', 'string'],
             'avatar_url' => [
                 'nullable',
                 'image',

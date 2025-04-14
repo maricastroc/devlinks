@@ -38,7 +38,7 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({
 
   const handleThemeSelect = async (theme: ThemeProps) => {
     const previousTheme = currentTheme;
-    console.log(theme);
+
     setCurrentTheme(theme);
 
     const formData = new FormData();

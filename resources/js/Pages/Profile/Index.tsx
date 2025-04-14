@@ -1,13 +1,14 @@
-import { RefObject, useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
+import * as Dialog from '@radix-ui/react-dialog';
 import { Head } from '@inertiajs/react';
 import axios from 'axios';
 import { z } from 'zod';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { PhoneMockup } from '@/Components/Shared/PhoneMockup';
 import PrimaryButton from '@/Components/Core/PrimaryButton';
-import { PhotoInput } from '@/Components/Core/PhotoInput';
+import { PhotoInput } from '@/Pages/Profile/partials/PhotoInput';
 import { InputField } from '@/Components/Core/InputField';
 import { FormError } from '@/Components/Core/FormError';
 import { LoadingComponent } from '@/Components/Shared/LoadingComponent';
@@ -18,21 +19,27 @@ import toast from 'react-hot-toast';
 import { ImageCropper } from '@/Components/Shared/ImageCropper';
 import { ThemeProps } from '@/types/theme';
 import { useTheme } from '@/contexts/ThemeContext';
-import { ThemeButton } from '@/Components/Core/ThemeButton';
-import { useClickOutside } from '@/utils/useClickOutside';
 import { PageHeader } from '@/Components/Shared/PageHeader';
 import { DEFAULT_THEME } from '@/utils/constants';
+import { PlatformProps } from '@/types/platform';
+import { ProfileSection } from './partials/ProfileSection';
+import { SocialMediaSection } from './partials/SocialMediaSection';
+import { SocialMediaModal } from './partials/SocialMediaModal';
+import useRequest from '@/utils/useRequest';
 
 type Props = {
-  userLinks: UserLinkProps[];
+  platforms: PlatformProps[];
   user: UserProps;
   themes: ThemeProps[];
 };
 
+export interface SocialLinksResponse {
+  socialLinks: UserLinkProps[];
+  count: number;
+}
+
 const profileFormSchema = z.object({
-  first_name: z.string().min(3, 'First name is required'),
-  last_name: z.string().min(3, 'Last name is required'),
-  public_email: z.string().email('E-mail is required'),
+  name: z.string().min(3, 'Name is required'),
   username: z
     .string()
     .min(8, { message: 'Username must have at least 3 characters' }),
@@ -43,10 +50,16 @@ const profileFormSchema = z.object({
 
 type ProfileFormSchema = z.infer<typeof profileFormSchema>;
 
-export default function Profile({ user, userLinks, themes }: Props) {
+export default function Profile({ user, platforms, themes }: Props) {
   const inputFileRef = useRef<HTMLInputElement>(null);
 
+  const filteredPlatforms = platforms.filter(
+    (platform) => platform.is_social === true
+  );
+
   const { handleChangeTheme } = useTheme();
+
+  const [isSocialMediaModalOpen, setIsSocialMediaModalOpen] = useState(false);
 
   const [photoPreview, setPhotoPreview] = useState<string | null>(null);
 
@@ -55,6 +68,11 @@ export default function Profile({ user, userLinks, themes }: Props) {
   const [showCropper, setShowCropper] = useState(false);
 
   const [originalImage, setOriginalImage] = useState<string | null>(null);
+
+  const { data, mutate } = useRequest<SocialLinksResponse>({
+    url: `/social-links`,
+    method: 'GET'
+  });
 
   const handleCroppedImage = (croppedImage: string) => {
     fetch(croppedImage)
@@ -76,9 +94,7 @@ export default function Profile({ user, userLinks, themes }: Props) {
   } = useForm<ProfileFormSchema>({
     resolver: zodResolver(profileFormSchema),
     defaultValues: {
-      first_name: user?.first_name || '',
-      last_name: user?.last_name || '',
-      public_email: user?.public_email || '',
+      name: user?.name || '',
       username: user?.username || ''
     }
   });
@@ -98,10 +114,8 @@ export default function Profile({ user, userLinks, themes }: Props) {
 
   const onSubmit = async (data: ProfileFormSchema) => {
     const formData = new FormData();
-    formData.append('first_name', data.first_name);
-    formData.append('last_name', data.last_name);
+    formData.append('name', data.name);
     formData.append('username', data.username);
-    formData.append('public_email', data.public_email);
     formData.append('_method', 'PUT');
 
     if (data.avatar_url) {
@@ -127,9 +141,7 @@ export default function Profile({ user, userLinks, themes }: Props) {
 
   useEffect(() => {
     if (user) {
-      setValue('first_name', user?.first_name || '');
-      setValue('last_name', user?.last_name || '');
-      setValue('public_email', user?.public_email || '');
+      setValue('name', user?.name || '');
 
       if (user?.avatar_url) {
         setPhotoPreview(user.avatar_url as string);
@@ -169,11 +181,10 @@ export default function Profile({ user, userLinks, themes }: Props) {
       <div className="lg:m-6 flex lg:grid lg:grid-cols-[1fr,1.5fr] w-full lg:gap-6 lg:mt-0">
         <div className="items-center justify-center hidden w-full p-10 bg-white rounded-md lg:flex">
           <PhoneMockup
-            links={userLinks}
-            publicEmail={watch().public_email}
-            lastName={watch().last_name}
+            links={user.user_links}
+            socialLinks={data?.socialLinks}
+            name={watch().name}
             photoPreview={photoPreview}
-            firstName={watch().first_name}
             user={user}
           />
         </div>
@@ -187,7 +198,22 @@ export default function Profile({ user, userLinks, themes }: Props) {
             onSubmit={handleSubmit(onSubmit)}
             className="flex flex-col w-full gap-6"
           >
-            <div className="flex flex-col w-full p-5 rounded-md md:p-7 bg-light-gray">
+            <ProfileSection title="Connect your social media" wrap>
+              <Dialog.Root open={isSocialMediaModalOpen}>
+                <Dialog.Trigger asChild>
+                  <SocialMediaSection
+                    onClick={() => setIsSocialMediaModalOpen(true)}
+                    platforms={filteredPlatforms}
+                  />
+                </Dialog.Trigger>
+                <SocialMediaModal
+                  mutate={mutate}
+                  platforms={filteredPlatforms}
+                  onClose={() => setIsSocialMediaModalOpen(false)}
+                />
+              </Dialog.Root>
+            </ProfileSection>
+            <ProfileSection title="Profile picture">
               <PhotoInput
                 isProfileScreen
                 withMarginTop={false}
@@ -199,33 +225,19 @@ export default function Profile({ user, userLinks, themes }: Props) {
               {errors.avatar_url && (
                 <FormError error={errors.avatar_url.message} />
               )}
-            </div>
+            </ProfileSection>
 
             <div className="flex flex-col p-5 rounded-md md:p-7 bg-light-gray">
               <Controller
-                name="first_name"
+                name="name"
                 control={control}
                 render={({ field }) => (
                   <InputField
-                    label="First name"
-                    id="first_name"
+                    label="Your name"
+                    id="name"
                     type="text"
-                    placeholder="Ben"
-                    error={errors.first_name?.message}
-                    {...field}
-                  />
-                )}
-              />
-              <Controller
-                name="last_name"
-                control={control}
-                render={({ field }) => (
-                  <InputField
-                    label="Last name"
-                    id="last_name"
-                    type="text"
-                    placeholder="Wright"
-                    error={errors.last_name?.message}
+                    placeholder="Jon Doe"
+                    error={errors.name?.message}
                     {...field}
                   />
                 )}
@@ -241,20 +253,6 @@ export default function Profile({ user, userLinks, themes }: Props) {
                     type="text"
                     placeholder="username"
                     error={errors.username?.message}
-                    {...field}
-                  />
-                )}
-              />
-              <Controller
-                name="public_email"
-                control={control}
-                render={({ field }) => (
-                  <InputField
-                    label="Email"
-                    id="email"
-                    type="email"
-                    placeholder="e.g. alex@email.com"
-                    error={errors.public_email?.message}
                     {...field}
                   />
                 )}

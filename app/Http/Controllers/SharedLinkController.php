@@ -19,7 +19,11 @@ class SharedLinkController extends Controller
             $query->where('username', $userIdentifier);
         }
 
-        $user = $query->with('theme')->first();
+        $user = $query->with([
+            'theme',
+            'userLinks.platform',
+            'socialLinks.platform'
+        ])->first();
 
         if (!$user) {
             return Inertia::render('ErrorPage', [
@@ -34,20 +38,19 @@ class SharedLinkController extends Controller
 
         $data = [
             'user' => [
-                'first_name'   => $user->first_name,
-                'last_name'    => $user->last_name,
-                'public_email' => $user->public_email,
-                'avatar_url'   => $user->avatar_url,
-                'id'          => $user->id,
-                'theme'       => $user->theme ? [
-                    'id' => $user->theme->id,
-                    'name' => $user->theme->name,
+                'name'       => $user->name,
+                'avatar_url' => $user->avatar_url,
+                'id'         => $user->id,
+                'theme'      => $user->theme ? [
+                    'id'     => $user->theme->id,
+                    'name'   => $user->theme->name,
                     'styles' => $user->theme->styles
                 ] : null
             ],
-            'themes' => $themes,
-            'userLinks' => $user->userLinks()->with('platform')->orderBy('order')->get(),
-            'authUser' => auth()->user() ? [
+            'themes'    => $themes,
+            'userLinks' => $user->userLinks,
+            'socialLinks' => $user->socialLinks,
+            'authUser'  => auth()->user() ? [
                 'id' => auth()->user()->id,
             ] : null,
         ];

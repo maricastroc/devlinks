@@ -21,8 +21,7 @@ class User extends Authenticatable
         'email',
         'password',
         'public_email',
-        'first_name',
-        'last_name',
+        'name',
         'avatar_url',
         'theme',
         'username'
@@ -85,10 +84,8 @@ class User extends Authenticatable
         }
 
         $user->username = $data['username'];
-        
-        $user->first_name = $data['first_name'];
 
-        $user->last_name = $data['last_name'];
+        $user->name = $data['name'];
 
         $user->email = $data['email'] ?? $user->email;
 
@@ -132,5 +129,10 @@ class User extends Authenticatable
     public function theme()
 {
     return $this->belongsTo(Theme::class);
+}
+
+public function socialLinks()
+{
+    return $this->hasMany(SocialLinks::class)->orderBy('order');
 }
 }

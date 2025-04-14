@@ -16,9 +16,7 @@ export const PhotoInput = ({
   isLoading = false
 }: PhotoInputProps) => {
   return (
-    <div className="flex flex-col items-start w-full gap-4 md:justify-between md:items-center md:flex-row">
-      <p className="md:w-[10rem] text-medium-gray">Profile picture</p>
-
+    <>
       <div className="flex flex-col w-full md:flex-row md:items-center md:justify-end md:gap-6">
         <button
           type="button"
@@ -73,6 +71,6 @@ export const PhotoInput = ({
         disabled={isLoading}
         className="w-0"
       />
-    </div>
+    </>
   );
 };
