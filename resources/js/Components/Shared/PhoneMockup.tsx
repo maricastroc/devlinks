@@ -41,7 +41,7 @@ export const PhoneMockup = ({
             isSharedScreen={false}
             avatarUrl={photoPreview || (user?.avatar_url as string)}
             theme={currentTheme}
-            className="absolute rounded-full bg-opacity-20 h-[6rem] w-[6rem] z-40 top-[3.9rem] left-[6.5rem] bg-cover bg-center"
+            className="absolute rounded-full bg-opacity-20 h-[6.05rem] w-[6.05rem] z-40 top-[3.9rem] left-[6.5rem] bg-cover bg-center"
           />
         )}
 
