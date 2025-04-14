@@ -19,6 +19,7 @@ import { handleReqError } from '@/utils/handleReqError';
 import { LinksSection } from './partials/LinksSection';
 import { EmptyLinks } from './partials/EmptyLinks';
 import { PageHeader } from '@/Components/Shared/PageHeader';
+import { DEFAULT_THEME } from '@/utils/constants';
 
 type Props = {
   platforms: PlatformProps[];
@@ -103,6 +104,20 @@ export default function Dashboard({
       setProcessing(false);
     }
   };
+
+  useEffect(() => {
+    if (user) {
+      if (user?.theme) {
+        handleChangeTheme(user.theme);
+      } else {
+        const defaultTheme = themes.find((theme) => {
+          return theme.name === DEFAULT_THEME;
+        });
+
+        handleChangeTheme(defaultTheme as ThemeProps);
+      }
+    }
+  }, [user?.theme]);
 
   return (
     currentTheme && (

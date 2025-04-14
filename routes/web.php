@@ -16,8 +16,6 @@ Route::middleware('auth')->group(function () {
     Route::post('/user-links', [UserLinkController::class, 'store'])->name('user-links.store');
     Route::patch('/profile/theme', [ProfileController::class, 'updateTheme'])
     ->name('profile.theme.update');
-    Route::get('/api/authenticated-user', [UserController::class, 'getAuthenticatedUser'])
-        ->name('api.authenticated-user');
 });
 
 Route::get('/devlinks/{user:username}', [SharedLinkController::class, 'handle'])->name('shared');
