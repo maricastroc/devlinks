@@ -6,7 +6,7 @@ import {
   faPalette
 } from '@fortawesome/free-solid-svg-icons';
 import { HeaderButton } from '@/Pages/Shared/partials/HeaderButton';
-import { DropdownTheme } from '@/Components/DropdownTheme';
+import { DropdownTheme } from '@/Components/Shared/DropdownTheme';
 import { RefObject } from 'react';
 import { ThemeProps } from '@/types/theme';
 import { useTheme } from '@/contexts/ThemeContext';

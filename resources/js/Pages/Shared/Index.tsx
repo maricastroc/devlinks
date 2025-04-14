@@ -6,7 +6,7 @@ import { AvatarCard } from '@/Pages/Shared/partials/AvatarCard';
 import { UserLinkProps } from '@/types/user-link';
 import { UserProps } from '@/types/user';
 import { DEFAULT_THEME } from '@/utils/constants';
-import { LoadingComponent } from '@/Components/LoadingComponent';
+import { LoadingComponent } from '@/Components/Shared/LoadingComponent';
 import { OwnerHeader } from './partials/OwnerHeader';
 import { LinkList } from './partials/LinkList';
 import SmallLogo from '/public/assets/images/logo-devlinks-small.svg';

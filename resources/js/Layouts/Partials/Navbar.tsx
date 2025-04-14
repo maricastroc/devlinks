@@ -2,7 +2,7 @@ import SmallLogo from '/public/assets/images/logo-devlinks-small.svg';
 import Logo from '/public/assets/images/logo-devlinks-large.svg';
 import Preview from '/public/assets/images/icon-preview-header.svg';
 import { Link, usePage } from '@inertiajs/react';
-import NavLink from '@/Components/NavLink';
+import NavLink from '@/Components/Core/NavLink';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faLink } from '@fortawesome/free-solid-svg-icons';
 import { UserCircle } from 'phosphor-react';

@@ -1,8 +1,8 @@
 import React, { useState, useRef } from 'react';
 import Cropper from 'react-cropper';
 import 'cropperjs/dist/cropper.css';
-import PrimaryButton from './PrimaryButton';
-import SecondaryButton from './SecondaryButton';
+import PrimaryButton from '../Core/PrimaryButton';
+import SecondaryButton from '../Core/SecondaryButton';
 
 interface ImageCropperProps {
   src: string;

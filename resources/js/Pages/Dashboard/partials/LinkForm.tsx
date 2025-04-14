@@ -1,15 +1,15 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import InputLabel from './InputLabel';
+import InputLabel from '../../../Components/Core/InputLabel';
 import { faChevronDown, faChevronUp } from '@fortawesome/free-solid-svg-icons';
-import TextInput from './TextInput';
+import TextInput from '../../../Components/Core/TextInput';
 import IconLink from '/public/assets/images/icon-links-header.svg';
 import IconPlatform from '/public/assets/images/icon-platform.svg';
 import { LinkMark } from './LinkMark';
 import { useState, useRef, useEffect } from 'react';
-import { DropdownMenu } from './DropdownMenu';
+import { DropdownMenu } from '../../../Components/Shared/DropdownMenu';
 import { PlatformProps } from '@/types/platform';
 import { UserLinkProps } from '@/types/user-link';
-import InputError from './InputError';
+import InputError from '../../../Components/Core/InputError';
 import { DraggableProvided } from 'react-beautiful-dnd';
 import { CUSTOM_PLATFORM_NAME } from '@/utils/constants';
 

@@ -1,4 +1,4 @@
-import { FormErrors } from '@/Pages/Dashboard';
+import { FormErrors } from '@/Pages/Dashboard/Index';
 import { PlatformProps } from '@/types/platform';
 import { UserLinkProps } from '@/types/user-link';
 import { CUSTOM_PLATFORM_NAME } from './constants';

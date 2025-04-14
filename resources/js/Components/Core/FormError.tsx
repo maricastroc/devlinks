@@ -13,9 +13,9 @@ export const FormError = ({ error, className }: FormErrorsProps) => {
         <div className="flex items-center gap-1">
           <FontAwesomeIcon
             icon={faCircleXmark}
-            className="text-medium-red text-xs"
+            className="text-xs text-medium-red"
           />
-          <p className="text-medium-red text-sm">{error}</p>
+          <p className="text-sm text-medium-red">{error}</p>
         </div>
       </div>
     )

@@ -1,8 +1,8 @@
-import ApplicationLogo from '@/Components/ApplicationLogo';
+import ApplicationLogo from '@/Components/Core/ApplicationLogo';
 import { Link } from '@inertiajs/react';
 import { Inertia } from '@inertiajs/inertia';
 import { ReactNode, useEffect, useState } from 'react';
-import { LoadingComponent } from '@/Components/LoadingComponent';
+import { LoadingComponent } from '@/Components/Shared/LoadingComponent';
 
 type GuestProps = {
   children: ReactNode;

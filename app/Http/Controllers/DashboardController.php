@@ -27,7 +27,7 @@ class DashboardController extends Controller
             ->select(['id', 'name', 'styles'])
             ->get();
 
-        return Inertia::render('Dashboard', [
+        return Inertia::render('Dashboard/Index', [
             'user' => $user,
             'platforms' => $platforms,
             'userLinks' => $userLinks,

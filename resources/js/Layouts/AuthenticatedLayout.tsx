@@ -1,7 +1,7 @@
 import { PropsWithChildren, ReactNode, useEffect, useState } from 'react';
 import { Inertia } from '@inertiajs/inertia';
 import { Navbar } from './Partials/Navbar';
-import { LoadingComponent } from '@/Components/LoadingComponent';
+import { LoadingComponent } from '@/Components/Shared/LoadingComponent';
 
 export default function Authenticated({
   children

@@ -7,25 +7,25 @@ import {
   Draggable,
   DropResult
 } from 'react-beautiful-dnd';
+import toast from 'react-hot-toast';
 import EmptyMockup from '/public/assets/images/illustration-empty.svg';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
-import PrimaryButton from '@/Components/PrimaryButton';
-import { LinkForm } from '@/Components/LinkForm';
-import SecondaryButton from '@/Components/SecondaryButton';
-import { PhoneMockup } from '@/Components/PhoneMockup';
-import { LoadingComponent } from '@/Components/LoadingComponent';
+import PrimaryButton from '@/Components/Core/PrimaryButton';
+import { LinkForm } from '@/Pages/Dashboard/partials/LinkForm';
+import SecondaryButton from '@/Components/Core/SecondaryButton';
+import { PhoneMockup } from '@/Components/Shared/PhoneMockup';
+import { LoadingComponent } from '@/Components/Shared/LoadingComponent';
+import { ThemeButton } from '@/Components/Core/ThemeButton';
+import { useTheme } from '@/contexts/ThemeContext';
 import { PlatformProps } from '@/types/platform';
 import { UserLinkProps } from '@/types/user-link';
 import { UserProps } from '@/types/user';
+import { ThemeProps } from '@/types/theme';
+import { DEFAULT_THEME } from '@/utils/constants';
 import { validateLinks } from '@/utils/validateLink';
 import { useLinks } from '@/utils/useLinks';
 import { handleReqError } from '@/utils/handleReqError';
-import toast from 'react-hot-toast';
-import { ThemeProps } from '@/types/theme';
-import { DEFAULT_THEME } from '@/utils/constants';
-import { useTheme } from '@/contexts/ThemeContext';
 import { useClickOutside } from '@/utils/useClickOutside';
-import { ThemeButton } from '@/Components/ThemeButton';
 
 type Props = {
   platforms: PlatformProps[];

@@ -1,6 +1,6 @@
 import { RefObject, useState } from 'react';
 import { ThemeProps } from '@/types/theme';
-import { DropdownTheme } from './DropdownTheme';
+import { DropdownTheme } from '../Shared/DropdownTheme';
 import ColorCircle from '/public/assets/images/icon-color-circle.svg';
 
 type ThemeButtonProps = {

@@ -1,5 +1,5 @@
 import { UserLinkProps } from '@/types/user-link';
-import { LinkCard } from '@/Components/LinkCard';
+import { LinkCard } from '@/Components/Shared/LinkCard';
 import { ThemeProps } from '@/types/theme';
 
 type Props = {

@@ -1,4 +1,4 @@
-import NavLink from '@/Components/NavLink';
+import NavLink from '@/Components/Core/NavLink';
 import {
   faArrowRightFromBracket,
   faPenToSquare
