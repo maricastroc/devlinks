@@ -24,7 +24,6 @@ import { DEFAULT_THEME } from '@/utils/constants';
 type Props = {
   platforms: PlatformProps[];
   themes: ThemeProps[];
-  userLinks: UserLinkProps[] | [];
   user: UserProps;
 };
 
@@ -33,12 +32,7 @@ export type FormErrors = Record<
   { url?: string; platform_id?: string; custom_name?: string }
 >;
 
-export default function Dashboard({
-  platforms,
-  userLinks,
-  user,
-  themes
-}: Props) {
+export default function Dashboard({ platforms, user, themes }: Props) {
   const [processing, setProcessing] = useState(false);
 
   const [errors, setErrors] = useState<FormErrors>({});
@@ -54,7 +48,7 @@ export default function Dashboard({
     handleUpdatePlatform,
     handleUpdateCustomName,
     handleUpdateUrl
-  } = useLinks(userLinks, platforms);
+  } = useLinks(user?.user_links, platforms);
 
   const onDragEnd = (result: DropResult) => {
     if (!result.destination) return;

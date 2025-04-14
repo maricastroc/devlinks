@@ -17,9 +17,11 @@ class DashboardController extends Controller
         $platforms = Platform::all();
 
         /** @var \App\Models\User $user */
-        $user = Auth::user()->load('theme');
-    
-        $userLinks = $user->userLinks()->with('platform')->orderBy('order')->get();
+        $user = Auth::user()->load([
+            'theme',
+            'userLinks.platform',
+            'socialLinks.platform'
+        ]);
     
         $themes = Theme::where('is_active', true)
             ->select(['id', 'name', 'styles'])
@@ -28,7 +30,6 @@ class DashboardController extends Controller
         return Inertia::render('Dashboard/Index', [
             'user' => $user,
             'platforms' => $platforms,
-            'userLinks' => $userLinks,
             'themes' => $themes,
             'currentRoute' => Route::currentRouteName(),
         ]);

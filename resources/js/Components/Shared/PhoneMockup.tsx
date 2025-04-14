@@ -11,7 +11,7 @@ type Props = {
   socialLinks?: UserLinkProps[];
   user?: UserProps;
   photoPreview?: string | null;
-  name: string | null;
+  name?: string | null;
 };
 
 export const PhoneMockup = ({
