@@ -17,9 +17,7 @@ class DashboardController extends Controller
         $platforms = Platform::all();
 
         /** @var \App\Models\User $user */
-        $user = Auth::user();
-
-        $user = $user->with('theme')->first();
+        $user = Auth::user()->load('theme');
     
         $userLinks = $user->userLinks()->with('platform')->orderBy('order')->get();
     

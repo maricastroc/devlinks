@@ -7,6 +7,8 @@ type ThemeContextType = {
   handleThemeSelect: (theme: ThemeProps) => void;
   currentTheme: ThemeProps | null;
   handleChangeTheme: (theme: ThemeProps) => void;
+  showThemeDropdown: boolean;
+  handleShowThemeDropdown: (value: boolean) => void;
 };
 
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
@@ -23,6 +25,12 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({
   children
 }) => {
   const [currentTheme, setCurrentTheme] = useState<ThemeProps | null>(null);
+
+  const [showThemeDropdown, setShowThemeDropdown] = useState(false);
+
+  const handleShowThemeDropdown = (value: boolean) => {
+    setShowThemeDropdown(value);
+  };
 
   const handleChangeTheme = (theme: ThemeProps) => {
     setCurrentTheme(theme);
@@ -59,7 +67,13 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({
 
   return (
     <ThemeContext.Provider
-      value={{ currentTheme, handleChangeTheme, handleThemeSelect }}
+      value={{
+        currentTheme,
+        showThemeDropdown,
+        handleShowThemeDropdown,
+        handleChangeTheme,
+        handleThemeSelect
+      }}
     >
       {children}
     </ThemeContext.Provider>

@@ -1,21 +1,13 @@
-import { RefObject, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Head } from '@inertiajs/react';
-import {
-  DragDropContext,
-  Droppable,
-  Draggable,
-  DropResult
-} from 'react-beautiful-dnd';
+import { DropResult } from 'react-beautiful-dnd';
 import toast from 'react-hot-toast';
-import EmptyMockup from '/public/assets/images/illustration-empty.svg';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import PrimaryButton from '@/Components/Core/PrimaryButton';
-import { LinkForm } from '@/Pages/Dashboard/partials/LinkForm';
 import SecondaryButton from '@/Components/Core/SecondaryButton';
 import { PhoneMockup } from '@/Components/Shared/PhoneMockup';
 import { LoadingComponent } from '@/Components/Shared/LoadingComponent';
-import { ThemeButton } from '@/Components/Core/ThemeButton';
 import { useTheme } from '@/contexts/ThemeContext';
 import { PlatformProps } from '@/types/platform';
 import { UserLinkProps } from '@/types/user-link';
@@ -25,7 +17,9 @@ import { DEFAULT_THEME } from '@/utils/constants';
 import { validateLinks } from '@/utils/validateLink';
 import { useLinks } from '@/utils/useLinks';
 import { handleReqError } from '@/utils/handleReqError';
-import { useClickOutside } from '@/utils/useClickOutside';
+import { LinksSection } from './partials/LinksSection';
+import { EmptyLinks } from './partials/EmptyLinks';
+import { PageHeader } from '@/Components/Shared/PageHeader';
 
 type Props = {
   platforms: PlatformProps[];
@@ -47,15 +41,9 @@ export default function Dashboard({
 }: Props) {
   const [processing, setProcessing] = useState(false);
 
-  const [showThemeDropdown, setShowThemeDropdown] = useState(false);
-
-  const dropdownRef = useClickOutside(() => {
-    setShowThemeDropdown(false);
-  });
-
   const [errors, setErrors] = useState<FormErrors>({});
 
-  const { currentTheme, handleChangeTheme, handleThemeSelect } = useTheme();
+  const { currentTheme, handleChangeTheme } = useTheme();
 
   const {
     links,
@@ -150,28 +138,12 @@ export default function Dashboard({
           </div>
 
           <div className="flex flex-col w-full p-6 m-4 mt-6 bg-white rounded-md lg:m-0 md:m-6 md:p-10">
-            <div className="flex items-start justify-between w-full gap-3">
-              <div>
-                <h2 className="mb-1 text-[1.5rem] md:text-[2rem] font-bold text-dark-gray">
-                  Customize your links
-                </h2>
-                <p className="mb-8 md:mb-10 text-medium-gray">
-                  Add/edit/remove links below and then share all your profiles
-                  with the world!
-                </p>
-              </div>
-
-              <ThemeButton
-                currentTheme={currentTheme}
-                themes={themes}
-                onSelect={handleThemeSelect}
-                dropdownRef={dropdownRef as RefObject<HTMLDivElement>}
-                showThemeDropdown={showThemeDropdown}
-                setShowThemeDropdown={() =>
-                  setShowThemeDropdown(!showThemeDropdown)
-                }
-              />
-            </div>
+            <PageHeader
+              title="Customize your links"
+              description="Add/edit/remove links below and then share all your profiles
+            with the world!"
+              themes={themes}
+            />
 
             <div className="flex items-center justify-center w-full gap-3">
               <SecondaryButton onClick={handleAddLink}>
@@ -180,73 +152,18 @@ export default function Dashboard({
             </div>
 
             {links?.length > 0 ? (
-              <div className="flex flex-col custom-scrollbar overflow-y-scroll max-h-[30rem] gap-4 mt-6 h-full">
-                <DragDropContext onDragEnd={onDragEnd}>
-                  <Droppable droppableId="linksList">
-                    {(provided) => (
-                      <div
-                        {...provided.droppableProps}
-                        ref={provided.innerRef}
-                        className="flex flex-col w-full h-full gap-4 mt-6 "
-                      >
-                        {links.map((link, index) => (
-                          <Draggable
-                            key={link.id.toString()}
-                            draggableId={link.id.toString()}
-                            index={index}
-                          >
-                            {(provided) => (
-                              <div
-                                ref={provided.innerRef}
-                                {...provided.draggableProps}
-                                {...provided.dragHandleProps}
-                              >
-                                <LinkForm
-                                  platforms={filteredPlatforms}
-                                  link={link}
-                                  provided={provided}
-                                  index={index}
-                                  handleRemove={handleRemoveLink}
-                                  handleUpdateUrl={handleUpdateUrl}
-                                  handleUpdateCustomName={
-                                    handleUpdateCustomName
-                                  }
-                                  errorUrl={errors[String(link.id)]?.url}
-                                  errorCustomName={
-                                    errors[String(link.id)]?.custom_name
-                                  }
-                                  errorPlatform={
-                                    errors[String(link.id)]?.platform_id
-                                  }
-                                  handleSelect={(platform) =>
-                                    handleUpdatePlatform(
-                                      platform,
-                                      Number(link.id)
-                                    )
-                                  }
-                                />
-                              </div>
-                            )}
-                          </Draggable>
-                        ))}
-                        {provided.placeholder}
-                      </div>
-                    )}
-                  </Droppable>
-                </DragDropContext>
-              </div>
+              <LinksSection
+                links={links}
+                filteredPlatforms={filteredPlatforms}
+                errors={errors}
+                onDragEnd={onDragEnd}
+                onRemoveLink={handleRemoveLink}
+                onUpdateUrl={handleUpdateUrl}
+                onUpdateCustomName={handleUpdateCustomName}
+                onUpdatePlatform={handleUpdatePlatform}
+              />
             ) : (
-              <div className="flex flex-col items-center justify-center p-6 mt-10 text-center rounded-md bg-light-gray">
-                <img src={EmptyMockup} alt="" className="mt-6" />
-                <h2 className="mt-6 mb-2 text-[1.4rem] md:text-[2rem] font-black text-dark-gray">
-                  Let's get you started
-                </h2>
-                <p className="mt-2 mb-8 max-w-[32rem] text-medium-gray">
-                  Use the “Add new link” button to get started. Once you have
-                  more than one link, you can reorder and edit them. We’re here
-                  to help you share your profiles with everyone!
-                </p>
-              </div>
+              <EmptyLinks />
             )}
 
             <hr className="my-6 md:my-8" />

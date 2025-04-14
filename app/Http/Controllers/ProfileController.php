@@ -17,9 +17,7 @@ class ProfileController extends Controller
     public function index(Request $request): Response
     {
         /** @var \App\Models\User $user */
-        $user = Auth::user();
-
-        $user = $user->with('theme')->first();
+        $user = Auth::user()->load('theme');
 
         $themes = Theme::where('is_active', true)
         ->select(['id', 'name', 'styles'])
