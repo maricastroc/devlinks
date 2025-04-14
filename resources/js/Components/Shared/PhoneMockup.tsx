@@ -27,7 +27,7 @@ export const PhoneMockup = ({
   const { currentTheme } = useTheme();
 
   const isDefaultTheme = currentTheme?.name === DEFAULT_THEME;
-  console.log(links);
+  console.log(links, currentTheme);
   return (
     currentTheme && (
       <div className="w-[307px] h-[631px] relative">
@@ -43,7 +43,7 @@ export const PhoneMockup = ({
             isSharedScreen={false}
             avatarUrl={photoPreview || (user?.avatar_url as string)}
             theme={currentTheme}
-            className="absolute rounded-full bg-opacity-20 h-[6.05rem] w-[6.05rem] z-40 top-[3.9rem] left-[6.5rem] bg-cover bg-center"
+            className="absolute rounded-full bg-opacity-20 h-[6.02rem] w-[6.02rem] z-40 top-[3.9rem] left-[6.5rem] bg-cover bg-center"
           />
         )}
 

@@ -51,6 +51,15 @@ class User extends Authenticatable
         ];
     }
 
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::creating(function ($user) {
+            $user->theme_id = 1;
+        });
+    }
+
     public function userLinks()
     {
         return $this->hasMany(UserLink::class);

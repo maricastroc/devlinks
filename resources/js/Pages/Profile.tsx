@@ -16,11 +16,12 @@ import { UserLinkProps } from '@/types/user-link';
 import { UserProps } from '@/types/user';
 import toast from 'react-hot-toast';
 import { ImageCropper } from '@/Components/Shared/ImageCropper';
-import { DEFAULT_THEME } from '@/utils/constants';
 import { ThemeProps } from '@/types/theme';
 import { useTheme } from '@/contexts/ThemeContext';
 import { ThemeButton } from '@/Components/Core/ThemeButton';
 import { useClickOutside } from '@/utils/useClickOutside';
+import { PageHeader } from '@/Components/Shared/PageHeader';
+import { DEFAULT_THEME } from '@/utils/constants';
 
 type Props = {
   userLinks: UserLinkProps[];
@@ -45,13 +46,7 @@ type ProfileFormSchema = z.infer<typeof profileFormSchema>;
 export default function Profile({ user, userLinks, themes }: Props) {
   const inputFileRef = useRef<HTMLInputElement>(null);
 
-  const { handleChangeTheme, currentTheme, handleThemeSelect } = useTheme();
-
-  const [showThemeDropdown, setShowThemeDropdown] = useState(false);
-
-  const dropdownRef = useClickOutside(() => {
-    setShowThemeDropdown(false);
-  });
+  const { handleChangeTheme } = useTheme();
 
   const [photoPreview, setPhotoPreview] = useState<string | null>(null);
 
@@ -183,29 +178,11 @@ export default function Profile({ user, userLinks, themes }: Props) {
           />
         </div>
         <div className="flex flex-col w-full p-6 m-4 bg-white rounded-md lg:m-0 md:m-6 md:p-10">
-          <div className="flex items-start justify-between w-full gap-3">
-            <div>
-              <h2 className="mb-1 md:text-[2rem] text-2xl font-bold text-dark-gray">
-                Profile Details
-              </h2>
-              <p className="mb-8 text-medium-gray w-[80%]">
-                Add details to personalize your profile
-              </p>
-            </div>
-
-            {currentTheme && (
-              <ThemeButton
-                currentTheme={currentTheme}
-                themes={themes}
-                onSelect={handleThemeSelect}
-                dropdownRef={dropdownRef as RefObject<HTMLDivElement>}
-                showThemeDropdown={showThemeDropdown}
-                setShowThemeDropdown={() =>
-                  setShowThemeDropdown(!showThemeDropdown)
-                }
-              />
-            )}
-          </div>
+          <PageHeader
+            title="Profile Details"
+            description="Add details to personalize your profile"
+            themes={themes}
+          />
           <form
             onSubmit={handleSubmit(onSubmit)}
             className="flex flex-col w-full gap-6"

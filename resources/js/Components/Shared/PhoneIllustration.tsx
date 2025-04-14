@@ -19,6 +19,7 @@ export const PhoneIllustration = ({
   links
 }: PhoneIllustrationProps) => {
   const { currentTheme } = useTheme();
+
   const isDefaultTheme = currentTheme?.name === DEFAULT_THEME;
 
   const hasName = Boolean(
@@ -31,7 +32,7 @@ export const PhoneIllustration = ({
     ? 'bg-white'
     : currentTheme?.styles.background;
 
-  const placeholderBg = isDefaultTheme ? 'bg-[#EEEEEE]' : 'bg-transparent';
+  const placeholderBg = 'bg-[#EEEEEE]';
 
   // Número de placeholders que devem ser transparentes (igual ao número de links)
   const transparentPlaceholders = Math.min(links.length, 5);

@@ -13,7 +13,6 @@ import { PlatformProps } from '@/types/platform';
 import { UserLinkProps } from '@/types/user-link';
 import { UserProps } from '@/types/user';
 import { ThemeProps } from '@/types/theme';
-import { DEFAULT_THEME } from '@/utils/constants';
 import { validateLinks } from '@/utils/validateLink';
 import { useLinks } from '@/utils/useLinks';
 import { handleReqError } from '@/utils/handleReqError';
@@ -104,20 +103,6 @@ export default function Dashboard({
       setProcessing(false);
     }
   };
-
-  useEffect(() => {
-    if (user) {
-      if (user?.theme) {
-        handleChangeTheme(user.theme);
-      } else {
-        const defaultTheme = themes.find((theme) => {
-          return theme.name === DEFAULT_THEME;
-        });
-
-        handleChangeTheme(defaultTheme as ThemeProps);
-      }
-    }
-  }, [user?.theme]);
 
   return (
     currentTheme && (

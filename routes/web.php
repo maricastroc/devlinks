@@ -5,6 +5,7 @@ use App\Http\Controllers\PlatformController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SharedLinkController;
 use App\Http\Controllers\UserLinkController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware('auth')->group(function () {
@@ -15,6 +16,8 @@ Route::middleware('auth')->group(function () {
     Route::post('/user-links', [UserLinkController::class, 'store'])->name('user-links.store');
     Route::patch('/profile/theme', [ProfileController::class, 'updateTheme'])
     ->name('profile.theme.update');
+    Route::get('/api/authenticated-user', [UserController::class, 'getAuthenticatedUser'])
+        ->name('api.authenticated-user');
 });
 
 Route::get('/devlinks/{user:username}', [SharedLinkController::class, 'handle'])->name('shared');
