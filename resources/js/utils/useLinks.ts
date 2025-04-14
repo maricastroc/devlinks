@@ -19,7 +19,13 @@ export const useLinks = (
       {
         id: Date.now(),
         platform_id: -1,
-        platform: { id: -1, name: '', icon_url: '', color: '' },
+        platform: {
+          id: -1,
+          name: '',
+          icon_url: '',
+          color: '',
+          is_social: false
+        },
         custom_name: '',
         url: '',
         order: links.length + 1

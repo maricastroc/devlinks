@@ -8,9 +8,9 @@ import PrimaryButton from '@/Components/Core/PrimaryButton';
 import SecondaryButton from '@/Components/Core/SecondaryButton';
 import { PhoneMockup } from '@/Components/Shared/PhoneMockup';
 import { LoadingComponent } from '@/Components/Shared/LoadingComponent';
+import { PageHeader } from '@/Components/Shared/PageHeader';
 import { useTheme } from '@/contexts/ThemeContext';
 import { PlatformProps } from '@/types/platform';
-import { UserLinkProps } from '@/types/user-link';
 import { UserProps } from '@/types/user';
 import { ThemeProps } from '@/types/theme';
 import { validateLinks } from '@/utils/validateLink';
@@ -18,7 +18,6 @@ import { useLinks } from '@/utils/useLinks';
 import { handleReqError } from '@/utils/handleReqError';
 import { LinksSection } from './partials/LinksSection';
 import { EmptyLinks } from './partials/EmptyLinks';
-import { PageHeader } from '@/Components/Shared/PageHeader';
 import { DEFAULT_THEME } from '@/utils/constants';
 
 type Props = {
