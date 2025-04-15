@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useRef } from 'react';
 import { PlatformProps } from '@/types/platform';
 import { UserLinkProps } from '@/types/user-link';
 
@@ -12,12 +12,6 @@ export const DropdownLinks = ({ handleSelect, platforms, link }: Props) => {
   const [searchTerm, setSearchTerm] = useState('');
 
   const searchInputRef = useRef<HTMLInputElement>(null);
-
-  useEffect(() => {
-    if (searchInputRef.current) {
-      searchTerm === '' && searchInputRef.current.focus();
-    }
-  }, []);
 
   const filteredPlatforms = platforms.filter((platform) =>
     platform.name.toLowerCase().includes(searchTerm.toLowerCase())
