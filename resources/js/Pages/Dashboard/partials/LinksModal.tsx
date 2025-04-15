@@ -32,7 +32,7 @@ export const LinksModal = ({ onClose, handleAddLink, platforms }: Props) => {
         className="fixed inset-0 z-[990] bg-black bg-opacity-70"
         onClick={onClose}
       />
-      <Dialog.Content className="fixed z-[999] top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[90vw] bg-white rounded-lg shadow-lg  p-4 md:w-[560px] md:p-8">
+      <Dialog.Content className="fixed z-[999] top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[90vw] bg-white rounded-lg shadow-lg  p-4 md:max-w-[720px] md:p-8">
         <ModalHeader onClose={onClose} title="Add Social Link" />
         <Dialog.Description className="flex flex-col w-full">
           <SearchInput
@@ -41,7 +41,7 @@ export const LinksModal = ({ onClose, handleAddLink, platforms }: Props) => {
             placeholder="Search"
           />
 
-          <div className="flex flex-col max-h-[15rem] overflow-y-auto custom-scrollbar">
+          <div className="flex flex-col h-[60vh] max-h-[25rem] overflow-y-auto custom-scrollbar">
             {filteredPlatforms.length > 0 ? (
               filteredPlatforms.map((platform) => (
                 <PlatformItem
@@ -59,22 +59,18 @@ export const LinksModal = ({ onClose, handleAddLink, platforms }: Props) => {
                 hasSearchTerm={!!searchTerm}
               />
             )}
-
-            <button
-              onClick={() => {
-                if (customPlatform) {
-                  handleAddLink(customPlatform);
-                  onClose();
-                }
-              }}
-              className="flex items-center gap-3 p-3 mt-2 text-left border border-dashed rounded-lg hover:bg-gray-50"
-            >
-              <span className="flex items-center justify-center w-8 h-8 text-gray-500 bg-gray-100 rounded-full">
-                <Plus size={16} />
-              </span>
-              <span>Add custom link</span>
-            </button>
           </div>
+          <button
+            onClick={() => {
+              if (customPlatform) {
+                handleAddLink(customPlatform);
+                onClose();
+              }
+            }}
+            className="my-2 md:mt-3 md:mb-0 text-sm md:text-[0.95rem] flex gap-1 items-center justify-center bg-light-gray rounded-full text-dark-gray p-2 px-5 font-semibold shadow-md"
+          >
+            <span className="hover:text-medium-purple">Add custom link</span>
+          </button>
         </Dialog.Description>
       </Dialog.Content>
     </Dialog.Portal>

@@ -15,7 +15,7 @@ export const SearchInput = ({
     </div>
     <input
       type="text"
-      className="w-full p-2 pl-10 bg-gray-100 border border-transparent rounded-lg text-md focus:ring-1 focus:ring-gray-600 focus:border-gray-600"
+      className="w-full p-2 pl-10 bg-gray-100 border border-transparent rounded-lg md:py-3 text-md focus:ring-1 focus:ring-gray-600 focus:border-gray-600"
       placeholder={placeholder}
       value={value}
       onChange={(e) => onChange(e.target.value)}

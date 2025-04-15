@@ -32,14 +32,14 @@ export const LinksSection = ({
   onUpdateUrl
 }: Props) => {
   return (
-    <div className="flex flex-col custom-scrollbar overflow-y-scroll max-h-[30rem] gap-4 mt-6 h-full">
+    <div className="flex flex-col h-full gap-4 mt-6">
       <DragDropContext onDragEnd={onDragEnd}>
         <Droppable droppableId="linksList">
           {(provided) => (
             <div
               {...provided.droppableProps}
               ref={provided.innerRef}
-              className="flex flex-col w-full h-full gap-4 mt-6 "
+              className="flex flex-col w-full gap-4 overflow-y-auto custom-scrollbar max-h-[30rem]"
             >
               {links.map((link, index) => (
                 <Draggable
@@ -52,6 +52,7 @@ export const LinksSection = ({
                       ref={provided.innerRef}
                       {...provided.draggableProps}
                       {...provided.dragHandleProps}
+                      className="mb-2"
                     >
                       <LinkForm
                         platforms={filteredPlatforms}

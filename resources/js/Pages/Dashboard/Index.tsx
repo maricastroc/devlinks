@@ -54,13 +54,14 @@ export default function Dashboard({ platforms, user, themes }: Props) {
   } = useLinks(user?.user_links, platforms);
 
   const onDragEnd = (result: DropResult) => {
+    console.log('hi', result);
     if (!result.destination) return;
 
     const reorderedLinks = [...links];
 
     const [movedLink] = reorderedLinks.splice(result.source.index, 1);
     reorderedLinks.splice(result.destination.index, 0, movedLink);
-
+    console.log(reorderedLinks);
     setLinks(reorderedLinks);
   };
 
