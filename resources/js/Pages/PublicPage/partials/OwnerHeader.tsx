@@ -5,7 +5,7 @@ import {
   faArrowUpRightFromSquare,
   faPalette
 } from '@fortawesome/free-solid-svg-icons';
-import { HeaderButton } from '@/Pages/Shared/partials/HeaderButton';
+import { HeaderButton } from '@/Pages/PublicPage/partials/HeaderButton';
 import { DropdownTheme } from '@/Components/Shared/DropdownTheme';
 import { RefObject } from 'react';
 import { ThemeProps } from '@/types/theme';

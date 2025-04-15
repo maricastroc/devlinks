@@ -141,7 +141,7 @@ export const FormSection = ({
           control={control}
           render={({ field }) => (
             <InputField
-              prefix="devlinks/"
+              prefix="@/"
               label="URL for your devlinks"
               id="username"
               type="text"

@@ -7,7 +7,7 @@ use App\Models\Theme;
 use Inertia\Inertia;
 use Illuminate\Support\Str;
 
-class SharedLinkController extends Controller
+class PublicPageController extends Controller
 {
     public function handle($userIdentifier)
     {
@@ -57,6 +57,6 @@ class SharedLinkController extends Controller
 
         return request()->expectsJson() 
             ? response()->json($data) 
-            : Inertia::render('Shared/Index', $data);
+            : Inertia::render('PublicPage/Index', $data);
     }
 }

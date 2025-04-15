@@ -38,7 +38,7 @@ export default forwardRef(function TextInput({
         className={
           `w-full ${
             icon ? 'pl-10' : ''
-          } ${prefix ? 'pl-20' : ''} pr-4 py-3 rounded-md border ${
+          } ${prefix ? 'pl-9' : ''} pr-4 py-3 rounded-md border ${
             hasError ? 'border-medium-red' : 'border-borders'
           } shadow-sm bg-white text-dark-gray focus:border-medium-purple focus:ring-medium-purple disabled:cursor-not-allowed disabled:text-gray-500` +
           className

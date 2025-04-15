@@ -3,7 +3,7 @@
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\PlatformController;
 use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\SharedLinkController;
+use App\Http\Controllers\PublicPageController;
 use App\Http\Controllers\UserLinkController;
 use App\Http\Controllers\SocialLinkController;
 use App\Http\Controllers\UserController;
@@ -26,7 +26,7 @@ Route::middleware('auth')->group(function () {
     Route::delete('/social-links/{socialLink}', [SocialLinkController::class, 'destroy']);
 });
 
-Route::get('/devlinks/{user:username}', [SharedLinkController::class, 'handle'])->name('shared');
+Route::get('/@{user:username}', [PublicPageController::class, 'handle'])->name('shared');
 Route::get('/click/{id}', [UserLinkController::class, 'trackClick'])->name('links.track');
 
 require __DIR__ . '/auth.php';

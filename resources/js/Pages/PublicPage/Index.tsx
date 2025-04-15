@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { Head, Link } from '@inertiajs/react';
 import { Inertia } from '@inertiajs/inertia';
 import toast from 'react-hot-toast';
-import { AvatarCard } from '@/Pages/Shared/partials/AvatarCard';
+import { AvatarCard } from '@/Pages/PublicPage/partials/AvatarCard';
 import { UserLinkProps } from '@/types/user-link';
 import { UserProps } from '@/types/user';
 import { DEFAULT_THEME } from '@/utils/constants';

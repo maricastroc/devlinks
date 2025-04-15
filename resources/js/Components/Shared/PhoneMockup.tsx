@@ -4,7 +4,7 @@ import { LinkCard } from './LinkCard';
 import { PhoneIllustration } from './PhoneIllustration';
 import { useTheme } from '@/contexts/ThemeContext';
 import { DEFAULT_THEME } from '@/utils/constants';
-import { AvatarCard } from '@/Pages/Shared/partials/AvatarCard';
+import { AvatarCard } from '@/Pages/PublicPage/partials/AvatarCard';
 import { SocialLink } from './SocialLink';
 
 type Props = {
