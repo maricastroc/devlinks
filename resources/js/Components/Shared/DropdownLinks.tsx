@@ -17,6 +17,7 @@ export const DropdownLinks = ({ handleSelect, platforms, link }: Props) => {
             onClick={() => handleSelect(platform)}
           >
             <img
+              className="w-4 h-4"
               src={`/assets/images/${platform.icon_url}`}
               alt=""
               style={{
