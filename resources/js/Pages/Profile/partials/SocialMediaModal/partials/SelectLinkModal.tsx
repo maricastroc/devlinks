@@ -5,7 +5,8 @@ import { PlatformProps } from '@/types/platform';
 import { SearchInput } from '@/Components/Core/SearchInput';
 import { useState } from 'react';
 import { UserLinkProps } from '@/types/user-link';
-import { ModalHeader, PlatformItem } from '../SocialMediaModal';
+import { ModalHeader } from '../SocialMediaModal';
+import { PlatformItem } from '@/Components/Shared/PlatformItem';
 
 interface ModalProps {
   onClose: () => void;

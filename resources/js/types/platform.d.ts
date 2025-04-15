@@ -7,4 +7,6 @@ export type PlatformProps = {
   placeholder?: string;
   example?: string;
   base_url: string;
+  description?: string;
+  colorful_icon_url: string;
 };

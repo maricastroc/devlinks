@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { CaretRight, X, PencilSimple, CaretLeft } from 'phosphor-react';
+import { X, CaretLeft } from 'phosphor-react';
 import toast from 'react-hot-toast';
 import * as Dialog from '@radix-ui/react-dialog';
 import { api } from '@/libs/axios';
@@ -184,33 +184,4 @@ export const ModalHeader = ({
       <X size={20} />
     </Dialog.Close>
   </Dialog.Title>
-);
-
-export const PlatformItem = ({
-  platform,
-  isEdit = false,
-  onSelect
-}: {
-  platform: PlatformProps;
-  isEdit?: boolean;
-  onSelect: (platform: PlatformProps) => void;
-}) => (
-  <button
-    className="flex items-start justify-between p-3 transition-all duration-150 bg-transparent rounded-lg hover:bg-gray-100"
-    onClick={() => onSelect(platform)}
-  >
-    <div className="flex items-start justify-start gap-4">
-      <img
-        className="w-6 h-6"
-        src={`/assets/images/${platform.icon_url}`}
-        alt={platform.name}
-      />
-      <p className="text-md text-dark-gray">{platform.name}</p>
-    </div>
-    {isEdit ? (
-      <PencilSimple size={20} className="text-gray-600" />
-    ) : (
-      <CaretRight size={20} className="text-gray-600" />
-    )}
-  </button>
 );

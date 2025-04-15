@@ -1,7 +1,8 @@
 import PrimaryButton from '@/Components/Core/PrimaryButton';
 import * as Dialog from '@radix-ui/react-dialog';
-import { ModalHeader, PlatformItem } from '../SocialMediaModal';
+import { ModalHeader } from '../SocialMediaModal';
 import { UserLinkProps } from '@/types/user-link';
+import { PlatformItem } from '@/Components/Shared/PlatformItem';
 
 type Props = {
   onClose: () => void;

@@ -6,6 +6,10 @@
         <meta name="csrf-token" content="{{ csrf_token() }}">
         <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
         <link rel="icon" type="image/png" sizes="32x32" href="{{ asset('favicon.png') }}">
+        <link
+            rel="stylesheet"
+            href="https://cdn.jsdelivr.net/gh/dheereshagrwal/coloured-icons@master/src/app/ci.min.css"
+        />
         <title inertia>{{ config('app.name', 'Devlinks') }}</title>
 
         <!-- Fonts -->

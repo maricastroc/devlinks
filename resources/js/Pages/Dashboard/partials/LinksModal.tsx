@@ -1,14 +1,12 @@
 import { SearchInput } from '@/Components/Core/SearchInput';
 import { EmptyState } from '@/Pages/Profile/partials/SocialMediaModal/partials/SelectLinkModal';
-import {
-  ModalHeader,
-  PlatformItem
-} from '@/Pages/Profile/partials/SocialMediaModal/SocialMediaModal';
+import { ModalHeader } from '@/Pages/Profile/partials/SocialMediaModal/SocialMediaModal';
 import { PlatformProps } from '@/types/platform';
 import { CUSTOM_PLATFORM_NAME } from '@/utils/constants';
 import * as Dialog from '@radix-ui/react-dialog';
 import { Plus } from 'phosphor-react';
 import { useState } from 'react';
+import { PlatformItem } from './PlatformItem';
 
 type Props = {
   onClose: () => void;
@@ -36,7 +34,6 @@ export const LinksModal = ({ onClose, handleAddLink, platforms }: Props) => {
       />
       <Dialog.Content className="fixed z-[999] top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[90vw] bg-white rounded-lg shadow-lg  p-4 md:w-[560px] md:p-8">
         <ModalHeader onClose={onClose} title="Add Social Link" />
-
         <Dialog.Description className="flex flex-col w-full">
           <SearchInput
             value={searchTerm}

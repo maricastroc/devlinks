@@ -39,7 +39,7 @@ export const SocialMediaSection = ({
           platforms
             ?.slice(0, 3)
             .map((platform) => (
-              <PlatformItem
+              <PlatformButton
                 key={platform.id}
                 platform={platform}
                 onClick={() => setIsModalOpen(true)}
@@ -48,7 +48,7 @@ export const SocialMediaSection = ({
 
         {hasSocialLinks &&
           socialLinks.slice(0, 2).map((link) => (
-            <PlatformItem
+            <PlatformButton
               isActive
               key={link.id}
               link={link}
@@ -161,7 +161,7 @@ const OverflowMenu = ({
   );
 };
 
-const PlatformItem = ({
+const PlatformButton = ({
   platform,
   link,
   isActive = false,
