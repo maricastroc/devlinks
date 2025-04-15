@@ -24,7 +24,8 @@ export const useLinks = (
           name: '',
           icon_url: '',
           color: '',
-          is_social: false
+          is_social: false,
+          base_url: ''
         },
         custom_name: '',
         url: '',

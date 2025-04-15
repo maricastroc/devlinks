@@ -133,6 +133,6 @@ class User extends Authenticatable
 
 public function socialLinks()
 {
-    return $this->hasMany(SocialLinks::class)->orderBy('order');
+    return $this->hasMany(SocialLink::class)->orderBy('order');
 }
 }

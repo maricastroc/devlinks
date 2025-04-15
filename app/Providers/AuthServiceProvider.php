@@ -4,6 +4,8 @@ namespace App\Providers;
 
 use App\Models\UserLink;
 use App\Policies\UserLinkPolicy;
+use App\Models\SocialLink;
+use App\Policies\SocialLinkPolicy;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 
@@ -16,6 +18,7 @@ class AuthServiceProvider extends ServiceProvider
      */
     protected $policies = [
         UserLink::class => UserLinkPolicy::class,
+        SocialLink::class => SocialLinkPolicy::class,
     ];
 
     /**

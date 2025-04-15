@@ -13,6 +13,7 @@ import SmallLogo from '/public/assets/images/logo-devlinks-small.svg';
 import { ThemeProps } from '@/types/theme';
 import { useTheme } from '@/contexts/ThemeContext';
 import { useClickOutside } from '@/utils/useClickOutside';
+import { SocialLink } from '@/Components/Shared/SocialLink';
 
 type Props = {
   socialLinks: UserLinkProps[];
@@ -118,27 +119,7 @@ export default function Shared({
             {socialLinks?.length > 0 && (
               <div className="flex justify-center gap-4 mt-2">
                 {socialLinks.map((link) => (
-                  <a
-                    key={link.id}
-                    href={link.url || '#'}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className={`p-2 rounded-full transition-all hover:scale-110 ${
-                      isDefaultTheme
-                        ? 'bg-gray-100 hover:bg-gray-200'
-                        : 'bg-white/10 hover:bg-white/20'
-                    }`}
-                    title={link.platform.name}
-                  >
-                    <img
-                      className="w-5 h-5"
-                      src={`/assets/images/${link.platform.icon_url}`}
-                      alt={link.platform.name}
-                      style={{
-                        filter: `${isDefaultTheme ? '' : 'saturate(0%) brightness(518%)'}`
-                      }}
-                    />
-                  </a>
+                  <SocialLink link={link} isDefaultTheme={isDefaultTheme} />
                 ))}
               </div>
             )}

@@ -6,4 +6,5 @@ export type PlatformProps = {
   is_social: boolean;
   placeholder?: string;
   example?: string;
+  base_url: string;
 };

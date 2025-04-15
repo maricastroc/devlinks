@@ -5,6 +5,7 @@ import { PhoneIllustration } from './PhoneIllustration';
 import { useTheme } from '@/contexts/ThemeContext';
 import { DEFAULT_THEME } from '@/utils/constants';
 import { AvatarCard } from '@/Pages/Shared/partials/AvatarCard';
+import { SocialLink } from './SocialLink';
 
 type Props = {
   links: UserLinkProps[];
@@ -41,7 +42,7 @@ export const PhoneMockup = ({
             isSharedScreen={false}
             avatarUrl={photoPreview || (user?.avatar_url as string)}
             theme={currentTheme}
-            className="absolute rounded-full bg-opacity-20 h-[6.05rem] w-[6.05rem] z-40 top-[3.9rem] left-[6.5rem] bg-cover bg-center"
+            className="absolute rounded-full bg-opacity-20 h-[6.02rem] w-[6.02rem] z-40 top-[3.9rem] left-[6.5rem] bg-cover bg-center"
           />
         )}
 
@@ -57,20 +58,15 @@ export const PhoneMockup = ({
 
         {userSocialLinks && (
           <div
-            className={`flex items-center justify-center font-bold w-[17.2rem] text-center absolute z-40 top-[13.2rem] left-[1rem] bg-cover bg-center ${isDefaultTheme ? 'bg-white' : 'bg-transparent'}`}
+            className={`flex gap-2 items-center justify-center font-bold w-[17.2rem] text-center absolute z-40 top-[13.2rem] left-[1rem] bg-cover bg-center ${isDefaultTheme ? 'bg-white' : 'bg-transparent'}`}
           >
             {userSocialLinks?.map((link) => {
               return (
-                <a href={link.url || '#'}>
-                  <img
-                    className="w-6 h-6"
-                    src={`/assets/images/${link.platform.icon_url}`}
-                    alt={link.platform.name}
-                    style={{
-                      filter: `${isDefaultTheme ? '' : 'saturate(0%) brightness(518%)'}`
-                    }}
-                  />
-                </a>
+                <SocialLink
+                  isSmaller
+                  link={link}
+                  isDefaultTheme={isDefaultTheme}
+                />
               );
             })}
           </div>

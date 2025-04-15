@@ -17,7 +17,7 @@ import { DEFAULT_THEME } from '@/utils/constants';
 import useRequest from '@/utils/useRequest';
 import { ProfileSection } from './partials/ProfileSection';
 import { SocialMediaSection } from './partials/SocialMediaSection';
-import { SocialMediaModal } from './partials/SocialMediaModal';
+import { SocialMediaModal } from './partials/SocialMediaModal/SocialMediaModal';
 import {
   FormSection,
   ProfileFormSchema,
@@ -50,7 +50,7 @@ export default function Profile({ user, platforms, themes }: Props) {
 
   const [originalImage, setOriginalImage] = useState<string | null>(null);
 
-  const { data, mutate } = useRequest<SocialLinksResponse>({
+  const { data, mutate, isValidating } = useRequest<SocialLinksResponse>({
     url: `/social-links`,
     method: 'GET'
   });
@@ -130,19 +130,11 @@ export default function Profile({ user, platforms, themes }: Props) {
           />
 
           <ProfileSection title="Connect your social media" wrap>
-            <Dialog.Root open={isSocialMediaModalOpen}>
-              <Dialog.Trigger asChild>
-                <SocialMediaSection
-                  onClick={() => setIsSocialMediaModalOpen(true)}
-                  platforms={filteredPlatforms}
-                />
-              </Dialog.Trigger>
-              <SocialMediaModal
-                mutate={mutate}
-                platforms={filteredPlatforms}
-                onClose={() => setIsSocialMediaModalOpen(false)}
-              />
-            </Dialog.Root>
+            <SocialMediaSection
+              mutate={mutate}
+              socialLinks={data?.socialLinks}
+              platforms={filteredPlatforms}
+            />
           </ProfileSection>
 
           <FormSection
@@ -159,6 +151,8 @@ export default function Profile({ user, platforms, themes }: Props) {
           />
         </div>
       </div>
+
+      {isValidating && <LoadingComponent hasOverlay />}
     </AuthenticatedLayout>
   );
 }

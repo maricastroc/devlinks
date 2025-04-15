@@ -1,20 +1,17 @@
 import { z } from 'zod';
 import { PhotoInput } from './PhotoInput';
 import { ProfileSection } from './ProfileSection';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef } from 'react';
 import {
   Control,
   Controller,
   FieldErrors,
-  useForm,
   UseFormHandleSubmit,
   UseFormSetValue
 } from 'react-hook-form';
 import { InputField } from '@/Components/Core/InputField';
 import { FormError } from '@/Components/Core/FormError';
 import { UserProps } from '@/types/user';
-import { PlatformProps } from '@/types/platform';
-import { zodResolver } from '@hookform/resolvers/zod';
 import { api } from '@/libs/axios';
 import toast from 'react-hot-toast';
 import { handleApiError } from '@/utils/handleApiError';
@@ -37,7 +34,7 @@ export const profileFormSchema = z.object({
   name: z.string().min(3, 'Name is required'),
   username: z
     .string()
-    .min(8, { message: 'Username must have at least 3 characters' }),
+    .min(3, { message: 'Username must have at least 3 characters' }),
   avatar_url: z
     .custom<File>((file) => file instanceof File && file.size > 0)
     .optional()
@@ -74,6 +71,7 @@ export const FormSection = ({
 
   const onSubmit = async (data: ProfileFormSchema) => {
     const formData = new FormData();
+    console.log(data);
     formData.append('name', data.name);
     formData.append('username', data.username);
     formData.append('_method', 'PUT');
@@ -99,6 +97,8 @@ export const FormSection = ({
     if (user) {
       setValue('name', user?.name || '');
 
+      setValue('username', user?.username || '');
+
       if (user?.avatar_url) {
         setPhotoPreview(user.avatar_url as string);
       }
@@ -108,7 +108,7 @@ export const FormSection = ({
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
-      className="flex flex-col w-full gap-6"
+      className="flex flex-col w-full gap-6 mt-6"
     >
       <ProfileSection title="Profile picture">
         <PhotoInput
