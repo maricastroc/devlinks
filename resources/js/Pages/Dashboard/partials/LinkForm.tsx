@@ -154,7 +154,7 @@ export const LinkForm = ({
               type="text"
               name="link"
               value={link?.url || ''}
-              placeholder="e.g. https://www.github.com/octocat"
+              placeholder={`e.g. ${link?.platform?.example}`}
               className={`block w-full mt-1 ${errorUrl ? 'border border-medium-red' : ''}`}
               onChange={(e) => handleUpdateUrl(Number(link.id), e.target.value)}
               icon={IconLink}
