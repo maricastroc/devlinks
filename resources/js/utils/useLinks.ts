@@ -13,20 +13,13 @@ export const useLinks = (
     []
   );
 
-  const handleAddLink = () => {
+  const handleAddLink = (platform: PlatformProps) => {
     setLinks((prev) => [
       ...prev,
       {
         id: Date.now(),
-        platform_id: -1,
-        platform: {
-          id: -1,
-          name: '',
-          icon_url: '',
-          color: '',
-          is_social: false,
-          base_url: ''
-        },
+        platform_id: platform.id,
+        platform,
         custom_name: '',
         url: '',
         order: links.length + 1

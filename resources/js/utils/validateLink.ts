@@ -51,7 +51,7 @@ export const validateLinks = (
         }
       }
     } catch {
-      linkErrors.url = 'Invalid URL format';
+      linkErrors.url = `Your URL must start with: ${platform?.base_url}`;
     }
 
     if (Object.keys(linkErrors).length > 0) {

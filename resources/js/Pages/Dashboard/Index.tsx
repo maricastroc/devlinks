@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import * as Dialog from '@radix-ui/react-dialog';
 import axios from 'axios';
 import { Head } from '@inertiajs/react';
 import { DropResult } from 'react-beautiful-dnd';
@@ -19,6 +20,7 @@ import { handleReqError } from '@/utils/handleReqError';
 import { LinksSection } from './partials/LinksSection';
 import { EmptyLinks } from './partials/EmptyLinks';
 import { DEFAULT_THEME } from '@/utils/constants';
+import { LinksModal } from './partials/LinksModal';
 
 type Props = {
   platforms: PlatformProps[];
@@ -33,6 +35,8 @@ export type FormErrors = Record<
 
 export default function Dashboard({ platforms, user, themes }: Props) {
   const [processing, setProcessing] = useState(false);
+
+  const [isLinksModalOpen, setIsLinksModalOpen] = useState(false);
 
   const [errors, setErrors] = useState<FormErrors>({});
 
@@ -138,11 +142,18 @@ export default function Dashboard({ platforms, user, themes }: Props) {
               themes={themes}
             />
 
-            <div className="flex items-center justify-center w-full gap-3">
-              <SecondaryButton onClick={handleAddLink}>
-                + Add New Link
-              </SecondaryButton>
-            </div>
+            <Dialog.Root open={isLinksModalOpen}>
+              <div className="flex items-center justify-center w-full gap-3">
+                <SecondaryButton onClick={() => setIsLinksModalOpen(true)}>
+                  + Add New Link
+                </SecondaryButton>
+              </div>
+              <LinksModal
+                handleAddLink={handleAddLink}
+                platforms={platforms}
+                onClose={() => setIsLinksModalOpen(false)}
+              />
+            </Dialog.Root>
 
             {links?.length > 0 ? (
               <LinksSection

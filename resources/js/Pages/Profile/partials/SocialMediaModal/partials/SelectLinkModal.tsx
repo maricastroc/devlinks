@@ -71,7 +71,10 @@ interface EmptyStateProps {
   hasSearchTerm: boolean;
 }
 
-const EmptyState = ({ hasPlatforms, hasSearchTerm }: EmptyStateProps) => {
+export const EmptyState = ({
+  hasPlatforms,
+  hasSearchTerm
+}: EmptyStateProps) => {
   if (!hasPlatforms) {
     return (
       <div className="flex flex-col items-center justify-center p-4 text-gray-500">
