@@ -42,8 +42,6 @@ export default function Profile({ user, platforms, themes }: Props) {
 
   const { handleChangeTheme } = useTheme();
 
-  const [isSocialMediaModalOpen, setIsSocialMediaModalOpen] = useState(false);
-
   const [photoPreview, setPhotoPreview] = useState<string | null>(null);
 
   const [showCropper, setShowCropper] = useState(false);

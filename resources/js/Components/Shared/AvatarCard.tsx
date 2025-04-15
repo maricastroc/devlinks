@@ -20,7 +20,7 @@ export const AvatarCard = ({
   if (isDefaultTheme) {
     return avatarUrl ? (
       <img
-        className={`border-4 h-[7rem] w-[7rem] rounded-full
+        className={`border-4 h-[6.02rem] w-[6.02rem] rounded-full
           border-medium-purple ${className}`}
         src={avatarUrl}
         alt="User Avatar"

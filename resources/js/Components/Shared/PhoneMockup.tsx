@@ -4,7 +4,7 @@ import { LinkCard } from './LinkCard';
 import { PhoneIllustration } from './PhoneIllustration';
 import { useTheme } from '@/contexts/ThemeContext';
 import { DEFAULT_THEME } from '@/utils/constants';
-import { AvatarCard } from '@/Pages/PublicPage/partials/AvatarCard';
+import { AvatarCard } from '@/Components/Shared/AvatarCard';
 import { SocialLink } from './SocialLink';
 
 type Props = {
@@ -37,6 +37,7 @@ export const PhoneMockup = ({
           name={name}
           socialLinks={socialLinks}
         />
+
         {(photoPreview || user?.avatar_url) && currentTheme && (
           <AvatarCard
             isSharedScreen={false}
