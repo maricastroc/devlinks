@@ -31,7 +31,7 @@ export const ThemeButton = ({
       </button>
       {showThemeDropdown && (
         <DropdownTheme
-          isSharedScreen={false}
+          isPublicPage={false}
           handleSelect={(theme) => {
             onSelect(theme);
             setShowThemeDropdown();

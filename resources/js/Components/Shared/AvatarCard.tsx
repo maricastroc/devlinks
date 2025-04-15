@@ -6,14 +6,14 @@ type AvatarProps = {
   avatarUrl: string | null;
   theme: ThemeProps;
   className?: string;
-  isSharedScreen?: boolean;
+  isPublicPage?: boolean;
 };
 
 export const AvatarCard = ({
   avatarUrl,
   theme,
   className,
-  isSharedScreen = true
+  isPublicPage = true
 }: AvatarProps) => {
   const isDefaultTheme = theme.name === DEFAULT_THEME;
 
@@ -26,7 +26,7 @@ export const AvatarCard = ({
         alt="User Avatar"
       />
     ) : (
-      isSharedScreen && (
+      isPublicPage && (
         <div
           className={`flex items-center justify-center h-[7rem] w-[7rem]
           rounded-full border-4 border-medium-purple`}
@@ -40,7 +40,7 @@ export const AvatarCard = ({
   return (
     <div
       className={`rounded-full p-[2px]
-      bg-gradient-to-br from-white/30 to-transparent ${className} ${isSharedScreen ? 'relative h-[7rem] w-[7rem]' : 'absolute h-[6.02rem] w-[6.02rem]'}`}
+      bg-gradient-to-br from-white/30 to-transparent ${className} ${isPublicPage ? 'relative h-[7rem] w-[7rem]' : 'absolute h-[6.02rem] w-[6.02rem]'}`}
     >
       <div
         className={`absolute inset-0 rounded-full border ${
@@ -59,7 +59,7 @@ export const AvatarCard = ({
           alt="User Avatar"
         />
       ) : (
-        isSharedScreen && (
+        isPublicPage && (
           <div className="flex items-center justify-center w-full h-full rounded-full bg-white/5">
             <img
               src={SmallLogo}
