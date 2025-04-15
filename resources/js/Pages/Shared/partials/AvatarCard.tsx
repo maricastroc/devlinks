@@ -39,8 +39,8 @@ export const AvatarCard = ({
 
   return (
     <div
-      className={`h-[7rem] w-[7rem] rounded-full p-[2px]
-      bg-gradient-to-br from-white/30 to-transparent ${className} ${isSharedScreen ? 'relative' : 'absolute'}`}
+      className={`rounded-full p-[2px]
+      bg-gradient-to-br from-white/30 to-transparent ${className} ${isSharedScreen ? 'relative h-[7rem] w-[7rem]' : 'absolute h-[6.02rem] w-[6.02rem]'}`}
     >
       <div
         className={`absolute inset-0 rounded-full border ${
