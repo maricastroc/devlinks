@@ -59,6 +59,8 @@ export default {
         'text-[#737373]',
         'text-[#333333]',
         'no-underline',
+        'h-[6.02rem]',
+        'w-[6.02rem]',
         'bg-gradient-to-b from-[#C57248] via-[#4E4848] to-[#2D2D37] text-[#1C2431]',
         'bg-gradient-to-b from-[#C15757] via-[#FFBE57] to-[#3E8E9C] text-[#2B3D40]',
         'bg-gradient-to-b from-[#478EA9] via-[#C99F9A] to-[#E29042] text-[#1C2431]',

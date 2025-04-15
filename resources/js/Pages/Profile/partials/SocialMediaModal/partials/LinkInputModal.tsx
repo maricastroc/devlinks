@@ -91,14 +91,15 @@ export const LinkInputModal = ({
 
         <PrimaryButton
           onClick={handleSave}
-          disabled={!linkValue?.length || isLoading}
+          disabled={!linkValue?.length}
+          isSubmitting={isLoading}
         >
           {isLoading ? 'Saving...' : 'Save'}
         </PrimaryButton>
 
         {isEditMode && (
           <SecondaryButton
-            disabled={!linkValue?.length || isLoading}
+            isSubmitting={isLoading}
             className="mt-3"
             onClick={onRemove}
           >
