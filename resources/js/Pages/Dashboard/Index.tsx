@@ -135,7 +135,7 @@ export default function Dashboard({ platforms, user, themes }: Props) {
             <PhoneMockup links={links} user={user} />
           </div>
 
-          <div className="flex flex-col w-full p-6 m-4 mt-6 bg-white rounded-md lg:m-0 md:m-6 md:p-10">
+          <div className="flex flex-col w-full p-4 m-4 mt-6 bg-white rounded-md lg:m-0 md:m-6 md:p-10">
             <PageHeader
               title="Customize your links"
               description="Add/edit/remove links below and then share all your profiles

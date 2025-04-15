@@ -5,7 +5,7 @@ type Props = ButtonHTMLAttributes<HTMLButtonElement> & {
   isSubmitting?: boolean;
 };
 
-export default function SecondaryButton({
+export default function PrimaryButton({
   className = '',
   isSubmitting = false,
   disabled,

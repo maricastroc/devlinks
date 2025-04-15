@@ -1,12 +1,12 @@
 import PrimaryButton from '@/Components/Core/PrimaryButton';
 import { PlatformProps } from '@/types/platform';
 import * as Dialog from '@radix-ui/react-dialog';
-import { ModalHeader } from '../SocialMediaModal';
 import { UserLinkProps } from '@/types/user-link';
 import { useEffect, useState } from 'react';
 import { validateSingleLink } from '@/utils/validateSingleLink';
 import SecondaryButton from '@/Components/Core/SecondaryButton';
 import { TrashSimple } from 'phosphor-react';
+import { ModalHeader } from '@/Components/Shared/ModalHeader';
 
 export const LinkInputModal = ({
   selectedLink,

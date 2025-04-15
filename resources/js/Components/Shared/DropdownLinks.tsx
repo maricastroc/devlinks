@@ -24,7 +24,7 @@ export const DropdownLinks = ({ handleSelect, platforms, link }: Props) => {
   );
 
   return (
-    <div className="top-[3.5rem] right-0 w-[100%]  absolute z-[50] py-1 max-h-[15rem] flex flex-col overflow-y-auto mt-1 bg-white border border-gray-300 rounded-md shadow-md">
+    <div className="absolute top-full left-0 right-0 z-[1000] py-1 max-h-[19.5rem] flex flex-col overflow-y-auto mt-1 bg-white border border-gray-300 rounded-md shadow-md">
       <div className="sticky top-0 px-3 py-2 bg-white border-b border-gray-200 z-[50]">
         <input
           ref={searchInputRef}

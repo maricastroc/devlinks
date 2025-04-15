@@ -1,12 +1,12 @@
 import { SearchInput } from '@/Components/Core/SearchInput';
 import { EmptyState } from '@/Pages/Profile/partials/SocialMediaModal/partials/SelectLinkModal';
-import { ModalHeader } from '@/Pages/Profile/partials/SocialMediaModal/SocialMediaModal';
 import { PlatformProps } from '@/types/platform';
 import { CUSTOM_PLATFORM_NAME } from '@/utils/constants';
 import * as Dialog from '@radix-ui/react-dialog';
-import { Plus } from 'phosphor-react';
 import { useState } from 'react';
 import { PlatformItem } from './PlatformItem';
+import { ModalHeader } from '@/Components/Shared/ModalHeader';
+import SecondaryButton from '@/Components/Core/SecondaryButton';
 
 type Props = {
   onClose: () => void;
@@ -60,17 +60,16 @@ export const LinksModal = ({ onClose, handleAddLink, platforms }: Props) => {
               />
             )}
           </div>
-          <button
+          <SecondaryButton
             onClick={() => {
               if (customPlatform) {
                 handleAddLink(customPlatform);
                 onClose();
               }
             }}
-            className="my-2 md:mt-3 md:mb-0 text-sm md:text-[0.95rem] flex gap-1 items-center justify-center bg-light-gray rounded-full text-dark-gray p-2 px-5 font-semibold shadow-md"
           >
-            <span className="hover:text-medium-purple">Add custom link</span>
-          </button>
+            Add Custom Link
+          </SecondaryButton>
         </Dialog.Description>
       </Dialog.Content>
     </Dialog.Portal>
