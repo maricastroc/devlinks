@@ -57,6 +57,7 @@ export const LinkCard = ({ link, className }: LinkCardProps) => {
       <div className="flex items-center gap-2">
         {link.platform.icon_url && (
           <img
+            className="w-4 h-4"
             src={`/assets/images/${link.platform.icon_url}`}
             alt={`${link.platform.name} icon`}
             style={{ filter: iconFilter }}
