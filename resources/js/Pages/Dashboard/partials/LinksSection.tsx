@@ -39,7 +39,7 @@ export const LinksSection = ({
             <div
               {...provided.droppableProps}
               ref={provided.innerRef}
-              className="flex flex-col w-full gap-4 overflow-y-auto custom-scrollbar max-h-[30rem]"
+              className="flex flex-col w-full gap-4 overflow-y-auto custom-scrollbar lg:max-h-[30rem]"
             >
               {links.map((link, index) => (
                 <Draggable
