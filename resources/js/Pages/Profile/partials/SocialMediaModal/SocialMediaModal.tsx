@@ -34,26 +34,26 @@ export function SocialMediaModal({
   platforms,
   socialLinks
 }: ModalProps) {
-  const [linkValue, setLinkValue] = useState('');
+  const [usernameValue, setUsernameValue] = useState('');
 
   const [isLoading, setIsLoading] = useState(false);
 
   const handleSaveLink = async () => {
-    if (!selectedPlatform || !linkValue) return;
+    if (!selectedPlatform || !usernameValue) return;
 
     setIsLoading(true);
 
     try {
       if (selectedLink) {
         const response = await api.put(`/social-links/${selectedLink.id}`, {
-          value: linkValue
+          username: usernameValue
         });
 
         toast.success(response.data.message);
       } else {
         const response = await api.post('/social-links', {
           platform_id: selectedPlatform.id,
-          value: linkValue
+          username: usernameValue
         });
 
         if (response.status === 409) {
@@ -75,7 +75,7 @@ export function SocialMediaModal({
   };
 
   const handleRemoveLink = async () => {
-    if (!selectedPlatform || !linkValue) return;
+    if (!selectedPlatform || !usernameValue) return;
 
     setIsLoading(true);
 
@@ -97,7 +97,7 @@ export function SocialMediaModal({
   const resetForm = () => {
     setSelectedPlatform(null);
     setSelectedLink(null);
-    setLinkValue('');
+    setUsernameValue('');
   };
 
   return (
@@ -135,11 +135,11 @@ export function SocialMediaModal({
 
         {activeModal === 'link_input_modal' && selectedPlatform && (
           <LinkInputModal
-            linkValue={linkValue}
+            usernameValue={usernameValue}
             isLoading={isLoading}
             selectedLink={selectedLink}
             selectedPlatform={selectedPlatform}
-            setLinkValue={setLinkValue}
+            setUsernameValue={setUsernameValue}
             onClose={onClose}
             onRemove={handleRemoveLink}
             onBack={() => {

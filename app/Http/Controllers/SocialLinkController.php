@@ -30,13 +30,10 @@ class SocialLinkController extends Controller
     {
         try {
             $user = Auth::user();
-
             $platform = Platform::find($request['platform_id']);
             
             if (!$platform) {
-                return response()->json([
-                    'message' => 'Platform not found'
-                ], 404);
+                return response()->json(['message' => 'Platform not found'], 404);
             }
 
             $existingLink = SocialLink::where('user_id', $user->id)
@@ -52,7 +49,8 @@ class SocialLinkController extends Controller
         
             $link = $user->socialLinks()->create([
                 'platform_id' => $request['platform_id'],
-                'url' => $request['value'],
+                'username' => $request['username'],
+                'url' => $this->buildCompleteUrl($platform->base_url, $request['username']),
                 'order' => $user->socialLinks()->count() + 1
             ]);
         
@@ -80,16 +78,17 @@ class SocialLinkController extends Controller
                 ->where('platform_id', $platform->id)
                 ->where('id', '!=', $socialLink->id)
                 ->first();
-    
+
             if ($existingLink) {
                 return response()->json([
                     'message' => 'You already have another link for this platform',
                     'link' => $existingLink
                 ], 409);
             }
-    
+
             $socialLink->update([
-                'url' => $request['value']
+                'username' => $request['username'],
+                'url' => $this->buildCompleteUrl($platform->base_url, $request['username'])
             ]);
 
             return response()->json([
@@ -120,5 +119,21 @@ class SocialLinkController extends Controller
                 'error' => $e->getMessage(),
             ], 500);
         }
+    }
+
+    protected function buildCompleteUrl(?string $baseUrl, string $username): string
+    {
+        if (str_starts_with($username, 'http://') || str_starts_with($username, 'https://')) {
+            return $username;
+        }
+
+        if (empty($baseUrl)) {
+            return $username;
+        }
+
+        $baseUrl = rtrim($baseUrl, '/');
+        $username = ltrim($username, '/');
+        
+        return $baseUrl . '/' . $username;
     }
 }

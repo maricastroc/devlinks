@@ -15,7 +15,7 @@ class SocialLinkRequest extends FormRequest
     {
         return [
             'platform_id' => 'required|exists:platforms,id',
-            'value' => 'required|string|max:255', 
+            'username' => 'required|string|max:255',
         ];
     }
 }

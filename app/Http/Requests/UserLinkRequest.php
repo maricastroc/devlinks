@@ -16,9 +16,9 @@ class UserLinkRequest extends FormRequest
         return [
             'links' => 'nullable|array',
             'links.*.platform_id' => 'required_if:links,!=,null|exists:platforms,id',
-            'links.*.url' => 'required_if:links,!=,null|url',
+            'links.*.username' => 'required_if:links,!=,null|string|max:255',
             'links.*.order' => 'required_if:links,!=,null|integer',
-            'links.*.custom_name' => 'required_if:links.*.platform_id,'.config('platforms.other_id'),
+            'links.*.custom_name' => 'nullable|string|max:255',
         ];
     }
 }

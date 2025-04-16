@@ -14,7 +14,7 @@ class UpdateSocialLinkRequest extends FormRequest
     public function rules()
     {
         return [
-          'value' => 'required|string|max:255', 
+            'username' => 'required|string|max:255', 
         ];
     }
 }

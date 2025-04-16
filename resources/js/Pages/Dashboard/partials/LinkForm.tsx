@@ -13,6 +13,7 @@ import InputError from '../../../Components/Core/InputError';
 import { DraggableProvided } from 'react-beautiful-dnd';
 import { CUSTOM_PLATFORM_NAME } from '@/utils/constants';
 import { useClickOutside } from '@/utils/useClickOutside';
+import { getLinkLabel } from '@/utils/getLinkLabel';
 
 type Props = {
   index: number;
@@ -20,9 +21,9 @@ type Props = {
   link: UserLinkProps;
   handleSelect: (item: PlatformProps) => void;
   handleRemove: (id: number) => void;
-  handleUpdateUrl: (linkId: number, value: string) => void;
+  handleUpdateUsername: (linkId: number, value: string) => void;
   handleUpdateCustomName: (linkId: number, value: string) => void;
-  errorUrl?: string;
+  errorUsername?: string;
   errorPlatform?: string;
   errorCustomName?: string;
   provided?: DraggableProvided;
@@ -32,13 +33,13 @@ export const LinkForm = ({
   index,
   link,
   platforms,
-  errorUrl,
+  errorUsername,
   errorPlatform,
   errorCustomName,
   provided,
   handleSelect,
   handleRemove,
-  handleUpdateUrl,
+  handleUpdateUsername,
   handleUpdateCustomName
 }: Props) => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
@@ -148,19 +149,21 @@ export const LinkForm = ({
           )}
 
           <div>
-            <InputLabel htmlFor="link" value="Link" />
+            <InputLabel htmlFor="link" value={`${getLinkLabel(link)}`} />
             <TextInput
               id="link"
               type="text"
               name="link"
-              value={link?.url || ''}
-              placeholder={`e.g. ${link?.platform?.example}`}
-              className={`block w-full mt-1 ${errorUrl ? 'border border-medium-red' : ''}`}
-              onChange={(e) => handleUpdateUrl(Number(link.id), e.target.value)}
+              value={link?.username || ''}
+              placeholder={`${link?.platform?.placeholder}`}
+              className={`block w-full mt-1 ${errorUsername ? 'border border-medium-red' : ''}`}
+              onChange={(e) =>
+                handleUpdateUsername(Number(link.id), e.target.value)
+              }
               icon={IconLink}
             />
 
-            <InputError className="mt-1" message={errorUrl} />
+            <InputError className="mt-1" message={errorUsername} />
           </div>
         </div>
       </div>

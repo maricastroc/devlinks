@@ -14,7 +14,6 @@ import { useTheme } from '@/contexts/ThemeContext';
 import { PlatformProps } from '@/types/platform';
 import { UserProps } from '@/types/user';
 import { ThemeProps } from '@/types/theme';
-import { validateLinks } from '@/utils/validateLink';
 import { useLinks } from '@/utils/useLinks';
 import { handleReqError } from '@/utils/handleReqError';
 import { LinksSection } from './partials/LinksSection';
@@ -50,7 +49,7 @@ export default function Dashboard({ platforms, user, themes }: Props) {
     handleRemoveLink,
     handleUpdatePlatform,
     handleUpdateCustomName,
-    handleUpdateUrl
+    handleUpdateUsername
   } = useLinks(user?.user_links, platforms);
 
   const onDragEnd = (result: DropResult) => {
@@ -61,19 +60,11 @@ export default function Dashboard({ platforms, user, themes }: Props) {
 
     const [movedLink] = reorderedLinks.splice(result.source.index, 1);
     reorderedLinks.splice(result.destination.index, 0, movedLink);
-    console.log(reorderedLinks);
     setLinks(reorderedLinks);
   };
 
   const submit = async (e: React.FormEvent) => {
     e.preventDefault();
-
-    const validationErrors = validateLinks(links, platforms);
-
-    if (validationErrors && Object.keys(validationErrors).length > 0) {
-      setErrors(validationErrors);
-      return;
-    }
 
     setProcessing(true);
 
@@ -83,7 +74,7 @@ export default function Dashboard({ platforms, user, themes }: Props) {
       const response = await axios.post('/user-links', {
         links: links.map((link, index) => ({
           platform_id: link.platform_id,
-          url: link.url,
+          username: link.username,
           order: index + 1,
           custom_name: link?.custom_name
         }))
@@ -163,7 +154,7 @@ export default function Dashboard({ platforms, user, themes }: Props) {
                 errors={errors}
                 onDragEnd={onDragEnd}
                 onRemoveLink={handleRemoveLink}
-                onUpdateUrl={handleUpdateUrl}
+                onUpdateUsername={handleUpdateUsername}
                 onUpdateCustomName={handleUpdateCustomName}
                 onUpdatePlatform={handleUpdatePlatform}
               />

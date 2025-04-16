@@ -40,9 +40,11 @@ export const useLinks = (
     );
   };
 
-  const handleUpdateUrl = (linkId: number, value: string) => {
+  const handleUpdateUsername = (linkId: number, value: string) => {
     setLinks((prev) =>
-      prev.map((link) => (link.id === linkId ? { ...link, url: value } : link))
+      prev.map((link) =>
+        link.id === linkId ? { ...link, username: value } : link
+      )
     );
   };
 
@@ -75,6 +77,6 @@ export const useLinks = (
     handleRemoveLink,
     handleUpdatePlatform,
     handleUpdateCustomName,
-    handleUpdateUrl
+    handleUpdateUsername
   };
 };

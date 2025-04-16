@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class SocialLink extends Model
 {
-    protected $fillable = ['user_id', 'platform_id', 'url', 'order'];
+    protected $fillable = ['user_id', 'platform_id', 'url', 'order', 'username'];
 
     public function user()
     {

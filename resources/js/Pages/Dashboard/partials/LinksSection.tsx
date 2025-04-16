@@ -7,7 +7,6 @@ import {
 } from 'react-beautiful-dnd';
 import { LinkForm } from './LinkForm';
 import { PlatformProps } from '@/types/platform';
-import { useLinks } from '@/utils/useLinks';
 import { FormErrors } from '../Index';
 
 type Props = {
@@ -16,7 +15,7 @@ type Props = {
   errors: FormErrors;
   onDragEnd: (result: DropResult) => void;
   onRemoveLink: (id: number) => void;
-  onUpdateUrl: (id: number, url: string) => void;
+  onUpdateUsername: (id: number, username: string) => void;
   onUpdateCustomName: (id: number, customName: string) => void;
   onUpdatePlatform: (platform: PlatformProps, id: number) => void;
 };
@@ -29,7 +28,7 @@ export const LinksSection = ({
   onDragEnd,
   onUpdateCustomName,
   onUpdatePlatform,
-  onUpdateUrl
+  onUpdateUsername
 }: Props) => {
   return (
     <div className="flex flex-col h-full gap-4 mt-6">
@@ -60,9 +59,9 @@ export const LinksSection = ({
                         provided={provided}
                         index={index}
                         handleRemove={onRemoveLink}
-                        handleUpdateUrl={onUpdateUrl}
+                        handleUpdateUsername={onUpdateUsername}
                         handleUpdateCustomName={onUpdateCustomName}
-                        errorUrl={errors[String(link.id)]?.url}
+                        errorUsername={errors[String(link.id)]?.url}
                         errorCustomName={errors[String(link.id)]?.custom_name}
                         errorPlatform={errors[String(link.id)]?.platform_id}
                         handleSelect={(platform) =>

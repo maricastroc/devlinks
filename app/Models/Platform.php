@@ -10,5 +10,5 @@ class Platform extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['name', 'color', 'icon_url'];
+    protected $fillable = ['name', 'color', 'icon_url', 'base_url'];
 }

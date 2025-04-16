@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class UserLink extends Model {
     use HasFactory;
 
-    protected $fillable = ['user_id', 'platform_id', 'url', 'order', 'custom_name', 'custom_color', 'custom_icon'];
+    protected $fillable = ['user_id', 'platform_id', 'url', 'order', 'custom_name', 'custom_color', 'custom_icon', 'username',];
 
     public function user() {
         return $this->belongsTo(User::class);
