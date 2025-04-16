@@ -69,6 +69,7 @@ export const useLinks = (
 
     setFilteredPlatforms(filtered || []);
   }, [links, platforms]);
+
   return {
     links,
     setLinks,

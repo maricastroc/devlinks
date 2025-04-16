@@ -14,6 +14,8 @@ import { ThemeProps } from '@/types/theme';
 import { useTheme } from '@/contexts/ThemeContext';
 import { useClickOutside } from '@/utils/useClickOutside';
 import { SocialLink } from '@/Components/Shared/SocialLink';
+import { useThemeEffect } from '@/utils/useThemeEffect';
+import { useLoadingIndicator } from '@/utils/useLoadingIndicator';
 
 type Props = {
   socialLinks: UserLinkProps[];
@@ -42,6 +44,9 @@ export default function Shared({
 
   const { currentTheme, handleChangeTheme } = useTheme();
 
+  useLoadingIndicator(setIsLoading);
+  useThemeEffect({ user, themes, handleChangeTheme });
+
   const isDefaultTheme = currentTheme?.name === DEFAULT_THEME;
 
   const handleCopyLink = async () => {
@@ -54,28 +59,6 @@ export default function Shared({
       toast?.success('An unexpected error ocurred.');
     }
   };
-
-  useEffect(() => {
-    const start = () => setIsLoading(true);
-    const end = () => setIsLoading(false);
-
-    Inertia.on('start', start);
-    Inertia.on('finish', end);
-  }, []);
-
-  useEffect(() => {
-    if (user) {
-      if (user?.theme) {
-        handleChangeTheme(user.theme);
-      } else {
-        const defaultTheme = themes.find((theme) => {
-          return theme.name === DEFAULT_THEME;
-        });
-
-        handleChangeTheme(defaultTheme as ThemeProps);
-      }
-    }
-  }, [user?.theme]);
 
   return (
     currentTheme && (
@@ -104,7 +87,7 @@ export default function Shared({
 
         <div
           className={`z-[12] p-6 px-4 lg:mb-30 md:p-10 mb-10 w-[90vw]
-          max-w-[35rem] rounded-xl ${isDefaultTheme ? 'bg-white shadow-lg' : 'md:backdrop-blur-xs md:bg-white/5 md:shadow-lg'} ${!isOwner ? 'mt-12 md:mt-20' : 'mt-[-1.75rem] md:mt-10'}`}
+          max-w-[35rem] rounded-xl ${isDefaultTheme && 'bg-white shadow-lg'} ${!isOwner ? 'mt-12 md:mt-20' : 'mt-[-1.75rem] md:mt-10'}`}
         >
           <div className="flex flex-col items-center justify-center w-auto">
             <AvatarCard

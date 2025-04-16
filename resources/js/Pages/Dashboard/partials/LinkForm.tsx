@@ -1,20 +1,19 @@
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import InputLabel from '../../../Components/Core/InputLabel';
-import { faChevronDown, faChevronUp } from '@fortawesome/free-solid-svg-icons';
-import TextInput from '../../../Components/Core/TextInput';
-import IconLink from '/public/assets/images/icon-links-header.svg';
-import IconPlatform from '/public/assets/images/icon-platform.svg';
-import { LinkMark } from './LinkMark';
 import { useState, useEffect, RefObject } from 'react';
-import { DropdownLinks } from '../../../Components/Shared/DropdownLinks';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { DraggableProvided } from 'react-beautiful-dnd';
+import { faChevronDown, faChevronUp } from '@fortawesome/free-solid-svg-icons';
+import IconPlatform from '/public/assets/images/icon-platform.svg';
 import { PlatformProps } from '@/types/platform';
 import { UserLinkProps } from '@/types/user-link';
+import { LinkMark } from './LinkMark';
+import InputLabel from '../../../Components/Core/InputLabel';
+import { DropdownLinks } from '../../../Components/Shared/DropdownLinks';
+import TextInput from '../../../Components/Core/TextInput';
 import InputError from '../../../Components/Core/InputError';
-import { DraggableProvided } from 'react-beautiful-dnd';
+import { LinkInputIcon } from '@/Components/Shared/LinkInputIcon';
 import { CUSTOM_PLATFORM_NAME } from '@/utils/constants';
 import { useClickOutside } from '@/utils/useClickOutside';
 import { getLinkLabel } from '@/utils/getLinkLabel';
-import { LinkInputIcon } from '@/Components/Shared/LinkInputIcon';
 
 type Props = {
   index: number;

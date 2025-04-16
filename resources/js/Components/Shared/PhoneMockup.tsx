@@ -13,6 +13,7 @@ type Props = {
   user?: UserProps;
   photoPreview?: string | null;
   name?: string | null;
+  isLoading?: boolean;
 };
 
 export const PhoneMockup = ({

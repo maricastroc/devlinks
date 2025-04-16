@@ -21,6 +21,8 @@ import {
   ProfileFormSchema,
   profileFormSchema
 } from './partials/FormSection';
+import { SkeletonCard } from './partials/SkeletonCard';
+import 'react-loading-skeleton/dist/skeleton.css';
 
 export interface ThemesData {
   themes: ThemeProps[];
@@ -47,32 +49,25 @@ export default function Profile() {
 
   const [originalImage, setOriginalImage] = useState<string | null>(null);
 
-  const {
-    data: socialLinksData,
-    mutate,
-    isValidating
-  } = useRequest<SocialLinksData>({
+  const { data: socialLinksData, mutate } = useRequest<SocialLinksData>({
     url: `/social-links`,
     method: 'GET'
   });
 
-  const { data: profileData, isValidating: isValidatingProfileData } =
-    useRequest<ProfileData>({
-      url: `/auth/user`,
-      method: 'GET'
-    });
+  const { data: profileData, isValidating } = useRequest<ProfileData>({
+    url: `/auth/user`,
+    method: 'GET'
+  });
 
-  const { data: platformsData, isValidating: isValidatingPlatformsData } =
-    useRequest<PlatformsData>({
-      url: `/platforms`,
-      method: 'GET'
-    });
+  const { data: platformsData } = useRequest<PlatformsData>({
+    url: `/platforms`,
+    method: 'GET'
+  });
 
-  const { data: themesData, isValidating: isValidatingThemeData } =
-    useRequest<ThemesData>({
-      url: `/themes`,
-      method: 'GET'
-    });
+  const { data: themesData } = useRequest<ThemesData>({
+    url: `/themes`,
+    method: 'GET'
+  });
 
   const socialLinks = socialLinksData?.socialLinks || [];
 
@@ -81,12 +76,6 @@ export default function Profile() {
   const themes = themesData?.themes || [];
 
   const user = profileData?.user || undefined;
-
-  const isLoading =
-    isValidating ||
-    isValidatingPlatformsData ||
-    isValidatingProfileData ||
-    isValidatingThemeData;
 
   const handleCroppedImage = (croppedImage: string) => {
     fetch(croppedImage)
@@ -147,39 +136,44 @@ export default function Profile() {
             name={watch().name}
             photoPreview={photoPreview}
             user={user}
+            isLoading={isValidating}
           />
         </div>
-        <div className="flex flex-col w-full p-6 m-4 bg-white rounded-md lg:m-0 md:m-6 md:p-10">
+        <div className="flex flex-col w-full p-4 m-4 bg-white rounded-md lg:m-0 md:m-6 md:p-10">
           <PageHeader
             title="Profile Details"
             description="Add details to personalize your profile"
             themes={themes}
           />
 
-          <ProfileSection title="Connect your social media" wrap>
-            <SocialMediaSection
-              mutate={mutate}
-              socialLinks={socialLinks}
-              platforms={platforms}
-            />
-          </ProfileSection>
+          {isValidating ? (
+            <SkeletonCard />
+          ) : (
+            <>
+              <ProfileSection title="Connect your social media" wrap>
+                <SocialMediaSection
+                  mutate={mutate}
+                  socialLinks={socialLinks}
+                  platforms={platforms}
+                />
+              </ProfileSection>
 
-          <FormSection
-            setPhotoPreview={setPhotoPreview}
-            photoPreview={photoPreview}
-            control={control}
-            handleSubmit={handleSubmit}
-            errors={errors}
-            setValue={setValue}
-            user={profileData?.user}
-            isSubmitting={isSubmitting}
-            setShowCropper={(value) => setShowCropper(value)}
-            setOriginalImage={(value) => setOriginalImage(value)}
-          />
+              <FormSection
+                setPhotoPreview={setPhotoPreview}
+                photoPreview={photoPreview}
+                control={control}
+                handleSubmit={handleSubmit}
+                errors={errors}
+                setValue={setValue}
+                user={profileData?.user}
+                isSubmitting={isSubmitting}
+                setShowCropper={(value) => setShowCropper(value)}
+                setOriginalImage={(value) => setOriginalImage(value)}
+              />
+            </>
+          )}
         </div>
       </div>
-
-      {isLoading && <LoadingComponent hasOverlay />}
     </AuthenticatedLayout>
   );
 }

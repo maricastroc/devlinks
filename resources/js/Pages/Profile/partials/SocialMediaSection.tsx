@@ -32,19 +32,23 @@ export const SocialMediaSection = ({
 
   const showOverflow = socialLinks?.length > 3;
 
+  const desiredPlatforms = ['Instagram', 'WhatsApp', 'Facebook'];
+
+  const socialPlatforms = platforms?.filter((platform) =>
+    desiredPlatforms.includes(platform.name)
+  );
+
   return (
     <>
       <div className="grid grid-cols-4 gap-3 md:justify-end md:flex">
         {!hasSocialLinks &&
-          platforms
-            ?.slice(0, 3)
-            .map((platform) => (
-              <PlatformButton
-                key={platform.id}
-                platform={platform}
-                onClick={() => setIsModalOpen(true)}
-              />
-            ))}
+          socialPlatforms?.map((platform) => (
+            <PlatformButton
+              key={platform.id}
+              platform={platform}
+              onClick={() => setIsModalOpen(true)}
+            />
+          ))}
 
         {hasSocialLinks &&
           socialLinks.slice(0, 2).map((link) => (

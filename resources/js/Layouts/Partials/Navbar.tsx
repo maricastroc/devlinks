@@ -49,7 +49,7 @@ export const Navbar = () => {
         <NavLink
           className="flex items-center transition-all duration-150 md:gap-2 hover:text-medium-purple"
           href={route('web.dashboard.index')}
-          isActive={currentRoute === 'web.dashboard.index'}
+          isActive={currentRoute === '/'}
         >
           <FontAwesomeIcon icon={faLink} />
           <p className="hidden md:block">Links</p>

@@ -2,6 +2,7 @@ import { useTheme } from '@/contexts/ThemeContext';
 import { UserProps } from '@/types/user';
 import { UserLinkProps } from '@/types/user-link';
 import { DEFAULT_THEME } from '@/utils/constants';
+import { Skeleton } from './Skeleton';
 
 type PhoneIllustrationProps = {
   links: UserLinkProps[] | undefined;
@@ -44,20 +45,20 @@ export const PhoneIllustration = ({
         className={`absolute overflow-hidden inset-2 rounded-2xl ${containerBg}`}
       >
         <div className="flex flex-col items-center justify-start h-full text-gray-400 mt-[3.1rem]">
-          <span
+          <Skeleton
             className={`${placeholderBg} w-[5.5rem] h-[5.5rem] rounded-full`}
           />
-          <span
+          <Skeleton
             className={`${!isDefaultTheme && hasName ? 'bg-transparent' : 'bg-[#EEEEEE]'} w-[10rem] h-[1rem] rounded-full mt-[1.75rem]`}
           />
-          <span
+          <Skeleton
             className={`${!isDefaultTheme && hasSocialLinks ? 'bg-transparent' : 'bg-[#EEEEEE]'} w-[5rem] h-[0.8rem] rounded-full mt-[0.8rem]`}
           />
           <div className="flex flex-col items-center justify-start gap-[1.25rem] mt-[3.4rem]">
             {Array(5)
               .fill(null)
               .map((_, index) => (
-                <span
+                <Skeleton
                   key={index}
                   className={`${index < transparentPlaceholders && !isDefaultTheme ? 'bg-transparent' : 'bg-[#EEEEEE]'} w-[14.6rem] h-[2.7rem] rounded-lg`}
                 />

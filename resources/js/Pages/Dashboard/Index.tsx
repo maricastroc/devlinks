@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
 import * as Dialog from '@radix-ui/react-dialog';
-import axios from 'axios';
 import { Head } from '@inertiajs/react';
 import { DropResult } from 'react-beautiful-dnd';
 import toast from 'react-hot-toast';
@@ -15,7 +14,6 @@ import { PlatformProps } from '@/types/platform';
 import { UserProps } from '@/types/user';
 import { ThemeProps } from '@/types/theme';
 import { useLinks } from '@/utils/useLinks';
-import { handleReqError } from '@/utils/handleReqError';
 import { LinksSection } from './partials/LinksSection';
 import { EmptyLinks } from './partials/EmptyLinks';
 import { DEFAULT_THEME } from '@/utils/constants';
@@ -24,15 +22,10 @@ import useRequest from '@/utils/useRequest';
 import { PlatformsData, ProfileData, ThemesData } from '../Profile/Index';
 import { validateLinks } from '@/utils/validateLink';
 import { scrollToInvalidLink } from '@/utils/scrollToInvalidLink';
-import { UserLinkProps } from '@/types/user-link';
 import { api } from '@/libs/axios';
 import { handleApiError } from '@/utils/handleApiError';
-
-type Props = {
-  platforms: PlatformProps[];
-  themes: ThemeProps[];
-  user: UserProps;
-};
+import { SkeletonCard } from './partials/SkeletonCard';
+import 'react-loading-skeleton/dist/skeleton.css';
 
 export type FormErrors = Record<
   string | number,
@@ -55,35 +48,28 @@ export default function Dashboard() {
 
   const {
     data: profileData,
-    isValidating: isValidatingProfileData,
+    isValidating,
     mutate
   } = useRequest<ProfileData>({
     url: `/auth/user`,
     method: 'GET'
   });
 
-  const { data: platformsData, isValidating: isValidatingPlatformsData } =
-    useRequest<PlatformsData>({
-      url: `/platforms`,
-      method: 'GET'
-    });
+  const { data: platformsData } = useRequest<PlatformsData>({
+    url: `/platforms`,
+    method: 'GET'
+  });
 
-  const { data: themesData, isValidating: isValidatingThemeData } =
-    useRequest<ThemesData>({
-      url: `/themes`,
-      method: 'GET'
-    });
+  const { data: themesData } = useRequest<ThemesData>({
+    url: `/themes`,
+    method: 'GET'
+  });
 
   const platforms = platformsData?.platforms || [];
 
   const themes = themesData?.themes || [];
 
   const user = profileData?.user || undefined;
-
-  const isLoading =
-    isValidatingPlatformsData ||
-    isValidatingProfileData ||
-    isValidatingThemeData;
 
   const {
     links,
@@ -97,7 +83,6 @@ export default function Dashboard() {
   } = useLinks(user?.user_links, platforms);
 
   const onDragEnd = (result: DropResult) => {
-    console.log('hi', result);
     if (!result.destination) return;
 
     const reorderedLinks = [...links];
@@ -163,7 +148,7 @@ export default function Dashboard() {
     if (user) {
       setLinks(user?.user_links);
     }
-  }, [user]);
+  }, [user?.user_links]);
 
   return (
     <AuthenticatedLayout
@@ -179,7 +164,7 @@ export default function Dashboard() {
 
       <div className="lg:m-6 flex lg:grid lg:grid-cols-[1fr,1.5fr] w-full lg:gap-6 lg:mt-0">
         <div className="items-center justify-center hidden w-full p-10 bg-white rounded-md lg:flex">
-          <PhoneMockup links={links} user={user} />
+          <PhoneMockup isLoading={isValidating} links={links} user={user} />
         </div>
 
         <div className="flex flex-col w-full p-4 m-4 mt-6 bg-white rounded-md lg:m-0 md:m-6 md:p-10">
@@ -203,7 +188,9 @@ export default function Dashboard() {
             />
           </Dialog.Root>
 
-          {links?.length > 0 ? (
+          {isValidating ? (
+            <SkeletonCard />
+          ) : links?.length > 0 ? (
             <LinksSection
               links={links}
               filteredPlatforms={filteredPlatforms}
@@ -231,7 +218,6 @@ export default function Dashboard() {
           </div>
         </div>
       </div>
-      {(isLoading || processing) && <LoadingComponent hasOverlay />}
     </AuthenticatedLayout>
   );
 }
