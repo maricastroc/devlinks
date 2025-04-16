@@ -177,13 +177,16 @@ export default function Dashboard() {
 
           <Dialog.Root open={isLinksModalOpen}>
             <div className="flex items-center justify-center w-full gap-3">
-              <SecondaryButton onClick={() => setIsLinksModalOpen(true)}>
+              <SecondaryButton
+                disabled={processing || isValidating}
+                onClick={() => setIsLinksModalOpen(true)}
+              >
                 + Add New Link
               </SecondaryButton>
             </div>
             <LinksModal
               handleAddLink={handleAddLink}
-              platforms={platforms}
+              platforms={filteredPlatforms}
               onClose={() => setIsLinksModalOpen(false)}
             />
           </Dialog.Root>
@@ -211,7 +214,7 @@ export default function Dashboard() {
             <PrimaryButton
               onClick={submit}
               className="md:w-[6rem]"
-              disabled={processing}
+              disabled={processing || isValidating}
             >
               Save
             </PrimaryButton>
