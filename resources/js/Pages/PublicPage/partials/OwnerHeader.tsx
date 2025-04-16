@@ -75,7 +75,10 @@ export const OwnerHeader = ({
                 <DropdownTheme
                   currentTheme={currentTheme}
                   themes={themes}
-                  handleSelect={handleThemeSelect}
+                  handleSelect={(theme) => {
+                    handleThemeSelect(theme);
+                    setShowThemeDropdown(false);
+                  }}
                 />
               )}
             </div>
