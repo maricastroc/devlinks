@@ -38,7 +38,7 @@ class PublicPageController extends Controller
                 'avatar_url' => $user->avatar_url,
                 'theme'      => $user->theme?->only(['id', 'name', 'styles'])
             ],
-            'themes' => Theme::active()->get(['id', 'name', 'styles']),
+            'themes' => Theme::all(),
             'userLinks' => $user->userLinks->map(function ($link) {
                 return $link->load('platform');
             }),

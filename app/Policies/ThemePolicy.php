@@ -12,7 +12,7 @@ class ThemePolicy
      */
     public function viewAny(User $user): bool
     {
-        return auth()->check();
+        return true;
     }
 
     /**
@@ -20,7 +20,7 @@ class ThemePolicy
      */
     public function view(User $user): bool
     {
-        return auth()->check();
+        return true;
     }
 
     /**

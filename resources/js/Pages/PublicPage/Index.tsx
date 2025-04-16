@@ -30,7 +30,7 @@ export default function Shared({
   socialLinks,
   authUser
 }: Props) {
-  const isOwner = authUser?.id === user.id;
+  const isOwner = authUser?.id && authUser?.id === user.id;
 
   const [showThemeDropdown, setShowThemeDropdown] = useState(false);
 

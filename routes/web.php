@@ -19,7 +19,7 @@ Route::middleware('auth')->group(function () {
         'web.profile.index'
     );
 
-    Route::get('/dashboard', fn(Request $request) => inertia('Dashboard/Index'))->name(
+    Route::get('/', fn(Request $request) => inertia('Dashboard/Index'))->name(
         'web.dashboard.index'
     );
 
