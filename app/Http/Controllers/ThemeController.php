@@ -2,23 +2,25 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Platform;
+use App\Models\Theme;
 use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
-class PlatformController extends Controller
+class ThemeController extends Controller
 {
     public function index(Request $request): JsonResponse
     {
-        $this->authorize('viewAny', Platform::class);
+        $this->authorize('viewAny', Theme::class);
 
         try {
-            $platforms = Platform::all();
+            $themes = Theme::where('is_active', true)
+                ->select(['id', 'name', 'styles'])
+                ->get();
 
             return response()->json([
                 'data' => [
-                    'platforms' => $platforms,
+                    'themes' => $themes
                 ]
             ], 200);
         } catch (Exception $e) {

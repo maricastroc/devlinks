@@ -14,6 +14,7 @@ import { DraggableProvided } from 'react-beautiful-dnd';
 import { CUSTOM_PLATFORM_NAME } from '@/utils/constants';
 import { useClickOutside } from '@/utils/useClickOutside';
 import { getLinkLabel } from '@/utils/getLinkLabel';
+import { LinkInputIcon } from '@/Components/Shared/LinkInputIcon';
 
 type Props = {
   index: number;
@@ -47,7 +48,7 @@ export const LinkForm = ({
   const dropdownRef = useClickOutside(() => {
     setIsDropdownOpen(false);
   });
-
+  console.log(link);
   useEffect(() => {
     if (link.platform.name !== CUSTOM_PLATFORM_NAME) {
       link.custom_name = undefined;
@@ -160,7 +161,7 @@ export const LinkForm = ({
               onChange={(e) =>
                 handleUpdateUsername(Number(link.id), e.target.value)
               }
-              icon={IconLink}
+              icon={<LinkInputIcon platform={link.platform} />}
             />
 
             <InputError className="mt-1" message={errorUsername} />

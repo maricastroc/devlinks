@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import * as Dialog from '@radix-ui/react-dialog';
 import { Head } from '@inertiajs/react';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { PhoneMockup } from '@/Components/Shared/PhoneMockup';
@@ -17,29 +16,29 @@ import { DEFAULT_THEME } from '@/utils/constants';
 import useRequest from '@/utils/useRequest';
 import { ProfileSection } from './partials/ProfileSection';
 import { SocialMediaSection } from './partials/SocialMediaSection';
-import { SocialMediaModal } from './partials/SocialMediaModal/SocialMediaModal';
 import {
   FormSection,
   ProfileFormSchema,
   profileFormSchema
 } from './partials/FormSection';
 
-type Props = {
-  platforms: PlatformProps[];
-  user: UserProps;
+export interface ThemesData {
   themes: ThemeProps[];
-};
-
-export interface SocialLinksResponse {
-  socialLinks: UserLinkProps[];
-  count: number;
 }
 
-export default function Profile({ user, platforms, themes }: Props) {
-  const filteredPlatforms = platforms.filter(
-    (platform) => platform.is_social === true
-  );
+export interface ProfileData {
+  user: UserProps;
+}
 
+export interface SocialLinksData {
+  socialLinks: UserLinkProps[];
+}
+
+export interface PlatformsData {
+  platforms: PlatformProps[];
+}
+
+export default function Profile() {
   const { handleChangeTheme } = useTheme();
 
   const [photoPreview, setPhotoPreview] = useState<string | null>(null);
@@ -48,10 +47,46 @@ export default function Profile({ user, platforms, themes }: Props) {
 
   const [originalImage, setOriginalImage] = useState<string | null>(null);
 
-  const { data, mutate, isValidating } = useRequest<SocialLinksResponse>({
+  const {
+    data: socialLinksData,
+    mutate,
+    isValidating
+  } = useRequest<SocialLinksData>({
     url: `/social-links`,
     method: 'GET'
   });
+
+  const { data: profileData, isValidating: isValidatingProfileData } =
+    useRequest<ProfileData>({
+      url: `/auth/user`,
+      method: 'GET'
+    });
+
+  const { data: platformsData, isValidating: isValidatingPlatformsData } =
+    useRequest<PlatformsData>({
+      url: `/platforms`,
+      method: 'GET'
+    });
+
+  const { data: themesData, isValidating: isValidatingThemeData } =
+    useRequest<ThemesData>({
+      url: `/themes`,
+      method: 'GET'
+    });
+
+  const socialLinks = socialLinksData?.socialLinks || [];
+
+  const platforms = platformsData?.platforms || [];
+
+  const themes = themesData?.themes || [];
+
+  const user = profileData?.user || undefined;
+
+  const isLoading =
+    isValidating ||
+    isValidatingPlatformsData ||
+    isValidatingProfileData ||
+    isValidatingThemeData;
 
   const handleCroppedImage = (croppedImage: string) => {
     fetch(croppedImage)
@@ -79,16 +114,10 @@ export default function Profile({ user, platforms, themes }: Props) {
   });
 
   useEffect(() => {
-    if (user?.theme) {
-      handleChangeTheme(user.theme);
-    } else {
-      const defaultTheme = themes.find((theme) => {
-        return theme.name === DEFAULT_THEME;
-      });
+    const theme = user?.theme || themes?.find((t) => t.name === DEFAULT_THEME);
 
-      handleChangeTheme(defaultTheme as ThemeProps);
-    }
-  }, [user]);
+    if (theme) handleChangeTheme(theme);
+  }, [profileData, themesData]);
 
   return (
     <AuthenticatedLayout
@@ -113,8 +142,8 @@ export default function Profile({ user, platforms, themes }: Props) {
       <div className="lg:m-6 flex lg:grid lg:grid-cols-[1fr,1.5fr] w-full lg:gap-6 lg:mt-0">
         <div className="items-center justify-center hidden w-full p-10 bg-white rounded-md lg:flex">
           <PhoneMockup
-            links={user.user_links}
-            socialLinks={data?.socialLinks}
+            links={user?.user_links}
+            socialLinks={socialLinks}
             name={watch().name}
             photoPreview={photoPreview}
             user={user}
@@ -130,8 +159,8 @@ export default function Profile({ user, platforms, themes }: Props) {
           <ProfileSection title="Connect your social media" wrap>
             <SocialMediaSection
               mutate={mutate}
-              socialLinks={data?.socialLinks}
-              platforms={filteredPlatforms}
+              socialLinks={socialLinks}
+              platforms={platforms}
             />
           </ProfileSection>
 
@@ -142,7 +171,7 @@ export default function Profile({ user, platforms, themes }: Props) {
             handleSubmit={handleSubmit}
             errors={errors}
             setValue={setValue}
-            user={user}
+            user={profileData?.user}
             isSubmitting={isSubmitting}
             setShowCropper={(value) => setShowCropper(value)}
             setOriginalImage={(value) => setOriginalImage(value)}
@@ -150,7 +179,7 @@ export default function Profile({ user, platforms, themes }: Props) {
         </div>
       </div>
 
-      {isValidating && <LoadingComponent hasOverlay />}
+      {isLoading && <LoadingComponent hasOverlay />}
     </AuthenticatedLayout>
   );
 }

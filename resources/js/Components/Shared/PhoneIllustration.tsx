@@ -4,8 +4,8 @@ import { UserLinkProps } from '@/types/user-link';
 import { DEFAULT_THEME } from '@/utils/constants';
 
 type PhoneIllustrationProps = {
-  links: UserLinkProps[];
-  socialLinks?: UserLinkProps[];
+  links: UserLinkProps[] | undefined;
+  socialLinks?: UserLinkProps[] | undefined;
   name?: string | null;
   user?: UserProps;
 };
@@ -32,7 +32,7 @@ export const PhoneIllustration = ({
 
   const placeholderBg = 'bg-[#EEEEEE]';
 
-  const transparentPlaceholders = Math.min(links?.length, 5);
+  const transparentPlaceholders = Math.min(links?.length || 0, 5);
 
   return (
     <div

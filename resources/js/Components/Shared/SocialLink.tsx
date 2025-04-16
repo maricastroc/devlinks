@@ -5,6 +5,7 @@ type Props = {
   isDefaultTheme: boolean;
   isSmaller?: boolean;
 };
+
 export const SocialLink = ({ link, isDefaultTheme, isSmaller }: Props) => {
   return (
     <a

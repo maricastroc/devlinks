@@ -36,7 +36,7 @@ export const OwnerHeader = ({
           text-md flex items-center justify-between gap-3 p-4`}
         >
           <HeaderButton
-            onClick={() => router.get(route('dashboard'))}
+            onClick={() => router.get(route('web.dashboard.index'))}
             theme={currentTheme}
             icon={<FontAwesomeIcon icon={faArrowLeft} className="size-5" />}
             text="Back"

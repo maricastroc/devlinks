@@ -13,7 +13,7 @@ test('I should be able to create a user', function () {
         'password_confirmation' => '12345678'
     ]);
 
-    $response->assertRedirect(route('dashboard'));
+    $response->assertRedirect(route('web.dashboard.index'));
 
     $this->assertDatabaseHas('users', [
         'email' => 'jondoe@gmail.com',

@@ -16,7 +16,7 @@ export default function SecondaryButton({
     <button
       {...props}
       className={
-        `disabled:cursor-not-allowed disabled:text-white justify-center h-[3rem] disabled:bg-purple-hover disabled:border-transparent w-full inline-flex items-center rounded-lg bg-transparent border border-medium-purple px-4 py-3 text-md font-semibold text-medium-purple transition duration-150 ease-in-out hover:bg-purple-hover hover:bg-opacity-30 focus:outline-none ${isSubmitting && 'cursor-not-allowed bg-gray-300 border-transparent'} ` +
+        `disabled:cursor-not-allowed disabled:text-white justify-center h-[3rem] disabled:bg-purple-hover disabled:border-transparent w-full inline-flex items-center rounded-lg border  px-4 py-3 text-md font-semibold text-medium-purple transition duration-150 ease-in-out focus:outline-none ${isSubmitting ? 'cursor-not-allowed bg-gray-300 border-transparent hover:bg-gray-300 hover:bg-opacity-100' : 'bg-transparent border-medium-purple hover:bg-purple-hover hover:bg-opacity-30'} ` +
         className
       }
       disabled={disabled}

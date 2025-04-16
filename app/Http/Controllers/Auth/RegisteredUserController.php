@@ -44,7 +44,7 @@ class RegisteredUserController extends Controller
     
             Auth::login($user);
     
-            return redirect()->route('dashboard');
+            return redirect()->route('web.dashboard.index');
         } catch (\Exception $e) {
             return redirect()->back()->withErrors([
                 'error' => 'An unexpected error has occurred. Please try again.',

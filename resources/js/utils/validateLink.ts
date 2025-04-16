@@ -14,6 +14,7 @@ export const validateLinks = (
       url?: string;
       platform_id?: string;
       custom_name?: string;
+      username?: string;
     } = {};
 
     const platform = platforms.find((p) => p.id === link.platform_id);
@@ -35,19 +36,13 @@ export const validateLinks = (
     }
 
     try {
-      if (!link?.url?.trim()) {
-        linkErrors.url = 'The link cannot be empty.';
-      } else {
-        new URL(link.url);
+      if (!link?.username?.trim()) {
+        linkErrors.username = 'Username cannot be empty.';
+      }
 
-        if (platform?.name === CUSTOM_PLATFORM_NAME) {
-          if (!link.url.match(/^https?:\/\//)) {
-            linkErrors.url = 'URL must start with http:// or https://';
-          }
-        } else if (platform?.base_url) {
-          if (!link.url.startsWith(platform.base_url)) {
-            linkErrors.url = `URL must start with ${platform.base_url}`;
-          }
+      if (platform?.name === CUSTOM_PLATFORM_NAME) {
+        if (!link?.username?.match(/^https?:\/\//)) {
+          linkErrors.username = 'URL must start with http:// or https://';
         }
       }
     } catch {

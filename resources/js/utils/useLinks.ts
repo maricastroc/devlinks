@@ -4,8 +4,8 @@ import { PlatformProps } from '@/types/platform';
 import { CUSTOM_PLATFORM_NAME } from './constants';
 
 export const useLinks = (
-  userLinks: UserLinkProps[],
-  platforms: PlatformProps[]
+  userLinks: UserLinkProps[] | undefined,
+  platforms: PlatformProps[] | undefined
 ) => {
   const [links, setLinks] = useState<UserLinkProps[]>(userLinks || []);
 
@@ -57,7 +57,7 @@ export const useLinks = (
   };
 
   useEffect(() => {
-    const filtered = platforms.filter((platform) => {
+    const filtered = platforms?.filter((platform) => {
       const isCustomPlatform = platform.name === CUSTOM_PLATFORM_NAME;
 
       const isPlatformInUse = links.some(
@@ -67,7 +67,7 @@ export const useLinks = (
       return isCustomPlatform || !isPlatformInUse;
     });
 
-    setFilteredPlatforms(filtered);
+    setFilteredPlatforms(filtered || []);
   }, [links, platforms]);
   return {
     links,

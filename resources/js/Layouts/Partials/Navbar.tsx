@@ -11,7 +11,16 @@ import { DropdownProfile } from './DropdownProfile';
 import { useClickOutside } from '@/utils/useClickOutside';
 
 export const Navbar = () => {
-  const { currentRoute, auth } = usePage().props;
+  const { auth } = usePage().props;
+  const currentPath = window.location.pathname;
+
+  const routeMap = {
+    '/dashboard': 'web.dashboard.index',
+    '/profile': 'web.profile.index'
+  };
+
+  const currentRoute =
+    routeMap[currentPath as keyof typeof routeMap] || currentPath;
 
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
@@ -24,7 +33,7 @@ export const Navbar = () => {
   return (
     <nav className="flex items-center justify-between w-full p-6 py-4 pl-2 bg-white md:w-auto md:m-6 md:rounded-md md:p-5">
       <Link
-        href={route('dashboard')}
+        href={route('web.dashboard.index')}
         className="flex items-center justify-center p-3 py-2 md:p-0"
       >
         <img className="md:hidden" src={SmallLogo} alt="Small Logo" />
@@ -39,15 +48,24 @@ export const Navbar = () => {
       <div className="flex items-center gap-2">
         <NavLink
           className="flex items-center transition-all duration-150 md:gap-2 hover:text-medium-purple"
-          href={route('dashboard')}
-          isActive={currentRoute === 'dashboard'}
+          href={route('web.dashboard.index')}
+          isActive={currentRoute === 'web.dashboard.index'}
         >
           <FontAwesomeIcon icon={faLink} />
           <p className="hidden md:block">Links</p>
         </NavLink>
 
         <button
-          className={`relative transition-all duration-150 md:gap-2 hover:text-medium-purple flex items-center justify-center md:px-6 p-4 py-3 font-semibold rounded-md ${currentRoute === 'profile' || isDropdownOpen ? 'bg-purple-hover bg-opacity-25 text-medium-purple' : 'bg-transparent text-gray-600'}`}
+          className={`
+            relative transition-all duration-150
+            md:gap-2 hover:text-medium-purple flex items-center
+            justify-center md:px-6 p-4 py-3 font-semibold rounded-md
+            ${
+              currentRoute === 'web.profile.index' || isDropdownOpen
+                ? 'bg-purple-hover bg-opacity-25 text-medium-purple'
+                : 'bg-transparent text-gray-600'
+            }
+          `}
           onClick={() => setIsDropdownOpen(true)}
           ref={dropdownRef as RefObject<HTMLButtonElement>}
         >

@@ -15,8 +15,8 @@ export const DropdownProfile = ({ currentRoute }: Props) => {
       className={`w-[170px] items-start absolute z-[9998] py-1 max-h-[16rem] flex flex-col overflow-y-auto mt-1 bg-white border border-gray-300 rounded-md shadow-md top-[3.5rem] right-[0rem]`}
     >
       <NavLink
-        href={route('profile')}
-        className={`${currentRoute === 'profile' && 'text-medium-purple pointer-events-none'} flex items-center gap-2 px-4 py-1 md:px-[0.9rem] hover:text-medium-purple`}
+        href={route('web.profile.index')}
+        className={`${currentRoute === 'web.profile.index' && 'text-medium-purple pointer-events-none'} flex items-center gap-2 px-4 py-1 md:px-[0.9rem] hover:text-medium-purple`}
       >
         <FontAwesomeIcon icon={faPenToSquare} />
         <span className="font-medium">Details</span>

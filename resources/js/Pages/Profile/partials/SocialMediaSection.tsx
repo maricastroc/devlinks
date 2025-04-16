@@ -3,13 +3,13 @@ import clsx from 'clsx';
 import { Ref, useState } from 'react';
 import { PlatformProps } from '@/types/platform';
 import { UserLinkProps } from '@/types/user-link';
-import { PencilSimple } from 'phosphor-react';
+import { PencilSimple, Plus } from 'phosphor-react';
 import { SocialMediaModal } from './SocialMediaModal/SocialMediaModal';
 import { useClickOutside } from '@/utils/useClickOutside';
 import { AddButton } from '@/Components/Core/AddButton';
 
 type Props = {
-  platforms: PlatformProps[];
+  platforms: PlatformProps[] | undefined;
   socialLinks: UserLinkProps[] | undefined;
   mutate: () => void;
 };
@@ -82,7 +82,7 @@ export const SocialMediaSection = ({
       </div>
 
       <Dialog.Root open={isModalOpen}>
-        {isModalOpen && (
+        {isModalOpen && platforms && (
           <SocialMediaModal
             onClose={() => {
               setIsModalOpen(false);
@@ -203,7 +203,7 @@ const PlatformButton = ({
           'transition-all duration-150'
         )}
       >
-        {isActive ? <PencilSimple size={14} /> : <PencilSimple size={14} />}
+        {isActive ? <PencilSimple size={14} /> : <Plus size={14} />}
       </button>
     </div>
   </button>

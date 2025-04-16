@@ -1,5 +1,5 @@
+import { api } from '@/libs/axios';
 import { ThemeProps } from '@/types/theme';
-import axios from 'axios';
 import React, { createContext, useContext, useState } from 'react';
 import toast from 'react-hot-toast';
 
@@ -41,17 +41,10 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({
 
     setCurrentTheme(theme);
 
-    const formData = new FormData();
-    formData.append('theme_id', String(theme.id));
-
-    formData.append('_method', 'PATCH');
-
     try {
-      const response = await axios.post(
-        route('profile.theme.update'),
-        formData,
-        { headers: { 'Content-Type': 'multipart/form-data' } }
-      );
+      const response = await api.put(`profile/theme`, {
+        theme_id: String(theme.id)
+      });
 
       if (response.status === 200) {
         toast?.success(response.data.message);

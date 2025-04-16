@@ -1,11 +1,11 @@
-import { RefObject, useState } from 'react';
+import { RefObject } from 'react';
 import { ThemeProps } from '@/types/theme';
 import { DropdownTheme } from '../Shared/DropdownTheme';
 import ColorCircle from '/public/assets/images/icon-color-circle.svg';
 
 type ThemeButtonProps = {
   currentTheme: ThemeProps;
-  themes: ThemeProps[];
+  themes: ThemeProps[] | undefined;
   onSelect: (theme: ThemeProps) => void;
   dropdownRef?: RefObject<HTMLDivElement>;
   showThemeDropdown: boolean;
@@ -29,7 +29,7 @@ export const ThemeButton = ({
         <img src={ColorCircle} alt="Theme" className="w-4 h-4" />
         <span className="hidden md:inline">Theme</span>
       </button>
-      {showThemeDropdown && (
+      {showThemeDropdown && themes && (
         <DropdownTheme
           isPublicPage={false}
           handleSelect={(theme) => {

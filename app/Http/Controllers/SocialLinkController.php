@@ -21,8 +21,9 @@ class SocialLinkController extends Controller
             ->get();
 
         return response()->json([
-            'socialLinks' => $socialLinks,
-            'count' => $socialLinks->count()
+            'data' => [
+                'socialLinks' => $socialLinks,
+            ]
         ]);
     }
 

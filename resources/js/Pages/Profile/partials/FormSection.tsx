@@ -18,7 +18,7 @@ import { handleApiError } from '@/utils/handleApiError';
 import PrimaryButton from '@/Components/Core/PrimaryButton';
 
 type Props = {
-  user: UserProps;
+  user: UserProps | undefined;
   photoPreview: string | null;
   control: Control<ProfileFormSchema>;
   errors: FieldErrors<ProfileFormSchema>;

@@ -20,6 +20,13 @@ import { LinksSection } from './partials/LinksSection';
 import { EmptyLinks } from './partials/EmptyLinks';
 import { DEFAULT_THEME } from '@/utils/constants';
 import { LinksModal } from './partials/LinksModal';
+import useRequest from '@/utils/useRequest';
+import { PlatformsData, ProfileData, ThemesData } from '../Profile/Index';
+import { validateLinks } from '@/utils/validateLink';
+import { scrollToInvalidLink } from '@/utils/scrollToInvalidLink';
+import { UserLinkProps } from '@/types/user-link';
+import { api } from '@/libs/axios';
+import { handleApiError } from '@/utils/handleApiError';
 
 type Props = {
   platforms: PlatformProps[];
@@ -29,17 +36,54 @@ type Props = {
 
 export type FormErrors = Record<
   string | number,
-  { url?: string; platform_id?: string; custom_name?: string }
+  {
+    url?: string;
+    platform_id?: string;
+    custom_name?: string;
+    username?: string;
+  }
 >;
 
-export default function Dashboard({ platforms, user, themes }: Props) {
+export default function Dashboard() {
   const [processing, setProcessing] = useState(false);
 
   const [isLinksModalOpen, setIsLinksModalOpen] = useState(false);
 
   const [errors, setErrors] = useState<FormErrors>({});
 
-  const { currentTheme, handleChangeTheme } = useTheme();
+  const { handleChangeTheme } = useTheme();
+
+  const {
+    data: profileData,
+    isValidating: isValidatingProfileData,
+    mutate
+  } = useRequest<ProfileData>({
+    url: `/auth/user`,
+    method: 'GET'
+  });
+
+  const { data: platformsData, isValidating: isValidatingPlatformsData } =
+    useRequest<PlatformsData>({
+      url: `/platforms`,
+      method: 'GET'
+    });
+
+  const { data: themesData, isValidating: isValidatingThemeData } =
+    useRequest<ThemesData>({
+      url: `/themes`,
+      method: 'GET'
+    });
+
+  const platforms = platformsData?.platforms || [];
+
+  const themes = themesData?.themes || [];
+
+  const user = profileData?.user || undefined;
+
+  const isLoading =
+    isValidatingPlatformsData ||
+    isValidatingProfileData ||
+    isValidatingThemeData;
 
   const {
     links,
@@ -66,12 +110,21 @@ export default function Dashboard({ platforms, user, themes }: Props) {
   const submit = async (e: React.FormEvent) => {
     e.preventDefault();
 
+    const validationErrors = validateLinks(links, platforms);
+
+    if (validationErrors && Object.keys(validationErrors).length > 0) {
+      setErrors(validationErrors);
+
+      scrollToInvalidLink(validationErrors);
+      return;
+    }
+
     setProcessing(true);
 
     setErrors({});
 
     try {
-      const response = await axios.post('/user-links', {
+      const response = await api.post('/user-links', {
         links: links.map((link, index) => ({
           platform_id: link.platform_id,
           username: link.username,
@@ -83,12 +136,10 @@ export default function Dashboard({ platforms, user, themes }: Props) {
       if (response?.data?.message) {
         toast?.success(response.data.message);
       }
+
+      mutate();
     } catch (error) {
-      if (axios.isAxiosError(error) && error.response?.data?.errors) {
-        setErrors(error.response.data.errors);
-      } else {
-        handleReqError(error);
-      }
+      handleApiError(error);
     } finally {
       setProcessing(false);
     }
@@ -108,74 +159,79 @@ export default function Dashboard({ platforms, user, themes }: Props) {
     }
   }, [user?.theme]);
 
+  useEffect(() => {
+    if (user) {
+      setLinks(user?.user_links);
+    }
+  }, [user]);
+
   return (
-    currentTheme && (
-      <AuthenticatedLayout
-        header={
-          <h2 className="text-xl font-semibold leading-tight text-gray-800 dark:text-gray-200">
-            Dashboard
-          </h2>
-        }
-      >
-        <Head title="Dashboard" />
+    <AuthenticatedLayout
+      header={
+        <h2 className="text-xl font-semibold leading-tight text-gray-800 dark:text-gray-200">
+          Dashboard
+        </h2>
+      }
+    >
+      <Head title="Dashboard" />
 
-        {processing && <LoadingComponent hasOverlay />}
+      {processing && <LoadingComponent hasOverlay />}
 
-        <div className="lg:m-6 flex lg:grid lg:grid-cols-[1fr,1.5fr] w-full lg:gap-6 lg:mt-0">
-          <div className="items-center justify-center hidden w-full p-10 bg-white rounded-md lg:flex">
-            <PhoneMockup links={links} user={user} />
-          </div>
+      <div className="lg:m-6 flex lg:grid lg:grid-cols-[1fr,1.5fr] w-full lg:gap-6 lg:mt-0">
+        <div className="items-center justify-center hidden w-full p-10 bg-white rounded-md lg:flex">
+          <PhoneMockup links={links} user={user} />
+        </div>
 
-          <div className="flex flex-col w-full p-4 m-4 mt-6 bg-white rounded-md lg:m-0 md:m-6 md:p-10">
-            <PageHeader
-              title="Customize your links"
-              description="Add/edit/remove links below and then share all your profiles
+        <div className="flex flex-col w-full p-4 m-4 mt-6 bg-white rounded-md lg:m-0 md:m-6 md:p-10">
+          <PageHeader
+            title="Customize your links"
+            description="Add/edit/remove links below and then share all your profiles
             with the world!"
-              themes={themes}
-            />
+            themes={themes}
+          />
 
-            <Dialog.Root open={isLinksModalOpen}>
-              <div className="flex items-center justify-center w-full gap-3">
-                <SecondaryButton onClick={() => setIsLinksModalOpen(true)}>
-                  + Add New Link
-                </SecondaryButton>
-              </div>
-              <LinksModal
-                handleAddLink={handleAddLink}
-                platforms={platforms}
-                onClose={() => setIsLinksModalOpen(false)}
-              />
-            </Dialog.Root>
-
-            {links?.length > 0 ? (
-              <LinksSection
-                links={links}
-                filteredPlatforms={filteredPlatforms}
-                errors={errors}
-                onDragEnd={onDragEnd}
-                onRemoveLink={handleRemoveLink}
-                onUpdateUsername={handleUpdateUsername}
-                onUpdateCustomName={handleUpdateCustomName}
-                onUpdatePlatform={handleUpdatePlatform}
-              />
-            ) : (
-              <EmptyLinks />
-            )}
-
-            <hr className="my-6 md:my-8" />
-
-            <div className="flex justify-end md:items-end">
-              <PrimaryButton
-                onClick={submit}
-                className="md:w-[6rem]"
-                disabled={processing}
-              >
-                Save
-              </PrimaryButton>
+          <Dialog.Root open={isLinksModalOpen}>
+            <div className="flex items-center justify-center w-full gap-3">
+              <SecondaryButton onClick={() => setIsLinksModalOpen(true)}>
+                + Add New Link
+              </SecondaryButton>
             </div>
+            <LinksModal
+              handleAddLink={handleAddLink}
+              platforms={platforms}
+              onClose={() => setIsLinksModalOpen(false)}
+            />
+          </Dialog.Root>
+
+          {links?.length > 0 ? (
+            <LinksSection
+              links={links}
+              filteredPlatforms={filteredPlatforms}
+              errors={errors}
+              onDragEnd={onDragEnd}
+              onRemoveLink={handleRemoveLink}
+              onUpdateUsername={handleUpdateUsername}
+              onUpdateCustomName={handleUpdateCustomName}
+              onUpdatePlatform={handleUpdatePlatform}
+            />
+          ) : (
+            <EmptyLinks />
+          )}
+
+          <hr className="my-6 md:my-8" />
+
+          <div className="flex justify-end md:items-end">
+            <PrimaryButton
+              onClick={submit}
+              className="md:w-[6rem]"
+              disabled={processing}
+            >
+              Save
+            </PrimaryButton>
           </div>
         </div>
-      </AuthenticatedLayout>
-    )
+      </div>
+      {(isLoading || processing) && <LoadingComponent hasOverlay />}
+    </AuthenticatedLayout>
   );
 }

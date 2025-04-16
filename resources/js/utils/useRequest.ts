@@ -36,8 +36,10 @@ export default function useRequest<Data = unknown, Error = unknown>(
   } = useSWR<AxiosResponse<Data>, AxiosError<Error>>(
     request,
     /**
-     * Fetcher function to call the API
+     * NOTE: Typescript thinks `request` can be `null` here, but the fetcher
+     * function is actually only called by `useSWR` when it isn't.
      */
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     () => api.request<Data>(request!),
     {
       ...config,
@@ -55,11 +57,16 @@ export default function useRequest<Data = unknown, Error = unknown>(
     }
   );
 
-  const responseData = response?.data; // Não acessar diretamente Object.values
-  const pagination = response?.data; // Manter a estrutura correta
+  const responseData =
+    response && response.data && (Object.values(response.data)[0] as Data);
+
+  const pagination = { ...response?.data };
 
   return {
-    data: responseData, // Retornar os dados completos
+    data:
+      typeof responseData === 'number'
+        ? response && response.data
+        : responseData,
     response,
     error,
     isValidating,
