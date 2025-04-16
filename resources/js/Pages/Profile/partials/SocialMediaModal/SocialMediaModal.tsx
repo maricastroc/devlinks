@@ -124,7 +124,9 @@ export function SocialMediaModal({
           <SelectLinkModal
             existedSocialLinks={socialLinks}
             onClose={onClose}
-            platforms={platforms}
+            platforms={platforms?.filter((platform) => {
+              return platform?.is_social === true;
+            })}
             onBack={() => setActiveModal('initial_link_modal')}
             onSelect={(platform) => {
               setSelectedPlatform(platform);
