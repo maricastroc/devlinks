@@ -53,7 +53,7 @@ export const LinkCard = ({
       <div className="flex items-center gap-2">
         {link.platform.icon_url && (
           <img
-            className={`${isBigger ? 'w-[1.4rem] h-[1.4rem]' : 'w-4 h-4'}`}
+            className={`${isBigger ? 'w-[1.4rem] h-[1.4rem]' : 'w-[1.15rem] h-[1.15rem]'}`}
             src={`/assets/images/${link.platform.icon_url}`}
             alt={`${link.platform.name} icon`}
             style={{ filter: iconFilter }}

@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="Layer_1" xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 48 48">
+  <!-- Generator: Adobe Illustrator 29.1.0, SVG Export Plug-In . SVG Version: 2.1.0 Build 142)  -->
+  <defs>
+    <style>
+      .st0 {
+        fill: #fe9d7f;
+      }
+
+      .st1 {
+        fill: #4ec2f6;
+      }
+
+      .st2 {
+        fill: #e7ee9f;
+      }
+
+      .st3 {
+        fill: #f7bacf;
+      }
+
+      .st4 {
+        fill: #feea3a;
+      }
+
+      .st5 {
+        fill: #fe3f80;
+      }
+
+      .st6 {
+        fill: #b1e3fa;
+      }
+
+      .st7 {
+        fill: #fe3d02;
+      }
+
+      .st8 {
+        fill: #ccdb38;
+      }
+
+      .st9 {
+        fill: #221e1f;
+      }
+    </style>
+  </defs>
+  <rect class="st9" width="48" height="48" rx="8" ry="8"/>
+  <g>
+    <path class="st6" d="M35.6,25.6v-.9h7.1v1.9h-7.1v-.9ZM35.6,22.5v-.9h7.1v1.9h-7.1v-.9ZM35.6,19.5v-.9h7.1v1.9h-7.1v-.9ZM35.6,16.4v-.9h7.1v2h-7.1v-1ZM35.6,13.4v-1h7.1v2.1h-7.1v-1Z"/>
+    <path class="st3" d="M19.7,25.6v-.9h7.1v1.9h-7.1v-.9ZM19.7,22.5v-.9h7.1v1.9h-7.1v-.9ZM19.7,19.5v-.9h7.1v1.9h-7.1v-.9ZM19.7,16.4v-.9h7.1v2h-7.1v-1Z"/>
+    <path class="st2" d="M27.6,25.6v-.9h7.1v1.9h-7.1v-.9ZM27.6,22.5v-.9h7.1v1.9h-7.1v-.9Z"/>
+    <path class="st4" d="M11.8,34.7v-.9h7v1.9h-7v-.9ZM11.8,31.5v-.9h7v1.9h-7v-.9ZM11.8,28.5v-.9h7v1.9h-7v-.9Z"/>
+    <path class="st0" d="M3.9,25.6v-.9h7v1.9H3.9v-.9ZM3.9,22.5v-.9h7v1.9H3.9v-.9Z"/>
+    <path class="st1" d="M35.6,34.7v-.9h7v1.9h-7v-.9ZM35.6,31.5v-.9h7v1.9h-7v-.9ZM35.6,28.5v-.9h7v1.9h-7v-.9Z"/>
+    <path class="st8" d="M27.7,34.7v-.9h7v1.9h-7v-.9ZM27.7,31.5v-.9h7v1.9h-7v-.9ZM27.7,28.5v-.9h7v1.9h-7v-.9Z"/>
+    <path class="st5" d="M19.8,34.7v-.9h7v1.9h-7v-.9ZM19.8,31.5v-.9h7v1.9h-7v-.9ZM19.8,28.5v-.9h7v1.9h-7v-.9Z"/>
+    <path class="st7" d="M3.9,34.7v-.9h7v1.9H3.9v-.9ZM3.9,31.5v-.9h7v1.9H3.9v-.9ZM3.9,28.5v-.9h7v1.9H3.9v-.9Z"/>
+  </g>
+</svg>

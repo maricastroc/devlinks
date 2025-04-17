@@ -9,20 +9,18 @@ return new class extends Migration
     /**
      * Run the migrations.
      */
-    public function up(): void
+    public function up()
     {
         Schema::table('themes', function (Blueprint $table) {
-            $table->string('type')->default('dark');
+            $table->boolean('is_custom')->default(false)->after('styles');
+            $table->foreignId('user_id')->nullable()->constrained('users')->after('is_custom');
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
-    public function down(): void
+    public function down()
     {
         Schema::table('themes', function (Blueprint $table) {
-            $table->dropColumn('type');
+            $table->dropColumn(['is_custom', 'user_id']);
         });
     }
 };

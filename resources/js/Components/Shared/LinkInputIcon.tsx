@@ -10,7 +10,9 @@ type Props = {
 export const LinkInputIcon = ({ platform }: Props) => {
   if (
     platform.base_url.includes('wa.me') ||
-    platform.base_url.includes('whatsapp')
+    platform.base_url.includes('whatsapp') ||
+    platform.base_url.includes('t.me') ||
+    platform.base_url.includes('telegram')
   ) {
     return <Phone size={22} />;
   }
