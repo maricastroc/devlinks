@@ -21,9 +21,14 @@ export const LinkList = ({ links, currentTheme }: Props) => {
   }
 
   return (
-    <div className="w-full max-w-[30rem] mt-10 flex flex-col gap-4">
+    <div className="w-full max-w-[30rem] mt-8 flex flex-col gap-4">
       {links.map((link) => (
-        <LinkCard key={link.id} link={link} className="h-[3.5rem] rounded-xl" />
+        <LinkCard
+          isBigger
+          key={link.id}
+          link={link}
+          className="h-[3.5rem] lg:h-[4rem] rounded-xl hover:scale-105"
+        />
       ))}
     </div>
   );

@@ -1,31 +1,38 @@
+import { ThemeProps } from '@/types/theme';
 import { UserLinkProps } from '@/types/user-link';
+import { getContrastColor } from '@/utils/getContrastColor';
 
 type Props = {
   link: UserLinkProps;
-  isDefaultTheme: boolean;
+  theme: ThemeProps | undefined;
   isSmaller?: boolean;
 };
 
-export const SocialLink = ({ link, isDefaultTheme, isSmaller }: Props) => {
+export const SocialLink = ({ link, theme, isSmaller }: Props) => {
+  console.log(theme);
   return (
     <a
       key={link.id}
       href={link.url || '#'}
       target="_blank"
       rel="noopener noreferrer"
-      className={`${isSmaller ? 'p-[0.35rem]' : 'p-2'} rounded-full transition-all hover:scale-110 ${
-        isDefaultTheme
-          ? 'bg-gray-100 hover:bg-gray-200'
-          : 'bg-white/10 hover:bg-white/20'
-      }`}
+      className={`
+        ${isSmaller ? 'p-[0.35rem]' : 'p-2'} 
+        ${
+          theme?.is_light
+            ? 'bg-gray-600 bg-opacity-10'
+            : 'bg-white bg-opacity-10'
+        }
+        rounded-full transition-all hover:scale-110
+      `}
       title={link.platform.name}
     >
       <img
-        className={`${isSmaller ? 'w-[1.1rem] h-[1.1rem]' : 'w-5 h-5'}`}
+        className={`${isSmaller ? 'w-[1.3rem] h-[1.3rem]' : 'w-6 h-6'}`}
         src={`/assets/images/${link.platform.icon_url}`}
         alt={link.platform.name}
         style={{
-          filter: `${isDefaultTheme ? '' : 'saturate(0%) brightness(518%)'}`
+          filter: theme?.is_light ? '' : 'saturate(0%) brightness(518%)'
         }}
       />
     </a>

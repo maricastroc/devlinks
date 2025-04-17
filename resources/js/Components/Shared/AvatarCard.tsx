@@ -32,7 +32,9 @@ export const AvatarCard = ({
       />
     ) : (
       isPublicPage && (
-        <span className="h-[7rem] w-[7rem] bg-gray-200 rounded-full flex items-center justify-center text-3xl font-bold text-gray-600">
+        <span
+          className={`h-[6.02rem] w-[6.02rem] bg-gray-200 rounded-full flex items-center justify-center text-3xl font-bold text-gray-600`}
+        >
           {getInitials(username || user?.username)}
         </span>
       )
@@ -49,7 +51,7 @@ export const AvatarCard = ({
         />
       ) : (
         isPublicPage && (
-          <span className="h-[7rem] w-[7rem] bg-gray-200 rounded-full flex items-center justify-center text-3xl font-bold text-gray-600">
+          <span className="h-[6.02rem] w-[6.02rem] bg-gray-200 rounded-full flex items-center justify-center text-3xl font-bold text-gray-600">
             {getInitials(username || user?.username)}
           </span>
         )

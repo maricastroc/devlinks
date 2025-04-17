@@ -50,7 +50,7 @@ export const SocialMediaSection = ({
           ))}
 
         {hasSocialLinks &&
-          socialLinks.slice(0, 2).map((link) => (
+          socialLinks.slice(0, 3).map((link) => (
             <PlatformButton
               isActive
               key={link.id}

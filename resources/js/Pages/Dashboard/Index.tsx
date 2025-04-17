@@ -164,7 +164,14 @@ export default function Dashboard() {
 
       <div className="lg:m-6 flex lg:grid lg:grid-cols-[1fr,1.5fr] w-full lg:gap-6 lg:mt-0">
         <div className="items-center justify-center hidden w-full p-10 bg-white rounded-md lg:flex">
-          <PhoneMockup isLoading={isValidating} links={links} user={user} />
+          <PhoneMockup
+            username={user?.username}
+            bio={user?.bio}
+            name={user?.name}
+            isLoading={isValidating}
+            links={links}
+            user={user}
+          />
         </div>
 
         <div className="flex flex-col w-full p-4 m-4 mt-6 bg-white rounded-md lg:m-0 md:m-6 md:p-10">

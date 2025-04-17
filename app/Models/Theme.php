@@ -12,6 +12,7 @@ class Theme extends Model
 
     protected $fillable = [
         'name',
+        'is_light',
         'slug',
         'styles',
         'is_active',

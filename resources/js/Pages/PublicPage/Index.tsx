@@ -66,7 +66,7 @@ export default function Shared({
     currentTheme && (
       <div
         className={`relative flex flex-col items-center min-h-screen
-      md:pt-0 md:mt-0 sm:justify-center md:justify-start ${currentTheme.styles.background}`}
+      md:pt-0 md:mt-0 sm:justify-center md:justify-start  ${currentTheme.styles.background}`}
       >
         <Head title="Shared" />
         {isLoading && <LoadingComponent hasOverlay />}
@@ -83,13 +83,13 @@ export default function Shared({
 
         <div
           className={`block absolute top-0 right-0 w-full h-[18rem]
-          md:h-[19rem] md:rounded-bl-3xl md:rounded-br-3xl z-10
-          ${isDefaultTheme && 'bg-medium-purple'}`}
+          md:h-[19rem] md:rounded-bl-3xl md:rounded-br-3xl z-10 
+          `}
         />
 
         <div
-          className={`z-[12] p-6 px-4 lg:mb-30 md:p-10 mb-10 w-[90vw]
-          max-w-[35rem] rounded-xl ${isDefaultTheme && 'bg-white shadow-lg'} ${!isOwner ? 'mt-12 md:mt-20' : 'mt-[-1.75rem] md:mt-10'}`}
+          className={`z-[12] p-6 px-4 md:p-10 mb-6 w-[90vw]
+          max-w-[35rem] rounded-xl  ${!isOwner ? 'mt-6' : 'mt-[-1.75rem]'}`}
         >
           <div className="flex flex-col items-center justify-center w-auto">
             <AvatarCard
@@ -99,34 +99,41 @@ export default function Shared({
               theme={currentTheme}
             />
             <h2
-              className={`text-[1.75rem] mt-4 font-bold ${currentTheme.styles.primary_text}`}
+              className={`text-[1.25rem] mt-4 font-bold ${currentTheme.styles.primary_text}`}
             >
               {user?.name}
             </h2>
+            <p className={`${currentTheme.styles.secondary_text} mt-1`}>
+              {user?.bio}
+            </p>
             {socialLinks?.length > 0 && (
-              <div className="flex justify-center gap-4 mt-2">
+              <div className="flex justify-center gap-3 mt-4">
                 {socialLinks.map((link) => (
-                  <SocialLink link={link} isDefaultTheme={isDefaultTheme} />
+                  <SocialLink link={link} theme={currentTheme} />
                 ))}
               </div>
             )}
 
             <LinkList links={userLinks} currentTheme={currentTheme} />
+
+            {!isOwner && (
+              <Link
+                href={route('login')}
+                className="transform mt-8 flex gap-1 items-center justify-center bg-white rounded-full text-[#000000] p-2 px-5 font-semibold shadow-lg hover:shadow-xl transition-all"
+              >
+                <img
+                  src={SmallLogo}
+                  alt="Default Logo"
+                  style={{
+                    filter: 'saturate(0%) brightness(0%)',
+                    scale: '0.8'
+                  }}
+                />
+                join devlinks
+              </Link>
+            )}
           </div>
         </div>
-        {!isOwner && (
-          <Link
-            href={route('login')}
-            className="mb-10 md:mb-16 flex gap-1 items-center justify-center bg-white rounded-full text-[#000000] p-2 px-5 font-semibold shadow-md"
-          >
-            <img
-              src={SmallLogo}
-              alt="Default Logo"
-              style={{ filter: 'saturate(0%) brightness(0%)', scale: '0.8' }}
-            />
-            join devlinks
-          </Link>
-        )}
       </div>
     )
   );

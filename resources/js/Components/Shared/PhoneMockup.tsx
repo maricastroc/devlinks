@@ -8,7 +8,7 @@ import { AvatarCard } from '@/Components/Shared/AvatarCard';
 import { SocialLink } from './SocialLink';
 import { PhoneSkeleton } from './PhoneSkeleton';
 import { getInitials } from '@/utils/getInitials';
-import { useEffect, useState } from 'react';
+import { ThemeProps } from '@/types/theme';
 
 type Props = {
   links: UserLinkProps[] | undefined;
@@ -88,17 +88,17 @@ export const PhoneMockup = ({
                     key={link.id}
                     isSmaller
                     link={link}
-                    isDefaultTheme={isDefaultTheme}
+                    theme={currentTheme as ThemeProps}
                   />
                 ))}
               </div>
             )}
-          </div>
 
-          <div className="relative">
-            <div className="max-h-[300px] left-[1.3rem] overflow-y-scroll absolute flex flex-col items-center justify-start w-[15.9rem] custom-scrollbar m-4 top-[-23.1rem] mr-[-8px]">
-              <div className="w-full flex flex-col gap-[0.98rem] pr-2">
-                {links?.map((link) => <LinkCard key={link.id} link={link} />)}
+            <div className="relative">
+              <div className="mt-6 max-h-[300px] overflow-y-scroll flex flex-col items-center justify-start w-[15.9rem] custom-scrollbar m-4 mr-[-8px]">
+                <div className="w-full flex flex-col gap-[0.98rem] pr-2">
+                  {links?.map((link) => <LinkCard key={link.id} link={link} />)}
+                </div>
               </div>
             </div>
           </div>

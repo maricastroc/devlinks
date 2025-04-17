@@ -10,6 +10,7 @@ import { DropdownTheme } from '@/Components/Shared/DropdownTheme';
 import { RefObject } from 'react';
 import { ThemeProps } from '@/types/theme';
 import { useTheme } from '@/contexts/ThemeContext';
+import { CaretLeft, Export, Palette } from 'phosphor-react';
 
 type Props = {
   onCopyLink: () => void;
@@ -30,32 +31,25 @@ export const OwnerHeader = ({
 
   return (
     currentTheme && (
-      <header className="z-50 w-full h-[78px] md:p-4 mb-8 md:mb-0">
+      <header className="md:px-8 flex items-center backdrop-blur-sm bg-white/10  shadow-lg px-4 z-50 w-full h-[55px] mb-12 bg-white bg-opacity-30">
         <div
           className={`bg-transparent md:rounded-xl w-full
-          text-md flex items-center justify-between gap-3 p-4`}
+          text-md flex items-center justify-between gap-3`}
         >
           <HeaderButton
             onClick={() => router.get(route('web.dashboard.index'))}
             theme={currentTheme}
-            icon={<FontAwesomeIcon icon={faArrowLeft} className="size-5" />}
+            icon={<CaretLeft size={20} />}
             text="Back"
-            largeText="Back to Editor"
             className={currentTheme.styles.button}
           />
 
-          <div className="flex items-center justify-end w-full gap-5 md:gap-4">
+          <div className="flex items-center justify-end w-full gap-5 md:gap-6">
             <HeaderButton
               onClick={onCopyLink}
               theme={currentTheme}
-              icon={
-                <FontAwesomeIcon
-                  icon={faArrowUpRightFromSquare}
-                  className="size-5"
-                />
-              }
+              icon={<Export size={20} />}
               text="Share"
-              largeText="Share Link"
               className={currentTheme.styles.button}
             />
 
@@ -66,9 +60,8 @@ export const OwnerHeader = ({
               <HeaderButton
                 onClick={() => setShowThemeDropdown(true)}
                 theme={currentTheme}
-                icon={<FontAwesomeIcon icon={faPalette} className="size-5" />}
+                icon={<Palette size={20} />}
                 text="Theme"
-                largeText="Edit Theme"
                 className={currentTheme.styles.button}
               />
               {showThemeDropdown && (
