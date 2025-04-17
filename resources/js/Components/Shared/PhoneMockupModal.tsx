@@ -4,6 +4,7 @@ import { UserProps } from '@/types/user';
 import * as Dialog from '@radix-ui/react-dialog';
 import { ModalHeader } from './ModalHeader';
 import { useMediaQuery } from '@/utils/useMediaQuery';
+import { X } from 'phosphor-react';
 
 type Props = {
   links: UserLinkProps[] | undefined;
@@ -32,25 +33,16 @@ export const PhoneMockupModal = ({
 
   return (
     <Dialog.Portal>
-      <Dialog.Overlay
-        className="fixed inset-0 z-[999] bg-black bg-opacity-70"
-        onClick={onClose}
-      />
+      <Dialog.Overlay className="fixed inset-0 z-[999] bg-gray-900/80 backdrop-blur-sm" />
       <Dialog.Content
         className={`
-        fixed z-[9999] bg-white rounded-lg shadow-lg flex flex-col
+        fixed z-[9999] bg-transparent flex flex-col
         top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2
-        inset-0 min-h-[40rem] overflow-y-auto p-4 w-full max-w-[23rem] items-center justify-center
+        inset-0 h-full p-4 w-full max-w-[23rem] items-center justify-center
       `}
       >
-        <ModalHeader
-          showBackButton={false}
-          onClose={onClose}
-          title="Layout Preview"
-        />
-
-        <div className="z-[0] flex items-start justify-center flex-1 p-4 py-0 overflow-y-auto">
-          <div className={`relative scale-90 mt-[-2rem]`}>
+        <div className="z-[0] flex items-center justify-center flex-1 p-4 py-0 overflow-y-auto">
+          <div className={`relative scale-90 mt-[-2rem] ml-[-0.3rem]`}>
             <PhoneMockup
               links={user?.user_links}
               socialLinks={socialLinks}
@@ -63,6 +55,19 @@ export const PhoneMockupModal = ({
             />
           </div>
         </div>
+
+        <Dialog.Close
+          onClick={onClose}
+          className={`
+            fixed z-[99999] flex items-center justify-center
+            top-10 right-4
+            p-2 rounded-full bg-white/10 backdrop-blur-md
+            border border-white/20 hover:bg-white/20
+            transition-all duration-300
+          `}
+        >
+          <X size={24} className="text-white" />
+        </Dialog.Close>
       </Dialog.Content>
     </Dialog.Portal>
   );

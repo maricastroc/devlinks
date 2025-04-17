@@ -41,7 +41,7 @@ export const PhoneMockup = ({
 
   return (
     <div
-      className={`relative align-middle w-[307px] h-[631px] ${isMobile ? 'w-full scale-90 align-center' : ''}`}
+      className={`relative align-middle w-[307px] h-[631px] ${isMobile ? 'w-full align-center' : ''}`}
     >
       <div className="absolute inset-0 align-center rounded-[2rem] z-30 pointer-events-none" />
 
