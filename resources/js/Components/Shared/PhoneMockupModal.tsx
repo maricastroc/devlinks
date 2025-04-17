@@ -38,11 +38,11 @@ export const PhoneMockupModal = ({
         className={`
         fixed z-[9999] bg-transparent flex flex-col
         top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2
-        inset-0 h-full p-4 w-full  items-center justify-center
+        inset-0 h-full p-4 py-0 w-full  items-center justify-center
       `}
       >
-        <div className="z-[0] flex mt-6 items-start justify-center flex-1 py-0 overflow-y-auto">
-          <div className={`relative scale-90 mt-[-2rem] ml-[-0.3rem]`}>
+        <div className="z-[0] flex items-center justify-center flex-1 py-0 overflow-y-auto">
+          <div className={`relative scale-90 mt-[-6rem] ml-[-0.3rem]`}>
             <PhoneMockup
               links={links || user?.user_links}
               socialLinks={socialLinks}

@@ -36,7 +36,7 @@ export const PhoneMockup = ({
   const userSocialLinks = socialLinks || user?.social_links;
 
   return (
-    <div className={`relative align-middle w-[307px] h-[631px]`}>
+    <div className={`relative align-middle w-[307px] h-[531px]`}>
       <div className="absolute inset-0 align-center rounded-[2rem] z-30 pointer-events-none" />
 
       <PhoneIllustration />
@@ -93,7 +93,7 @@ export const PhoneMockup = ({
             )}
 
             <div className="relative">
-              <div className="mt-6 max-h-[300px] overflow-y-scroll flex flex-col items-center justify-start w-[15.9rem] custom-scrollbar m-4 mr-[-8px]">
+              <div className="mt-6 max-h-[300px] overflow-y-scroll flex flex-col items-center justify-start w-[16.5rem] custom-scrollbar m-4 mr-[-8px]">
                 <div className="w-full flex flex-col gap-[0.98rem] pr-2">
                   {links?.map((link) => <LinkCard key={link.id} link={link} />)}
                 </div>
