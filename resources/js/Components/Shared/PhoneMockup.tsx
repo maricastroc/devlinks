@@ -9,7 +9,6 @@ import { SocialLink } from './SocialLink';
 import { PhoneSkeleton } from './PhoneSkeleton';
 import { getInitials } from '@/utils/getInitials';
 import { ThemeProps } from '@/types/theme';
-import { useMediaQuery } from '@/utils/useMediaQuery';
 
 type Props = {
   links: UserLinkProps[] | undefined;
@@ -20,7 +19,6 @@ type Props = {
   name?: string | null;
   bio?: string | null;
   isLoading?: boolean;
-  isMobile?: boolean;
 };
 
 export const PhoneMockup = ({
@@ -35,14 +33,10 @@ export const PhoneMockup = ({
 }: Props) => {
   const { currentTheme } = useTheme();
 
-  const isMobile = useMediaQuery('(max-width: 768px)');
-
   const userSocialLinks = socialLinks || user?.social_links;
 
   return (
-    <div
-      className={`relative align-middle w-[307px] h-[631px] ${isMobile ? 'w-full align-center' : ''}`}
-    >
+    <div className={`relative align-middle w-[307px] h-[631px]`}>
       <div className="absolute inset-0 align-center rounded-[2rem] z-30 pointer-events-none" />
 
       <PhoneIllustration />

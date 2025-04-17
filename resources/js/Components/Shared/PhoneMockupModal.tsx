@@ -2,8 +2,6 @@ import { UserLinkProps } from '@/types/user-link';
 import { PhoneMockup } from './PhoneMockup';
 import { UserProps } from '@/types/user';
 import * as Dialog from '@radix-ui/react-dialog';
-import { ModalHeader } from './ModalHeader';
-import { useMediaQuery } from '@/utils/useMediaQuery';
 import { X } from 'phosphor-react';
 
 type Props = {
@@ -29,8 +27,6 @@ export const PhoneMockupModal = ({
   socialLinks,
   onClose
 }: Props) => {
-  const isMobile = useMediaQuery('(max-width: 768px)');
-
   return (
     <Dialog.Portal>
       <Dialog.Overlay
@@ -42,7 +38,7 @@ export const PhoneMockupModal = ({
         className={`
         fixed z-[9999] bg-transparent flex flex-col
         top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2
-        inset-0 h-full p-4 w-full max-w-[23rem] items-center justify-center
+        inset-0 h-full p-4 w-full  items-center justify-center
       `}
       >
         <div className="z-[0] flex mt-6 items-start justify-center flex-1 py-0 overflow-y-auto">
@@ -55,7 +51,6 @@ export const PhoneMockupModal = ({
               photoPreview={photoPreview}
               isLoading={isLoading}
               user={user}
-              isMobile={isMobile}
             />
           </div>
         </div>
