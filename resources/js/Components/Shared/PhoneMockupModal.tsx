@@ -38,13 +38,14 @@ export const PhoneMockupModal = ({
         className="fixed inset-0 z-[999] bg-gray-900/80 backdrop-blur-sm"
       />
       <Dialog.Content
+        onClick={onClose}
         className={`
         fixed z-[9999] bg-transparent flex flex-col
         top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2
-        inset-0 h-full p-4 w-full max-w-[23rem] items-center justify-center
+        inset-0 h-full p-4 w-full max-w-[23rem] items-start justify-center
       `}
       >
-        <div className="z-[0] flex items-center justify-center flex-1 p-4 py-0 overflow-y-auto">
+        <div className="z-[0] flex items-center justify-center flex-1 py-0 overflow-y-auto">
           <div className={`relative scale-90 mt-[-2rem] ml-[-0.3rem]`}>
             <PhoneMockup
               links={links || user?.user_links}
