@@ -1,5 +1,6 @@
 import { ThemeProps } from '@/types/theme';
 import { UserLinkProps } from '@/types/user-link';
+import { LIGHT_THEME } from '@/utils/constants';
 import { getContrastColor } from '@/utils/getContrastColor';
 
 type Props = {
@@ -19,7 +20,7 @@ export const SocialLink = ({ link, theme, isSmaller }: Props) => {
       className={`
         ${isSmaller ? 'p-[0.35rem]' : 'p-2'} 
         ${
-          theme?.is_light
+          theme?.type === LIGHT_THEME
             ? 'bg-gray-600 bg-opacity-10'
             : 'bg-white bg-opacity-10'
         }
@@ -32,7 +33,8 @@ export const SocialLink = ({ link, theme, isSmaller }: Props) => {
         src={`/assets/images/${link.platform.icon_url}`}
         alt={link.platform.name}
         style={{
-          filter: theme?.is_light ? '' : 'saturate(0%) brightness(518%)'
+          filter:
+            theme?.type === LIGHT_THEME ? '' : 'saturate(0%) brightness(518%)'
         }}
       />
     </a>

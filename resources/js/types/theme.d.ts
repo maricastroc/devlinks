@@ -2,7 +2,7 @@ export type ThemeProps = {
   id: number;
   name: string;
   slug: string;
-  is_light: boolean;
+  type: string;
   styles: {
     color: string;
     background: string;

@@ -39,7 +39,7 @@ class PublicPageController extends Controller
                 'bio' => $user->bio,
                 'name'       => $user->name,
                 'avatar_url' => $user->avatar_url,
-                'theme'      => $user->theme?->only(['id', 'name', 'styles', 'is_light'])
+                'theme'      => $user->theme?->only(['id', 'name', 'styles', 'type'])
             ],
             'themes' => Theme::all(),
             'userLinks' => $user->userLinks->map(function ($link) {
