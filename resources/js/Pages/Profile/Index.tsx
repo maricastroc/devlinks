@@ -54,7 +54,11 @@ export default function Profile() {
     method: 'GET'
   });
 
-  const { data: profileData, isValidating } = useRequest<ProfileData>({
+  const {
+    data: profileData,
+    isValidating,
+    mutate: mutateProfileData
+  } = useRequest<ProfileData>({
     url: `/auth/user`,
     method: 'GET'
   });
@@ -134,9 +138,10 @@ export default function Profile() {
             links={user?.user_links}
             socialLinks={socialLinks}
             name={watch().name}
+            bio={watch().bio}
             photoPreview={photoPreview}
+            isLoading={isValidating || isSubmitting}
             user={user}
-            isLoading={isValidating}
           />
         </div>
         <div className="flex flex-col w-full p-4 m-4 bg-white rounded-md lg:m-0 md:m-6 md:p-10">
@@ -146,7 +151,7 @@ export default function Profile() {
             themes={themes}
           />
 
-          {isValidating ? (
+          {isValidating || isSubmitting ? (
             <SkeletonCard />
           ) : (
             <>
@@ -163,6 +168,7 @@ export default function Profile() {
                 photoPreview={photoPreview}
                 control={control}
                 handleSubmit={handleSubmit}
+                mutate={mutateProfileData}
                 errors={errors}
                 setValue={setValue}
                 user={profileData?.user}

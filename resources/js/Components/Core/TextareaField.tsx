@@ -1,0 +1,73 @@
+import InputError from './InputError';
+import React, { useState, useEffect } from 'react';
+
+export function TextAreaField({
+  label,
+  id,
+  placeholder,
+  value = '',
+  onChange,
+  onBlur,
+  error,
+  disabled,
+  name,
+  rows = 4,
+  className,
+  textAreaRef,
+  maxLength
+}: {
+  label: string;
+  id: string;
+  name?: string;
+  placeholder?: string;
+  value?: string;
+  onChange: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
+  onBlur?: React.FocusEventHandler<HTMLTextAreaElement>;
+  error?: string;
+  disabled?: boolean;
+  rows?: number;
+  className?: string;
+  textAreaRef?: React.Ref<HTMLTextAreaElement>;
+  maxLength?: number;
+}) {
+  const [charCount, setCharCount] = useState(value?.length || 0);
+
+  useEffect(() => {
+    setCharCount(value?.length || 0);
+  }, [value]);
+
+  const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    setCharCount(e.target.value.length);
+    onChange(e);
+  };
+
+  return (
+    <div className="flex flex-col w-full">
+      <div className="relative">
+        <textarea
+          id={id}
+          name={name || id}
+          ref={textAreaRef}
+          rows={rows}
+          placeholder={placeholder}
+          value={value}
+          onChange={handleChange}
+          onBlur={onBlur}
+          disabled={disabled}
+          maxLength={maxLength}
+          className={`block w-full mt-1 rounded-lg border border-transparent bg-gray-100 px-4 py-3 text-dark-grey placeholder:text-medium-gray shadow-sm focus:border-primary-index focus:outline-none focus:ring-1 focus:ring-primary-index transition duration-150 ease-in-out resize-none ${
+            error ? 'border-medium-red' : ''
+          } ${className}`}
+        />
+
+        {maxLength && (
+          <div className="absolute text-xs bottom-3 right-3 text-medium-gray">
+            {charCount}/{maxLength}
+          </div>
+        )}
+      </div>
+
+      <InputError message={error} className="mt-1" />
+    </div>
+  );
+}

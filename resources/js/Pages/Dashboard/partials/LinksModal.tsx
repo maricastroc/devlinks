@@ -33,7 +33,11 @@ export const LinksModal = ({ onClose, handleAddLink, platforms }: Props) => {
         onClick={onClose}
       />
       <Dialog.Content className="fixed z-[999] top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[90vw] bg-white rounded-lg shadow-lg  p-4 md:max-w-[720px] md:p-8">
-        <ModalHeader onClose={onClose} title="Add Social Link" />
+        <ModalHeader
+          showBackButton={false}
+          onClose={onClose}
+          title="Add Social Link"
+        />
         <Dialog.Description className="flex flex-col w-full">
           <SearchInput
             value={searchTerm}

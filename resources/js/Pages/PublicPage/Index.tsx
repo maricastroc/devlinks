@@ -21,6 +21,7 @@ type Props = {
   socialLinks: UserLinkProps[];
   userLinks: UserLinkProps[];
   user: UserProps;
+  username: string;
   themes: ThemeProps[];
   authUser: UserProps | null;
 };
@@ -28,12 +29,13 @@ type Props = {
 export default function Shared({
   userLinks,
   user,
+  username,
   themes,
   socialLinks,
   authUser
 }: Props) {
   const isOwner = authUser?.id && authUser?.id === user.id;
-
+  console.log(user);
   const [showThemeDropdown, setShowThemeDropdown] = useState(false);
 
   const dropdownRef = useClickOutside(() => {
@@ -92,6 +94,8 @@ export default function Shared({
           <div className="flex flex-col items-center justify-center w-auto">
             <AvatarCard
               avatarUrl={user.avatar_url as string}
+              user={user}
+              username={username}
               theme={currentTheme}
             />
             <h2

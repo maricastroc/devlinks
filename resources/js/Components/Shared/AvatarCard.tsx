@@ -1,21 +1,26 @@
 import { DEFAULT_THEME } from '@/utils/constants';
-import SmallLogo from '/public/assets/images/logo-devlinks-small.svg';
 import { ThemeProps } from '@/types/theme';
+import { getInitials } from '@/utils/getInitials';
+import { UserProps } from '@/types/user';
 
 type AvatarProps = {
   avatarUrl: string | null;
-  theme: ThemeProps;
+  theme: ThemeProps | null;
   className?: string;
   isPublicPage?: boolean;
+  user?: UserProps | undefined;
+  username?: string | undefined;
 };
 
 export const AvatarCard = ({
   avatarUrl,
   theme,
   className,
+  user,
+  username,
   isPublicPage = true
 }: AvatarProps) => {
-  const isDefaultTheme = theme.name === DEFAULT_THEME;
+  const isDefaultTheme = theme?.name === DEFAULT_THEME;
 
   if (isDefaultTheme) {
     return avatarUrl ? (
@@ -27,31 +32,15 @@ export const AvatarCard = ({
       />
     ) : (
       isPublicPage && (
-        <div
-          className={`flex items-center justify-center h-[7rem] w-[7rem]
-          rounded-full border-4 border-medium-purple`}
-        >
-          <img src={SmallLogo} alt="Default Logo" />
-        </div>
+        <span className="h-[7rem] w-[7rem] bg-gray-200 rounded-full flex items-center justify-center text-3xl font-bold text-gray-600">
+          {getInitials(username || user?.username)}
+        </span>
       )
     );
   }
 
   return (
-    <div
-      className={`rounded-full p-[2px]
-      bg-gradient-to-br from-white/30 to-transparent ${className} ${isPublicPage ? 'relative h-[7rem] w-[7rem]' : 'absolute h-[6.02rem] w-[6.02rem]'}`}
-    >
-      <div
-        className={`absolute inset-0 rounded-full border ${
-          theme.name === 'Midnight'
-            ? 'border-white/20'
-            : theme.name === 'Ocean'
-              ? 'border-cyan-200/30'
-              : 'border-white/10'
-        }`}
-      ></div>
-
+    <div className={`rounded-full p-[2px]`}>
       {avatarUrl ? (
         <img
           src={avatarUrl}
@@ -60,14 +49,9 @@ export const AvatarCard = ({
         />
       ) : (
         isPublicPage && (
-          <div className="flex items-center justify-center w-full h-full rounded-full bg-white/5">
-            <img
-              src={SmallLogo}
-              className="opacity-80"
-              alt="Default Logo"
-              style={{ filter: 'saturate(0%) brightness(318%)' }}
-            />
-          </div>
+          <span className="h-[7rem] w-[7rem] bg-gray-200 rounded-full flex items-center justify-center text-3xl font-bold text-gray-600">
+            {getInitials(username || user?.username)}
+          </span>
         )
       )}
     </div>

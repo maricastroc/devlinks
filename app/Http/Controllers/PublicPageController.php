@@ -35,6 +35,8 @@ class PublicPageController extends Controller
         $data = [
             'user' => [
                 'id' => $user->id,
+                'username' => $user->username,
+                'bio' => $user->bio,
                 'name'       => $user->name,
                 'avatar_url' => $user->avatar_url,
                 'theme'      => $user->theme?->only(['id', 'name', 'styles'])

@@ -3,7 +3,6 @@ import clsx from 'clsx';
 import { Ref, useState } from 'react';
 import { PlatformProps } from '@/types/platform';
 import { UserLinkProps } from '@/types/user-link';
-import { PencilSimple, Plus } from 'phosphor-react';
 import { SocialMediaModal } from './SocialMediaModal/SocialMediaModal';
 import { useClickOutside } from '@/utils/useClickOutside';
 import { AddButton } from '@/Components/Core/AddButton';
@@ -168,7 +167,7 @@ const OverflowMenu = ({
 const PlatformButton = ({
   platform,
   link,
-  isActive = false,
+  isActive,
   onClick
 }: {
   platform?: PlatformProps;
@@ -181,34 +180,23 @@ const PlatformButton = ({
     className={clsx(
       'relative flex items-center justify-center',
       'w-9 h-9 md:h-10 md:w-auto md:px-3',
-      'border border-dashed rounded-lg',
-      ' border-gray-300 text-gray-500',
+      'rounded-lg',
       'shadow-sm shadow-purple-100',
-      'transition-all duration-150 hover:shadow-md'
+      'transition-all duration-150 hover:shadow-md',
+      `${isActive ? 'bg-purple-hover bg-opacity-40' : 'border-gray-300 border'}`
     )}
   >
-    <div className="flex items-center justify-center gap-2">
+    <div className="flex items-center justify-center gap-2" onClick={onClick}>
       <img
         className="w-5 h-5 md:w-6 md:h-6"
         src={`/assets/images/${platform?.icon_url || link?.platform.icon_url}`}
         alt={platform?.name || link?.platform.name}
+        style={{
+          filter: isActive
+            ? 'invert(12%) sepia(96%) saturate(7456%) hue-rotate(250deg) brightness(80%) contrast(130%)'
+            : ''
+        }}
       />
-      <span className="hidden text-sm font-medium md:block">
-        {platform?.name || link?.platform.name}
-      </span>
-      <button
-        onClick={onClick}
-        className={clsx(
-          'absolute p-1',
-          'top-[-0.6rem] right-[-0.6rem]',
-          'bg-white border rounded-full',
-          'border-gray-400 text-gray-500',
-          'hover:bg-medium-purple hover:border-medium-purple hover:text-white',
-          'transition-all duration-150'
-        )}
-      >
-        {isActive ? <PencilSimple size={14} /> : <Plus size={14} />}
-      </button>
     </div>
   </button>
 );

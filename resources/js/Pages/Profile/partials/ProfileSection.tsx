@@ -14,7 +14,7 @@ export const ProfileSection = ({
       <div
         className={`flex ${wrap ? 'flex-wrap justify-between' : 'flex-col'} items-start w-full gap-4 md:justify-between md:items-center md:flex-row`}
       >
-        <p className="md:w-[10rem] text-medium-gray">{title}</p>
+        <p className="md:w-[15rem] text-medium-gray">{title}</p>
         {children}
       </div>
     </div>

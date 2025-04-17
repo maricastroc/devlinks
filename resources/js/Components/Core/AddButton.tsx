@@ -8,8 +8,8 @@ export const AddButton = ({ onClick }: { onClick: () => void }) => (
       'flex items-center justify-center p-2',
       'w-9 h-9 md:h-10 md:w-[3rem]',
       'border rounded-lg cursor-pointer',
-      'text-dark-gray hover:text-medium-purple',
-      'border-gray-400 hover:border-medium-purple',
+      'text-medium-purple hover:text-medium-purple',
+      'border-medium-purple hover:bg-purple-hover hover:bg-opacity-40 hover:border-solid',
       'transition-all duration-150'
     )}
   >

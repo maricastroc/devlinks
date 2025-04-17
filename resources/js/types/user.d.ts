@@ -14,4 +14,5 @@ export type UserProps = {
   theme_id?: number;
   user_links: UserLinkProps[];
   social_links: UserLinkProps[];
+  bio?: string;
 };

@@ -29,7 +29,7 @@ export const PhotoInput = ({
             photoPreview
               ? 'hover:border-transparent'
               : 'hover:border-medium-purple'
-          } transition-all hover:shadow-lg duration-125 flex flex-col items-center justify-center relative h-[12rem] w-[12rem] rounded-md bg-light-purple`}
+          } transition-all hover:shadow-lg duration-125 flex flex-col items-center justify-center relative lg:h-[9rem] lg:w-[9rem] h-[12rem] w-[12rem] rounded-md bg-light-purple`}
         >
           {photoPreview ? (
             <div
@@ -42,22 +42,20 @@ export const PhotoInput = ({
                 className="z-40"
                 style={{ filter: 'saturate(0%) brightness(318%)' }}
               />
-              <p className="z-40 text-lg font-bold text-white">
-                + Change Image
-              </p>
+              <p className="z-40 text-lg font-bold text-white">Change Image</p>
               <div className="absolute inset-0 bg-black bg-opacity-50 rounded-lg"></div>
             </div>
           ) : (
             <div className="flex flex-col items-center justify-center w-full gap-2">
               <img src={UploadImage} alt="Avatar Preview" />
               <p className="font-semibold text-md text-medium-purple">
-                + Upload Image
+                Upload Image
               </p>
             </div>
           )}
         </button>
 
-        <p className="md:w-[9rem] mt-3 md:mt-0 text-xs text-medium-gray">
+        <p className="lg:w-[15rem] md:w-[9rem] mt-3 md:mt-0 text-xs text-medium-gray">
           Image must be below 1024x1024px. Use PNG or JPG format.
         </p>
       </div>

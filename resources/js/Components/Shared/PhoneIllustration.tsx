@@ -4,70 +4,24 @@ import { UserLinkProps } from '@/types/user-link';
 import { DEFAULT_THEME } from '@/utils/constants';
 import { Skeleton } from './Skeleton';
 
-type PhoneIllustrationProps = {
-  links: UserLinkProps[] | undefined;
-  socialLinks?: UserLinkProps[] | undefined;
-  name?: string | null;
-  user?: UserProps;
-};
-
-export const PhoneIllustration = ({
-  user,
-  name,
-  links,
-  socialLinks
-}: PhoneIllustrationProps) => {
+export const PhoneIllustration = () => {
   const { currentTheme } = useTheme();
 
   const isDefaultTheme = currentTheme?.name === DEFAULT_THEME;
 
-  const hasName = Boolean(name?.length || user?.name);
-
-  const hasSocialLinks = Boolean(
-    socialLinks?.length || user?.social_links?.length
-  );
-
-  const containerBg = isDefaultTheme
-    ? 'bg-white'
-    : currentTheme?.styles.background;
-
-  const placeholderBg = 'bg-[#EEEEEE]';
-
-  const transparentPlaceholders = Math.min(links?.length || 0, 5);
-
   return (
     <div
-      className={`relative w-[307px] h-[631px] rounded-3xl shadow-2xl border-8 border-gray-800 ${containerBg}`}
+      className={`relative w-[307px] h-[631px] rounded-3xl shadow-2xl border-8 border-gray-800 ${isDefaultTheme ? 'bg-white' : currentTheme?.styles.background}`}
     >
-      <div className="absolute top-0 z-10 w-24 h-6 transform -translate-x-1/2 bg-gray-800 rounded-b-lg left-1/2" />
+      <div className="absolute top-0 z-10 w-24 h-6 transform -translate-x-1/2 bg-gray-800 rounded-b-lg left-1/2 shadow-[inset_0_-3px_5px_rgba(0,0,0,0.3)]" />
 
       <div
-        className={`absolute overflow-hidden inset-2 rounded-2xl ${containerBg}`}
+        className={`absolute inset-0 rounded-2xl overflow-hidden ${isDefaultTheme ? 'bg-white' : currentTheme?.styles.background}`}
       >
-        <div className="flex flex-col items-center justify-start h-full text-gray-400 mt-[3.1rem]">
-          <Skeleton
-            className={`${placeholderBg} w-[5.5rem] h-[5.5rem] rounded-full`}
-          />
-          <Skeleton
-            className={`${!isDefaultTheme && hasName ? 'bg-transparent' : 'bg-[#EEEEEE]'} w-[10rem] h-[1rem] rounded-full mt-[1.75rem]`}
-          />
-          <Skeleton
-            className={`${!isDefaultTheme && hasSocialLinks ? 'bg-transparent' : 'bg-[#EEEEEE]'} w-[5rem] h-[0.8rem] rounded-full mt-[0.8rem]`}
-          />
-          <div className="flex flex-col items-center justify-start gap-[1.25rem] mt-[3.4rem]">
-            {Array(5)
-              .fill(null)
-              .map((_, index) => (
-                <Skeleton
-                  key={index}
-                  className={`${index < transparentPlaceholders && !isDefaultTheme ? 'bg-transparent' : 'bg-[#EEEEEE]'} w-[14.6rem] h-[2.7rem] rounded-lg`}
-                />
-              ))}
-          </div>
-        </div>
+        <div className="absolute inset-0 shadow-[inset_0_0_30px_rgba(0,0,0,0.3)] pointer-events-none" />
       </div>
 
-      <div className="absolute right-0 w-1 h-16 bg-gray-700 rounded-l-lg top-24" />
+      <div className="absolute right-0 w-1 h-16 bg-gray-700 rounded-l-lg top-24 shadow-[inset_-2px_0_3px_rgba(0,0,0,0.3)]" />
     </div>
   );
 };

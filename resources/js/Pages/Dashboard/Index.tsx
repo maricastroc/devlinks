@@ -38,7 +38,7 @@ export type FormErrors = Record<
 >;
 
 export default function Dashboard() {
-  const [processing, setProcessing] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const [isLinksModalOpen, setIsLinksModalOpen] = useState(false);
 
@@ -104,7 +104,7 @@ export default function Dashboard() {
       return;
     }
 
-    setProcessing(true);
+    setIsSubmitting(true);
 
     setErrors({});
 
@@ -126,7 +126,7 @@ export default function Dashboard() {
     } catch (error) {
       handleApiError(error);
     } finally {
-      setProcessing(false);
+      setIsSubmitting(false);
     }
   };
 
@@ -160,7 +160,7 @@ export default function Dashboard() {
     >
       <Head title="Dashboard" />
 
-      {processing && <LoadingComponent hasOverlay />}
+      {isSubmitting && <LoadingComponent hasOverlay />}
 
       <div className="lg:m-6 flex lg:grid lg:grid-cols-[1fr,1.5fr] w-full lg:gap-6 lg:mt-0">
         <div className="items-center justify-center hidden w-full p-10 bg-white rounded-md lg:flex">
@@ -178,7 +178,7 @@ export default function Dashboard() {
           <Dialog.Root open={isLinksModalOpen}>
             <div className="flex items-center justify-center w-full gap-3">
               <SecondaryButton
-                disabled={processing || isValidating}
+                disabled={isSubmitting || isValidating}
                 onClick={() => setIsLinksModalOpen(true)}
               >
                 + Add New Link
@@ -214,7 +214,7 @@ export default function Dashboard() {
             <PrimaryButton
               onClick={submit}
               className="md:w-[6rem]"
-              disabled={processing || isValidating}
+              disabled={isSubmitting || isValidating}
             >
               Save
             </PrimaryButton>

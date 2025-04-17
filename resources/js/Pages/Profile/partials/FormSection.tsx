@@ -1,7 +1,8 @@
 import { z } from 'zod';
+import * as Dialog from '@radix-ui/react-dialog';
 import { PhotoInput } from './PhotoInput';
 import { ProfileSection } from './ProfileSection';
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import {
   Control,
   Controller,
@@ -16,6 +17,10 @@ import { api } from '@/libs/axios';
 import toast from 'react-hot-toast';
 import { handleApiError } from '@/utils/handleApiError';
 import PrimaryButton from '@/Components/Core/PrimaryButton';
+import { TextAreaField } from '@/Components/Core/TextareaField';
+import { ChangeBioModal } from './ChangeBioModal';
+import SecondaryButton from '@/Components/Core/SecondaryButton';
+import { PencilSimple } from 'phosphor-react';
 
 type Props = {
   user: UserProps | undefined;
@@ -28,10 +33,12 @@ type Props = {
   setOriginalImage: (value: string | null) => void;
   setShowCropper: (value: boolean) => void;
   setPhotoPreview: (value: string | null) => void;
+  mutate: () => void;
 };
 
 export const profileFormSchema = z.object({
   name: z.string().min(3, 'Name is required'),
+  bio: z.string().nullable(),
   username: z
     .string()
     .min(3, { message: 'Username must have at least 3 characters' }),
@@ -52,9 +59,12 @@ export const FormSection = ({
   handleSubmit,
   setPhotoPreview,
   setOriginalImage,
-  setShowCropper
+  setShowCropper,
+  mutate
 }: Props) => {
   const inputFileRef = useRef<HTMLInputElement>(null);
+
+  const [isAddBioModalOpen, setIsAddBioModalOpen] = useState(false);
 
   const handleAvatarChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
@@ -76,6 +86,10 @@ export const FormSection = ({
     formData.append('username', data.username);
     formData.append('_method', 'PUT');
 
+    if (data.bio) {
+      formData.append('bio', data.bio);
+    }
+
     if (data.avatar_url) {
       formData.append('avatar_url', data.avatar_url);
     }
@@ -88,15 +102,17 @@ export const FormSection = ({
       if (response.status === 200) {
         toast?.success(response.data.message);
       }
+
+      mutate();
     } catch (error) {
       handleApiError(error);
     }
   };
-
+  console.log(user);
   useEffect(() => {
     if (user) {
       setValue('name', user?.name || '');
-
+      setValue('bio', user?.bio || '');
       setValue('username', user?.username || '');
 
       if (user?.avatar_url) {
@@ -151,6 +167,22 @@ export const FormSection = ({
             />
           )}
         />
+        <Dialog.Root open={isAddBioModalOpen}>
+          <ChangeBioModal
+            control={control}
+            onClose={() => setIsAddBioModalOpen(false)}
+          />
+          <Dialog.Trigger asChild>
+            <button
+              type="button"
+              onClick={() => setIsAddBioModalOpen(true)}
+              className="max-w-[12rem] flex items-center justify-start gap-2 mt-4 text-left text-medium-purple hover:font-semibold"
+            >
+              <PencilSimple size={18} />
+              Change your bio
+            </button>
+          </Dialog.Trigger>
+        </Dialog.Root>
       </div>
 
       <hr className="my-0" />
