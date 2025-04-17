@@ -33,7 +33,10 @@ export const PhoneMockupModal = ({
 
   return (
     <Dialog.Portal>
-      <Dialog.Overlay className="fixed inset-0 z-[999] bg-gray-900/80 backdrop-blur-sm" />
+      <Dialog.Overlay
+        onClick={onClose}
+        className="fixed inset-0 z-[999] bg-gray-900/80 backdrop-blur-sm"
+      />
       <Dialog.Content
         className={`
         fixed z-[9999] bg-transparent flex flex-col
@@ -44,7 +47,7 @@ export const PhoneMockupModal = ({
         <div className="z-[0] flex items-center justify-center flex-1 p-4 py-0 overflow-y-auto">
           <div className={`relative scale-90 mt-[-2rem] ml-[-0.3rem]`}>
             <PhoneMockup
-              links={user?.user_links}
+              links={links || user?.user_links}
               socialLinks={socialLinks}
               name={name}
               bio={bio}
@@ -60,9 +63,7 @@ export const PhoneMockupModal = ({
           onClick={onClose}
           className={`
             fixed z-[99999] flex items-center justify-center
-            top-10 right-[-1rem]
-            p-2 rounded-full bg-white/10 backdrop-blur-md
-            border border-white/20 hover:bg-white/20
+            top-10 right-[-0.5rem]
             transition-all duration-300
           `}
         >
