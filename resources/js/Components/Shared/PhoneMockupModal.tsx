@@ -60,7 +60,7 @@ export const PhoneMockupModal = ({
           onClick={onClose}
           className={`
             fixed z-[99999] flex items-center justify-center
-            top-10 right-4
+            top-10 right-[-1rem]
             p-2 rounded-full bg-white/10 backdrop-blur-md
             border border-white/20 hover:bg-white/20
             transition-all duration-300

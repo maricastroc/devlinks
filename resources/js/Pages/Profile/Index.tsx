@@ -192,7 +192,7 @@ export default function Profile() {
                       onClick={() => setIsPhoneMockupOpen(true)}
                       className="mt-3 md:hidden"
                     >
-                      Open Mockup
+                      Open Preview
                     </SecondaryButton>
                   </Dialog.Trigger>
                   <PhoneMockupModal

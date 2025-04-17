@@ -10,8 +10,6 @@ import { PhoneMockup } from '@/Components/Shared/PhoneMockup';
 import { LoadingComponent } from '@/Components/Shared/LoadingComponent';
 import { PageHeader } from '@/Components/Shared/PageHeader';
 import { useTheme } from '@/contexts/ThemeContext';
-import { PlatformProps } from '@/types/platform';
-import { UserProps } from '@/types/user';
 import { ThemeProps } from '@/types/theme';
 import { useLinks } from '@/utils/useLinks';
 import { LinksSection } from './partials/LinksSection';
@@ -26,6 +24,8 @@ import { api } from '@/libs/axios';
 import { handleApiError } from '@/utils/handleApiError';
 import { SkeletonCard } from './partials/SkeletonCard';
 import 'react-loading-skeleton/dist/skeleton.css';
+import { useMediaQuery } from '@/utils/useMediaQuery';
+import { PhoneMockupModal } from '@/Components/Shared/PhoneMockupModal';
 
 export type FormErrors = Record<
   string | number,
@@ -42,7 +42,11 @@ export default function Dashboard() {
 
   const [isLinksModalOpen, setIsLinksModalOpen] = useState(false);
 
+  const [isPhoneMockupOpen, setIsPhoneMockupOpen] = useState(false);
+
   const [errors, setErrors] = useState<FormErrors>({});
+
+  const isMobile = useMediaQuery('(max-width: 768px)');
 
   const { handleChangeTheme } = useTheme();
 
@@ -226,6 +230,28 @@ export default function Dashboard() {
               Save
             </PrimaryButton>
           </div>
+
+          {isMobile && (
+            <Dialog.Root open={isPhoneMockupOpen}>
+              <Dialog.Trigger asChild>
+                <SecondaryButton
+                  onClick={() => setIsPhoneMockupOpen(true)}
+                  className="mt-3 md:hidden"
+                >
+                  Open Preview
+                </SecondaryButton>
+              </Dialog.Trigger>
+              <PhoneMockupModal
+                username={user?.username}
+                bio={user?.bio}
+                name={user?.name}
+                isLoading={isValidating}
+                links={links}
+                user={user}
+                onClose={() => setIsPhoneMockupOpen(false)}
+              />
+            </Dialog.Root>
+          )}
         </div>
       </div>
     </AuthenticatedLayout>
