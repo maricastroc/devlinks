@@ -12,7 +12,7 @@ export const ModalHeader = ({
   onBack?: () => void;
   showBackButton?: boolean;
 }) => (
-  <Dialog.Title className="relative flex items-center justify-between w-full py-2 mb-2 text-lg font-semibold md:mb-4 text-dark-gray">
+  <Dialog.Title className="relative z-[9999] flex items-center justify-between w-full py-2 mb-2 text-lg font-semibold md:mb-4 text-dark-gray">
     {showBackButton && (
       <button className="relative">
         <CaretLeft size={20} onClick={onBack} />

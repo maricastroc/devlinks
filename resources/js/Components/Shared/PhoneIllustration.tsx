@@ -1,11 +1,12 @@
 import { useTheme } from '@/contexts/ThemeContext';
+import { useMediaQuery } from '@/utils/useMediaQuery';
 
 export const PhoneIllustration = () => {
   const { currentTheme } = useTheme();
 
   return (
     <div
-      className={`relative w-[307px] h-[631px] rounded-3xl shadow-2xl border-8 border-gray-800 ${currentTheme?.styles.background}`}
+      className={`relative align-middle w-[307px] h-[631px] rounded-3xl shadow-2xl border-8 border-gray-800 ${currentTheme?.styles.background}`}
     >
       <div className="absolute top-0 z-10 w-24 h-6 transform -translate-x-1/2 bg-gray-800 rounded-b-lg left-1/2 shadow-[inset_0_-3px_5px_rgba(0,0,0,0.3)]" />
 
