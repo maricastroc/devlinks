@@ -46,7 +46,7 @@ export const AvatarCard = ({
       {avatarUrl ? (
         <img
           src={avatarUrl}
-          className="object-cover w-full h-full rounded-full"
+          className="object-cover h-[6.02rem] w-[6.02rem] rounded-full"
           alt="User Avatar"
         />
       ) : (
