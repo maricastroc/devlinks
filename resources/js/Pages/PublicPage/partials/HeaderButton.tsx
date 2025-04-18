@@ -1,19 +1,16 @@
 import { ThemeProps } from '@/types/theme';
-import { DEFAULT_THEME } from '@/utils/constants';
 
 export const HeaderButton = ({
   onClick,
   icon,
   text,
   className,
-  theme,
   disabled = false
 }: {
   onClick: () => void;
   icon: React.ReactNode;
   text: string;
   className: string;
-  theme: ThemeProps;
   disabled?: boolean;
 }) => (
   <button

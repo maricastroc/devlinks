@@ -1,7 +1,6 @@
 import { ThemeProps } from '@/types/theme';
 import { UserLinkProps } from '@/types/user-link';
 import { LIGHT_THEME } from '@/utils/constants';
-import { getContrastColor } from '@/utils/getContrastColor';
 
 type Props = {
   link: UserLinkProps;
@@ -10,7 +9,6 @@ type Props = {
 };
 
 export const SocialLink = ({ link, theme, isSmaller }: Props) => {
-  console.log(theme);
   return (
     <a
       key={link.id}

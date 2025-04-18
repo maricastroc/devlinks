@@ -2,7 +2,6 @@ import InputError from './InputError';
 import React, { useState, useEffect } from 'react';
 
 export function TextAreaField({
-  label,
   id,
   placeholder,
   value = '',
@@ -16,7 +15,6 @@ export function TextAreaField({
   textAreaRef,
   maxLength
 }: {
-  label: string;
   id: string;
   name?: string;
   placeholder?: string;

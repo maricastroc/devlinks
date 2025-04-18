@@ -17,9 +17,7 @@ import { api } from '@/libs/axios';
 import toast from 'react-hot-toast';
 import { handleApiError } from '@/utils/handleApiError';
 import PrimaryButton from '@/Components/Core/PrimaryButton';
-import { TextAreaField } from '@/Components/Core/TextareaField';
 import { ChangeBioModal } from './ChangeBioModal';
-import SecondaryButton from '@/Components/Core/SecondaryButton';
 import { PencilSimple } from 'phosphor-react';
 
 type Props = {
@@ -81,7 +79,7 @@ export const FormSection = ({
 
   const onSubmit = async (data: ProfileFormSchema) => {
     const formData = new FormData();
-    console.log(data);
+
     formData.append('name', data.name);
     formData.append('username', data.username);
     formData.append('_method', 'PUT');
@@ -110,7 +108,7 @@ export const FormSection = ({
       handleApiError(error);
     }
   };
-  console.log(user);
+
   useEffect(() => {
     if (user) {
       setValue('name', user?.name || '');

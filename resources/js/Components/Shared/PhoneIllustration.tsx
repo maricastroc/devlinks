@@ -1,5 +1,4 @@
 import { useTheme } from '@/contexts/ThemeContext';
-import { useMediaQuery } from '@/utils/useMediaQuery';
 
 export const PhoneIllustration = () => {
   const { currentTheme } = useTheme();

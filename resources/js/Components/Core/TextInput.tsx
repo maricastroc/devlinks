@@ -9,7 +9,7 @@ import {
 
 type TextInputProps = InputHTMLAttributes<HTMLInputElement> & {
   isFocused?: boolean;
-  icon?: string | ReactNode | null; // Aceita string ou ReactNode
+  icon?: string | ReactNode | null;
   hasError?: boolean;
   inputRef?: React.Ref<HTMLInputElement>;
   prefix?: string;
@@ -20,7 +20,6 @@ export default forwardRef<HTMLInputElement, TextInputProps>(function TextInput(
     type = 'text',
     className = '',
     icon = null,
-    isFocused = false,
     hasError = false,
     inputRef,
     prefix,
