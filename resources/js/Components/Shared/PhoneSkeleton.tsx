@@ -3,9 +3,12 @@ import { Skeleton } from './Skeleton';
 export const PhoneSkeleton = () => {
   return (
     <>
-      <div className="absolute rounded-full h-[6.02rem] w-[6.02rem] z-40 top-[3.9rem] left-[6.5rem] flex items-center justify-center bg-gray-200">
+      <div className="absolute rounded-full h-[6.02rem] w-[6.02rem] z-40 top-[3.9rem] left-[6.5rem] flex items-center justify-center ">
         <span className="text-3xl font-bold text-gray-600">
-          <Skeleton hasAnimatePulse />
+          <Skeleton
+            hasAnimatePulse
+            className="bg-gray-300 h-[6.02rem] w-[6.02rem]"
+          />
         </span>
       </div>
 

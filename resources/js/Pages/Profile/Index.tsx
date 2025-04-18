@@ -141,16 +141,18 @@ export default function Profile() {
       )}
 
       <div className="lg:m-6 flex lg:grid lg:grid-cols-[1fr,1.5fr] w-full lg:gap-6 lg:mt-0">
-        <div className="items-center justify-center hidden w-full p-10 bg-white rounded-md lg:flex">
-          <PhoneMockup
-            links={user?.user_links}
-            socialLinks={socialLinks}
-            name={watch().name}
-            bio={watch().bio}
-            photoPreview={photoPreview}
-            isLoading={isValidating || isSubmitting}
-            user={user}
-          />
+        <div className="items-start justify-center hidden w-full p-10 bg-white rounded-md lg:flex">
+          <div className="mt-12">
+            <PhoneMockup
+              links={user?.user_links}
+              socialLinks={socialLinks}
+              name={watch().name}
+              bio={watch().bio}
+              photoPreview={photoPreview}
+              isLoading={isValidating || isSubmitting}
+              user={user}
+            />
+          </div>
         </div>
         <div className="flex flex-col w-full p-4 m-4 bg-white rounded-md lg:m-0 md:m-6 md:p-10">
           <PageHeader
