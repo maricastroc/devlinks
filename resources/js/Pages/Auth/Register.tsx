@@ -13,12 +13,12 @@ import toast from 'react-hot-toast';
 
 const signUpFormSchema = z.object({
   email: z.string().min(3, { message: 'E-mail is required.' }),
-  password: z
-    .string()
-    .min(8, { message: 'Password must have at least 8 characters' }),
-  username: z
-    .string()
-    .min(3, { message: 'Username must have at least 3 characters' })
+  password: z.string().min(8, {
+    message: 'Password must have at least 8 characters'
+  }),
+  username: z.string().min(3, {
+    message: 'Username must have at least 3 characters'
+  })
 });
 
 type SignUpFormData = z.infer<typeof signUpFormSchema>;
@@ -30,7 +30,11 @@ export default function Register() {
     formState: { errors, isSubmitting }
   } = useForm<SignUpFormData>({
     resolver: zodResolver(signUpFormSchema),
-    defaultValues: { email: '', password: '', username: '' }
+    defaultValues: {
+      email: '',
+      password: '',
+      username: ''
+    }
   });
 
   const onSubmit = async (data: SignUpFormData) => {

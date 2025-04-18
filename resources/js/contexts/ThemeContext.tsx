@@ -21,9 +21,9 @@ export const useTheme = () => {
   return context;
 };
 
-export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({
-  children
-}) => {
+export const ThemeProvider: React.FC<{
+  children: React.ReactNode;
+}> = ({ children }) => {
   const [currentTheme, setCurrentTheme] = useState<ThemeProps | null>(null);
 
   const [showThemeDropdown, setShowThemeDropdown] = useState(false);

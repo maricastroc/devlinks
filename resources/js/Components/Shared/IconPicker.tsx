@@ -3,7 +3,10 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useState } from 'react';
 
 const icons = [
-  { name: 'camera', component: <FontAwesomeIcon icon={faCamera} /> }
+  {
+    name: 'camera',
+    component: <FontAwesomeIcon icon={faCamera} />
+  }
 ];
 
 type IconPickerProps = {

@@ -1,10 +1,4 @@
 import { router } from '@inertiajs/react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {
-  faArrowLeft,
-  faArrowUpRightFromSquare,
-  faPalette
-} from '@fortawesome/free-solid-svg-icons';
 import { HeaderButton } from '@/Pages/PublicPage/partials/HeaderButton';
 import { DropdownTheme } from '@/Components/Shared/DropdownTheme';
 import { RefObject } from 'react';

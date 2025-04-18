@@ -48,7 +48,10 @@ export const ImageCropper: React.FC<ImageCropperProps> = ({
           <>
             <Cropper
               src={src}
-              style={{ height: 400, width: '100%' }}
+              style={{
+                height: 400,
+                width: '100%'
+              }}
               initialAspectRatio={aspectRatio}
               aspectRatio={aspectRatio}
               guides={true}

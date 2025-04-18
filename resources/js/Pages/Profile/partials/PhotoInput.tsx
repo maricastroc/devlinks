@@ -34,13 +34,17 @@ export const PhotoInput = ({
           {photoPreview ? (
             <div
               className="relative flex flex-col items-center justify-center w-full h-full gap-1 bg-center bg-cover rounded-lg"
-              style={{ backgroundImage: `url(${photoPreview})` }}
+              style={{
+                backgroundImage: `url(${photoPreview})`
+              }}
             >
               <img
                 src={UploadImage}
                 alt="Avatar Preview"
                 className="z-40"
-                style={{ filter: 'saturate(0%) brightness(318%)' }}
+                style={{
+                  filter: 'saturate(0%) brightness(318%)'
+                }}
               />
               <p className="z-40 text-lg font-bold text-white">Change Image</p>
               <div className="absolute inset-0 bg-black bg-opacity-50 rounded-lg"></div>

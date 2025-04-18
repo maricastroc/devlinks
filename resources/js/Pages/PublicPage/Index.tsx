@@ -46,7 +46,11 @@ export default function Shared({
 
   useLoadingIndicator(setIsLoading);
 
-  useThemeEffect({ user, themes, handleChangeTheme });
+  useThemeEffect({
+    user,
+    themes,
+    handleChangeTheme
+  });
 
   const handleCopyLink = async () => {
     const currentUrl = window.location.href;

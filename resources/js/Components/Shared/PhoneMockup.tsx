@@ -3,7 +3,6 @@ import { UserProps } from '@/types/user';
 import { LinkCard } from './LinkCard';
 import { PhoneIllustration } from './PhoneIllustration';
 import { useTheme } from '@/contexts/ThemeContext';
-import { DEFAULT_THEME } from '@/utils/constants';
 import { AvatarCard } from '@/Components/Shared/AvatarCard';
 import { SocialLink } from './SocialLink';
 import { PhoneSkeleton } from './PhoneSkeleton';

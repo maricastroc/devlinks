@@ -69,7 +69,10 @@ export default forwardRef<HTMLInputElement, TextInputProps>(function TextInput(
             className={`absolute top-1/2 transform -translate-y-1/2 text-gray-500 text-md mt-[0.145rem] ${
               icon ? 'left-10' : 'left-3'
             }`}
-            style={{ visibility: 'hidden', position: 'absolute' }}
+            style={{
+              visibility: 'hidden',
+              position: 'absolute'
+            }}
           >
             {prefix}
           </span>

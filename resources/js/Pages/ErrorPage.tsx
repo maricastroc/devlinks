@@ -15,7 +15,9 @@ export default function ErrorPage() {
       <div className="z-50 hidden mt-12 mb-0 md:block">
         <Link href="/">
           <img
-            style={{ filter: 'saturate(0%) brightness(518%)' }}
+            style={{
+              filter: 'saturate(0%) brightness(518%)'
+            }}
             className="mt-6 scale-75 md:mt-0"
             src={Logo}
             alt=""

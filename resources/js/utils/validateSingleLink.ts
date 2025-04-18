@@ -10,11 +10,17 @@ export const validateSingleLink = (
   platform: PlatformProps
 ): ValidationResult => {
   if (!url?.trim()) {
-    return { isValid: false, message: 'The link cannot be empty.' };
+    return {
+      isValid: false,
+      message: 'The link cannot be empty.'
+    };
   }
 
   if (!platform) {
-    return { isValid: false, message: 'Invalid platform selected.' };
+    return {
+      isValid: false,
+      message: 'Invalid platform selected.'
+    };
   }
 
   try {
@@ -29,6 +35,9 @@ export const validateSingleLink = (
 
     return { isValid: true, message: '' };
   } catch {
-    return { isValid: false, message: 'Invalid URL format.' };
+    return {
+      isValid: false,
+      message: 'Invalid URL format.'
+    };
   }
 };

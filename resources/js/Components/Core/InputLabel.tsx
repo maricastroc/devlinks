@@ -5,7 +5,9 @@ export default function InputLabel({
   className = '',
   children,
   ...props
-}: LabelHTMLAttributes<HTMLLabelElement> & { value?: string }) {
+}: LabelHTMLAttributes<HTMLLabelElement> & {
+  value?: string;
+}) {
   return (
     <label
       {...props}

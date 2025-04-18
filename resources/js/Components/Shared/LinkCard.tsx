@@ -1,5 +1,4 @@
 import { UserLinkProps } from '@/types/user-link';
-import { ArrowRight } from 'phosphor-react';
 import clsx from 'clsx';
 import { DEFAULT_THEME } from '@/utils/constants';
 import { useTheme } from '@/contexts/ThemeContext';

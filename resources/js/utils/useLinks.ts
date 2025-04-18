@@ -34,7 +34,11 @@ export const useLinks = (
     setLinks((prev) =>
       prev.map((link) =>
         link.id === linkId
-          ? { ...link, platform_id: platform.id, platform }
+          ? {
+              ...link,
+              platform_id: platform.id,
+              platform
+            }
           : link
       )
     );

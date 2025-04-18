@@ -39,9 +39,9 @@ type Props = {
 export const profileFormSchema = z.object({
   name: z.string().min(3, 'Name is required'),
   bio: z.string().nullable(),
-  username: z
-    .string()
-    .min(3, { message: 'Username must have at least 3 characters' }),
+  username: z.string().min(3, {
+    message: 'Username must have at least 3 characters'
+  }),
   avatar_url: z
     .custom<File>((file) => file instanceof File && file.size > 0)
     .optional()
@@ -96,7 +96,9 @@ export const FormSection = ({
 
     try {
       const response = await api.post('/profile/update', formData, {
-        headers: { 'Content-Type': 'multipart/form-data' }
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
       });
 
       if (response.status === 200) {

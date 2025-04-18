@@ -93,7 +93,9 @@ export default function Profile() {
     fetch(croppedImage)
       .then((res) => res.blob())
       .then((blob) => {
-        const file = new File([blob], 'avatar.jpg', { type: 'image/jpeg' });
+        const file = new File([blob], 'avatar.jpg', {
+          type: 'image/jpeg'
+        });
         setValue('avatar_url', file);
         setPhotoPreview(croppedImage);
         setShowCropper(false);

@@ -7,7 +7,10 @@ export const SkeletonCard = () => {
         <div
           key={i}
           className="p-4 rounded-lg bg-light-gray"
-          style={{ height: '15rem', marginTop: '1.5rem' }} // Altura aproximada do card real
+          style={{
+            height: '15rem',
+            marginTop: '1.5rem'
+          }} // Altura aproximada do card real
         >
           <div className="space-y-4">
             {/* Campo Platform */}

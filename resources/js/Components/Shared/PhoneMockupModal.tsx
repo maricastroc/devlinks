@@ -48,6 +48,7 @@ export const PhoneMockupModal = ({
               socialLinks={socialLinks}
               name={name}
               bio={bio}
+              username={username}
               photoPreview={photoPreview}
               isLoading={isLoading}
               user={user}

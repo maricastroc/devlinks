@@ -5,7 +5,10 @@ export const SkeletonCard = () => {
     <div className="space-y-4 mt-[-1rem] overflow-y-auto custom-scrollbar">
       <div
         className="p-4 rounded-lg bg-light-gray"
-        style={{ height: '6rem', marginTop: '1.5rem' }}
+        style={{
+          height: '6rem',
+          marginTop: '1.5rem'
+        }}
       >
         <div className="flex items-center">
           <Skeleton
@@ -22,7 +25,10 @@ export const SkeletonCard = () => {
 
       <div
         className="p-4 rounded-lg bg-light-gray"
-        style={{ height: '15rem', marginTop: '1.5rem' }}
+        style={{
+          height: '15rem',
+          marginTop: '1.5rem'
+        }}
       >
         <div className="flex h-full gap-4">
           <div className="flex-1">
@@ -49,7 +55,10 @@ export const SkeletonCard = () => {
       {/* Terceiro Card (mantido como estava) */}
       <div
         className="p-4 rounded-lg bg-light-gray"
-        style={{ height: '15rem', marginTop: '1.5rem' }}
+        style={{
+          height: '15rem',
+          marginTop: '1.5rem'
+        }}
       >
         <div className="space-y-4">
           <div>

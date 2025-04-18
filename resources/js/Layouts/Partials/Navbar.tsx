@@ -78,7 +78,9 @@ export const Navbar = () => {
       </div>
 
       <Link
-        href={route('shared', { user: user.username })}
+        href={route('shared', {
+          user: user.username
+        })}
         className="flex items-center justify-center p-3 py-2 transition-all duration-150 border rounded-md md:px-5 md:py-3 border-medium-purple hover:bg-purple-hover hover:bg-opacity-30"
       >
         <img src={Preview} alt="" className="md:hidden" />

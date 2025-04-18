@@ -1,5 +1,4 @@
 import { PlatformProps } from '@/types/platform';
-import { UserLinkProps } from '@/types/user-link';
 import { CUSTOM_PLATFORM_NAME } from '@/utils/constants';
 import { At, EnvelopeSimple, Link, Phone } from 'phosphor-react';
 
