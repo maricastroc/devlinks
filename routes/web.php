@@ -13,10 +13,12 @@ use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware('auth')->group(function () {
-    Route::put('/profile/update', [ProfileController::class, 'update'])->name('profile.update');
-    
     Route::get('/profile', fn(Request $request) => inertia('Profile/Index'))->name(
         'web.profile.index'
+    );
+
+    Route::get('/themes', fn(Request $request) => inertia('Themes/Index'))->name(
+        'web.themes.index'
     );
 
     Route::get('/', fn(Request $request) => inertia('Dashboard/Index'))->name(

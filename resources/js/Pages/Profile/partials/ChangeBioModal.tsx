@@ -30,7 +30,6 @@ export function ChangeBioModal({ onClose, control }: ModalProps) {
             control={control}
             render={({ field }) => (
               <TextAreaField
-                label="Bio"
                 id="bio"
                 name={field.name}
                 placeholder="Tell us about yourself..."

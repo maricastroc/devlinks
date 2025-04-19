@@ -1,9 +1,9 @@
+import { useState } from 'react';
+import * as Dialog from '@radix-ui/react-dialog';
 import { SearchInput } from '@/Components/Core/SearchInput';
 import { EmptyState } from '@/Pages/Profile/partials/SocialMediaModal/partials/SelectLinkModal';
 import { PlatformProps } from '@/types/platform';
 import { CUSTOM_PLATFORM_NAME } from '@/utils/constants';
-import * as Dialog from '@radix-ui/react-dialog';
-import { useState } from 'react';
 import { PlatformItem } from './PlatformItem';
 import { ModalHeader } from '@/Components/Shared/ModalHeader';
 import SecondaryButton from '@/Components/Core/SecondaryButton';

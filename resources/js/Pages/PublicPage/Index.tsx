@@ -66,7 +66,8 @@ export default function Shared({
   return (
     currentTheme && (
       <div
-        className={`relative flex flex-col min-h-screen ${currentTheme.styles.background}`}
+        style={currentTheme.styles.background as React.CSSProperties}
+        className={`relative flex flex-col min-h-screen`}
       >
         <Head title="Shared" />
         {isLoading && <LoadingComponent hasOverlay />}
@@ -86,7 +87,7 @@ export default function Shared({
         />
 
         <div
-          className={`flex flex-col flex-grow items-center justify-start z-[12] p-6 px-4 ${isOwner ? 'md:p-10 md:py-2' : 'md:p-10 md:py-16'} w-[90vw] max-w-[35rem] mx-auto`}
+          className={`flex flex-col flex-grow items-center justify-start z-[12] p-6 px-4 ${isOwner ? 'md:p-10 md:py-2 mb-12' : 'md:p-10 md:py-16'} w-[90vw] max-w-[35rem] mx-auto`}
         >
           <div className="flex flex-col items-center justify-center w-full text-center">
             <AvatarCard
@@ -96,11 +97,15 @@ export default function Shared({
               theme={currentTheme}
             />
             <h2
-              className={`text-[1.25rem] mt-4 font-bold ${currentTheme.styles.primary_text}`}
+              style={currentTheme.styles.primary_text as React.CSSProperties}
+              className={`text-[1.25rem] mt-4 font-bold`}
             >
               {user?.name}
             </h2>
-            <p className={`${currentTheme.styles.secondary_text} mt-1`}>
+            <p
+              className={`mt-1`}
+              style={currentTheme.styles.secondary_text as React.CSSProperties}
+            >
               {user?.bio}
             </p>
             {socialLinks?.length > 0 && (

@@ -22,20 +22,21 @@ export const AvatarCard = ({
   isPublicPage = true
 }: AvatarProps) => {
   const [imageError, setImageError] = useState(false);
+
   const isDefaultTheme = theme?.name === DEFAULT_THEME;
 
   const handleImageError = () => {
     setImageError(true);
   };
 
-  // Se não tem avatarUrl ou ocorreu erro ao carregar a imagem
   const shouldShowFallback = !avatarUrl || imageError;
 
   if (isDefaultTheme) {
     return shouldShowFallback ? (
       isPublicPage && (
         <span
-          className={`h-[6.02rem] w-[6.02rem] bg-gray-200 rounded-full flex items-center justify-center text-3xl font-bold text-gray-600 ${className}`}
+          style={theme.styles.avatar as React.CSSProperties}
+          className={`h-[6.02rem] w-[6.02rem] rounded-full flex items-center justify-center text-3xl font-bold ${className}`}
         >
           {getInitials(username || user?.username)}
         </span>
@@ -54,7 +55,10 @@ export const AvatarCard = ({
     <div className={`rounded-full p-[2px] ${className}`}>
       {shouldShowFallback ? (
         isPublicPage && (
-          <span className="h-[6.02rem] w-[6.02rem] bg-gray-200 rounded-full flex items-center justify-center text-3xl font-bold text-gray-600">
+          <span
+            style={theme?.styles.avatar as React.CSSProperties}
+            className="h-[6.02rem] w-[6.02rem] rounded-full flex items-center justify-center text-3xl font-bold text-gray-600"
+          >
             {getInitials(username || user?.username)}
           </span>
         )

@@ -36,14 +36,14 @@ export const PageHeader = ({ title, description, themes }: Props) => {
         <p className="mb-8 md:mb-10 text-medium-gray">{description}</p>
       </div>
 
-      <ThemeButton
+      {/*<ThemeButton
         currentTheme={currentTheme || (defaultTheme as ThemeProps)}
         themes={themes}
         onSelect={handleThemeSelect}
         dropdownRef={dropdownRef as RefObject<HTMLDivElement>}
         showThemeDropdown={showThemeDropdown}
         setShowThemeDropdown={() => handleShowThemeDropdown(!showThemeDropdown)}
-      />
+  />*/}
     </div>
   );
 };

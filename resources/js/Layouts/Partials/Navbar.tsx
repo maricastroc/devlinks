@@ -4,7 +4,7 @@ import Preview from '/public/assets/images/icon-preview-header.svg';
 import { Link, usePage } from '@inertiajs/react';
 import NavLink from '@/Components/Core/NavLink';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faLink } from '@fortawesome/free-solid-svg-icons';
+import { faLink, faPaintBrush } from '@fortawesome/free-solid-svg-icons';
 import { UserCircle } from 'phosphor-react';
 import { RefObject, useState } from 'react';
 import { DropdownProfile } from './DropdownProfile';
@@ -45,7 +45,7 @@ export const Navbar = () => {
         />
       </Link>
 
-      <div className="flex items-center gap-2">
+      <div className="flex items-center gap-1 md:gap-2">
         <NavLink
           className="flex items-center transition-all duration-150 md:gap-2 hover:text-medium-purple"
           href={route('web.dashboard.index')}
@@ -53,6 +53,15 @@ export const Navbar = () => {
         >
           <FontAwesomeIcon icon={faLink} />
           <p className="hidden md:block">Links</p>
+        </NavLink>
+
+        <NavLink
+          className="flex items-center transition-all duration-150 md:gap-2 hover:text-medium-purple"
+          href={route('web.themes.index')}
+          isActive={currentRoute === 'web.themes.index'}
+        >
+          <FontAwesomeIcon icon={faPaintBrush} />
+          <p className="hidden md:block">Themes</p>
         </NavLink>
 
         <button

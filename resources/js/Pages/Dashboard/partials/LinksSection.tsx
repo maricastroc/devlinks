@@ -1,4 +1,6 @@
+import { useRef } from 'react';
 import { UserLinkProps } from '@/types/user-link';
+import { PlatformProps } from '@/types/platform';
 import {
   DragDropContext,
   Draggable,
@@ -6,9 +8,7 @@ import {
   DropResult
 } from 'react-beautiful-dnd';
 import { LinkForm } from './LinkForm';
-import { PlatformProps } from '@/types/platform';
 import { FormErrors } from '../Index';
-import { useRef } from 'react';
 
 type Props = {
   links: UserLinkProps[];

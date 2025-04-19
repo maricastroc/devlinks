@@ -23,7 +23,7 @@ class User extends Authenticatable
         'public_email',
         'name',
         'avatar_url',
-        'theme',
+        'theme_id',
         'bio',
         'username'
     ];
@@ -82,6 +82,10 @@ class User extends Authenticatable
 
         if (isset($data['bio'])) {
             $user->bio = $data['bio'];
+        }
+
+        if (isset($data['theme_id'])) {
+            $user->theme_id = $data['theme_id'];
         }
 
         $user->username = $data['username'];

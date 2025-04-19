@@ -10,5 +10,6 @@ export type ThemeProps = {
     primary_text: string;
     secondary_text: string;
     link_card?: string;
+    avatar: string;
   };
 };

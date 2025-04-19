@@ -33,8 +33,8 @@ export const OwnerHeader = ({
           <HeaderButton
             onClick={() => router.get(route('web.dashboard.index'))}
             icon={<CaretLeft size={20} />}
+            theme={currentTheme}
             text="Back"
-            className={currentTheme.styles.button}
           />
 
           <div className="flex items-center justify-end w-full gap-5 md:gap-6">
@@ -42,7 +42,7 @@ export const OwnerHeader = ({
               onClick={onCopyLink}
               icon={<Export size={20} />}
               text="Share"
-              className={currentTheme.styles.button}
+              theme={currentTheme}
             />
 
             <div
@@ -53,7 +53,7 @@ export const OwnerHeader = ({
                 onClick={() => setShowThemeDropdown(true)}
                 icon={<Palette size={20} />}
                 text="Theme"
-                className={currentTheme.styles.button}
+                theme={currentTheme}
               />
               {showThemeDropdown && (
                 <DropdownTheme

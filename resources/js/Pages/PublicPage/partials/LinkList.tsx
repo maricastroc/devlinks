@@ -11,8 +11,9 @@ export const LinkList = ({ links, currentTheme }: Props) => {
   if (!links || links.length === 0) {
     return (
       <div
+        style={currentTheme?.styles.primary_text as React.CSSProperties}
         className={`w-[15rem] mt-10 justify-center items-center 
-          overflow-y-auto flex flex-col gap-4 ${currentTheme.styles.primary_text}
+          overflow-y-auto flex flex-col gap-4
         `}
       >
         <p>There are no links yet.</p>

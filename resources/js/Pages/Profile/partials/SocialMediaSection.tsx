@@ -186,7 +186,7 @@ const PlatformButton = ({
       `${isActive ? 'bg-purple-hover bg-opacity-40' : 'border-gray-300 border'}`
     )}
   >
-    <div className="flex items-center justify-center gap-2" onClick={onClick}>
+    <div className="flex items-center justify-center gap-2">
       <img
         className="w-5 h-5 md:w-6 md:h-6"
         src={`/assets/images/${platform?.icon_url || link?.platform.icon_url}`}

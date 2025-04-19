@@ -37,6 +37,7 @@ class ProfileUpdateRequest extends FormRequest
                 Rule::unique(User::class)->ignore($this->user()->id)
             ],
             'name' => ['required', 'string'],
+            'theme_id' => ['nullable', 'integer', 'exists:themes,id'],
             'bio' => ['nullable', 'string', 'max:80'],
             'avatar_url' => [
                 'nullable',

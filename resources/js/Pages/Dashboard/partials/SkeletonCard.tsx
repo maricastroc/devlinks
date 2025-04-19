@@ -10,10 +10,9 @@ export const SkeletonCard = () => {
           style={{
             height: '15rem',
             marginTop: '1.5rem'
-          }} // Altura aproximada do card real
+          }}
         >
           <div className="space-y-4">
-            {/* Campo Platform */}
             <div>
               <Skeleton
                 width={80}
