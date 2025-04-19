@@ -115,7 +115,11 @@ export default function Shared({
                 ))}
               </div>
             )}
-            <LinkList links={userLinks} currentTheme={currentTheme} />
+            <LinkList
+              user={user}
+              links={userLinks}
+              currentTheme={currentTheme}
+            />
           </div>
         </div>
 

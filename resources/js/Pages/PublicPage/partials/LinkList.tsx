@@ -1,13 +1,15 @@
 import { UserLinkProps } from '@/types/user-link';
 import { LinkCard } from '@/Components/Shared/LinkCard';
 import { ThemeProps } from '@/types/theme';
+import { UserProps } from '@/types/user';
 
 type Props = {
   links: UserLinkProps[];
   currentTheme: ThemeProps;
+  user: UserProps | null;
 };
 
-export const LinkList = ({ links, currentTheme }: Props) => {
+export const LinkList = ({ links, currentTheme, user }: Props) => {
   if (!links || links.length === 0) {
     return (
       <div
@@ -27,6 +29,7 @@ export const LinkList = ({ links, currentTheme }: Props) => {
         <LinkCard
           isBigger
           key={link.id}
+          user={user as UserProps}
           link={link}
           className="h-[3.5rem] lg:h-[4rem] rounded-xl hover:scale-105"
         />
