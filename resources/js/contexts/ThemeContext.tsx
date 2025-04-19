@@ -121,7 +121,7 @@ export const ThemeProvider: React.FC<{
         icon: currentIcon,
         link_card: currentLinkCard
       } = theme.styles;
-      console.log(styleConfig.linkCard);
+
       const newStyles = {
         color: currentColor,
         background: styleConfig.background
@@ -148,12 +148,14 @@ export const ThemeProvider: React.FC<{
           ? {
               borderRadius:
                 styleConfig.linkCard.borderRadius ??
-                currentLinkCard?.borderRadius,
-              border: styleConfig.linkCard.border ?? currentLinkCard?.border,
+                (currentLinkCard as any)?.borderRadius,
+              border:
+                styleConfig.linkCard.border ?? (currentLinkCard as any)?.border,
               backgroundColor:
                 styleConfig.linkCard.backgroundColor ??
-                currentLinkCard?.backgroundColor,
-              color: styleConfig.linkCard.color ?? currentLinkCard?.color
+                (currentLinkCard as any)?.backgroundColor,
+              color:
+                styleConfig.linkCard.color ?? (currentLinkCard as any)?.color
             }
           : currentLinkCard
       };

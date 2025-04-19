@@ -8,14 +8,12 @@ import { PageHeader } from '@/Components/Shared/PageHeader';
 import { useTheme } from '@/contexts/ThemeContext';
 import useRequest from '@/utils/useRequest';
 import { ProfileData, ThemesData } from '../Profile/Index';
-import { ThemeMockup } from '@/Components/Shared/ThemeMockup';
-import { ThemeMockupSkeleton } from '@/Components/Shared/ThemeMockupSkeleton';
+import { ThemeMockupSkeleton } from '@/Pages/Themes/partials/ThemeMockupSkeleton';
 import { UserProps } from '@/types/user';
 import 'react-loading-skeleton/dist/skeleton.css';
-import BackgroundCustomizer, {
-  generateGradientColors
-} from './partials/BackgroundCustomizer';
+import BackgroundCustomizer from './partials/BackgroundCustomizer';
 import CardCustomizer from './partials/CardCustomizer';
+import { ThemeMockup } from './partials/ThemeMockup';
 
 export default function Themes() {
   const [user, setUser] = useState<UserProps | null>(null);

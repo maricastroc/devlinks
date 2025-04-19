@@ -1,4 +1,4 @@
-import { Skeleton } from './Skeleton';
+import { Skeleton } from '../../../Components/Shared/Skeleton';
 
 export const ThemeMockupSkeleton = () => {
   return (
