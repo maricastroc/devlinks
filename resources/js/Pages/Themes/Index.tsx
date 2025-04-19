@@ -99,6 +99,7 @@ export default function Themes() {
                         handleThemeSelect(theme);
                         setUser((prev) => ({ ...prev!, theme }));
                       }}
+                      onUpdateUser={handleUpdateUser}
                       theme={theme}
                       isSelected={
                         theme.name === user?.theme?.name &&

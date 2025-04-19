@@ -1,7 +1,10 @@
 import { ThemeProps } from '@/types/theme';
 import { UserLinkProps } from '@/types/user-link';
 import { LIGHT_THEME } from '@/utils/constants';
-import { generateIconFilter } from '@/utils/generateIconFilter';
+import { convertHexToRGBA } from '@/utils/convertHexToRgba';
+import { getBrandIconByName } from '@/utils/getBrandIconName';
+import { IconProp } from '@fortawesome/fontawesome-svg-core';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 type Props = {
   link: UserLinkProps;
@@ -10,9 +13,7 @@ type Props = {
 };
 
 export const SocialLink = ({ link, theme, isSmaller }: Props) => {
-  const iconFilter = theme?.styles?.icon
-    ? generateIconFilter((theme?.styles?.icon as any)?.color)
-    : 'saturate(0%) brightness(318%)';
+  const bg = (theme?.styles?.link_card as any)?.backgroundColor || '';
 
   return (
     <a
@@ -21,22 +22,26 @@ export const SocialLink = ({ link, theme, isSmaller }: Props) => {
       target="_blank"
       rel="noopener noreferrer"
       className={`
-        ${isSmaller ? 'p-[0.35rem]' : 'p-2'} 
+        ${isSmaller ? 'w-[2.2rem] h-[2.2rem]' : 'p-2'} 
         ${
           theme?.type === LIGHT_THEME
             ? 'bg-gray-600 bg-opacity-10'
             : 'bg-white bg-opacity-10'
         }
-        rounded-full transition-all hover:scale-110
+        flex items-center justify-center rounded-full transition-all hover:scale-110 bg-opacity-10
       `}
       title={link.platform.name}
+      style={{ backgroundColor: convertHexToRGBA(bg, 0.5) }}
     >
-      <img
-        className={`${isSmaller ? 'w-[1.3rem] h-[1.3rem]' : 'w-6 h-6'}`}
-        src={`/assets/images/${link.platform.icon_url}`}
-        alt={link.platform.name}
-        style={{ filter: iconFilter }}
-      />
+      {link.platform.name.toLowerCase() && (
+        <FontAwesomeIcon
+          icon={getBrandIconByName(link.platform.name) as IconProp}
+          className={`${isSmaller ? 'w-[1.3rem] h-[1.3rem]' : 'w-6 h-6'}`}
+          style={{
+            color: (theme?.styles?.icon as any)?.color || '#ffffff'
+          }}
+        />
+      )}
     </a>
   );
 };

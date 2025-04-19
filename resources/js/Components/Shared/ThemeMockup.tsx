@@ -3,14 +3,21 @@ import { LIGHT_THEME } from '@/utils/constants';
 import clsx from 'clsx';
 import { faCheck } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { UserProps } from '@/types/user';
 
 type Props = {
   theme: ThemeProps;
   isSelected?: boolean;
+  onUpdateUser: (updatedUser: Partial<UserProps>) => void;
   onClick: (theme: ThemeProps) => void;
 };
 
-export const ThemeMockup = ({ theme, isSelected = false, onClick }: Props) => {
+export const ThemeMockup = ({
+  theme,
+  onUpdateUser,
+  isSelected = false,
+  onClick
+}: Props) => {
   return (
     <div
       className={clsx(
@@ -21,7 +28,13 @@ export const ThemeMockup = ({ theme, isSelected = false, onClick }: Props) => {
           'border border-gray-200': theme?.type === LIGHT_THEME
         }
       )}
-      onClick={() => onClick(theme)}
+      onClick={() => {
+        onClick(theme);
+        onUpdateUser({
+          custom_bg_color: '',
+          custom_bg_type: ''
+        });
+      }}
       style={theme.styles.background as React.CSSProperties}
     >
       <div className="flex flex-col items-center justify-center flex-grow w-full gap-2 mb-2">

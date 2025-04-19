@@ -1,4 +1,4 @@
-import { useEffect, useState, useCallback, RefObject } from 'react';
+import { useEffect, useState, RefObject } from 'react';
 import { HexColorPicker } from 'react-colorful';
 import tinycolor from 'tinycolor2';
 import { BackgroundTemplate } from './BackgroundTemplate';
@@ -13,7 +13,14 @@ type Props = {
   onUpdateUser: (updatedUser: Partial<UserProps>) => void;
 };
 
-export const generateGradientColors = (baseColor: string) => {
+type BackgroundType = 'solid' | 'gradient';
+type GradientDirection = 'bg-gradient-to-t' | 'bg-gradient-to-b' | 'angular';
+
+const DEFAULT_COLOR = '#3D444B';
+
+export const generateGradientColors = (
+  baseColor: string
+): [string, string, string] => {
   const color1 = tinycolor(baseColor);
 
   const color2 = color1.clone().lighten(15).desaturate(10);
@@ -23,180 +30,199 @@ export const generateGradientColors = (baseColor: string) => {
   return [color1.toHexString(), color2.toHexString(), color3.toHexString()];
 };
 
+const backgroundOptions = [
+  {
+    type: 'solid' as const,
+    name: 'Solid',
+    style: { backgroundColor: '#000000' }
+  },
+  {
+    type: 'gradient' as const,
+    direction: 'bg-gradient-to-b' as const,
+    name: 'Gradient to Bottom',
+    style: {
+      backgroundImage:
+        'linear-gradient(to bottom, rgba(0,0,0,0.9), rgba(75,76,76,1))'
+    }
+  },
+  {
+    type: 'gradient' as const,
+    direction: 'bg-gradient-to-t' as const,
+    name: 'Gradient to Top',
+    style: {
+      backgroundImage:
+        'linear-gradient(to top, rgba(0,0,0,0.9), rgba(75,76,76,1))'
+    }
+  },
+  {
+    type: 'gradient' as const,
+    direction: 'angular' as const,
+    name: 'Gradient Diagonal',
+    style: {
+      backgroundImage:
+        'linear-gradient(135deg, rgba(0,0,0,0.9), rgba(75,76,76,1))'
+    }
+  }
+];
+
 export default function BackgroundCustomizer({
   user,
   theme,
   onUpdateUser
 }: Props) {
-  const [type, setType] = useState<string | null>(user?.custom_bg_type || null);
-  const [color, setColor] = useState<string>(
-    user?.custom_bg_color || '#3D444B'
+  const [selectedType, setSelectedType] = useState<string | null>(
+    user?.custom_bg_type || null
   );
+
+  const [color, setColor] = useState<string>(
+    user?.custom_bg_color || DEFAULT_COLOR
+  );
+
   const [showPicker, setShowPicker] = useState(false);
 
   const { updateThemeStyles } = useTheme();
 
-  const dropdownRef = useClickOutside(() => {
-    setShowPicker(false);
-  });
+  const dropdownRef = useClickOutside(() => setShowPicker(false));
 
-  const handleBackgroundSelect = useCallback(
-    async (color: string, type: 'solid' | 'gradient', direction?: string) => {
-      let value: string;
+  const createGradientValue = (
+    color: string,
+    direction: GradientDirection
+  ): string => {
+    const [base, , light] = generateGradientColors(color);
 
-      if (type === 'solid') {
-        value = color;
-      } else {
-        const [base, mid, light] = generateGradientColors(color);
+    switch (direction) {
+      case 'bg-gradient-to-t':
+        return `linear-gradient(to top, ${base}, ${light})`;
+      case 'bg-gradient-to-b':
+        return `linear-gradient(to bottom, ${base}, ${light})`;
+      case 'angular':
+        return `linear-gradient(135deg, ${base}, ${light})`;
+      default:
+        return `linear-gradient(to bottom, ${base}, ${light})`;
+    }
+  };
 
-        switch (direction) {
-          case 'bg-gradient-to-t':
-            value = `linear-gradient(to top, ${base}, ${light})`;
-            break;
-          case 'bg-gradient-to-b':
-            value = `linear-gradient(to bottom, ${base}, ${light})`;
-            break;
-          case 'angular':
-            value = `linear-gradient(135deg, ${base}, ${mid}, ${light})`;
-            break;
-          default:
-            value = `linear-gradient(to bottom, ${base}, ${light})`;
+  const handleBackgroundSelect = async (
+    color: string,
+    type: BackgroundType,
+    direction?: GradientDirection
+  ) => {
+    const value =
+      type === 'solid' ? color : createGradientValue(color, direction!);
+
+    if (!user?.theme && !theme) return;
+
+    const updatedTheme = await updateThemeStyles(
+      user?.theme! || theme!,
+      {
+        background: {
+          type,
+          value
         }
-      }
+      },
+      direction || type,
+      color
+    );
 
-      if (user?.theme || theme) {
-        const updatedTheme = await updateThemeStyles(
-          user?.theme! || theme!,
-          {
-            background: {
-              type,
-              value
-            }
-          },
-          direction || 'solid',
-          color
-        );
+    onUpdateUser({
+      theme: updatedTheme,
+      custom_bg_color: color,
+      custom_bg_type: direction || type
+    });
 
-        onUpdateUser({
-          theme: updatedTheme,
-          custom_bg_color: color,
-          custom_bg_type: direction || 'solid'
-        });
+    setColor(color);
+    setSelectedType(direction || type);
+  };
 
-        setColor(color);
-        setType(direction || 'solid');
-      }
-    },
-    [user?.theme, theme, updateThemeStyles, onUpdateUser]
+  const handleColorChange = (newColor: string) => {
+    setColor(newColor);
+    setSelectedType('');
+  };
+
+  const renderColorPicker = () => (
+    <div className="relative">
+      <div className="absolute left-0 z-10 top-[3.6rem]">
+        <HexColorPicker color={color} onChange={handleColorChange} />
+      </div>
+    </div>
   );
 
+  const renderColorInput = () => (
+    <div
+      className="flex flex-col"
+      ref={dropdownRef as RefObject<HTMLDivElement>}
+    >
+      <div className="flex items-start">
+        {showPicker && renderColorPicker()}
+        <div
+          className="inline-block w-12 h-12 border border-gray-300 rounded-lg cursor-pointer"
+          style={{ backgroundColor: color }}
+          onClick={() => setShowPicker(!showPicker)}
+        />
+        <input
+          value={color}
+          onChange={(e) => handleColorChange(e.target.value)}
+          className="h-12 p-3 ml-3 bg-gray-100 border border-transparent rounded-lg focus:border-medium-purple focus:ring-medium-purple"
+          type="text"
+        />
+      </div>
+      <div className="mt-2 text-sm text-gray-500">
+        {selectedType === '' &&
+          'Select a background style to apply your color changes.'}
+      </div>
+    </div>
+  );
+
+  const renderBackgroundOptions = () => (
+    <div
+      className="grid gap-4 mb-6"
+      style={{
+        gridTemplateColumns: 'repeat(auto-fit, minmax(140px, 1fr))',
+        justifyItems: 'start'
+      }}
+    >
+      {backgroundOptions.map((option) => (
+        <BackgroundTemplate
+          key={`${option.type}-${option.direction || 'solid'}`}
+          isSelected={
+            (option.direction
+              ? selectedType === option.direction
+              : selectedType === option.type) && user?.theme?.is_custom === true
+          }
+          onSelect={() => {
+            if (option.type === 'solid') {
+              handleBackgroundSelect(color, 'solid');
+            } else {
+              handleBackgroundSelect(color, 'gradient', option.direction);
+            }
+          }}
+          name={option.name}
+          gradient={option.direction}
+          style={option.style}
+        />
+      ))}
+    </div>
+  );
+  console.log(selectedType, user);
   useEffect(() => {
-    if (user && user?.theme?.is_custom === false) {
-      setColor('#3D444B');
-      setType('');
+    if (
+      (user && user?.theme?.is_custom === false) ||
+      (user && !user?.custom_bg_color)
+    ) {
+      setColor(DEFAULT_COLOR);
+      setSelectedType('');
     }
   }, [user]);
 
   return (
     <div className="bg-white rounded-lg">
       <h3 className="mt-8 mb-6 text-2xl font-bold">Backgrounds</h3>
-
-      <div
-        className="grid gap-4 mb-6"
-        style={{
-          gridTemplateColumns: 'repeat(auto-fit, minmax(140px, 1fr))',
-          justifyItems: 'start'
-        }}
-      >
-        <BackgroundTemplate
-          isSelected={type === 'solid' && user?.theme?.is_custom === true}
-          onSelect={() => handleBackgroundSelect(color, 'solid')}
-          name="Solid"
-          style={{ backgroundColor: '#000000' }}
-        />
-        <BackgroundTemplate
-          isSelected={
-            type === 'bg-gradient-to-b' && user?.theme?.is_custom === true
-          }
-          onSelect={() => {
-            setType('gradient');
-            handleBackgroundSelect(color, 'gradient', 'bg-gradient-to-b');
-          }}
-          gradient="bg-gradient-to-b"
-          name="Gradient to Bottom"
-          style={{
-            backgroundImage: `linear-gradient(to bottom, rgba(0,0,0,0.9), rgba(75,76,76,1))`
-          }}
-        />
-        <BackgroundTemplate
-          isSelected={
-            type === 'bg-gradient-to-t' && user?.theme?.is_custom === true
-          }
-          onSelect={() => {
-            setType('gradient');
-            handleBackgroundSelect(color, 'gradient', 'bg-gradient-to-t');
-          }}
-          gradient="bg-gradient-to-t"
-          name="Gradient to Top"
-          style={{
-            backgroundImage: `linear-gradient(to top, rgba(0,0,0,0.9), rgba(75,76,76,1))`
-          }}
-        />
-        <BackgroundTemplate
-          isSelected={type === 'angular' && user?.theme?.is_custom === true}
-          onSelect={() => {
-            setType('gradient');
-            handleBackgroundSelect(color, 'gradient', 'angular');
-          }}
-          gradient="angular"
-          name="Gradient Diagonal"
-          style={{
-            backgroundImage: `linear-gradient(135deg, rgba(0,0,0,0.9), rgba(75,76,76,1))`
-          }}
-        />
-      </div>
+      {renderBackgroundOptions()}
 
       <div>
         <p className="mb-2 font-bold text-md">Color</p>
         <div className="flex flex-col gap-4 max-w-[18rem]">
-          <div
-            className="flex flex-col"
-            ref={dropdownRef as RefObject<HTMLDivElement>}
-          >
-            <div className="flex items-start">
-              {showPicker && (
-                <div className="relative">
-                  <div className="absolute left-0 z-10 top-[3.6rem]">
-                    <HexColorPicker
-                      color={color}
-                      onChange={(color) => {
-                        setColor(color);
-                        setType('');
-                      }}
-                    />
-                  </div>
-                </div>
-              )}
-              <div
-                className="inline-block w-12 h-12 border border-gray-300 rounded-lg cursor-pointer"
-                style={{ backgroundColor: color }}
-                onClick={() => setShowPicker(!showPicker)}
-              />
-              <input
-                value={color}
-                onChange={(e) => {
-                  setColor(e.target.value);
-                  setType('');
-                }}
-                className="h-12 p-3 ml-3 bg-gray-100 border border-transparent rounded-lg focus:border-medium-purple focus:ring-medium-purple"
-                type="text"
-              />
-            </div>
-            <div className="mt-2 text-sm text-gray-500">
-              {type === '' &&
-                'Select a background style to apply your color changes.'}
-            </div>
-          </div>
+          {renderColorInput()}
         </div>
       </div>
     </div>
