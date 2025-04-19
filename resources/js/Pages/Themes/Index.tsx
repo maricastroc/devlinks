@@ -14,7 +14,8 @@ import { UserProps } from '@/types/user';
 import 'react-loading-skeleton/dist/skeleton.css';
 import BackgroundCustomizer, {
   generateGradientColors
-} from './BackgroundCustomizer';
+} from './partials/BackgroundCustomizer';
+import CardCustomizer from './partials/CardCustomizer';
 
 export default function Themes() {
   const [user, setUser] = useState<UserProps | null>(null);
@@ -77,7 +78,6 @@ export default function Themes() {
           <PageHeader
             title="Select a Theme"
             description="Customize your DevLinks with one of our ready-made themes"
-            themes={themes}
           />
 
           <div className="w-full pb-10 overflow-y-scroll custom-scrollbar lg:max-h-[40rem]">
@@ -115,6 +115,13 @@ export default function Themes() {
             </p>
             {user && (
               <BackgroundCustomizer
+                user={user}
+                onUpdateUser={handleUpdateUser}
+                theme={user?.theme || currentTheme}
+              />
+            )}
+            {user && (
+              <CardCustomizer
                 user={user}
                 onUpdateUser={handleUpdateUser}
                 theme={user?.theme || currentTheme}

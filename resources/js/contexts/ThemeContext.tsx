@@ -11,8 +11,6 @@ type ThemeContextType = {
   handleShowThemeDropdown: (value: boolean) => void;
   isLoading: boolean;
   updateThemeStyles: (
-    selectedType: string,
-    selectedColor: string,
     theme: ThemeProps,
     styleConfig: {
       background?: {
@@ -26,9 +24,11 @@ type ThemeContextType = {
         color?: string;
       };
       icon?: {
-        filter?: string;
+        color?: string;
       };
-    }
+    },
+    selectedBgType?: string,
+    selectedBgColor?: string
   ) => Promise<ThemeProps | undefined>;
 };
 
@@ -87,8 +87,6 @@ export const ThemeProvider: React.FC<{
   };
 
   const updateThemeStyles = async (
-    selectedType: string,
-    selectedColor: string,
     theme: ThemeProps,
     styleConfig: {
       background?: {
@@ -102,9 +100,11 @@ export const ThemeProvider: React.FC<{
         color?: string;
       };
       icon?: {
-        filter?: string;
+        color?: string;
       };
-    }
+    },
+    selectedBgType?: string,
+    selectedBgColor?: string
   ) => {
     try {
       setIsLoading(true);
@@ -121,7 +121,7 @@ export const ThemeProvider: React.FC<{
         icon: currentIcon,
         link_card: currentLinkCard
       } = theme.styles;
-
+      console.log(styleConfig.linkCard);
       const newStyles = {
         color: currentColor,
         background: styleConfig.background
@@ -141,19 +141,27 @@ export const ThemeProvider: React.FC<{
         primary_text: currentPrimaryText,
         secondary_text: currentSecondaryText,
         avatar: currentAvatar,
-        icon: styleConfig.icon?.filter
-          ? { filter: styleConfig.icon.filter }
-          : currentIcon,
-        link_card: {
-          ...(currentLinkCard as any),
-          ...styleConfig.linkCard
-        }
+        icon: {
+          color: styleConfig.icon?.color || currentIcon
+        },
+        link_card: styleConfig.linkCard
+          ? {
+              borderRadius:
+                styleConfig.linkCard.borderRadius ??
+                currentLinkCard?.borderRadius,
+              border: styleConfig.linkCard.border ?? currentLinkCard?.border,
+              backgroundColor:
+                styleConfig.linkCard.backgroundColor ??
+                currentLinkCard?.backgroundColor,
+              color: styleConfig.linkCard.color ?? currentLinkCard?.color
+            }
+          : currentLinkCard
       };
 
       const response = await api.put('profile/theme', {
         custom_styles: newStyles,
-        custom_bg_type: selectedType,
-        custom_bg_color: selectedColor
+        custom_bg_type: selectedBgType,
+        custom_bg_color: selectedBgColor
       });
 
       const updatedTheme: ThemeProps = {

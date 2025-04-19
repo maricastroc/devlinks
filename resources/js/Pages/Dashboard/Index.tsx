@@ -185,7 +185,6 @@ export default function Dashboard() {
             title="Customize your links"
             description="Add/edit/remove links below and then share all your profiles
             with the world!"
-            themes={themes}
           />
 
           <Dialog.Root open={isLinksModalOpen}>

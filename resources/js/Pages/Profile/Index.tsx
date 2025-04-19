@@ -160,7 +160,6 @@ export default function Profile() {
           <PageHeader
             title="Profile Details"
             description="Add details to personalize your profile"
-            themes={themes}
           />
 
           {isValidating || isSubmitting ? (

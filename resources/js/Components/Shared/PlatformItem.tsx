@@ -1,15 +1,16 @@
 import { PlatformProps } from '@/types/platform';
+import { getBrandIconByName } from '@/utils/getBrandIconName';
+import { IconProp } from '@fortawesome/fontawesome-svg-core';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { CaretRight, PencilSimple } from 'phosphor-react';
 
 export const PlatformItem = ({
   platform,
   isEdit = false,
-  isDashboardScreen = false,
   onSelect
 }: {
   platform: PlatformProps;
   isEdit?: boolean;
-  isDashboardScreen?: boolean;
   onSelect: (platform: PlatformProps) => void;
 }) => (
   <button
@@ -17,10 +18,10 @@ export const PlatformItem = ({
     onClick={() => onSelect(platform)}
   >
     <div className="flex items-start justify-start gap-4">
-      <img
+      <FontAwesomeIcon
+        icon={getBrandIconByName(platform.name) as IconProp}
+        style={{ color: '#737373' }}
         className="w-6 h-6"
-        src={`${isDashboardScreen ? `assets/images/icon-color-${platform?.name?.toLowerCase()}.svg` : `/assets/images/${platform.icon_url}`}`}
-        alt={platform.name}
       />
       <p className="text-md text-dark-gray">{platform.name}</p>
     </div>

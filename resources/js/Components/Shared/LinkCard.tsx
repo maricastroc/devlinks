@@ -3,6 +3,9 @@ import clsx from 'clsx';
 import { DEFAULT_THEME } from '@/utils/constants';
 import { UserProps } from '@/types/user';
 import { generateIconFilter } from '@/utils/generateIconFilter';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { getBrandIconByName } from '@/utils/getBrandIconName';
+import { IconProp } from '@fortawesome/fontawesome-svg-core';
 
 type LinkCardProps = {
   link: UserLinkProps;
@@ -32,12 +35,8 @@ export const LinkCard = ({
         : {})
   };
 
-  const iconFilter = user?.theme?.styles?.icon
-    ? generateIconFilter((user?.theme?.styles?.icon as any)?.color)
-    : 'saturate(0%) brightness(318%)';
-
   const linkClassNames = clsx(
-    'flex items-center justify-between p-[0.72rem] h-[2.97rem] rounded-[16px]',
+    'flex items-center justify-between p-[0.72rem] h-[2.97rem]',
     'transition-all duration-150',
     {
       'shadow-lg': !isDefaultTheme,
@@ -57,14 +56,15 @@ export const LinkCard = ({
       aria-disabled={!isValidUrl}
     >
       <div className="flex items-center gap-2">
-        {link.platform.icon_url && (
-          <img
+        {link.platform.name.toLowerCase() && (
+          <FontAwesomeIcon
+            icon={getBrandIconByName(link.platform.name) as IconProp}
             className={
               isBigger ? 'w-[1.4rem] h-[1.4rem]' : 'w-[1.15rem] h-[1.15rem]'
             }
-            src={`/assets/images/${link.platform.icon_url}`}
-            alt={link.platform.name}
-            style={{ filter: iconFilter }}
+            style={{
+              color: (user?.theme?.styles?.icon as any)?.color || '#ffffff'
+            }}
           />
         )}
         <p className="text-current text-md">
