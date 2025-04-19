@@ -15,8 +15,9 @@ class ThemeController extends Controller
 
         try {
             $themes = Theme::where('is_active', true)
-                ->select(['id', 'name', 'styles', 'type'])
-                ->get();
+            ->where('is_custom', false)
+            ->select(['id', 'name', 'styles', 'type'])
+            ->get();
 
             return response()->json([
                 'data' => [

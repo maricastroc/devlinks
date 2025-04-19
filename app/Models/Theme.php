@@ -15,7 +15,9 @@ class Theme extends Model
         'type',
         'slug',
         'styles',
+        'is_custom',
         'is_active',
+        'user_id'
     ];
 
     protected function casts(): array
@@ -24,5 +26,10 @@ class Theme extends Model
             'styles' => 'array',
             'is_active' => 'boolean',
         ];
+    }
+
+    public function scopePresets($query)
+    {
+        return $query->where('type', 'preset');
     }
 }

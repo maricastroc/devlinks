@@ -1,11 +1,23 @@
 import { useTheme } from '@/contexts/ThemeContext';
+import { ThemeProps } from '@/types/theme';
 import { UserProps } from '@/types/user';
+import { useEffect, useState } from 'react';
 
 type Props = {
   user: UserProps | undefined;
 };
 
 export const PhoneIllustration = ({ user }: Props) => {
+  const [currentTheme, setCurrentTheme] = useState<ThemeProps | null>(
+    user?.theme || null
+  );
+
+  useEffect(() => {
+    if (user) {
+      setCurrentTheme(user?.theme || null);
+    }
+  }, [user]);
+
   return (
     <div
       className={`relative align-middle w-[310px] h-[631px] rounded-3xl shadow-2xl border-8 border-gray-800 ${user?.theme?.styles.background}`}
@@ -14,7 +26,7 @@ export const PhoneIllustration = ({ user }: Props) => {
 
       <div
         className={`absolute inset-0 rounded-2xl overflow-hidden`}
-        style={user?.theme?.styles.background as React.CSSProperties}
+        style={currentTheme?.styles.background as React.CSSProperties}
       >
         <div className="absolute inset-0 shadow-[inset_0_0_30px_rgba(0,0,0,0.3)] pointer-events-none" />
       </div>

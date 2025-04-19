@@ -1,7 +1,6 @@
 import { UserLinkProps } from '@/types/user-link';
 import clsx from 'clsx';
 import { DEFAULT_THEME } from '@/utils/constants';
-import { useTheme } from '@/contexts/ThemeContext';
 import { UserProps } from '@/types/user';
 
 type LinkCardProps = {
@@ -18,7 +17,6 @@ export const LinkCard = ({
   isBigger = false
 }: LinkCardProps) => {
   const isValidUrl = Boolean(link.url);
-
   const isDefaultTheme = user?.theme?.name === DEFAULT_THEME;
 
   const linkStyle = {
@@ -32,6 +30,10 @@ export const LinkCard = ({
         ? user?.theme.styles.link_card
         : {})
   };
+
+  const iconFilter =
+    (user?.theme?.styles?.icon as { filter?: string })?.filter ||
+    'saturate(0%) brightness(318%)';
 
   const linkClassNames = clsx(
     'flex items-center justify-between p-[0.72rem] h-[2.97rem] rounded-[16px]',
@@ -61,7 +63,7 @@ export const LinkCard = ({
             }
             src={`/assets/images/${link.platform.icon_url}`}
             alt={link.platform.name}
-            style={{ filter: 'saturate(0%) brightness(318%)' }}
+            style={{ filter: iconFilter }}
           />
         )}
         <p className="text-current text-md">

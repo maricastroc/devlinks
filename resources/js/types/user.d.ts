@@ -15,4 +15,6 @@ export type UserProps = {
   user_links: UserLinkProps[];
   social_links: UserLinkProps[];
   bio?: string;
+  custom_bg_type?: string;
+  custom_bg_color?: string;
 };

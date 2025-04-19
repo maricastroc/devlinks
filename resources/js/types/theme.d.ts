@@ -11,5 +11,7 @@ export type ThemeProps = {
     secondary_text: string;
     link_card?: string;
     avatar: string;
+    icon?: string;
   };
+  is_custom: boolean;
 };

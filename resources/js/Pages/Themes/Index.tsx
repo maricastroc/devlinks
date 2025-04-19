@@ -1,4 +1,5 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
+import { debounce } from 'lodash';
 import { Head } from '@inertiajs/react';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { PhoneMockup } from '@/Components/Shared/PhoneMockup';
@@ -7,21 +8,21 @@ import { PageHeader } from '@/Components/Shared/PageHeader';
 import { useTheme } from '@/contexts/ThemeContext';
 import useRequest from '@/utils/useRequest';
 import { ProfileData, ThemesData } from '../Profile/Index';
-import 'react-loading-skeleton/dist/skeleton.css';
-
-import { useThemeEffect } from '@/utils/useThemeEffect';
 import { ThemeMockup } from '@/Components/Shared/ThemeMockup';
 import { ThemeMockupSkeleton } from '@/Components/Shared/ThemeMockupSkeleton';
-import { ThemeProps } from '@/types/theme';
-import { api } from '@/libs/axios';
-import toast from 'react-hot-toast';
 import { UserProps } from '@/types/user';
+import 'react-loading-skeleton/dist/skeleton.css';
+import BackgroundCustomizer, {
+  generateGradientColors
+} from './BackgroundCustomizer';
 
 export default function Themes() {
   const [user, setUser] = useState<UserProps | null>(null);
-  const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const { handleThemeSelect, handleChangeTheme, currentTheme } = useTheme();
+  const [type, setType] = useState(null);
+
+  const { handleThemeSelect, updateBackgroundOnly, isLoading, currentTheme } =
+    useTheme();
 
   const {
     data: profileData,
@@ -40,13 +41,66 @@ export default function Themes() {
 
   const themes = themesData?.themes || [];
 
-  console.log(user);
+  const handleBackgroundSelect = async (
+    color: string,
+    type: 'solid' | 'gradient',
+    direction?: string
+  ) => {
+    let value: string;
+
+    if (type === 'solid') {
+      value = color;
+    } else {
+      const [base, mid, light] = generateGradientColors(color);
+
+      switch (direction) {
+        case 'bg-gradient-to-t':
+          value = `linear-gradient(to top, ${base}, ${light})`;
+          break;
+        case 'bg-gradient-to-b':
+          value = `linear-gradient(to bottom, ${base}, ${light})`;
+          break;
+        case 'angular':
+          value = `linear-gradient(135deg, ${base}, ${mid}, ${light})`;
+          break;
+        default:
+          value = `linear-gradient(to bottom, ${base}, ${light})`;
+      }
+    }
+
+    if (user?.theme || currentTheme) {
+      const updatedTheme = await updateBackgroundOnly(
+        direction || 'solid',
+        color,
+        user?.theme! || currentTheme!,
+        { type, value }
+      );
+
+      setUser((prev) => ({
+        ...prev!,
+        theme: updatedTheme,
+        custom_bg_color: color,
+        custom_bg_type: direction || 'solid'
+      }));
+    }
+  };
+
+  const debouncedHandleBackgroundSelect = useMemo(
+    () => debounce(handleBackgroundSelect, 500),
+    [handleBackgroundSelect]
+  );
+
+  useEffect(() => {
+    return () => {
+      debouncedHandleBackgroundSelect.cancel();
+    };
+  }, [debouncedHandleBackgroundSelect]);
 
   useEffect(() => {
     if (profileData?.user) {
       setUser(profileData?.user);
     }
-  }, []);
+  }, [profileData]);
 
   return (
     <AuthenticatedLayout
@@ -58,7 +112,7 @@ export default function Themes() {
     >
       <Head title="Themes" />
 
-      {isSubmitting && <LoadingComponent hasOverlay />}
+      {isLoading && <LoadingComponent hasOverlay />}
       <div className="lg:m-6 flex h-full lg:grid lg:grid-cols-[1fr,1.5fr] w-full lg:gap-6 lg:mt-0">
         <div className="items-start justify-center hidden w-full p-10 bg-white rounded-md lg:flex">
           <div className="mt-12">
@@ -66,7 +120,7 @@ export default function Themes() {
               username={user?.username}
               bio={user?.bio}
               name={user?.name}
-              isLoading={isValidating || isSubmitting}
+              isLoading={isValidating || isLoading}
               links={user?.user_links}
               user={user as UserProps}
             />
@@ -80,7 +134,7 @@ export default function Themes() {
             themes={themes}
           />
 
-          <div className="w-full pb-10">
+          <div className="w-full pb-10 overflow-y-scroll custom-scrollbar lg:max-h-[40rem]">
             <div
               className="grid gap-4"
               style={{
@@ -88,7 +142,7 @@ export default function Themes() {
                 justifyItems: 'start'
               }}
             >
-              {isValidatingThemes || isSubmitting || isValidating
+              {isValidatingThemes || isLoading || isValidating
                 ? Array.from({ length: 8 }).map((_, index) => (
                     <ThemeMockupSkeleton key={index} />
                   ))
@@ -98,17 +152,27 @@ export default function Themes() {
                       onClick={() => {
                         handleThemeSelect(theme);
                         setUser((prev) => ({ ...prev!, theme }));
-                        mutate();
                       }}
                       theme={theme}
                       isSelected={theme.name === user?.theme?.name}
                     />
                   ))}
             </div>
+            <h3 className="mt-8 mb-3 text-2xl font-bold">Custom appearance</h3>
+            <p className="mb-8 md:mb-10 text-medium-gray">
+              Completely customize your Devlinks profile. Change your background
+              with colors or gradients. Choose a button style and change the
+              typeface color.
+            </p>
+            <BackgroundCustomizer
+              user={user}
+              onSelect={handleBackgroundSelect}
+              theme={user?.theme || currentTheme}
+            />
           </div>
         </div>
       </div>
-      {isSubmitting && <LoadingComponent hasOverlay />}
+      {isLoading && <LoadingComponent hasOverlay />}
     </AuthenticatedLayout>
   );
 }

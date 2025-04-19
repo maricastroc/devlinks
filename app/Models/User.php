@@ -25,7 +25,9 @@ class User extends Authenticatable
         'avatar_url',
         'theme_id',
         'bio',
-        'username'
+        'username',
+        'custom_bg_type',
+        'custom_bg_color',
     ];
 
     /**
@@ -48,6 +50,7 @@ class User extends Authenticatable
         return [
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
+            'custom_styles' => 'array'
         ];
     }
 
@@ -63,6 +66,13 @@ class User extends Authenticatable
     public function userLinks()
     {
         return $this->hasMany(UserLink::class);
+    }
+
+    public function activeTheme()
+    {
+        return !empty($this->custom_styles) 
+            ? ['styles' => $this->custom_styles, 'is_custom' => true] 
+            : $this->theme;
     }
 
     public function updateWithPhoto(array $data, User $user)

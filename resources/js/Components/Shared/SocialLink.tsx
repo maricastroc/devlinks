@@ -9,6 +9,10 @@ type Props = {
 };
 
 export const SocialLink = ({ link, theme, isSmaller }: Props) => {
+  const iconFilter =
+    (theme?.styles?.icon as { filter?: string })?.filter ||
+    'saturate(0%) brightness(318%)';
+
   return (
     <a
       key={link.id}
@@ -30,10 +34,7 @@ export const SocialLink = ({ link, theme, isSmaller }: Props) => {
         className={`${isSmaller ? 'w-[1.3rem] h-[1.3rem]' : 'w-6 h-6'}`}
         src={`/assets/images/${link.platform.icon_url}`}
         alt={link.platform.name}
-        style={{
-          filter:
-            theme?.type === LIGHT_THEME ? '' : 'saturate(0%) brightness(518%)'
-        }}
+        style={{ filter: iconFilter }}
       />
     </a>
   );

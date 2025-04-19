@@ -1,0 +1,31 @@
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration
+{
+    /**
+     * Run the migrations.
+     */
+    public function up()
+    {
+        Schema::table('users', function (Blueprint $table) {
+            $table->dropColumn(['custom_styles']);
+            $table->string('custom_bg_type')->nullable();
+            $table->string('custom_bg_color')->nullable();
+        });
+    }
+
+    /**
+     * Reverse the migrations.
+     */
+    public function down(): void
+    {
+        Schema::table('users', function (Blueprint $table) {
+            $table->json('custom_styles')->nullable()->after('theme_id');
+            $table->dropColumn(['custom_bg_type', 'custom_bg_color']);
+        });
+    }
+};
