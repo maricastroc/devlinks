@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { debounce } from 'lodash';
 import { Head } from '@inertiajs/react';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
@@ -41,60 +41,9 @@ export default function Themes() {
 
   const themes = themesData?.themes || [];
 
-  const handleBackgroundSelect = async (
-    color: string,
-    type: 'solid' | 'gradient',
-    direction?: string
-  ) => {
-    let value: string;
-
-    if (type === 'solid') {
-      value = color;
-    } else {
-      const [base, mid, light] = generateGradientColors(color);
-
-      switch (direction) {
-        case 'bg-gradient-to-t':
-          value = `linear-gradient(to top, ${base}, ${light})`;
-          break;
-        case 'bg-gradient-to-b':
-          value = `linear-gradient(to bottom, ${base}, ${light})`;
-          break;
-        case 'angular':
-          value = `linear-gradient(135deg, ${base}, ${mid}, ${light})`;
-          break;
-        default:
-          value = `linear-gradient(to bottom, ${base}, ${light})`;
-      }
-    }
-
-    if (user?.theme || currentTheme) {
-      const updatedTheme = await updateBackgroundOnly(
-        direction || 'solid',
-        color,
-        user?.theme! || currentTheme!,
-        { type, value }
-      );
-
-      setUser((prev) => ({
-        ...prev!,
-        theme: updatedTheme,
-        custom_bg_color: color,
-        custom_bg_type: direction || 'solid'
-      }));
-    }
-  };
-
-  const debouncedHandleBackgroundSelect = useMemo(
-    () => debounce(handleBackgroundSelect, 500),
-    [handleBackgroundSelect]
-  );
-
-  useEffect(() => {
-    return () => {
-      debouncedHandleBackgroundSelect.cancel();
-    };
-  }, [debouncedHandleBackgroundSelect]);
+  const handleUpdateUser = useCallback((updatedUser: Partial<UserProps>) => {
+    setUser((prev) => ({ ...prev!, ...updatedUser }));
+  }, []);
 
   useEffect(() => {
     if (profileData?.user) {
@@ -166,7 +115,7 @@ export default function Themes() {
             </p>
             <BackgroundCustomizer
               user={user}
-              onSelect={handleBackgroundSelect}
+              onUpdateUser={handleUpdateUser}
               theme={user?.theme || currentTheme}
             />
           </div>

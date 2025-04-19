@@ -1,36 +1,78 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import { HexColorPicker } from 'react-colorful';
 import tinycolor from 'tinycolor2';
 import { BackgroundTemplate } from './partials/BackgroundTemplate';
 import { ThemeProps } from '@/types/theme';
 import { UserProps } from '@/types/user';
+import { debounce } from 'lodash';
+import { useTheme } from '@/contexts/ThemeContext';
 
 type Props = {
   user: UserProps | null;
   theme: ThemeProps | null;
-  onSelect: (
-    color: string,
-    type: 'solid' | 'gradient',
-    direction?: string
-  ) => void;
+  onUpdateUser: (updatedUser: Partial<UserProps>) => void;
 };
 
 export const generateGradientColors = (baseColor: string) => {
   const color1 = tinycolor(baseColor);
-
   const color2 = color1.clone().lighten(15).desaturate(10);
-
   const color3 = color2.clone().lighten(15).desaturate(5);
-
   return [color1.toHexString(), color2.toHexString(), color3.toHexString()];
 };
 
-export default function BackgroundCustomizer({ user, onSelect }: Props) {
+export default function BackgroundCustomizer({
+  user,
+  theme,
+  onUpdateUser
+}: Props) {
   const [type, setType] = useState<string | null>(null);
-
   const [color, setColor] = useState<string>('#3D444B');
-
   const [showPicker, setShowPicker] = useState(false);
+
+  const { updateBackgroundOnly } = useTheme();
+
+  // Função de manipulação de background movida para dentro do componente
+  const handleBackgroundSelect = useCallback(
+    async (color: string, type: 'solid' | 'gradient', direction?: string) => {
+      let value: string;
+
+      if (type === 'solid') {
+        value = color;
+      } else {
+        const [base, mid, light] = generateGradientColors(color);
+
+        switch (direction) {
+          case 'bg-gradient-to-t':
+            value = `linear-gradient(to top, ${base}, ${light})`;
+            break;
+          case 'bg-gradient-to-b':
+            value = `linear-gradient(to bottom, ${base}, ${light})`;
+            break;
+          case 'angular':
+            value = `linear-gradient(135deg, ${base}, ${mid}, ${light})`;
+            break;
+          default:
+            value = `linear-gradient(to bottom, ${base}, ${light})`;
+        }
+      }
+
+      if (user?.theme || theme) {
+        const updatedTheme = await updateBackgroundOnly(
+          direction || 'solid',
+          color,
+          user?.theme! || theme!,
+          { type, value }
+        );
+
+        onUpdateUser({
+          theme: updatedTheme,
+          custom_bg_color: color,
+          custom_bg_type: direction || 'solid'
+        });
+      }
+    },
+    [user?.theme, theme, updateBackgroundOnly, onUpdateUser]
+  );
 
   useEffect(() => {
     if (user && user?.theme?.is_custom === true && user.custom_bg_type) {
@@ -55,7 +97,7 @@ export default function BackgroundCustomizer({ user, onSelect }: Props) {
       >
         <BackgroundTemplate
           isSelected={type === 'solid'}
-          onSelect={() => onSelect(color, 'solid')}
+          onSelect={() => handleBackgroundSelect(color, 'solid')}
           name="Solid"
           style={{ backgroundColor: color }}
         />
@@ -63,7 +105,7 @@ export default function BackgroundCustomizer({ user, onSelect }: Props) {
           isSelected={type === 'bg-gradient-to-b'}
           onSelect={() => {
             setType('gradient');
-            onSelect(color, 'gradient', 'bg-gradient-to-b');
+            handleBackgroundSelect(color, 'gradient', 'bg-gradient-to-b');
           }}
           gradient="bg-gradient-to-b"
           name="Gradient to Bottom"
@@ -75,7 +117,7 @@ export default function BackgroundCustomizer({ user, onSelect }: Props) {
           isSelected={type === 'bg-gradient-to-t'}
           onSelect={() => {
             setType('gradient');
-            onSelect(color, 'gradient', 'bg-gradient-to-t');
+            handleBackgroundSelect(color, 'gradient', 'bg-gradient-to-t');
           }}
           gradient="bg-gradient-to-t"
           name="Gradient to Top"
@@ -87,7 +129,7 @@ export default function BackgroundCustomizer({ user, onSelect }: Props) {
           isSelected={type === 'angular'}
           onSelect={() => {
             setType('gradient');
-            onSelect(color, 'gradient', 'angular');
+            handleBackgroundSelect(color, 'gradient', 'angular');
           }}
           gradient="angular"
           name="Gradient Diagonal"

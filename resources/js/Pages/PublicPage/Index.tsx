@@ -72,15 +72,7 @@ export default function Shared({
         <Head title="Shared" />
         {isLoading && <LoadingComponent hasOverlay />}
 
-        {isOwner && (
-          <OwnerHeader
-            onCopyLink={handleCopyLink}
-            showThemeDropdown={showThemeDropdown}
-            setShowThemeDropdown={setShowThemeDropdown}
-            dropdownRef={dropdownRef}
-            themes={themes}
-          />
-        )}
+        {isOwner && <OwnerHeader onCopyLink={handleCopyLink} />}
 
         <div
           className={`block absolute top-0 right-0 w-full h-[18rem] md:h-[19rem] md:rounded-bl-3xl md:rounded-br-3xl z-10`}

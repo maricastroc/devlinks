@@ -1,27 +1,14 @@
 import { router } from '@inertiajs/react';
 import { HeaderButton } from '@/Pages/PublicPage/partials/HeaderButton';
-import { DropdownTheme } from '@/Components/Shared/DropdownTheme';
-import { RefObject } from 'react';
-import { ThemeProps } from '@/types/theme';
 import { useTheme } from '@/contexts/ThemeContext';
-import { CaretLeft, Export, Palette } from 'phosphor-react';
+import { CaretLeft, Export } from 'phosphor-react';
 
 type Props = {
   onCopyLink: () => void;
-  showThemeDropdown: boolean;
-  setShowThemeDropdown: (value: boolean) => void;
-  dropdownRef: RefObject<HTMLElement>;
-  themes: ThemeProps[];
 };
 
-export const OwnerHeader = ({
-  onCopyLink,
-  showThemeDropdown,
-  setShowThemeDropdown,
-  dropdownRef,
-  themes
-}: Props) => {
-  const { currentTheme, handleThemeSelect } = useTheme();
+export const OwnerHeader = ({ onCopyLink }: Props) => {
+  const { currentTheme } = useTheme();
 
   return (
     currentTheme && (
@@ -44,28 +31,6 @@ export const OwnerHeader = ({
               text="Share"
               theme={currentTheme}
             />
-
-            <div
-              className="relative z-[9999]"
-              ref={dropdownRef as RefObject<HTMLDivElement>}
-            >
-              <HeaderButton
-                onClick={() => setShowThemeDropdown(true)}
-                icon={<Palette size={20} />}
-                text="Theme"
-                theme={currentTheme}
-              />
-              {showThemeDropdown && (
-                <DropdownTheme
-                  currentTheme={currentTheme}
-                  themes={themes}
-                  handleSelect={(theme) => {
-                    handleThemeSelect(theme);
-                    setShowThemeDropdown(false);
-                  }}
-                />
-              )}
-            </div>
           </div>
         </div>
       </header>
