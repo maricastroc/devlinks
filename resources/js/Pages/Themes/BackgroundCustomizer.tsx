@@ -4,19 +4,21 @@ import tinycolor from 'tinycolor2';
 import { BackgroundTemplate } from './partials/BackgroundTemplate';
 import { ThemeProps } from '@/types/theme';
 import { UserProps } from '@/types/user';
-import { debounce } from 'lodash';
 import { useTheme } from '@/contexts/ThemeContext';
 
 type Props = {
-  user: UserProps | null;
+  user: UserProps;
   theme: ThemeProps | null;
   onUpdateUser: (updatedUser: Partial<UserProps>) => void;
 };
 
 export const generateGradientColors = (baseColor: string) => {
   const color1 = tinycolor(baseColor);
+
   const color2 = color1.clone().lighten(15).desaturate(10);
+
   const color3 = color2.clone().lighten(15).desaturate(5);
+
   return [color1.toHexString(), color2.toHexString(), color3.toHexString()];
 };
 
@@ -25,13 +27,14 @@ export default function BackgroundCustomizer({
   theme,
   onUpdateUser
 }: Props) {
-  const [type, setType] = useState<string | null>(null);
-  const [color, setColor] = useState<string>('#3D444B');
+  const [type, setType] = useState<string | null>(user?.custom_bg_type || null);
+  const [color, setColor] = useState<string>(
+    user?.custom_bg_color || '#3D444B'
+  );
   const [showPicker, setShowPicker] = useState(false);
+  console.log(user);
+  const { updateThemeStyles } = useTheme();
 
-  const { updateBackgroundOnly } = useTheme();
-
-  // Função de manipulação de background movida para dentro do componente
   const handleBackgroundSelect = useCallback(
     async (color: string, type: 'solid' | 'gradient', direction?: string) => {
       let value: string;
@@ -57,11 +60,16 @@ export default function BackgroundCustomizer({
       }
 
       if (user?.theme || theme) {
-        const updatedTheme = await updateBackgroundOnly(
+        const updatedTheme = await updateThemeStyles(
           direction || 'solid',
           color,
           user?.theme! || theme!,
-          { type, value }
+          {
+            background: {
+              type,
+              value
+            }
+          }
         );
 
         onUpdateUser({
@@ -69,18 +77,18 @@ export default function BackgroundCustomizer({
           custom_bg_color: color,
           custom_bg_type: direction || 'solid'
         });
+
+        setColor(color);
+        setType(direction || 'solid');
       }
     },
-    [user?.theme, theme, updateBackgroundOnly, onUpdateUser]
+    [user?.theme, theme, updateThemeStyles, onUpdateUser]
   );
 
   useEffect(() => {
-    if (user && user?.theme?.is_custom === true && user.custom_bg_type) {
-      setType(user.custom_bg_type);
-    }
-
-    if (user && user?.theme?.is_custom === true && user.custom_bg_color) {
-      setColor(user.custom_bg_color);
+    if (user && user?.theme?.is_custom === false) {
+      setColor('#3D444B');
+      setType('');
     }
   }, [user]);
 
@@ -96,13 +104,15 @@ export default function BackgroundCustomizer({
         }}
       >
         <BackgroundTemplate
-          isSelected={type === 'solid'}
+          isSelected={type === 'solid' && user?.theme?.is_custom === true}
           onSelect={() => handleBackgroundSelect(color, 'solid')}
           name="Solid"
           style={{ backgroundColor: color }}
         />
         <BackgroundTemplate
-          isSelected={type === 'bg-gradient-to-b'}
+          isSelected={
+            type === 'bg-gradient-to-b' && user?.theme?.is_custom === true
+          }
           onSelect={() => {
             setType('gradient');
             handleBackgroundSelect(color, 'gradient', 'bg-gradient-to-b');
@@ -114,7 +124,9 @@ export default function BackgroundCustomizer({
           }}
         />
         <BackgroundTemplate
-          isSelected={type === 'bg-gradient-to-t'}
+          isSelected={
+            type === 'bg-gradient-to-t' && user?.theme?.is_custom === true
+          }
           onSelect={() => {
             setType('gradient');
             handleBackgroundSelect(color, 'gradient', 'bg-gradient-to-t');
@@ -126,7 +138,7 @@ export default function BackgroundCustomizer({
           }}
         />
         <BackgroundTemplate
-          isSelected={type === 'angular'}
+          isSelected={type === 'angular' && user?.theme?.is_custom === true}
           onSelect={() => {
             setType('gradient');
             handleBackgroundSelect(color, 'gradient', 'angular');

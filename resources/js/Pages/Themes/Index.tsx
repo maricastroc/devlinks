@@ -19,10 +19,7 @@ import BackgroundCustomizer, {
 export default function Themes() {
   const [user, setUser] = useState<UserProps | null>(null);
 
-  const [type, setType] = useState(null);
-
-  const { handleThemeSelect, updateBackgroundOnly, isLoading, currentTheme } =
-    useTheme();
+  const { handleThemeSelect, isLoading, currentTheme } = useTheme();
 
   const {
     data: profileData,
@@ -103,7 +100,10 @@ export default function Themes() {
                         setUser((prev) => ({ ...prev!, theme }));
                       }}
                       theme={theme}
-                      isSelected={theme.name === user?.theme?.name}
+                      isSelected={
+                        theme.name === user?.theme?.name &&
+                        !user?.theme.is_custom
+                      }
                     />
                   ))}
             </div>
@@ -113,11 +113,13 @@ export default function Themes() {
               with colors or gradients. Choose a button style and change the
               typeface color.
             </p>
-            <BackgroundCustomizer
-              user={user}
-              onUpdateUser={handleUpdateUser}
-              theme={user?.theme || currentTheme}
-            />
+            {user && (
+              <BackgroundCustomizer
+                user={user}
+                onUpdateUser={handleUpdateUser}
+                theme={user?.theme || currentTheme}
+              />
+            )}
           </div>
         </div>
       </div>

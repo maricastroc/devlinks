@@ -10,13 +10,24 @@ type ThemeContextType = {
   showThemeDropdown: boolean;
   handleShowThemeDropdown: (value: boolean) => void;
   isLoading: boolean;
-  updateBackgroundOnly: (
+  updateThemeStyles: (
     selectedType: string,
     selectedColor: string,
     theme: ThemeProps,
-    backgroundConfig: {
-      type: 'solid' | 'gradient';
-      value: string;
+    styleConfig: {
+      background?: {
+        type: 'solid' | 'gradient';
+        value: string;
+      };
+      linkCard?: {
+        borderRadius?: string;
+        border?: string;
+        backgroundColor?: string;
+        color?: string;
+      };
+      icon?: {
+        filter?: string;
+      };
     }
   ) => Promise<ThemeProps | undefined>;
 };
@@ -75,13 +86,24 @@ export const ThemeProvider: React.FC<{
     }
   };
 
-  const updateBackgroundOnly = async (
+  const updateThemeStyles = async (
     selectedType: string,
     selectedColor: string,
     theme: ThemeProps,
-    backgroundConfig: {
-      type: 'solid' | 'gradient';
-      value: string;
+    styleConfig: {
+      background?: {
+        type: 'solid' | 'gradient';
+        value: string;
+      };
+      linkCard?: {
+        borderRadius?: string;
+        border?: string;
+        backgroundColor?: string;
+        color?: string;
+      };
+      icon?: {
+        filter?: string;
+      };
     }
   ) => {
     try {
@@ -90,54 +112,41 @@ export const ThemeProvider: React.FC<{
       if (!theme) return;
 
       const {
-        color,
-        background,
-        button,
-        primary_text,
-        secondary_text,
-        avatar,
-        icon,
-        link_card
+        color: currentColor,
+        background: currentBackground,
+        button: currentButton,
+        primary_text: currentPrimaryText,
+        secondary_text: currentSecondaryText,
+        avatar: currentAvatar,
+        icon: currentIcon,
+        link_card: currentLinkCard
       } = theme.styles;
 
       const newStyles = {
-        color: color,
-        background: {
-          backgroundImage:
-            backgroundConfig.type === 'gradient' ? backgroundConfig.value : '',
-          backgroundColor:
-            backgroundConfig.type === 'solid'
-              ? backgroundConfig.value
-              : background,
-          color: (background as any)?.color
-        },
-        button: {
-          color: (button as any)?.color || '#F5F6F8',
-          ':hover': {
-            backgroundColor:
-              (button as any)?.hover?.backgroundColor || 'transparent'
-          }
-        },
-        primary_text: {
-          color: (primary_text as any)?.color || '#1E2330'
-        },
-        secondary_text: {
-          color: (secondary_text as any)?.color || '#5E5F60'
-        },
+        color: currentColor,
+        background: styleConfig.background
+          ? {
+              backgroundImage:
+                styleConfig.background.type === 'gradient'
+                  ? styleConfig.background.value
+                  : '',
+              backgroundColor:
+                styleConfig.background.type === 'solid'
+                  ? styleConfig.background.value
+                  : (currentBackground as any)?.backgroundColor || '',
+              color: (currentBackground as any)?.color || '#FFFFFF'
+            }
+          : currentBackground,
+        button: currentButton,
+        primary_text: currentPrimaryText,
+        secondary_text: currentSecondaryText,
+        avatar: currentAvatar,
+        icon: styleConfig.icon?.filter
+          ? { filter: styleConfig.icon.filter }
+          : currentIcon,
         link_card: {
-          backgroundColor: (link_card as any)?.backgroundColor || '#FFFFFF',
-          color: (link_card as any)?.color || '#1E2330',
-          border: (link_card as any)?.border || '1px solid transparent',
-          borderRadius: (link_card as any)?.borderRadius || '16px'
-        },
-        avatar: {
-          backgroundColor: (avatar as any)?.backgroundColor || '#1E2330',
-          color: (avatar as any)?.color || '#FFFFFF'
-        },
-        icon: {
-          filter:
-            (icon as any)?.filter ||
-            'brightness(0) saturate(100%) invert(12%) sepia(9%) saturate(1554%) hue-rotate(183deg) brightness(93%) contrast(93%)'
+          ...(currentLinkCard as any),
+          ...styleConfig.linkCard
         }
       };
 
@@ -158,8 +167,8 @@ export const ThemeProvider: React.FC<{
 
       return response.data.theme;
     } catch (error) {
-      console.error('Failed to update background:', error);
-      toast.error('Erro ao atualizar o plano de fundo.');
+      console.error('Failed to update theme styles:', error);
+      toast.error('Erro ao atualizar o tema.');
       throw error;
     } finally {
       setIsLoading(false);
@@ -175,7 +184,7 @@ export const ThemeProvider: React.FC<{
         handleShowThemeDropdown,
         handleChangeTheme,
         handleThemeSelect,
-        updateBackgroundOnly
+        updateThemeStyles
       }}
     >
       {children}

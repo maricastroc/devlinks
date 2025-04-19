@@ -1,6 +1,7 @@
 import { ThemeProps } from '@/types/theme';
 import { UserLinkProps } from '@/types/user-link';
 import { LIGHT_THEME } from '@/utils/constants';
+import { generateIconFilter } from '@/utils/generateIconFilter';
 
 type Props = {
   link: UserLinkProps;
@@ -9,9 +10,9 @@ type Props = {
 };
 
 export const SocialLink = ({ link, theme, isSmaller }: Props) => {
-  const iconFilter =
-    (theme?.styles?.icon as { filter?: string })?.filter ||
-    'saturate(0%) brightness(318%)';
+  const iconFilter = theme?.styles?.icon
+    ? generateIconFilter((theme?.styles?.icon as any)?.color)
+    : 'saturate(0%) brightness(318%)';
 
   return (
     <a

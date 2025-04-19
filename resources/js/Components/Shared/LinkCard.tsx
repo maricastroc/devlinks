@@ -2,6 +2,7 @@ import { UserLinkProps } from '@/types/user-link';
 import clsx from 'clsx';
 import { DEFAULT_THEME } from '@/utils/constants';
 import { UserProps } from '@/types/user';
+import { generateIconFilter } from '@/utils/generateIconFilter';
 
 type LinkCardProps = {
   link: UserLinkProps;
@@ -31,9 +32,9 @@ export const LinkCard = ({
         : {})
   };
 
-  const iconFilter =
-    (user?.theme?.styles?.icon as { filter?: string })?.filter ||
-    'saturate(0%) brightness(318%)';
+  const iconFilter = user?.theme?.styles?.icon
+    ? generateIconFilter((user?.theme?.styles?.icon as any)?.color)
+    : 'saturate(0%) brightness(318%)';
 
   const linkClassNames = clsx(
     'flex items-center justify-between p-[0.72rem] h-[2.97rem] rounded-[16px]',

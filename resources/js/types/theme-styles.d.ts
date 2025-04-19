@@ -26,5 +26,6 @@ export type ThemeStyles = {
   };
   icon: {
     filter: string;
+    color: string;
   };
 };
