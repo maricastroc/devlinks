@@ -12,7 +12,7 @@ use App\Http\Controllers\SocialLinkController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
-Route::middleware('auth')->group(function () {
+Route::middleware(['auth', 'web'])->group(function () {
     Route::get('/profile', fn(Request $request) => inertia('Profile/Index'))->name(
         'web.profile.index'
     );
@@ -25,7 +25,7 @@ Route::middleware('auth')->group(function () {
         'web.dashboard.index'
     );
 
-    Route::prefix('api')->group(function () {
+    Route::prefix('api')->middleware('web')->group(function () {
         Route::get('/social-links', [SocialLinkController::class, 'index']);
         Route::post('/social-links', [SocialLinkController::class, 'store']);
         Route::put('/social-links/{socialLink}', [SocialLinkController::class, 'update']);
@@ -40,7 +40,13 @@ Route::middleware('auth')->group(function () {
     });    
 });
 
-Route::get('/@{user:username}', [PublicPageController::class, 'handle'])->name('shared');
-Route::get('/click/{id}', [UserLinkController::class, 'trackClick'])->name('links.track');
+Route::middleware('web')->group(function () {
+    Route::get('/@{user:username}', [PublicPageController::class, 'handle'])->name('shared');
+});
+
+
+Route::get('/click/{id}', [UserLinkController::class, 'trackClick'])
+    ->name('links.track')
+    ->withoutMiddleware(['web']);
 
 require __DIR__ . '/auth.php';
