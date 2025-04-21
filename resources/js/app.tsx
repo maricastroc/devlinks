@@ -1,79 +1,46 @@
-import axios from 'axios';
+import '../css/app.css';
+import './bootstrap';
 
-const api = axios.create({
-  baseURL: '/api',
-  withCredentials: true
-});
+import { createInertiaApp } from '@inertiajs/react';
+import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers';
+import { createRoot } from 'react-dom/client';
+import { Toaster } from 'react-hot-toast';
+import { ThemeProvider } from './contexts/ThemeContext';
+import { fab } from '@fortawesome/free-brands-svg-icons';
+import { far } from '@fortawesome/free-regular-svg-icons';
+import { library } from '@fortawesome/fontawesome-svg-core';
 
-let isRefreshing = false;
-let failedRequests: any[] = [];
+library.add(fab, far);
 
-const processQueue = (error: any, token?: string) => {
-  failedRequests.forEach((req) => {
-    if (token) {
-      req.headers['X-CSRF-TOKEN'] = token;
-    }
-    req.resolve(api(req));
-  });
-  failedRequests = [];
-};
+const appName = import.meta.env.VITE_APP_NAME || 'Laravel';
 
-api.interceptors.request.use((config) => {
-  const token = (
-    document.querySelector('meta[name="csrf-token"]') as HTMLMetaElement
-  )?.content;
-  if (token) {
-    config.headers['X-CSRF-TOKEN'] = token;
+createInertiaApp({
+  title: (title) => `${title} - ${appName}`,
+  resolve: (name) =>
+    resolvePageComponent(
+      `./Pages/${name}.tsx`,
+      import.meta.glob('./Pages/**/*.tsx')
+    ),
+  setup({ el, App, props }) {
+    const root = createRoot(el);
+
+    root.render(
+      <>
+        <ThemeProvider>
+          <App {...props} />
+          <Toaster
+            toastOptions={{
+              style: {
+                backgroundColor: '#161D2F',
+                color: '#fff'
+              }
+            }}
+          />
+        </ThemeProvider>
+      </>
+    );
+  },
+  progress: {
+    color: '#4B5563'
   }
-  return config;
 });
-
-api.interceptors.response.use(
-  (response) => response,
-  async (error) => {
-    const originalRequest = error.config;
-
-    if (error.response?.status === 419 && !originalRequest._retry) {
-      if (isRefreshing) {
-        return new Promise((resolve) => {
-          failedRequests.push({ ...originalRequest, resolve });
-        });
-      }
-
-      originalRequest._retry = true;
-      isRefreshing = true;
-
-      try {
-        await axios.get('/sanctum/csrf-cookie', {
-          baseURL: '/',
-          withCredentials: true
-        });
-
-        const newToken = (
-          document.querySelector('meta[name="csrf-token"]') as HTMLMetaElement
-        )?.content;
-
-        if (newToken) {
-          processQueue(null, newToken);
-          originalRequest.headers['X-CSRF-TOKEN'] = newToken;
-          return api(originalRequest);
-        } else {
-          throw new Error('Novo token CSRF não encontrado');
-        }
-      } catch (refreshError) {
-        console.error('Falha ao renovar CSRF:', refreshError);
-        processQueue(refreshError);
-        if (import.meta.env.PROD) {
-          window.location.reload();
-        }
-        return Promise.reject(refreshError);
-      } finally {
-        isRefreshing = false;
-      }
-    }
-
-    return Promise.reject(error);
-  }
-);
-
-export { api };

@@ -4,16 +4,6 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="csrf-token" content="{{ csrf_token() }}">
-    
-        @if(app()->environment('production'))
-        <script>
-            if(!document.querySelector('meta[name="csrf-token"]')?.content && 
-            !document.cookie.includes('XSRF-TOKEN')) {
-                console.log('Recarregando página para obter CSRF...');
-                window.location.reload();
-            }
-        </script>
-        @endif
         <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
         <link rel="icon" type="image/png" sizes="32x32" href="{{ asset('favicon.png') }}">
         <link
