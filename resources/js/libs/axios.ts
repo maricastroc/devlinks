@@ -23,19 +23,7 @@ api.interceptors.response.use(
   (response) => response,
   async (error) => {
     if (error.response?.status === 419) {
-      try {
-        const { data } = await axios.get('/sanctum/csrf-cookie');
-        const newToken = (
-          document.querySelector('meta[name="csrf-token"]') as HTMLMetaElement
-        )?.content;
-
-        if (newToken) {
-          error.config.headers['X-CSRF-TOKEN'] = newToken;
-          return api.request(error.config);
-        }
-      } catch (refreshError) {
-        console.error('Falha ao renovar CSRF token', refreshError);
-      }
+      window.location.reload();
     }
     return Promise.reject(error);
   }
