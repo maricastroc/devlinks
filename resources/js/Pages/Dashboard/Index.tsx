@@ -62,7 +62,7 @@ export default function Dashboard() {
       const csrfToken = document.querySelector(
         'meta[name="csrf-token"]'
       ) as HTMLMetaElement;
-
+      console.log(csrfToken);
       if (!csrfToken?.content) {
         console.log('CSRF token não encontrado - recarregando...');
         window.location.reload();
