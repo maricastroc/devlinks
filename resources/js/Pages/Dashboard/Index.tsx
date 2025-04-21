@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
+import { api } from '@/libs/axios';
 import * as Dialog from '@radix-ui/react-dialog';
-import { Head, usePage } from '@inertiajs/react';
+import { Head } from '@inertiajs/react';
 import { DropResult } from 'react-beautiful-dnd';
 import toast from 'react-hot-toast';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
@@ -8,24 +9,23 @@ import PrimaryButton from '@/Components/Core/PrimaryButton';
 import SecondaryButton from '@/Components/Core/SecondaryButton';
 import { PhoneMockup } from '@/Components/Shared/PhoneMockup';
 import { LoadingComponent } from '@/Components/Shared/LoadingComponent';
+import { PhoneMockupModal } from '@/Components/Shared/PhoneMockupModal';
 import { PageHeader } from '@/Components/Shared/PageHeader';
+import { LinksSection } from './partials/LinksSection';
+import { SkeletonCard } from './partials/SkeletonCard';
+import { EmptyLinks } from './partials/EmptyLinks';
+import { LinksModal } from './partials/LinksModal';
 import { useTheme } from '@/contexts/ThemeContext';
 import { ThemeProps } from '@/types/theme';
 import { useLinks } from '@/utils/useLinks';
-import { LinksSection } from './partials/LinksSection';
-import { EmptyLinks } from './partials/EmptyLinks';
 import { DEFAULT_THEME } from '@/utils/constants';
-import { LinksModal } from './partials/LinksModal';
 import useRequest from '@/utils/useRequest';
 import { PlatformsData, ProfileData, ThemesData } from '../Profile/Index';
 import { validateLinks } from '@/utils/validateLink';
 import { scrollToInvalidLink } from '@/utils/scrollToInvalidLink';
-import { api } from '@/libs/axios';
 import { handleApiError } from '@/utils/handleApiError';
-import { SkeletonCard } from './partials/SkeletonCard';
-import 'react-loading-skeleton/dist/skeleton.css';
 import { useMediaQuery } from '@/utils/useMediaQuery';
-import { PhoneMockupModal } from '@/Components/Shared/PhoneMockupModal';
+import 'react-loading-skeleton/dist/skeleton.css';
 
 export type FormErrors = Record<
   string | number,
@@ -153,33 +153,6 @@ export default function Dashboard() {
       setLinks(user?.user_links);
     }
   }, [user?.user_links]);
-
-  useEffect(() => {
-    const verifyInitialToken = async () => {
-      const token = (
-        document.querySelector('meta[name="csrf-token"]') as HTMLMetaElement
-      )?.content;
-
-      if (!token && import.meta.env.PROD) {
-        try {
-          await api.get('/sanctum/csrf-cookie');
-          const newToken = (
-            document.querySelector('meta[name="csrf-token"]') as HTMLMetaElement
-          )?.content;
-
-          if (!newToken) {
-            console.error('CSRF token ainda não disponível após renovação');
-            window.location.reload();
-          }
-        } catch (error) {
-          console.error('Falha na verificação inicial do CSRF:', error);
-          window.location.reload();
-        }
-      }
-    };
-
-    verifyInitialToken();
-  }, []);
 
   return (
     <AuthenticatedLayout

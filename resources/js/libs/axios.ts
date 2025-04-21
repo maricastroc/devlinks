@@ -13,7 +13,7 @@ api.interceptors.request.use((config) => {
   if (token) {
     config.headers['X-CSRF-TOKEN'] = token;
   } else {
-    console.warn('CSRF token não encontrado no meta tag');
+    console.warn('CSRF token not found in meta tag');
   }
 
   return config;
@@ -25,6 +25,7 @@ api.interceptors.response.use(
     if (error.response?.status === 419) {
       window.location.reload();
     }
+
     return Promise.reject(error);
   }
 );
