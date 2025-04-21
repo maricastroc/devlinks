@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import * as Dialog from '@radix-ui/react-dialog';
-import { Head } from '@inertiajs/react';
+import { Head, usePage } from '@inertiajs/react';
 import { DropResult } from 'react-beautiful-dnd';
 import toast from 'react-hot-toast';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
@@ -49,6 +49,26 @@ export default function Dashboard() {
   const isMobile = useMediaQuery('(max-width: 768px)');
 
   const { handleChangeTheme } = useTheme();
+
+  const { props } = usePage();
+  const [initialLoad, setInitialLoad] = useState(true);
+
+  // Verifica CSRF apenas no primeiro carregamento em produção
+  useEffect(() => {
+    if (initialLoad && import.meta.env.PROD) {
+      setInitialLoad(false);
+
+      // Verifica se o token CSRF está presente
+      const csrfToken = document.querySelector(
+        'meta[name="csrf-token"]'
+      ) as HTMLMetaElement;
+
+      if (!csrfToken?.content) {
+        console.log('CSRF token não encontrado - recarregando...');
+        window.location.reload();
+      }
+    }
+  }, [initialLoad]);
 
   const {
     data: profileData,
