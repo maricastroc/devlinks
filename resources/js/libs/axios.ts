@@ -26,6 +26,14 @@ api.interceptors.response.use(
       window.location.reload();
     }
 
+    if (error.message?.includes('Mixed Content') && import.meta.env.PROD) {
+      window.location.href = window.location.href.replace(
+        'http://',
+        'https://'
+      );
+      return Promise.reject(error);
+    }
+
     return Promise.reject(error);
   }
 );
