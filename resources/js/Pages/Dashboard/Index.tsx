@@ -50,26 +50,6 @@ export default function Dashboard() {
 
   const { handleChangeTheme } = useTheme();
 
-  const { props } = usePage();
-  const [initialLoad, setInitialLoad] = useState(true);
-
-  // Verifica CSRF apenas no primeiro carregamento em produção
-  useEffect(() => {
-    if (initialLoad && import.meta.env.PROD) {
-      setInitialLoad(false);
-
-      // Verifica se o token CSRF está presente
-      const csrfToken = document.querySelector(
-        'meta[name="csrf-token"]'
-      ) as HTMLMetaElement;
-      console.log(csrfToken);
-      if (!csrfToken?.content) {
-        console.log('CSRF token não encontrado - recarregando...');
-        window.location.reload();
-      }
-    }
-  }, [initialLoad]);
-
   const {
     data: profileData,
     isValidating,
@@ -173,6 +153,33 @@ export default function Dashboard() {
       setLinks(user?.user_links);
     }
   }, [user?.user_links]);
+
+  useEffect(() => {
+    const verifyInitialToken = async () => {
+      const token = (
+        document.querySelector('meta[name="csrf-token"]') as HTMLMetaElement
+      )?.content;
+
+      if (!token && import.meta.env.PROD) {
+        try {
+          await api.get('/sanctum/csrf-cookie');
+          const newToken = (
+            document.querySelector('meta[name="csrf-token"]') as HTMLMetaElement
+          )?.content;
+
+          if (!newToken) {
+            console.error('CSRF token ainda não disponível após renovação');
+            window.location.reload();
+          }
+        } catch (error) {
+          console.error('Falha na verificação inicial do CSRF:', error);
+          window.location.reload();
+        }
+      }
+    };
+
+    verifyInitialToken();
+  }, []);
 
   return (
     <AuthenticatedLayout

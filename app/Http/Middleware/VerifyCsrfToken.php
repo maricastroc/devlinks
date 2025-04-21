@@ -19,8 +19,6 @@ class VerifyCsrfToken
     }
 
     protected $except = [
-        'api/*',       // Desabilita para todas rotas API
-        'sanctum/*',   // Rotas do Sanctum
-        '*',           // CUIDADO: Desabilita para TODAS rotas (não recomendado)
+        'sanctum/csrf-cookie'
     ];
 }
