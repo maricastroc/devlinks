@@ -19,7 +19,7 @@ export const CardTemplate = ({
       className={clsx(
         'relative flex flex-col items-center justify-end cursor-pointer transition-all',
         'w-full h-[3rem] max-w-[14rem]',
-        'hover:shadow-md hover:scale-[1.02]'
+        'hover:shadow-md'
       )}
       style={style}
     >

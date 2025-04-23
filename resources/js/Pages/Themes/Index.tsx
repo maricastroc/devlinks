@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { debounce } from 'lodash';
 import { Head } from '@inertiajs/react';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
@@ -14,11 +14,14 @@ import 'react-loading-skeleton/dist/skeleton.css';
 import BackgroundCustomizer from './partials/BackgroundCustomizer';
 import CardCustomizer from './partials/CardCustomizer';
 import { ThemeMockup } from './partials/ThemeMockup';
+import { CustomMockup } from './partials/CustomMockup';
 
 export default function Themes() {
   const [user, setUser] = useState<UserProps | null>(null);
 
   const { handleThemeSelect, isLoading, currentTheme } = useTheme();
+
+  const customizeSectionRef = useRef<HTMLDivElement>(null);
 
   const {
     data: profileData,
@@ -78,19 +81,28 @@ export default function Themes() {
             description="Customize your DevLinks with one of our ready-made themes"
           />
 
-          <div className="w-full pb-10 overflow-y-scroll custom-scrollbar lg:max-h-[40rem]">
+          <div className="w-full pb-10 overflow-x-hidden overflow-y-scroll custom-scrollbar lg:max-h-[40rem]">
             <div
-              className="grid gap-4"
+              className="grid gap-[1.2rem]"
               style={{
-                gridTemplateColumns: 'repeat(auto-fit, minmax(140px, 1fr))',
+                gridTemplateColumns: 'repeat(auto-fit, minmax(125px, 1fr))',
                 justifyItems: 'start'
               }}
             >
-              {isValidatingThemes || isLoading || isValidating
-                ? Array.from({ length: 8 }).map((_, index) => (
-                    <ThemeMockupSkeleton key={index} />
-                  ))
-                : themes?.map((theme) => (
+              {isValidatingThemes || isLoading || isValidating ? (
+                Array.from({ length: 14 }).map((_, index) => (
+                  <ThemeMockupSkeleton key={index} />
+                ))
+              ) : (
+                <>
+                  <CustomMockup
+                    onClick={() => {
+                      customizeSectionRef.current?.scrollIntoView({
+                        behavior: 'smooth'
+                      });
+                    }}
+                  />
+                  {themes?.map((theme) => (
                     <ThemeMockup
                       key={theme.id}
                       onClick={() => {
@@ -105,27 +117,40 @@ export default function Themes() {
                       }
                     />
                   ))}
+                </>
+              )}
             </div>
-            <h3 className="mt-8 mb-3 text-2xl font-bold">Custom appearance</h3>
-            <p className="mb-8 md:mb-10 text-medium-gray">
-              Completely customize your Devlinks profile. Change your background
-              with colors or gradients. Choose a button style and change the
-              typeface color.
-            </p>
-            {user && (
-              <BackgroundCustomizer
-                user={user}
-                onUpdateUser={handleUpdateUser}
-                theme={user?.theme || currentTheme}
-              />
-            )}
-            {user && (
-              <CardCustomizer
-                user={user}
-                onUpdateUser={handleUpdateUser}
-                theme={user?.theme || currentTheme}
-              />
-            )}
+
+            <div ref={customizeSectionRef}>
+              <h3
+                className="mt-8 mb-3 text-2xl font-bold"
+                id="customize_section"
+              >
+                Custom appearance
+              </h3>
+              <p
+                className="mb-8 md:mb-10 text-medium-gray"
+                id="customize_section"
+              >
+                Completely customize your Devlinks profile. Change your
+                background with colors or gradients. Choose a button style and
+                change the typeface color.
+              </p>
+              {user && (
+                <BackgroundCustomizer
+                  user={user}
+                  onUpdateUser={handleUpdateUser}
+                  theme={user?.theme || currentTheme}
+                />
+              )}
+              {user && (
+                <CardCustomizer
+                  user={user}
+                  onUpdateUser={handleUpdateUser}
+                  theme={user?.theme || currentTheme}
+                />
+              )}
+            </div>
           </div>
         </div>
       </div>

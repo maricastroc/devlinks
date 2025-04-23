@@ -17,7 +17,8 @@ class Theme extends Model
         'styles',
         'is_custom',
         'is_active',
-        'user_id'
+        'user_id',
+        'order'
     ];
 
     protected function casts(): array

@@ -24,7 +24,7 @@ export const BackgroundTemplate = ({
         'relative flex flex-col items-center justify-end p-3 rounded-lg cursor-pointer transition-all',
         'w-full h-full min-h-[16rem] max-h-[260px] max-w-[12rem]',
         !gradient && 'bg-[#3D444B]',
-        'hover:shadow-md hover:scale-[1.02]'
+        'hover:shadow-md'
       )}
       style={style}
     >

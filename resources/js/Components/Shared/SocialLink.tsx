@@ -13,7 +13,10 @@ type Props = {
 };
 
 export const SocialLink = ({ link, theme, isSmaller }: Props) => {
-  const bg = (theme?.styles?.link_card as any)?.backgroundColor || '';
+  const bg =
+    (theme?.styles?.icon as any)?.backgroundColor ||
+    convertHexToRGBA((theme?.styles?.link_card as any)?.backgroundColor, 0.5) ||
+    '';
 
   return (
     <a
@@ -31,7 +34,7 @@ export const SocialLink = ({ link, theme, isSmaller }: Props) => {
         flex items-center justify-center rounded-full transition-all hover:scale-110 bg-opacity-10
       `}
       title={link.platform.name}
-      style={{ backgroundColor: convertHexToRGBA(bg, 0.5) }}
+      style={{ backgroundColor: bg }}
     >
       {link.platform.name.toLowerCase() && (
         <FontAwesomeIcon

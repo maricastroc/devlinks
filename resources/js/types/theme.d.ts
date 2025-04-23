@@ -14,4 +14,5 @@ export type ThemeProps = {
     icon?: string;
   };
   is_custom: boolean;
+  order: number;
 };

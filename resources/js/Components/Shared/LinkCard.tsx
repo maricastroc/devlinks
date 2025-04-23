@@ -63,7 +63,7 @@ export const LinkCard = ({
               isBigger ? 'w-[1.4rem] h-[1.4rem]' : 'w-[1.15rem] h-[1.15rem]'
             }
             style={{
-              color: (user?.theme?.styles?.icon as any)?.color || '#ffffff'
+              color: (user?.theme?.styles?.link_card as any)?.color || '#ffffff'
             }}
           />
         )}
