@@ -74,3 +74,52 @@ export const BACKGROUND_OPTIONS = [
     }
   }
 ];
+
+export const DEFAULT_FONT = 'Instrument Sans';
+
+export const FONTS = [
+  {
+    label: 'Instrument Sans',
+    value: 'sans'
+  },
+  {
+    label: 'Arvo',
+    value: 'arvo'
+  },
+  {
+    label: 'Bebas Neue',
+    value: 'bebas'
+  },
+  {
+    label: 'Libre Baskerville',
+    value: 'libre'
+  },
+  {
+    label: 'Montserrat',
+    value: 'montserrat'
+  },
+  {
+    label: 'Poppins',
+    value: 'poppins'
+  },
+  {
+    label: 'Roboto',
+    value: 'roboto'
+  },
+  {
+    label: 'Inter',
+    value: 'inter'
+  },
+  {
+    label: 'Playfair Display',
+    value: 'playfair'
+  },
+  {
+    label: 'Space Grotesk',
+    value: 'space'
+  },
+  {
+    label: 'Manrope',
+    value: 'manrope'
+  }
+];

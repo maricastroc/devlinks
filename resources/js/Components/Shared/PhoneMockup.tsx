@@ -42,9 +42,11 @@ export const PhoneMockup = ({
       setCurrentTheme(user?.theme || null);
     }
   }, [user]);
-
+  console.log(user?.custom_font);
   return (
-    <div className={`relative scale-100 align-middle w-[307px] h-[531px]`}>
+    <div
+      className={`font-${user?.custom_font || 'sans'} relative scale-100 align-middle w-[307px] h-[531px]`}
+    >
       <div className="absolute inset-0 align-center rounded-[2rem] z-30 pointer-events-none" />
 
       <PhoneIllustration user={user} />

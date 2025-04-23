@@ -11,7 +11,6 @@ import { UserLinkProps } from '@/types/user-link';
 import { UserProps } from '@/types/user';
 import { ThemeProps } from '@/types/theme';
 import { useTheme } from '@/contexts/ThemeContext';
-import { useClickOutside } from '@/utils/useClickOutside';
 import { useThemeEffect } from '@/utils/useThemeEffect';
 import { useLoadingIndicator } from '@/utils/useLoadingIndicator';
 
@@ -34,15 +33,9 @@ export default function Shared({
 }: Props) {
   const isOwner = authUser?.id && authUser?.id === user.id;
 
-  const [showThemeDropdown, setShowThemeDropdown] = useState(false);
-
   const [isLoading, setIsLoading] = useState(false);
 
   const { currentTheme, handleChangeTheme } = useTheme();
-
-  const dropdownRef = useClickOutside(() => {
-    setShowThemeDropdown(false);
-  });
 
   useLoadingIndicator(setIsLoading);
 
@@ -79,7 +72,7 @@ export default function Shared({
         />
 
         <div
-          className={`flex flex-col flex-grow items-center justify-start z-[12] p-6 px-4 ${isOwner ? 'md:p-10 md:py-2 mb-12' : 'md:p-10 md:py-16'} w-[90vw] max-w-[35rem] mx-auto`}
+          className={`font-${user?.custom_font || 'sans'} flex flex-col flex-grow items-center justify-start z-[12] p-6 px-4 ${isOwner ? 'md:p-10 md:py-2 mb-12' : 'md:p-10 md:py-16'} w-[90vw] max-w-[35rem] mx-auto`}
         >
           <div className="flex flex-col items-center justify-center w-full text-center">
             <AvatarCard

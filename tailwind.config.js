@@ -19,6 +19,16 @@ export default {
         extend: {
             fontFamily: {
                 sans: ['Instrument Sans', ...defaultTheme.fontFamily.sans],
+                arvo: ['Arvo', ...defaultTheme.fontFamily.serif],
+                bebas: ['Bebas Neue', 'sans-serif'],
+                libre: ['Libre Baskerville', ...defaultTheme.fontFamily.serif],
+                montserrat: ['Montserrat', 'sans-serif'],
+                poppins: ['Poppins', 'sans-serif'],
+                roboto: ['Roboto', 'sans-serif'],
+                inter: ['Inter', 'sans-serif'],
+                playfair: ['Playfair Display', 'serif'],
+                space: ['Space Grotesk', 'sans-serif'],
+                manrope: ['Manrope', 'sans-serif'],
             },
             colors: {
                 'white': '#ffffff',
@@ -83,5 +93,16 @@ export default {
         'bg-gradient-to-b from-[#478EA9] via-[#C99F9A] to-[#E29042] text-[#1C2431]',
         'bg-gradient-to-b from-[#C54D48] via-[#383952] to-[#21303D] text-[#1C2431]',
         'bg-gradient-to-b from-[#72659B] to-[#EBA3AC] text-[#342B51]',
+        'font-poppins',
+        'font-sans',
+        'font-arvo',
+        'font-bebas',
+        'font-libre',
+        'font-montserrat',
+        'font-roboto',
+        'font-inter',
+        'font-playfair',
+        'font-space',
+        'font-manrope',
     ],
 };

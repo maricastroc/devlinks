@@ -15,6 +15,7 @@ import BackgroundCustomizer from './partials/BackgroundCustomizer';
 import CardCustomizer from './partials/CardCustomizer';
 import { ThemeMockup } from './partials/ThemeMockup';
 import { CustomMockup } from './partials/CustomMockup';
+import FontCustomizer from './partials/FontCustomizer';
 
 export default function Themes() {
   const [user, setUser] = useState<UserProps | null>(null);
@@ -137,18 +138,23 @@ export default function Themes() {
                 change the typeface color.
               </p>
               {user && (
-                <BackgroundCustomizer
-                  user={user}
-                  onUpdateUser={handleUpdateUser}
-                  theme={user?.theme || currentTheme}
-                />
-              )}
-              {user && (
-                <CardCustomizer
-                  user={user}
-                  onUpdateUser={handleUpdateUser}
-                  theme={user?.theme || currentTheme}
-                />
+                <>
+                  <BackgroundCustomizer
+                    user={user}
+                    onUpdateUser={handleUpdateUser}
+                    theme={user?.theme || currentTheme}
+                  />
+                  <CardCustomizer
+                    user={user}
+                    onUpdateUser={handleUpdateUser}
+                    theme={user?.theme || currentTheme}
+                  />
+                  <FontCustomizer
+                    user={user}
+                    onUpdateUser={handleUpdateUser}
+                    theme={user?.theme || currentTheme}
+                  />
+                </>
               )}
             </div>
           </div>

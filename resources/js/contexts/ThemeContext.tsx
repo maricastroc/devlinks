@@ -28,7 +28,8 @@ type ThemeContextType = {
       };
     },
     selectedBgType?: string,
-    selectedBgColor?: string
+    selectedBgColor?: string,
+    selectedFont?: string
   ) => Promise<ThemeProps | undefined>;
 };
 
@@ -104,7 +105,8 @@ export const ThemeProvider: React.FC<{
       };
     },
     selectedBgType?: string,
-    selectedBgColor?: string
+    selectedBgColor?: string,
+    selectedFont?: string
   ) => {
     try {
       setIsLoading(true);
@@ -163,7 +165,8 @@ export const ThemeProvider: React.FC<{
       const response = await api.put('profile/theme', {
         custom_styles: newStyles,
         custom_bg_type: selectedBgType,
-        custom_bg_color: selectedBgColor
+        custom_bg_color: selectedBgColor,
+        custom_font: selectedFont
       });
 
       const updatedTheme: ThemeProps = {

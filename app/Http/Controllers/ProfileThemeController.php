@@ -15,6 +15,7 @@ class ProfileThemeController extends Controller
         $validator = Validator::make($request->all(), [
             'custom_bg_type' => 'nullable|string',
             'custom_bg_color' => 'nullable|string',
+            'custom_font' => 'nullable|string',
             'theme_id' => 'nullable|integer|exists:themes,id',
             'custom_styles' => 'nullable|array',
             'custom_styles.link_card' => 'nullable|array',
@@ -38,12 +39,10 @@ class ProfileThemeController extends Controller
             $updateData = [];
             $responseData = [];
             
-            // Atualizações básicas do tema
             if ($request->has('theme_id')) {
                 $updateData['theme_id'] = $request->theme_id;
                 $responseData['theme_id'] = $request->theme_id;
                 
-                // Se for um tema padrão (não custom), limpa os estilos customizados
                 $theme = Theme::find($request->theme_id);
                 if (!$theme->is_custom) {
                     $updateData['custom_bg_type'] = null;
@@ -52,7 +51,6 @@ class ProfileThemeController extends Controller
                 }
             }
 
-            // Atualizações de background
             if ($request->has('custom_bg_type')) {
                 $updateData['custom_bg_type'] = $request->custom_bg_type;
                 $responseData['custom_bg_type'] = $request->custom_bg_type;
@@ -62,12 +60,15 @@ class ProfileThemeController extends Controller
                 $updateData['custom_bg_color'] = $request->custom_bg_color;
                 $responseData['custom_bg_color'] = $request->custom_bg_color;
             }
+
+            if ($request->has('custom_font')) {
+                $updateData['custom_font'] = $request->custom_font;
+                $responseData['custom_font'] = $request->custom_font;
+            }
             
-            // Atualizações de estilos customizados
             if ($request->has('custom_styles')) {
                 $customStyles = $request->custom_styles;
                 
-                // Se já tem um tema customizado, mescla com os estilos existentes
                 if ($user->theme_id && $user->theme->is_custom) {
                     $currentStyles = $user->theme->styles ?? [];
                     $customStyles = array_merge($currentStyles, $customStyles);
@@ -81,13 +82,11 @@ class ProfileThemeController extends Controller
                     'custom_styles' => $customTheme->styles
                 ]);
                 
-                // Garante que os dados de background estão sincronizados
                 if ($request->has('custom_bg_type') || $request->has('custom_bg_color')) {
                     $user->refresh();
                 }
             }
             
-            // Aplica atualizações no usuário
             if (!empty($updateData)) {
                 $user->update($updateData);
             }
@@ -106,14 +105,12 @@ class ProfileThemeController extends Controller
 
     protected function handleCustomTheme($user, array $customStyles): Theme
     {
-        // Remove temas customizados antigos
         Theme::where('user_id', $user->id)
             ->where('is_custom', true)
             ->delete();
 
         $timestamp = now()->timestamp;
 
-        // Cria novo tema customizado
         $customTheme = Theme::create([
             'user_id' => $user->id,
             'name' => 'Custom Theme - ' . $user->name . ' - ' . $timestamp,
@@ -123,10 +120,9 @@ class ProfileThemeController extends Controller
             'is_active' => true
         ]);
 
-        // Atualiza usuário com o novo tema
         $user->update([
             'theme_id' => $customTheme->id,
-            'custom_styles' => null // Limpa estilos antigos se existirem
+            'custom_styles' => null 
         ]);
 
         return $customTheme;

@@ -34,7 +34,10 @@ export const SocialLink = ({ link, theme, isSmaller }: Props) => {
         flex items-center justify-center rounded-full transition-all hover:scale-110 bg-opacity-10
       `}
       title={link.platform.name}
-      style={{ backgroundColor: bg }}
+      style={{
+        backgroundColor: bg,
+        color: (theme?.styles.link_card as any).color
+      }}
     >
       {link.platform.name.toLowerCase() && (
         <FontAwesomeIcon

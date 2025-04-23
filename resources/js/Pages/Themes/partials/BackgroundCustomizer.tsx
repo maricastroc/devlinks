@@ -145,7 +145,7 @@ export default function BackgroundCustomizer({
                 type="text"
               />
             </div>
-            <div className="mt-2 text-sm text-gray-500">
+            <div className="mt-2 text-sm font-semibold text-gray-600">
               {selectedType === '' &&
                 'Select a background style to apply your color changes.'}
             </div>

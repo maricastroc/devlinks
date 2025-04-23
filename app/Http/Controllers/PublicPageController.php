@@ -39,6 +39,7 @@ class PublicPageController extends Controller
                 'bio' => $user->bio,
                 'name'       => $user->name,
                 'avatar_url' => $user->avatar_url,
+                'custom_font' => $user->custom_font,
                 'theme'      => $user->theme?->only(['id', 'name', 'styles', 'type'])
             ],
             'themes' => Theme::all(),

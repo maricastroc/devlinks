@@ -106,7 +106,7 @@ export default function CardCustomizer({ user, theme, onUpdateUser }: Props) {
             type="text"
           />
         </div>
-        <div className="mt-2 text-sm text-gray-500">
+        <div className="mt-2 text-sm font-semibold text-gray-600">
           {cardStyle.type === '' &&
             'Select a button style to apply your color changes.'}
         </div>

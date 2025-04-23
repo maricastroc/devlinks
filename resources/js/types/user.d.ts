@@ -17,4 +17,5 @@ export type UserProps = {
   bio?: string;
   custom_bg_type?: string;
   custom_bg_color?: string;
+  custom_font?: string;
 };

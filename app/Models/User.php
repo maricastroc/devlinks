@@ -28,6 +28,7 @@ class User extends Authenticatable
         'username',
         'custom_bg_type',
         'custom_bg_color',
+        'custom_font',
     ];
 
     /**
