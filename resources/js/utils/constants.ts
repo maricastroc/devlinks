@@ -121,5 +121,25 @@ export const FONTS = [
   {
     label: 'Manrope',
     value: 'manrope'
+  },
+  {
+    label: 'Inter',
+    value: 'inter'
+  },
+  {
+    label: 'Karla',
+    value: 'karla'
+  },
+  {
+    label: 'Lato',
+    value: 'lato'
+  },
+  {
+    label: 'Oswald',
+    value: 'oswald'
+  },
+  {
+    label: 'Rubik',
+    value: 'rubik'
   }
 ];

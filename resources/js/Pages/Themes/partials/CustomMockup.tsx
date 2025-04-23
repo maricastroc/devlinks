@@ -6,7 +6,7 @@ type Props = {
 
 export const CustomMockup = ({ onClick }: Props) => {
   return (
-    <div className="flex flex-col w-full gap-1 font-bebas">
+    <div className="flex flex-col w-full gap-1">
       <div
         className={clsx(
           'relative flex border border-gray-950 border-dashed flex-col items-center justify-center p-3 rounded-lg cursor-pointer transition-all',

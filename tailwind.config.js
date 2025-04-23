@@ -29,6 +29,11 @@ export default {
                 playfair: ['Playfair Display', 'serif'],
                 space: ['Space Grotesk', 'sans-serif'],
                 manrope: ['Manrope', 'sans-serif'],
+                karla: ['Karla', 'sans-serif'],
+                lato: ['Lato', 'sans-serif'],
+                rubik: ['Rubik', 'sans-serif'],
+                oswald: ['Oswald', 'serif'],
+                inter: ['Inter', 'sans-serif'],    
             },
             colors: {
                 'white': '#ffffff',
@@ -104,5 +109,10 @@ export default {
         'font-playfair',
         'font-space',
         'font-manrope',
+        'font-karla',
+        'font-lato',
+        'font-oswald',
+        'font-inter',
+        'font-rubik'  
     ],
 };
