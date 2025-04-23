@@ -17,8 +17,8 @@ export const CustomMockup = ({ onClick }: Props) => {
           onClick();
         }}
       >
-        <div className="flex flex-col items-center justify-center flex-grow w-full gap-2 mb-2 font-semibold text-center">
-          <p>CREATE YOUR OWN</p>
+        <div className="flex flex-col items-center justify-center flex-grow w-full gap-2 mb-2 text-center">
+          <p className="text-xl">CREATE YOUR OWN</p>
         </div>
       </div>
       <span className="text-xs font-medium text-center truncate sm:text-sm">
