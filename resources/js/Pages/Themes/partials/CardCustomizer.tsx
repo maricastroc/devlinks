@@ -5,6 +5,11 @@ import { UserProps } from '@/types/user';
 import { useTheme } from '@/contexts/ThemeContext';
 import { useClickOutside } from '@/utils/useClickOutside';
 import { ColorPicker } from '@/Components/Shared/ColorPicker';
+import {
+  BORDER_RADIUS_OPTIONS,
+  DEFAULT_COLOR,
+  EMPTY_COLOR
+} from '@/utils/constants';
 
 type Props = {
   user: UserProps;
@@ -17,19 +22,15 @@ type CardStyle = {
   borderRadius: string;
 };
 
-const borderRadiusOptions = ['0px', '8px', '16px'];
-
-const defaultColor = '#3D444B';
-
 export default function CardCustomizer({ user, theme, onUpdateUser }: Props) {
   const [cardStyle, setCardStyle] = useState<CardStyle>({
     type: '',
     borderRadius: '0px'
   });
 
-  const [selectedColor, setSelectedColor] = useState(defaultColor);
+  const [selectedColor, setSelectedColor] = useState(DEFAULT_COLOR);
 
-  const [backgroundColor, setBackgroundColor] = useState(defaultColor);
+  const [backgroundColor, setBackgroundColor] = useState(DEFAULT_COLOR);
 
   const [showColorPicker, setShowColorPicker] = useState(false);
 
@@ -38,6 +39,7 @@ export default function CardCustomizer({ user, theme, onUpdateUser }: Props) {
   const dropdownColorRef = useClickOutside(() => setShowColorPicker(false));
 
   const dropdownBgColorRef = useClickOutside(() => setShowBgColorPicker(false));
+
   const { updateThemeStyles } = useTheme();
 
   const handleLinkCardSelect = async (type: string, borderRadius: string) => {
@@ -121,7 +123,7 @@ export default function CardCustomizer({ user, theme, onUpdateUser }: Props) {
           justifyItems: 'start'
         }}
       >
-        {borderRadiusOptions.map((radius) => (
+        {BORDER_RADIUS_OPTIONS.map((radius) => (
           <CardTemplate
             key={`${type}-${radius}`}
             isSelected={
@@ -139,12 +141,12 @@ export default function CardCustomizer({ user, theme, onUpdateUser }: Props) {
       </div>
     );
   };
-  console.log(cardStyle);
+
   useEffect(() => {
     if (user?.theme?.is_custom) {
       const linkCard = user.theme.styles?.link_card as any;
-
-      setSelectedColor(linkCard?.color || defaultColor);
+      console.log(cardStyle, linkCard?.backgroundColor);
+      setSelectedColor(linkCard?.color || DEFAULT_COLOR);
 
       setBackgroundColor(linkCard?.backgroundColor || '');
 
@@ -152,6 +154,10 @@ export default function CardCustomizer({ user, theme, onUpdateUser }: Props) {
         type: !linkCard?.backgroundColor?.length ? 'outline' : 'fill',
         borderRadius: linkCard?.borderRadius || '0px'
       });
+
+      if (!linkCard?.backgroundColor?.length) {
+        setBackgroundColor(EMPTY_COLOR);
+      }
     } else {
       setCardStyle({
         type: '',

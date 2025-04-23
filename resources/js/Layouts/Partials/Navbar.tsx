@@ -16,7 +16,8 @@ export const Navbar = () => {
 
   const routeMap = {
     '/dashboard': 'web.dashboard.index',
-    '/profile': 'web.profile.index'
+    '/profile': 'web.profile.index',
+    '/themes': 'web.themes.index'
   };
 
   const currentRoute =
@@ -56,7 +57,16 @@ export const Navbar = () => {
         </NavLink>
 
         <NavLink
-          className="flex items-center transition-all duration-150 md:gap-2 hover:text-medium-purple"
+          className={`
+                   relative transition-all duration-150
+                   md:gap-2 hover:text-medium-purple flex items-center
+                   justify-center md:px-6 p-4 py-3 font-semibold rounded-md
+                   ${
+                     currentRoute === 'web.themes.index'
+                       ? 'bg-purple-hover bg-opacity-25 text-medium-purple'
+                       : 'bg-transparent text-gray-600'
+                   }
+                 `}
           href={route('web.themes.index')}
           isActive={currentRoute === 'web.themes.index'}
         >

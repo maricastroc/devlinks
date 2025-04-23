@@ -33,3 +33,44 @@ export const DEFAULT_STYLES = {
       'brightness(0) saturate(100%) invert(12%) sepia(9%) saturate(1554%) hue-rotate(183deg) brightness(93%) contrast(93%)'
   }
 };
+
+export const BORDER_RADIUS_OPTIONS = ['0px', '8px', '16px'];
+
+export const DEFAULT_COLOR = '#3D444B';
+
+export const EMPTY_COLOR = 'rgba(0,0,0,0)';
+
+export const BACKGROUND_OPTIONS = [
+  {
+    type: 'solid' as const,
+    name: 'Solid',
+    style: { backgroundColor: '#000000' }
+  },
+  {
+    type: 'gradient' as const,
+    direction: 'bg-gradient-to-b' as const,
+    name: 'Gradient to Bottom',
+    style: {
+      backgroundImage:
+        'linear-gradient(to bottom, rgba(0,0,0,0.9), rgba(75,76,76,1))'
+    }
+  },
+  {
+    type: 'gradient' as const,
+    direction: 'bg-gradient-to-t' as const,
+    name: 'Gradient to Top',
+    style: {
+      backgroundImage:
+        'linear-gradient(to top, rgba(0,0,0,0.9), rgba(75,76,76,1))'
+    }
+  },
+  {
+    type: 'gradient' as const,
+    direction: 'angular' as const,
+    name: 'Gradient Diagonal',
+    style: {
+      backgroundImage:
+        'linear-gradient(135deg, rgba(0,0,0,0.9), rgba(75,76,76,1))'
+    }
+  }
+];
