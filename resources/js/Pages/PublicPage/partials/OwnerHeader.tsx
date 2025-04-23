@@ -2,6 +2,7 @@ import { router } from '@inertiajs/react';
 import { HeaderButton } from '@/Pages/PublicPage/partials/HeaderButton';
 import { useTheme } from '@/contexts/ThemeContext';
 import { CaretLeft, Export } from 'phosphor-react';
+import { useEffect, useState } from 'react';
 
 type Props = {
   onCopyLink: () => void;
@@ -9,6 +10,20 @@ type Props = {
 
 export const OwnerHeader = ({ onCopyLink }: Props) => {
   const { currentTheme } = useTheme();
+
+  const [canGoBack, setCanGoBack] = useState(false);
+
+  useEffect(() => {
+    setCanGoBack(window.history.length > 1);
+  }, []);
+
+  const handleGoBack = () => {
+    if (canGoBack) {
+      window.history.back();
+    } else {
+      router.get(route('web.dashboard.index'));
+    }
+  };
 
   return (
     currentTheme && (
@@ -18,7 +33,7 @@ export const OwnerHeader = ({ onCopyLink }: Props) => {
           text-md flex items-center justify-between gap-3`}
         >
           <HeaderButton
-            onClick={() => router.get(route('web.dashboard.index'))}
+            onClick={handleGoBack}
             icon={<CaretLeft size={20} />}
             theme={currentTheme}
             text="Back"
