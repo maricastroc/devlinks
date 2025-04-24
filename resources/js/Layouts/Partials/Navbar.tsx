@@ -32,7 +32,7 @@ export const Navbar = () => {
   const user = auth.user;
 
   return (
-    <nav className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between w-full p-6 py-3 pl-2 bg-white shadow-sm md:relative md:top-auto md:left-auto md:right-auto md:w-auto md:m-6 md:rounded-md md:p-5">
+    <nav className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between w-full p-6 py-4 pl-2 bg-white md:shadow-sm md:relative md:top-auto md:left-auto md:right-auto md:w-auto md:m-6 md:rounded-md md:p-5">
       <Link
         href={route('web.dashboard.index')}
         className="flex items-center justify-center p-3 py-2 md:p-0"
