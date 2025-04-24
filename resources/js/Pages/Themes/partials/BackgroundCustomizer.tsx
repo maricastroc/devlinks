@@ -21,14 +21,18 @@ export default function BackgroundCustomizer({
   theme,
   onUpdateUser
 }: Props) {
-  const [selectedType, setSelectedType] = useState<string | null>(
+  const [isColorBeingAdjusted, setIsColorBeingAdjusted] = useState(false);
+
+  const [isInitialRender, setIsInitialRender] = useState(true);
+
+  const [selectedType, setSelectedType] = useState<string | null>(null);
+
+  const [selectedDirection, setSelectedDirection] = useState<string | null>(
     user?.custom_bg_type || null
   );
-
   const [color, setColor] = useState<string>(
     user?.custom_bg_color || DEFAULT_COLOR
   );
-
   const [showPicker, setShowPicker] = useState(false);
 
   const { updateThemeStyles } = useTheme();
@@ -69,18 +73,52 @@ export default function BackgroundCustomizer({
 
   const handleColorChange = (newColor: string) => {
     setColor(newColor);
-    setSelectedType('');
+    setIsColorBeingAdjusted(true);
   };
 
   useEffect(() => {
+    if (isInitialRender) {
+      setIsInitialRender(false);
+      return;
+    }
+
     if (
       (user && user?.theme?.is_custom === false) ||
       (user && !user?.custom_bg_color)
     ) {
       setColor(DEFAULT_COLOR);
       setSelectedType('');
+    } else {
+      setSelectedType(user?.custom_bg_type === 'solid' ? 'solid' : 'gradient');
+      setSelectedDirection(user?.custom_bg_type as string);
     }
   }, [user]);
+
+  useEffect(() => {
+    if (isInitialRender) return;
+
+    const applyChanges = async () => {
+      if (
+        color?.length === 7 &&
+        !showPicker &&
+        !isColorBeingAdjusted &&
+        selectedType
+      ) {
+        await handleBackgroundSelect(
+          color,
+          selectedType as BackgroundType,
+          selectedDirection as GradientDirection
+        );
+      }
+    };
+
+    const timer = setTimeout(() => {
+      setIsColorBeingAdjusted(false);
+      applyChanges();
+    }, 500);
+
+    return () => clearTimeout(timer);
+  }, [color, isColorBeingAdjusted, showPicker]);
 
   return (
     <div className="bg-white rounded-lg">
@@ -97,16 +135,19 @@ export default function BackgroundCustomizer({
             key={`${option.type}-${option.direction || 'solid'}`}
             isSelected={
               (option.direction
-                ? selectedType === option.direction
+                ? selectedDirection === option.direction
                 : selectedType === option.type) &&
               user?.theme?.is_custom === true
             }
             onSelect={() => {
-              if (option.type === 'solid') {
-                handleBackgroundSelect(color, 'solid');
-              } else {
-                handleBackgroundSelect(color, 'gradient', option.direction);
-              }
+              setSelectedType(option.type);
+              setSelectedDirection(
+                option.type === 'solid' ? null : option.direction
+              );
+
+              option.type === 'solid'
+                ? handleBackgroundSelect(color, 'solid')
+                : handleBackgroundSelect(color, 'gradient', option.direction);
             }}
             name={option.name}
             gradient={option.direction}
@@ -129,6 +170,9 @@ export default function BackgroundCustomizer({
                     <HexColorPicker
                       color={color}
                       onChange={handleColorChange}
+                      onMouseLeave={() => {
+                        setIsColorBeingAdjusted(false);
+                      }}
                     />
                   </div>
                 </div>

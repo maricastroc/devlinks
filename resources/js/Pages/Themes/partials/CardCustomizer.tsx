@@ -145,7 +145,7 @@ export default function CardCustomizer({ user, theme, onUpdateUser }: Props) {
   useEffect(() => {
     if (user?.theme?.is_custom) {
       const linkCard = user.theme.styles?.link_card as any;
-      console.log(cardStyle, linkCard?.backgroundColor);
+
       setSelectedColor(linkCard?.color || DEFAULT_COLOR);
 
       setBackgroundColor(linkCard?.backgroundColor || '');
