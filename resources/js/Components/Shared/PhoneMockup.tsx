@@ -47,7 +47,7 @@ export const PhoneMockup = ({
 
   return (
     <div
-      className={`scale-[85%] lg:scale-[100%] font-${user?.custom_font || 'sans'} relative scale-100 align-middle ${isSmaller ? 'w-[280px] h-[480px]' : 'w-[307px] h-[631px]'}`}
+      className={`scale-[85%] lg:scale-[100%] font-${user?.custom_font || 'sans'} relative scale-100 align-middle ${isSmaller ? 'w-[280px] h-[510px]' : 'w-[307px] h-[631px]'}`}
     >
       <div className="absolute inset-0 align-center rounded-[2rem] z-30 pointer-events-none" />
 
@@ -81,7 +81,7 @@ export const PhoneMockup = ({
           </div>
 
           <div
-            className={`absolute z-40 top-[11rem] ${isSmaller ? 'left-[0.7rem]' : 'left-[1rem]'}`}
+            className={`absolute z-40 top-[11rem] ${isSmaller ? 'left-[0.8rem]' : 'left-[1rem]'}`}
           >
             {(name || user?.username) && (
               <div
@@ -127,7 +127,7 @@ export const PhoneMockup = ({
 
             <div className="relative">
               <div
-                className={`mt-6 overflow-y-scroll flex flex-col items-center justify-start ${isSmaller ? 'w-[15rem] max-h-[150px]' : 'w-[16.5rem] max-h-[300px]'} custom-scrollbar mr-[-8px] m-4`}
+                className={`mt-6 overflow-y-scroll flex flex-col items-center justify-start ${isSmaller ? 'w-[15rem] max-h-[180px] ml-[0.9rem]' : 'w-[16.5rem] max-h-[300px]'} custom-scrollbar mr-[-8px] m-4`}
               >
                 <div className="w-full flex flex-col gap-[0.98rem] pr-2">
                   {links?.map((link) => (
