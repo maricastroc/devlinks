@@ -5,9 +5,10 @@ import { useEffect, useState } from 'react';
 
 type Props = {
   user: UserProps | undefined;
+  isSmaller?: boolean;
 };
 
-export const PhoneIllustration = ({ user }: Props) => {
+export const PhoneIllustration = ({ user, isSmaller = false }: Props) => {
   const [currentTheme, setCurrentTheme] = useState<ThemeProps | null>(
     user?.theme || null
   );
@@ -20,7 +21,7 @@ export const PhoneIllustration = ({ user }: Props) => {
 
   return (
     <div
-      className={`relative align-middle w-[310px] h-[631px] rounded-3xl md:shadow-2xl border-8 border-gray-800 ${user?.theme?.styles.background}`}
+      className={`relative align-middle ${isSmaller ? 'w-[280px] h-[480px]' : 'w-[307px] h-[631px]'} rounded-3xl md:shadow-2xl border-8 border-gray-800 ${user?.theme?.styles.background}`}
     >
       <div className="absolute top-0 z-10 w-24 h-6 transform -translate-x-1/2 bg-gray-800 rounded-b-lg left-1/2 shadow-[inset_0_-3px_5px_rgba(0,0,0,0.3)]" />
 
