@@ -146,7 +146,7 @@ export default function Themes() {
       {isLoading && <LoadingComponent hasOverlay />}
       <div className="lg:m-6 flex items-start flex-col h-full lg:grid lg:grid-cols-[1fr,1.5fr] w-full lg:gap-6 lg:mt-0">
         <div className="items-start justify-center w-full overflow-y-scroll bg-white rounded-md md:pt-10 md:overflow-y-hidden md:hidden lg:flex md:p-10">
-          <div className="flex items-start md:items-center max-h-[100vh] md:max-h-full justify-center w-full overflow-y-scroll md:overflow-y-hidden lg:mt-12">
+          <div className="flex items-start justify-center w-full h-full overflow-y-scroll md:items-center md:max-h-full md:overflow-y-hidden lg:mt-12">
             <PhoneMockup
               isSmaller={isMobile}
               username={user?.username}
@@ -165,7 +165,7 @@ export default function Themes() {
             description="Customize your DevLinks with one of our ready-made themes"
           />
 
-          <div className="w-full pb-10 overflow-x-hidden overflow-y-scroll custom-scrollbar md:max-h-[28rem] lg:max-h-[40rem]">
+          <div className="w-full pb-10 overflow-x-hidden overflow-y-scroll custom-scrollbar md:max-h-[28rem] lg:max-h-[35.15rem]">
             <TemplatesSection
               customizeSectionRef={customizeSectionRef}
               isLoading={isValidatingThemes || isLoading || isValidating}
