@@ -21,8 +21,6 @@ export default function BackgroundCustomizer({
   theme,
   onUpdateUser
 }: Props) {
-  const [isColorBeingAdjusted, setIsColorBeingAdjusted] = useState(false);
-
   const [isInitialRender, setIsInitialRender] = useState(true);
 
   const [selectedType, setSelectedType] = useState<string | null>(null);
@@ -73,18 +71,12 @@ export default function BackgroundCustomizer({
 
   const handleColorChange = (newColor: string) => {
     setColor(newColor);
-    setIsColorBeingAdjusted(true);
   };
 
   useEffect(() => {
-    if (isInitialRender) {
-      setIsInitialRender(false);
-      return;
-    }
-
     if (
       (user && user?.theme?.is_custom === false) ||
-      (user && !user?.custom_bg_color)
+      (user && !user?.custom_bg_type)
     ) {
       setColor(DEFAULT_COLOR);
       setSelectedType('');
@@ -95,15 +87,13 @@ export default function BackgroundCustomizer({
   }, [user]);
 
   useEffect(() => {
-    if (isInitialRender) return;
+    if (isInitialRender) {
+      setIsInitialRender(false);
+      return;
+    }
 
     const applyChanges = async () => {
-      if (
-        color?.length === 7 &&
-        !showPicker &&
-        !isColorBeingAdjusted &&
-        selectedType
-      ) {
+      if (color?.length === 7 && !showPicker && selectedType) {
         await handleBackgroundSelect(
           color,
           selectedType as BackgroundType,
@@ -113,12 +103,11 @@ export default function BackgroundCustomizer({
     };
 
     const timer = setTimeout(() => {
-      setIsColorBeingAdjusted(false);
       applyChanges();
     }, 500);
 
     return () => clearTimeout(timer);
-  }, [color, isColorBeingAdjusted, showPicker]);
+  }, [color, showPicker]);
 
   return (
     <div className="bg-white rounded-lg">
@@ -170,9 +159,6 @@ export default function BackgroundCustomizer({
                     <HexColorPicker
                       color={color}
                       onChange={handleColorChange}
-                      onMouseLeave={() => {
-                        setIsColorBeingAdjusted(false);
-                      }}
                     />
                   </div>
                 </div>
