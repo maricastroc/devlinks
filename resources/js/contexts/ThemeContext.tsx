@@ -181,7 +181,7 @@ export const ThemeProvider: React.FC<{
       return response.data.theme;
     } catch (error) {
       console.error('Failed to update theme styles:', error);
-      toast.error('Erro ao atualizar o tema.');
+      toast.error('Error during theme update.');
       throw error;
     } finally {
       setIsLoading(false);

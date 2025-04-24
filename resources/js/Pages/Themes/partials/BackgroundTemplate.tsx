@@ -18,25 +18,26 @@ export const BackgroundTemplate = ({
   style
 }: Props) => {
   return (
-    <div
-      onClick={onSelect}
-      className={clsx(
-        'relative flex flex-col items-center justify-end p-3 rounded-lg cursor-pointer transition-all',
-        'w-full h-full min-h-[16rem] max-h-[260px] max-w-[12rem]',
-        !gradient && 'bg-[#3D444B]',
-        'hover:shadow-md'
-      )}
-      style={style}
-    >
-      <span className="text-xs font-medium text-center text-white truncate sm:text-sm">
+    <div className="sm:w-full sm:h-full w-[5rem] flex flex-col items-center justify-center">
+      <div
+        onClick={onSelect}
+        className={clsx(
+          'relative flex flex-col items-center justify-end p-3 rounded-lg cursor-pointer transition-all',
+          'sm:w-full sm:h-full w-[5rem] h-[5rem] sm:min-h-[16rem] sm:max-h-[260px] sm:max-w-[12rem]',
+          !gradient && 'bg-[#3D444B]',
+          'hover:shadow-md'
+        )}
+        style={style}
+      >
+        {isSelected && (
+          <div className="absolute flex items-center justify-center text-xs text-purple-500 bg-white rounded-full top-2 right-2 size-4">
+            <FontAwesomeIcon icon={faCheck} />
+          </div>
+        )}
+      </div>
+      <span className="mt-2 text-xs font-medium text-center truncate text-dark-gray sm:text-sm">
         {name}
       </span>
-
-      {isSelected && (
-        <div className="absolute flex items-center justify-center text-xs text-purple-500 bg-white rounded-full top-2 right-2 size-4">
-          <FontAwesomeIcon icon={faCheck} />
-        </div>
-      )}
     </div>
   );
 };

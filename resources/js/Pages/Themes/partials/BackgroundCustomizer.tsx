@@ -9,6 +9,7 @@ import { createGradientValue } from '@/utils/createGradientValue';
 import { BackgroundType } from '@/types/background-type';
 import { GradientDirection } from '@/types/gradient-direction';
 import { BACKGROUND_OPTIONS, DEFAULT_COLOR } from '@/utils/constants';
+import { useMediaQuery } from '@/utils/useMediaQuery';
 
 type Props = {
   user: UserProps;
@@ -34,6 +35,8 @@ export default function BackgroundCustomizer({
   const [showPicker, setShowPicker] = useState(false);
 
   const { updateThemeStyles } = useTheme();
+
+  const isMobile = useMediaQuery('(max-width: 640px)');
 
   const dropdownRef = useClickOutside(() => setShowPicker(false));
 
@@ -110,12 +113,14 @@ export default function BackgroundCustomizer({
   }, [color, showPicker]);
 
   return (
-    <div className="bg-white rounded-lg">
-      <h3 className="mt-8 mb-6 text-2xl font-bold">Backgrounds</h3>
+    <div className="w-full bg-white rounded-lg">
+      <h3 className="mb-6 text-xl font-bold sm:mt-8 sm:text-2xl">
+        Backgrounds
+      </h3>
       <div
-        className="grid gap-4 mb-6"
+        className="flex flex-wrap gap-4 mb-6 sm:grid"
         style={{
-          gridTemplateColumns: 'repeat(auto-fit, minmax(140px, 1fr))',
+          gridTemplateColumns: `${isMobile ? '' : 'repeat(auto-fit, minmax(140px, 1fr))'}`,
           justifyItems: 'start'
         }}
       >
@@ -138,7 +143,7 @@ export default function BackgroundCustomizer({
                 ? handleBackgroundSelect(color, 'solid')
                 : handleBackgroundSelect(color, 'gradient', option.direction);
             }}
-            name={option.name}
+            name={isMobile ? option.smallName : option.name}
             gradient={option.direction}
             style={option.style}
           />

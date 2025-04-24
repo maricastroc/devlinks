@@ -50,7 +50,7 @@ export default function FontCustomizer({ user, theme, onUpdateUser }: Props) {
 
   return (
     <div className="bg-white rounded-lg">
-      <h3 className="mt-8 mb-6 text-2xl font-bold">Fonts</h3>
+      <h3 className="mb-6 text-xl font-bold md:mt-8 md:text-2xl">Fonts</h3>
       <div>
         <p className="mb-2 font-bold text-md">Font</p>
         <Dialog.Root open={isFontsModalOpen}>

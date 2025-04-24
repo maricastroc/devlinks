@@ -19,11 +19,11 @@ export const ThemeMockup = ({
   onClick
 }: Props) => {
   return (
-    <div className="flex flex-col w-full gap-1">
+    <div className="flex flex-col gap-1 ">
       <div
         className={clsx(
           'relative flex flex-col items-center justify-center p-3 rounded-lg cursor-pointer transition-all',
-          'w-full h-full min-w-[8rem] min-h-[13rem] max-h-[260px] max-w-[9rem]',
+          'min-w-[6.4rem] w-full h-full max-w-[7rem] min-h-[9.5rem] max-h-[12rem] sm:w-full sm:h-full sm:min-w-[8rem] sm:min-h-[13rem] sm:max-h-[290px] sm:max-w-[12rem]',
           'hover:shadow-md',
           {
             'border border-gray-200': theme?.type === LIGHT_THEME
@@ -40,15 +40,15 @@ export const ThemeMockup = ({
       >
         <div className="flex flex-col items-center justify-center flex-grow w-full gap-2 mb-2">
           <span
-            className="w-full h-5 rounded-md"
+            className="w-full h-4 rounded-md sm:h-5"
             style={theme.styles.link_card as React.CSSProperties}
           />
           <span
-            className="w-full h-5 rounded-md"
+            className="w-full h-4 rounded-md sm:h-5"
             style={theme.styles.link_card as React.CSSProperties}
           />
           <span
-            className="w-full h-5 rounded-md"
+            className="w-full h-4 rounded-md sm:h-5"
             style={theme.styles.link_card as React.CSSProperties}
           />
         </div>

@@ -45,7 +45,7 @@ export const PhoneMockup = ({
 
   return (
     <div
-      className={`font-${user?.custom_font || 'sans'} relative scale-100 align-middle w-[307px] h-[531px]`}
+      className={`lg:scale-[100%] scale-[80%] font-${user?.custom_font || 'sans'} relative scale-100 align-middle w-[307px] h-[631px]`}
     >
       <div className="absolute inset-0 align-center rounded-[2rem] z-30 pointer-events-none" />
 

@@ -1,5 +1,5 @@
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { debounce } from 'lodash';
+import { act, useCallback, useEffect, useRef, useState } from 'react';
+import * as Dialog from '@radix-ui/react-dialog';
 import { Head } from '@inertiajs/react';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { PhoneMockup } from '@/Components/Shared/PhoneMockup';
@@ -16,19 +16,25 @@ import CardCustomizer from './partials/CardCustomizer';
 import { ThemeMockup } from './partials/ThemeMockup';
 import { CustomMockup } from './partials/CustomMockup';
 import FontCustomizer from './partials/FontCustomizer';
+import { MobileFooter } from './partials/MobileFooter';
+import { Modal } from './partials/Modal';
+import { useMediaQuery } from '@/utils/useMediaQuery';
+import { TemplatesSection } from './partials/TemplatesSection';
 
 export default function Themes() {
   const [user, setUser] = useState<UserProps | null>(null);
+
+  const [activeModal, setActiveModal] = useState('');
 
   const { handleThemeSelect, isLoading, currentTheme } = useTheme();
 
   const customizeSectionRef = useRef<HTMLDivElement>(null);
 
-  const {
-    data: profileData,
-    isValidating,
-    mutate
-  } = useRequest<ProfileData>({
+  const isSmallSize = useMediaQuery('(max-width: 640px)');
+
+  const isMobile = useMediaQuery('(max-width: 767px)');
+
+  const { data: profileData, isValidating } = useRequest<ProfileData>({
     url: `/auth/user`,
     method: 'GET'
   });
@@ -50,7 +56,7 @@ export default function Themes() {
       setUser(profileData?.user);
     }
   }, [profileData]);
-
+  console.log(activeModal);
   return (
     <AuthenticatedLayout
       header={
@@ -61,10 +67,86 @@ export default function Themes() {
     >
       <Head title="Themes" />
 
+      {user && isMobile && (
+        <Dialog.Root
+          open={activeModal === 'background'}
+          onOpenChange={(open) => {
+            if (!open) setActiveModal('');
+          }}
+        >
+          <Modal onClose={() => setActiveModal('')}>
+            <BackgroundCustomizer
+              user={user}
+              onUpdateUser={handleUpdateUser}
+              theme={user?.theme || currentTheme}
+            />
+          </Modal>
+        </Dialog.Root>
+      )}
+
+      {user && isMobile && (
+        <Dialog.Root
+          open={activeModal === 'fonts'}
+          onOpenChange={(open) => {
+            if (!open) setActiveModal('');
+          }}
+        >
+          <Modal onClose={() => setActiveModal('')}>
+            <div className="mt-6">
+              <FontCustomizer
+                user={user}
+                onUpdateUser={handleUpdateUser}
+                theme={user?.theme || currentTheme}
+              />
+            </div>
+          </Modal>
+        </Dialog.Root>
+      )}
+
+      {user && isMobile && (
+        <Dialog.Root
+          open={activeModal === 'templates'}
+          onOpenChange={(open) => {
+            if (!open) setActiveModal('');
+          }}
+        >
+          <Modal hasOverflow={isSmallSize} onClose={() => setActiveModal('')}>
+            <TemplatesSection
+              customizeSectionRef={customizeSectionRef}
+              isLoading={isValidatingThemes || isLoading || isValidating}
+              themes={themes}
+              handleThemeSelect={handleThemeSelect}
+              handleUpdateUser={handleUpdateUser}
+              setUser={setUser}
+              user={user}
+            />
+          </Modal>
+        </Dialog.Root>
+      )}
+
+      {user && isMobile && (
+        <Dialog.Root
+          open={activeModal === 'buttons'}
+          onOpenChange={(open) => {
+            if (!open) setActiveModal('');
+          }}
+        >
+          <Modal onClose={() => setActiveModal('')}>
+            <div className="mt-6">
+              <CardCustomizer
+                user={user}
+                onUpdateUser={handleUpdateUser}
+                theme={user?.theme || currentTheme}
+              />
+            </div>
+          </Modal>
+        </Dialog.Root>
+      )}
+
       {isLoading && <LoadingComponent hasOverlay />}
-      <div className="lg:m-6 flex h-full lg:grid lg:grid-cols-[1fr,1.5fr] w-full lg:gap-6 lg:mt-0">
-        <div className="items-start justify-center hidden w-full p-10 bg-white rounded-md lg:flex">
-          <div className="mt-12">
+      <div className="lg:m-6 flex flex-col h-full lg:grid lg:grid-cols-[1fr,1.5fr] w-full lg:gap-6 lg:mt-0">
+        <div className="items-start justify-center w-full pt-2 overflow-y-scroll bg-white rounded-md md:pt-10 md:overflow-y-hidden md:hidden lg:flex md:p-10">
+          <div className="flex items-start md:items-center max-h-[90vh] md:max-h-full justify-center w-full overflow-y-scroll md:overflow-y-hidden lg:mt-12">
             <PhoneMockup
               username={user?.username}
               bio={user?.bio}
@@ -76,51 +158,22 @@ export default function Themes() {
           </div>
         </div>
 
-        <div className="flex flex-col w-full p-4 m-4 bg-white rounded-md md:mt-0 lg:m-0 md:m-6 md:p-10">
+        <div className="flex-col hidden w-full p-4 m-4 bg-white rounded-md md:flex lg:flex md:m-0 md:p-10">
           <PageHeader
             title="Select a Theme"
             description="Customize your DevLinks with one of our ready-made themes"
           />
 
-          <div className="w-full pb-10 overflow-x-hidden overflow-y-scroll custom-scrollbar lg:max-h-[40rem]">
-            <div
-              className="grid gap-[1.2rem]"
-              style={{
-                gridTemplateColumns: 'repeat(auto-fit, minmax(125px, 1fr))',
-                justifyItems: 'start'
-              }}
-            >
-              {isValidatingThemes || isLoading || isValidating ? (
-                Array.from({ length: 14 }).map((_, index) => (
-                  <ThemeMockupSkeleton key={index} />
-                ))
-              ) : (
-                <>
-                  <CustomMockup
-                    onClick={() => {
-                      customizeSectionRef.current?.scrollIntoView({
-                        behavior: 'smooth'
-                      });
-                    }}
-                  />
-                  {themes?.map((theme) => (
-                    <ThemeMockup
-                      key={theme.id}
-                      onClick={() => {
-                        handleThemeSelect(theme);
-                        setUser((prev) => ({ ...prev!, theme }));
-                      }}
-                      onUpdateUser={handleUpdateUser}
-                      theme={theme}
-                      isSelected={
-                        theme.name === user?.theme?.name &&
-                        !user?.theme.is_custom
-                      }
-                    />
-                  ))}
-                </>
-              )}
-            </div>
+          <div className="w-full pb-10 overflow-x-hidden overflow-y-scroll custom-scrollbar md:max-h-[28rem] lg:max-h-[40rem]">
+            <TemplatesSection
+              customizeSectionRef={customizeSectionRef}
+              isLoading={isValidatingThemes || isLoading || isValidating}
+              themes={themes}
+              handleThemeSelect={handleThemeSelect}
+              handleUpdateUser={handleUpdateUser}
+              setUser={setUser}
+              user={user}
+            />
 
             <div ref={customizeSectionRef}>
               <h3
@@ -159,6 +212,10 @@ export default function Themes() {
             </div>
           </div>
         </div>
+        <MobileFooter
+          activeModal={activeModal}
+          onSelect={(value) => setActiveModal(value)}
+        />
       </div>
       {isLoading && <LoadingComponent hasOverlay />}
     </AuthenticatedLayout>

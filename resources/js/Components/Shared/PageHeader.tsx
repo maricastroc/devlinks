@@ -7,7 +7,7 @@ type Props = {
 
 export const PageHeader = ({ title, description }: Props) => {
   return (
-    <div className="flex items-start justify-between w-full gap-3">
+    <div className="flex items-start justify-between w-full gap-3 mt-16 md:mt-0">
       <div>
         <h2 className="mb-1 text-[1.5rem] md:text-[2rem] font-bold text-dark-gray">
           {title}

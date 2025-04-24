@@ -129,7 +129,7 @@ export default function CardCustomizer({ user, theme, onUpdateUser }: Props) {
   const renderCardTemplates = (type: 'fill' | 'outline') => {
     return (
       <div
-        className="grid gap-4 mb-6"
+        className="flex gap-4 mb-6 sm:grid"
         style={{
           gridTemplateColumns: 'repeat(auto-fit, minmax(140px, 1fr))',
           justifyItems: 'start'
@@ -163,7 +163,7 @@ export default function CardCustomizer({ user, theme, onUpdateUser }: Props) {
   useEffect(() => {
     if (user?.theme?.is_custom) {
       const linkCard = user.theme.styles?.link_card as any;
-      console.log(linkCard);
+
       setSelectedColor(linkCard?.color || DEFAULT_COLOR);
 
       setBackgroundColor(linkCard?.backgroundColor || '');
@@ -212,7 +212,7 @@ export default function CardCustomizer({ user, theme, onUpdateUser }: Props) {
 
   return (
     <div className="bg-white rounded-lg">
-      <h3 className="mt-8 mb-6 text-2xl font-bold">Buttons</h3>
+      <h3 className="mb-6 text-xl font-bold sm:mt-8 sm:text-2xl">Buttons</h3>
 
       <div className="flex flex-col justify-center w-full align-center">
         <p className="mb-2">Fill</p>

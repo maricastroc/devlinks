@@ -44,12 +44,14 @@ export const BACKGROUND_OPTIONS = [
   {
     type: 'solid' as const,
     name: 'Solid',
+    smallName: 'Solid',
     style: { backgroundColor: '#000000' }
   },
   {
     type: 'gradient' as const,
     direction: 'bg-gradient-to-b' as const,
     name: 'Gradient to Bottom',
+    smallName: 'Grad. to Bottom',
     style: {
       backgroundImage:
         'linear-gradient(to bottom, rgba(0,0,0,0.9), rgba(75,76,76,1))'
@@ -59,6 +61,7 @@ export const BACKGROUND_OPTIONS = [
     type: 'gradient' as const,
     direction: 'bg-gradient-to-t' as const,
     name: 'Gradient to Top',
+    smallName: 'Grad. to Top',
     style: {
       backgroundImage:
         'linear-gradient(to top, rgba(0,0,0,0.9), rgba(75,76,76,1))'
@@ -68,6 +71,7 @@ export const BACKGROUND_OPTIONS = [
     type: 'gradient' as const,
     direction: 'angular' as const,
     name: 'Gradient Diagonal',
+    smallName: 'Grad. Diagonal',
     style: {
       backgroundImage:
         'linear-gradient(135deg, rgba(0,0,0,0.9), rgba(75,76,76,1))'

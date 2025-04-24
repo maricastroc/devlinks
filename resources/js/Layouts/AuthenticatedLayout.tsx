@@ -20,7 +20,7 @@ export default function Authenticated({
     <div className="flex flex-col w-full min-h-screen overflow-x-hidden bg-light-gray">
       <Navbar />
 
-      <main className="flex items-start justify-center flex-grow">
+      <main className={`items-center flex justify-center flex-grow`}>
         {isLoading && <LoadingComponent hasOverlay />}
         {children}
       </main>
