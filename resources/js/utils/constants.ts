@@ -34,7 +34,7 @@ export const DEFAULT_STYLES = {
   }
 };
 
-export const BORDER_RADIUS_OPTIONS = ['0px', '8px', '16px'];
+export const BORDER_RADIUS_OPTIONS = ['0px', '8px', '18px'];
 
 export const DEFAULT_COLOR = '#3D444B';
 

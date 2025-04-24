@@ -23,6 +23,8 @@ type CardStyle = {
 };
 
 export default function CardCustomizer({ user, theme, onUpdateUser }: Props) {
+  const [isInitialRender, setIsInitialRender] = useState(true);
+
   const [cardStyle, setCardStyle] = useState<CardStyle>({
     type: '',
     borderRadius: '0px'
@@ -68,13 +70,23 @@ export default function CardCustomizer({ user, theme, onUpdateUser }: Props) {
     handleLinkCardSelect(type, borderRadius);
   };
 
-  const handleColorChange = (color: string, isBackground = false) => {
+  const handleColorChange = async (color: string, isBackground = false) => {
     if (isBackground) {
       setBackgroundColor(color);
     } else {
       setSelectedColor(color);
     }
-    setCardStyle((prev) => ({ ...prev, type: '' }));
+
+    if (
+      selectedColor?.length === 7 &&
+      backgroundColor?.length === 7 &&
+      !showColorPicker &&
+      !showBgColorPicker &&
+      cardStyle?.borderRadius.length > 0 &&
+      cardStyle?.type?.length > 0
+    ) {
+      await handleLinkCardSelect(cardStyle.type, cardStyle.borderRadius);
+    }
   };
 
   const renderColorInput = (
@@ -129,7 +141,13 @@ export default function CardCustomizer({ user, theme, onUpdateUser }: Props) {
             isSelected={
               cardStyle.type === type && cardStyle.borderRadius === radius
             }
-            onSelect={() => handleStyleChange(type, radius)}
+            onSelect={() => {
+              handleStyleChange(type, radius);
+              setCardStyle({
+                type: type,
+                borderRadius: radius
+              });
+            }}
             style={{
               backgroundColor: type === 'fill' ? '#000000' : '',
               color: type === 'fill' ? '#000000' : selectedColor,
@@ -145,7 +163,7 @@ export default function CardCustomizer({ user, theme, onUpdateUser }: Props) {
   useEffect(() => {
     if (user?.theme?.is_custom) {
       const linkCard = user.theme.styles?.link_card as any;
-
+      console.log(linkCard);
       setSelectedColor(linkCard?.color || DEFAULT_COLOR);
 
       setBackgroundColor(linkCard?.backgroundColor || '');
@@ -156,7 +174,7 @@ export default function CardCustomizer({ user, theme, onUpdateUser }: Props) {
       });
 
       if (!linkCard?.backgroundColor?.length) {
-        setBackgroundColor(EMPTY_COLOR);
+        setBackgroundColor(linkCard?.border?.split(' ').pop() || EMPTY_COLOR);
       }
     } else {
       setCardStyle({
@@ -165,6 +183,32 @@ export default function CardCustomizer({ user, theme, onUpdateUser }: Props) {
       });
     }
   }, [user]);
+
+  useEffect(() => {
+    if (isInitialRender) {
+      setIsInitialRender(false);
+      return;
+    }
+
+    const applyChanges = async () => {
+      if (
+        selectedColor?.length === 7 &&
+        backgroundColor?.length === 7 &&
+        !showColorPicker &&
+        !showBgColorPicker &&
+        cardStyle?.borderRadius.length > 0 &&
+        cardStyle?.type?.length > 0
+      ) {
+        await handleLinkCardSelect(cardStyle.type, cardStyle.borderRadius);
+      }
+    };
+
+    const timer = setTimeout(() => {
+      applyChanges();
+    }, 500);
+
+    return () => clearTimeout(timer);
+  }, [showBgColorPicker, showColorPicker]);
 
   return (
     <div className="bg-white rounded-lg">
@@ -179,7 +223,7 @@ export default function CardCustomizer({ user, theme, onUpdateUser }: Props) {
       </div>
 
       <div>
-        <p className="mb-2 font-bold text-md">Color</p>
+        <p className="mb-2 font-bold text-md">Button font color</p>
         <div className="relative flex flex-col gap-4 max-w-[18rem]">
           {renderColorInput(
             selectedColor,
@@ -193,7 +237,7 @@ export default function CardCustomizer({ user, theme, onUpdateUser }: Props) {
       </div>
 
       <div className="mt-4">
-        <p className="mb-2 font-bold text-md">Background color</p>
+        <p className="mb-2 font-bold text-md">Button color</p>
         <div className="flex flex-col gap-4 max-w-[18rem]">
           {renderColorInput(
             backgroundColor,
