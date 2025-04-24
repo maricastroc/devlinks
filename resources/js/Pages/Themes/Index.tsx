@@ -145,7 +145,7 @@ export default function Themes() {
 
       {isLoading && <LoadingComponent hasOverlay />}
       <div className="lg:m-6 flex items-start flex-col h-full lg:grid lg:grid-cols-[1fr,1.5fr] w-full lg:gap-6 lg:mt-0">
-        <div className="items-start justify-center w-full pt-2 overflow-y-scroll bg-white rounded-md md:pt-10 md:overflow-y-hidden md:hidden lg:flex md:p-10">
+        <div className="items-start justify-center w-full overflow-y-scroll bg-white rounded-md md:pt-10 md:overflow-y-hidden md:hidden lg:flex md:p-10">
           <div className="flex items-start md:items-center max-h-[90vh] md:max-h-full justify-center w-full overflow-y-scroll md:overflow-y-hidden lg:mt-12">
             <PhoneMockup
               isSmaller={isMobile}
