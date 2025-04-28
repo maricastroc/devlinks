@@ -74,7 +74,7 @@ export default function Themes() {
             if (!open) setActiveModal('');
           }}
         >
-          <Modal onClose={() => setActiveModal('')}>
+          <Modal isSmaller={isSmallSize} onClose={() => setActiveModal('')}>
             <BackgroundCustomizer
               user={user}
               onUpdateUser={handleUpdateUser}
@@ -110,7 +110,7 @@ export default function Themes() {
             if (!open) setActiveModal('');
           }}
         >
-          <Modal hasOverflow={isSmallSize} onClose={() => setActiveModal('')}>
+          <Modal isSmaller={isSmallSize} onClose={() => setActiveModal('')}>
             <TemplatesSection
               customizeSectionRef={customizeSectionRef}
               isLoading={isValidatingThemes || isLoading || isValidating}

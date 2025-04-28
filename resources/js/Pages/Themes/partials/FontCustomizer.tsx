@@ -56,7 +56,9 @@ export default function FontCustomizer({ user, theme, onUpdateUser }: Props) {
         <Dialog.Root open={isFontsModalOpen}>
           <Dialog.Trigger asChild>
             <button
-              onClick={() => setIsFontsModalOpen(true)}
+              onClick={() => {
+                setIsFontsModalOpen(true);
+              }}
               className="flex items-center justify-start w-full gap-3 p-4 bg-white border border-gray-200 rounded-md shadow-lg"
             >
               <span className="p-2 bg-gray-100 rounded-md">

@@ -6,10 +6,10 @@ import { useEffect, useRef } from 'react';
 type Props = {
   onClose: () => void;
   children: React.ReactNode;
-  hasOverflow?: boolean;
+  isSmaller?: boolean;
 };
 
-export const Modal = ({ onClose, hasOverflow = false, children }: Props) => {
+export const Modal = ({ onClose, isSmaller = false, children }: Props) => {
   const contentRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -23,7 +23,7 @@ export const Modal = ({ onClose, hasOverflow = false, children }: Props) => {
     <Dialog.Portal>
       <Dialog.Content
         ref={contentRef}
-        className="fixed inset-0 z-[9999] md:hidden"
+        className="fixed inset-0 z-[9889] md:hidden"
         onInteractOutside={(e) => {
           if (
             contentRef.current &&
@@ -34,7 +34,7 @@ export const Modal = ({ onClose, hasOverflow = false, children }: Props) => {
         }}
       >
         <div
-          className={`absolute bottom-0 left-0 right-0 bg-white rounded-t-2xl shadow-xl ${hasOverflow ? 'h-[42vh]' : 'h-[50vh]'} max-h-[450px] overflow-y-auto`}
+          className={`absolute bottom-0 left-0 right-0 bg-white rounded-t-2xl shadow-xl ${isSmaller ? 'h-[42vh]' : 'h-[50vh]'} max-h-[450px] overflow-y-auto`}
         >
           <div className="sticky top-0 z-10 flex items-center justify-between px-4 pt-2 bg-white">
             <div className="w-12 h-1.5 bg-gray-300 rounded-full mx-auto" />
@@ -50,7 +50,7 @@ export const Modal = ({ onClose, hasOverflow = false, children }: Props) => {
           </div>
 
           <div
-            className={`p-4 pt-0 pb-6 flex-items-center justify-center w-full ${hasOverflow ? 'pr-0' : 'pr-4'}`}
+            className={`p-4 pt-0 pb-6 flex-items-center justify-center w-full ${isSmaller ? 'pr-0' : 'pr-4'}`}
           >
             {children}
           </div>

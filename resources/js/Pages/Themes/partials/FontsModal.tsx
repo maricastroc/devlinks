@@ -27,10 +27,10 @@ export const FontsModal = ({
   return (
     <Dialog.Portal>
       <Dialog.Overlay
-        className="fixed inset-0 z-[990] bg-black bg-opacity-70"
+        className="fixed inset-0 z-[9990] bg-black bg-opacity-70"
         onClick={onClose}
       />
-      <Dialog.Content className="fixed z-[999] top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[90vw] bg-white rounded-[1.5rem] shadow-lg  p-4 md:max-w-[620px] md:p-8">
+      <Dialog.Content className="fixed z-[9999] top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[90vw] bg-white rounded-[1.5rem] shadow-lg  p-4 md:max-w-[620px] md:p-8">
         <ModalHeader
           showBackButton={false}
           onClose={onClose}
