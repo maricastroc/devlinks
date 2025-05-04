@@ -18,13 +18,13 @@ export const CardTemplate = ({
 
   return (
     <div
-      className={`flex items-center justify-center sm:h-full sm:border-none sm:w-full h-[4rem] w-[6rem] border border-gray-400 rounded-lg ${isSelected && isMobile && 'border-2 border-medium-purple'}`}
+      className={`flex items-center justify-center sm:h-full sm:border-none sm:w-full h-[4.5rem] w-[4.5rem] border border-gray-400 rounded-lg ${isSelected && isMobile && 'border-2 border-medium-purple'}`}
     >
       <div
         onClick={onSelect}
         className={clsx(
           'relative flex flex-col items-center justify-end cursor-pointer transition-all',
-          'h-[2rem] w-[4rem] sm:w-full sm:h-[3rem] max-w-[14rem]',
+          'h-[1.6rem] w-[3rem] sm:w-full sm:h-[3rem] max-w-[14rem]',
           'hover:shadow-md'
         )}
         style={style}

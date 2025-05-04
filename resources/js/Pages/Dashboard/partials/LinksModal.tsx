@@ -6,7 +6,7 @@ import { PlatformProps } from '@/types/platform';
 import { CUSTOM_PLATFORM_NAME } from '@/utils/constants';
 import { PlatformItem } from './PlatformItem';
 import { ModalHeader } from '@/Components/Shared/ModalHeader';
-import SecondaryButton from '@/Components/Core/SecondaryButton';
+import { CustomItem } from './CustomItem';
 
 type Props = {
   onClose: () => void;
@@ -36,7 +36,7 @@ export const LinksModal = ({ onClose, handleAddLink, platforms }: Props) => {
         <ModalHeader
           showBackButton={false}
           onClose={onClose}
-          title="Add Social Link"
+          title="Add Link"
         />
         <Dialog.Description className="flex flex-col w-full">
           <SearchInput
@@ -46,6 +46,15 @@ export const LinksModal = ({ onClose, handleAddLink, platforms }: Props) => {
           />
 
           <div className="flex flex-col h-[60vh] max-h-[25rem] overflow-y-auto custom-scrollbar">
+            <CustomItem
+              onSelect={() => {
+                if (customPlatform) {
+                  handleAddLink(customPlatform);
+                  onClose();
+                }
+              }}
+            />
+
             {filteredPlatforms.length > 0 ? (
               filteredPlatforms.map((platform) => (
                 <PlatformItem
@@ -64,16 +73,6 @@ export const LinksModal = ({ onClose, handleAddLink, platforms }: Props) => {
               />
             )}
           </div>
-          <SecondaryButton
-            onClick={() => {
-              if (customPlatform) {
-                handleAddLink(customPlatform);
-                onClose();
-              }
-            }}
-          >
-            Add Custom Link
-          </SecondaryButton>
         </Dialog.Description>
       </Dialog.Content>
     </Dialog.Portal>

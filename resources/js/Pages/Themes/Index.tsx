@@ -1,25 +1,23 @@
+// Bibliotecas externas
 import { act, useCallback, useEffect, useRef, useState } from 'react';
 import * as Dialog from '@radix-ui/react-dialog';
 import { Head } from '@inertiajs/react';
+import 'react-loading-skeleton/dist/skeleton.css';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { PhoneMockup } from '@/Components/Shared/PhoneMockup';
 import { LoadingComponent } from '@/Components/Shared/LoadingComponent';
 import { PageHeader } from '@/Components/Shared/PageHeader';
-import { useTheme } from '@/contexts/ThemeContext';
-import useRequest from '@/utils/useRequest';
-import { ProfileData, ThemesData } from '../Profile/Index';
-import { ThemeMockupSkeleton } from '@/Pages/Themes/partials/ThemeMockupSkeleton';
-import { UserProps } from '@/types/user';
-import 'react-loading-skeleton/dist/skeleton.css';
-import BackgroundCustomizer from './partials/BackgroundCustomizer';
-import CardCustomizer from './partials/CardCustomizer';
-import { ThemeMockup } from './partials/ThemeMockup';
-import { CustomMockup } from './partials/CustomMockup';
-import FontCustomizer from './partials/FontCustomizer';
 import { MobileFooter } from './partials/MobileFooter';
 import { Modal } from './partials/Modal';
-import { useMediaQuery } from '@/utils/useMediaQuery';
 import { TemplatesSection } from './partials/TemplatesSection';
+import BackgroundCustomizer from './partials/BackgroundCustomizer';
+import CardCustomizer from './partials/CardCustomizer';
+import FontCustomizer from './partials/FontCustomizer';
+import { useTheme } from '@/contexts/ThemeContext';
+import useRequest from '@/utils/useRequest';
+import { useMediaQuery } from '@/utils/useMediaQuery';
+import { ProfileData, ThemesData } from '../Profile/Index';
+import { UserProps } from '@/types/user';
 
 export default function Themes() {
   const [user, setUser] = useState<UserProps | null>(null);
@@ -68,79 +66,75 @@ export default function Themes() {
       <Head title="Themes" />
 
       {user && isMobile && (
-        <Dialog.Root
-          open={activeModal === 'background'}
-          onOpenChange={(open) => {
-            if (!open) setActiveModal('');
-          }}
-        >
-          <Modal isSmaller={isSmallSize} onClose={() => setActiveModal('')}>
-            <BackgroundCustomizer
-              user={user}
-              onUpdateUser={handleUpdateUser}
-              theme={user?.theme || currentTheme}
-            />
-          </Modal>
-        </Dialog.Root>
-      )}
-
-      {user && isMobile && (
-        <Dialog.Root
-          open={activeModal === 'fonts'}
-          onOpenChange={(open) => {
-            if (!open) setActiveModal('');
-          }}
-        >
-          <Modal onClose={() => setActiveModal('')}>
-            <div className="mt-6">
-              <FontCustomizer
+        <>
+          <Dialog.Root
+            open={activeModal === 'background'}
+            onOpenChange={(open) => {
+              if (!open) setActiveModal('');
+            }}
+          >
+            <Modal isSmaller={isSmallSize} onClose={() => setActiveModal('')}>
+              <BackgroundCustomizer
                 user={user}
                 onUpdateUser={handleUpdateUser}
                 theme={user?.theme || currentTheme}
               />
-            </div>
-          </Modal>
-        </Dialog.Root>
-      )}
+            </Modal>
+          </Dialog.Root>
 
-      {user && isMobile && (
-        <Dialog.Root
-          open={activeModal === 'templates'}
-          onOpenChange={(open) => {
-            if (!open) setActiveModal('');
-          }}
-        >
-          <Modal isSmaller={isSmallSize} onClose={() => setActiveModal('')}>
-            <TemplatesSection
-              customizeSectionRef={customizeSectionRef}
-              isLoading={isValidatingThemes || isLoading || isValidating}
-              themes={themes}
-              handleThemeSelect={handleThemeSelect}
-              handleUpdateUser={handleUpdateUser}
-              setUser={setUser}
-              user={user}
-            />
-          </Modal>
-        </Dialog.Root>
-      )}
+          <Dialog.Root
+            open={activeModal === 'fonts'}
+            onOpenChange={(open) => {
+              if (!open) setActiveModal('');
+            }}
+          >
+            <Modal onClose={() => setActiveModal('')}>
+              <div className="mt-6">
+                <FontCustomizer
+                  user={user}
+                  onUpdateUser={handleUpdateUser}
+                  theme={user?.theme || currentTheme}
+                />
+              </div>
+            </Modal>
+          </Dialog.Root>
 
-      {user && isMobile && (
-        <Dialog.Root
-          open={activeModal === 'buttons'}
-          onOpenChange={(open) => {
-            if (!open) setActiveModal('');
-          }}
-        >
-          <Modal onClose={() => setActiveModal('')}>
-            <div className="mt-6">
-              <CardCustomizer
+          <Dialog.Root
+            open={activeModal === 'templates'}
+            onOpenChange={(open) => {
+              if (!open) setActiveModal('');
+            }}
+          >
+            <Modal isSmaller={isSmallSize} onClose={() => setActiveModal('')}>
+              <TemplatesSection
+                customizeSectionRef={customizeSectionRef}
+                isLoading={isValidatingThemes || isLoading || isValidating}
+                themes={themes}
+                handleThemeSelect={handleThemeSelect}
+                handleUpdateUser={handleUpdateUser}
+                setUser={setUser}
                 user={user}
-                onUpdateUser={handleUpdateUser}
-                theme={user?.theme || currentTheme}
               />
-            </div>
-          </Modal>
-        </Dialog.Root>
+            </Modal>
+          </Dialog.Root>
+
+          <Dialog.Root
+            open={activeModal === 'buttons'}
+            onOpenChange={(open) => {
+              if (!open) setActiveModal('');
+            }}
+          >
+            <Modal onClose={() => setActiveModal('')}>
+              <div className="mt-6">
+                <CardCustomizer
+                  user={user}
+                  onUpdateUser={handleUpdateUser}
+                  theme={user?.theme || currentTheme}
+                />
+              </div>
+            </Modal>
+          </Dialog.Root>
+        </>
       )}
 
       {isLoading && <LoadingComponent hasOverlay />}

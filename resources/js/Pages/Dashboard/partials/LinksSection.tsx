@@ -36,7 +36,7 @@ export const LinksSection = ({
   ) as React.MutableRefObject<HTMLDivElement | null>;
 
   return (
-    <div className="flex flex-col h-full gap-4 mt-6">
+    <div className="flex flex-col h-full gap-4 mt-6 links-list-container">
       <DragDropContext onDragEnd={onDragEnd}>
         <Droppable droppableId="linksList">
           {(provided) => (

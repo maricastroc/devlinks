@@ -26,6 +26,7 @@ import { scrollToInvalidLink } from '@/utils/scrollToInvalidLink';
 import { handleApiError } from '@/utils/handleApiError';
 import { useMediaQuery } from '@/utils/useMediaQuery';
 import 'react-loading-skeleton/dist/skeleton.css';
+import { scrollToLastLink } from '@/utils/scrollToNewLink';
 
 export type FormErrors = Record<
   string | number,
@@ -199,7 +200,10 @@ export default function Dashboard() {
             <LinksModal
               handleAddLink={handleAddLink}
               platforms={filteredPlatforms}
-              onClose={() => setIsLinksModalOpen(false)}
+              onClose={() => {
+                setIsLinksModalOpen(false);
+                setTimeout(scrollToLastLink, 150);
+              }}
             />
           </Dialog.Root>
 

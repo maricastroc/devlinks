@@ -3,6 +3,11 @@
 @tailwind components;
 @tailwind utilities;
 
+.custom-scrollbar {
+  scroll-behavior: smooth;
+  scroll-snap-type: y proximity;
+}
+
 .custom-scrollbar::-webkit-scrollbar {
   width: 6px;
   margin-left: 4px;

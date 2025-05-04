@@ -11,7 +11,9 @@ class AuthenticatedUserController extends Controller
     {
         $user = Auth::user()->load([
             'theme',
-            'userLinks.platform',
+            'userLinks' => function($query) {
+                $query->orderBy('order')->with('platform');
+            },
             'socialLinks.platform'
         ]);
 
