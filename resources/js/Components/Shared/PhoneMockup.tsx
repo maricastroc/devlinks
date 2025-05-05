@@ -2,7 +2,6 @@ import { UserLinkProps } from '@/types/user-link';
 import { UserProps } from '@/types/user';
 import { LinkCard } from './LinkCard';
 import { PhoneIllustration } from './PhoneIllustration';
-import { useTheme } from '@/contexts/ThemeContext';
 import { AvatarCard } from '@/Components/Shared/AvatarCard';
 import { SocialLink } from './SocialLink';
 import { PhoneSkeleton } from './PhoneSkeleton';

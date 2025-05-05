@@ -24,7 +24,9 @@ class ProfileThemeController extends Controller
             'custom_styles.link_card.backgroundColor' => 'nullable|string',
             'custom_styles.link_card.color' => 'nullable|string',
             'custom_styles.icon' => 'nullable|array',
-            'custom_styles.icon.filter' => 'nullable|string'
+            'custom_styles.icon.filter' => 'nullable|string',
+            'custom_styles.primary_text.color' => 'nullable|string',
+            'custom_styles.secondary_text.color' => 'nullable|string',
         ]);
 
         if ($validator->fails()) {

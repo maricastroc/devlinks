@@ -26,6 +26,12 @@ type ThemeContextType = {
       icon?: {
         color?: string;
       };
+      primaryText?: {
+        color?: string;
+      };
+      secondaryText?: {
+        color?: string;
+      };
     },
     selectedBgType?: string,
     selectedBgColor?: string,
@@ -103,6 +109,12 @@ export const ThemeProvider: React.FC<{
       icon?: {
         color?: string;
       };
+      primaryText?: {
+        color?: string;
+      };
+      secondaryText?: {
+        color?: string;
+      };
     },
     selectedBgType?: string,
     selectedBgColor?: string,
@@ -140,8 +152,12 @@ export const ThemeProvider: React.FC<{
             }
           : currentBackground,
         button: currentButton,
-        primary_text: currentPrimaryText,
-        secondary_text: currentSecondaryText,
+        primary_text: {
+          color: styleConfig.primaryText?.color || currentIcon
+        },
+        secondary_text: {
+          color: styleConfig.secondaryText?.color || currentIcon
+        },
         avatar: currentAvatar,
         icon: {
           color: styleConfig.icon?.color || currentIcon

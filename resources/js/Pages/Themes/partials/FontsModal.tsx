@@ -8,12 +8,14 @@ import { UserProps } from '@/types/user';
 
 type Props = {
   onClose: () => void;
-  selectedFont: string;
-  onSelect: (font: { label: string; value: string }) => void;
+  selectedColor: string;
+  selectedFont: { label: string; value: string } | undefined;
+  onSelect: (font: { label: string; value: string }, color: string) => void;
   onUpdateUser: (updatedUser: Partial<UserProps>) => void;
 };
 export const FontsModal = ({
   selectedFont,
+  selectedColor,
   onClose,
   onSelect,
   onUpdateUser
@@ -48,14 +50,14 @@ export const FontsModal = ({
               filteredFonts.map((font) => (
                 <button
                   onClick={() => {
-                    onSelect(font);
+                    onSelect(font, selectedColor);
                     onUpdateUser({
                       custom_font: font.value
                     });
 
                     onClose();
                   }}
-                  className={`p-3 ${selectedFont === font.label ? 'text-medium-purple font-semibold' : 'text-dark-gray'} flex items-start rounded-lg bg-transparent hover:bg-gray-100 font-${font.value}`}
+                  className={`p-3 ${selectedFont?.label === font.label ? 'text-medium-purple font-semibold' : 'text-dark-gray'} flex items-start rounded-lg bg-transparent hover:bg-gray-100 font-${font.value}`}
                 >
                   {font.label}
                 </button>
