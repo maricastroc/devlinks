@@ -12,6 +12,7 @@ import { useClickOutside } from '@/utils/useClickOutside';
 
 export const Navbar = () => {
   const { auth } = usePage().props;
+
   const currentPath = window.location.pathname;
 
   const routeMap = {
@@ -74,9 +75,9 @@ export const Navbar = () => {
           <p className="hidden md:block">Themes</p>
         </NavLink>
 
-        <button
+        <div
           className={`
-            relative transition-all duration-150
+            relative transition-all duration-150 cursor-pointer
             md:gap-2 hover:text-medium-purple flex items-center
             justify-center md:px-6 p-4 py-3 font-semibold rounded-md
             ${
@@ -86,14 +87,14 @@ export const Navbar = () => {
             }
           `}
           onClick={() => setIsDropdownOpen(true)}
-          ref={dropdownRef as RefObject<HTMLButtonElement>}
+          ref={dropdownRef as RefObject<HTMLDivElement>}
         >
           <UserCircle size={26} />
           <p className="hidden md:block">Profile</p>
           {isDropdownOpen && (
             <DropdownProfile currentRoute={currentRoute as string} />
           )}
-        </button>
+        </div>
       </div>
 
       <Link

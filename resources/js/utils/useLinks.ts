@@ -61,17 +61,24 @@ export const useLinks = (
   };
 
   useEffect(() => {
-    const filtered = platforms?.filter((platform) => {
-      const isCustomPlatform = platform.name === CUSTOM_PLATFORM_NAME;
+    if (!platforms) {
+      setFilteredPlatforms([]);
+      return;
+    }
 
+    const newFilteredPlatforms = platforms.filter((platform) => {
+      const isCustomPlatform = platform.name === CUSTOM_PLATFORM_NAME;
       const isPlatformInUse = links.some(
         (link) => link.platform_id === platform.id
       );
-
       return isCustomPlatform || !isPlatformInUse;
     });
 
-    setFilteredPlatforms(filtered || []);
+    if (
+      JSON.stringify(newFilteredPlatforms) !== JSON.stringify(filteredPlatforms)
+    ) {
+      setFilteredPlatforms(newFilteredPlatforms);
+    }
   }, [links, platforms]);
 
   return {

@@ -47,8 +47,9 @@ export const FontsModal = ({
 
           <div className="flex flex-col h-[60vh] max-h-[20rem] overflow-y-auto custom-scrollbar">
             {filteredFonts.length > 0 ? (
-              filteredFonts.map((font) => (
+              filteredFonts.map((font, index) => (
                 <button
+                  key={index}
                   onClick={() => {
                     onSelect(font, selectedColor);
                     onUpdateUser({
