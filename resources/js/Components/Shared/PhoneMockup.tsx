@@ -88,9 +88,11 @@ export const PhoneMockup = ({
                 className={`font-bold text-center ${isSmaller ? ' w-[15.5rem]' : ' w-[17.2rem]'}`}
               >
                 <p
-                  style={
-                    user?.theme?.styles.secondary_text as React.CSSProperties
-                  }
+                  style={{
+                    color: (
+                      user?.theme?.styles?.primary_text as React.CSSProperties
+                    )?.color
+                  }}
                 >
                   {name || `@${user?.username}`}
                 </p>
@@ -103,9 +105,11 @@ export const PhoneMockup = ({
               >
                 <p
                   className={`text-sm`}
-                  style={
-                    user?.theme?.styles.secondary_text as React.CSSProperties
-                  }
+                  style={{
+                    color: (
+                      user?.theme?.styles?.secondary_text as React.CSSProperties
+                    )?.color
+                  }}
                 >
                   {bio}
                 </p>

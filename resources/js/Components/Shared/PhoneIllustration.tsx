@@ -1,4 +1,3 @@
-import { useTheme } from '@/contexts/ThemeContext';
 import { ThemeProps } from '@/types/theme';
 import { UserProps } from '@/types/user';
 import { useEffect, useState } from 'react';
