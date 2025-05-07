@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react';
-import * as Dialog from '@radix-ui/react-dialog';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Head } from '@inertiajs/react';
@@ -24,9 +23,6 @@ import {
 } from './partials/FormSection';
 import { SkeletonCard } from './partials/SkeletonCard';
 import 'react-loading-skeleton/dist/skeleton.css';
-import SecondaryButton from '@/Components/Core/SecondaryButton';
-import { PhoneMockupModal } from '@/Components/Shared/PhoneMockupModal';
-import { useMediaQuery } from '@/utils/useMediaQuery';
 
 export interface ThemesData {
   themes: ThemeProps[];
@@ -46,8 +42,6 @@ export interface PlatformsData {
 
 export default function Profile() {
   const { handleChangeTheme } = useTheme();
-
-  const [isPhoneMockupOpen, setIsPhoneMockupOpen] = useState(false);
 
   const [photoPreview, setPhotoPreview] = useState<string | null>(null);
 
@@ -80,8 +74,6 @@ export default function Profile() {
   });
 
   const socialLinks = socialLinksData?.socialLinks || [];
-
-  const isMobile = useMediaQuery('(max-width: 768px)');
 
   const platforms = platformsData?.platforms || [];
 
@@ -187,29 +179,6 @@ export default function Profile() {
                 setShowCropper={(value) => setShowCropper(value)}
                 setOriginalImage={(value) => setOriginalImage(value)}
               />
-
-              {isMobile && (
-                <Dialog.Root open={isPhoneMockupOpen}>
-                  <Dialog.Trigger asChild>
-                    <SecondaryButton
-                      onClick={() => setIsPhoneMockupOpen(true)}
-                      className="mt-3 md:hidden"
-                    >
-                      Open Preview
-                    </SecondaryButton>
-                  </Dialog.Trigger>
-                  <PhoneMockupModal
-                    links={user?.user_links}
-                    socialLinks={socialLinks}
-                    name={watch().name}
-                    bio={watch().bio}
-                    photoPreview={photoPreview}
-                    isLoading={isValidating || isSubmitting}
-                    user={user}
-                    onClose={() => setIsPhoneMockupOpen(false)}
-                  />
-                </Dialog.Root>
-              )}
             </>
           )}
         </div>
