@@ -96,7 +96,7 @@ php artisan serve
 npm run dev
 ```
 
-> ⏩ The React server will be available at [http://localhost:3000](http://localhost:3000).
+> ⏩ The React server will be available at [http://localhost:3000](http://localhost:8000).
 
 If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
 
