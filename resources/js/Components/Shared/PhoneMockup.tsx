@@ -130,7 +130,7 @@ export const PhoneMockup = ({
 
             <div className="relative">
               <div
-                className={`mt-6 overflow-y-scroll flex flex-col items-center justify-start ${isSmaller ? 'w-[15rem] max-h-[180px] ml-[0.9rem]' : 'w-[16.5rem] max-h-[300px]'} custom-scrollbar mr-[-8px] m-4`}
+                className={`mt-6 overflow-y-scroll flex flex-col items-center justify-start ${isSmaller ? 'w-[15rem] max-h-[180px] ml-[0.7rem]' : 'w-[16.5rem] max-h-[300px]'} custom-scrollbar mr-[-8px] m-4`}
               >
                 <div className="w-full flex flex-col gap-[0.98rem] pr-2">
                   {links?.map((link) => (
