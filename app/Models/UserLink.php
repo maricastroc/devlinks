@@ -19,7 +19,7 @@ class UserLink extends Model {
     }
 
     public function getDisplayNameAttribute()
-{
-    return $this->custom_name ?? $this->platform->name;
-}
+    {
+        return $this->custom_name ?? $this->platform->name;
+    }
 }

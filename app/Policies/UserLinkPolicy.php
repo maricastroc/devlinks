@@ -24,12 +24,18 @@ class UserLinkPolicy
         return auth()->check();
     }
 
+    public function create(User $user): bool
+    {
+        return auth()->check();
+    }
+
+
     /**
      * Determine whether the user can update the model.
      */
     public function update(User $user, UserLink $userLink): bool
     {
-        return $userLink->user->is($user);
+        return $userLink->user_id === $user->id;
     }
     /**
      * Determine whether the user can delete the model.
