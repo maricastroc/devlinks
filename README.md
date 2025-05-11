@@ -8,11 +8,18 @@ This is a link management system that allows users to create, store, share and m
 
 ## 📋 Features
 
-- Create, read, update, delete links and see previews in the mobile mockup
-- Receive validations if the links form is submitted without a URL or with the wrong URL pattern for the platform
-- Add profile details like profile picture, first name, last name, and email
-- Receive validations if the profile details form is saved with no first or last name
-- Preview their devlinks profile and copy the link to their clipboard
+- Create, read, update, delete custom links
+- View link previews in mobile mockup
+- Custom link ordering
+- Form validations for missing URL, incorrect or URL pattern for platform
+- Select predefined profile theme
+- Full appearance customization (Background color, Link button styles/colors,  Typography (font family and color)
+- Add/edit profile details (Profile Picture, Name, E-mail, Username for custom URL)
+- Receive validations if the profile details form is saved with no username
+- Custom URL (e.g., devlinks.com/@yourusername)
+- Support for fully custom links (beyond predefined platforms)
+- Preview users' DevLinks profiles and copy the link to your clipboard
+
 
 ## 🛠 Technologies Used
 
