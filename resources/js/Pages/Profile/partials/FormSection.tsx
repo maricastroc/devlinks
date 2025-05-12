@@ -18,6 +18,7 @@ import { handleApiError } from '@/utils/handleApiError';
 import PrimaryButton from '@/Components/Core/PrimaryButton';
 import { TextAreaField } from '@/Components/Core/TextareaField';
 import Checkbox from '@/Components/Core/Checkbox';
+import { scrollToInvalidInput } from '@/utils/scrollToInvalidInput';
 
 type Props = {
   user: UserProps | undefined;
@@ -77,6 +78,12 @@ export const FormSection = ({
 }: Props) => {
   const inputFileRef = useRef<HTMLInputElement>(null);
 
+  const formRef = useRef<HTMLFormElement>(null);
+
+  const scrollContainerRef = useRef<HTMLDivElement | null>(
+    null
+  ) as React.MutableRefObject<HTMLDivElement | null>;
+
   const handleAvatarChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
 
@@ -91,6 +98,10 @@ export const FormSection = ({
   };
 
   const onSubmit = async (data: ProfileFormSchema) => {
+    if (formRef.current) {
+      formRef.current.classList.add('submitted');
+    }
+
     const formData = new FormData();
 
     formData.append('name', data.name);
@@ -140,8 +151,15 @@ export const FormSection = ({
     }
   }, [user]);
 
+  useEffect(() => {
+    if (Object.keys(errors).length > 0 && formRef.current) {
+      scrollToInvalidInput(errors, scrollContainerRef);
+    }
+  }, [errors]);
+
   return (
     <form
+      ref={formRef}
       onSubmit={handleSubmit(onSubmit)}
       className="flex flex-col w-full gap-6 mt-6"
     >
@@ -156,7 +174,12 @@ export const FormSection = ({
         {errors.avatar_url && <FormError error={errors.avatar_url.message} />}
       </ProfileSection>
 
-      <div className="flex flex-col p-5 rounded-md md:p-7 bg-light-gray lg:max-h-[15.5rem] overflow-y-auto custom-scrollbar">
+      <div
+        ref={(el) => {
+          scrollContainerRef.current = el;
+        }}
+        className="flex flex-col p-5 rounded-md md:p-7 bg-light-gray lg:max-h-[15.5rem] overflow-y-auto custom-scrollbar"
+      >
         <Controller
           name="email"
           control={control}
