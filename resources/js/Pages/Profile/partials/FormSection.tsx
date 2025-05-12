@@ -1,8 +1,7 @@
 import { z } from 'zod';
-import * as Dialog from '@radix-ui/react-dialog';
 import { PhotoInput } from './PhotoInput';
 import { ProfileSection } from './ProfileSection';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef } from 'react';
 import {
   Control,
   Controller,
@@ -17,8 +16,8 @@ import { api } from '@/libs/axios';
 import toast from 'react-hot-toast';
 import { handleApiError } from '@/utils/handleApiError';
 import PrimaryButton from '@/Components/Core/PrimaryButton';
-import { ChangeBioModal } from './ChangeBioModal';
-import { PencilSimple } from 'phosphor-react';
+import { TextAreaField } from '@/Components/Core/TextareaField';
+import Checkbox from '@/Components/Core/Checkbox';
 
 type Props = {
   user: UserProps | undefined;
@@ -26,6 +25,8 @@ type Props = {
   control: Control<ProfileFormSchema>;
   errors: FieldErrors<ProfileFormSchema>;
   isSubmitting: boolean;
+  changePassword: boolean;
+  handleChangePassword: (value: boolean) => void;
   setValue: UseFormSetValue<ProfileFormSchema>;
   handleSubmit: UseFormHandleSubmit<ProfileFormSchema>;
   setOriginalImage: (value: string | null) => void;
@@ -34,18 +35,30 @@ type Props = {
   mutate: () => void;
 };
 
-export const profileFormSchema = z.object({
-  name: z.string().min(3, 'Name is required'),
-  bio: z.string().nullable(),
-  username: z.string().min(3, {
-    message: 'Username must have at least 3 characters'
-  }),
-  avatar_url: z
-    .custom<File>((file) => file instanceof File && file.size > 0)
-    .optional()
-});
+export const profileFormSchema = (changePassword: boolean) =>
+  z.object({
+    name: z.string().min(3, 'Name is required'),
+    email: z.string().min(3, 'E-mail is required'),
+    bio: z.string().nullable(),
+    username: z.string().min(3, {
+      message: 'Username must have at least 3 characters'
+    }),
+    avatar_url: z
+      .custom<File>((file) => file instanceof File && file.size > 0)
+      .optional(),
+    old_password: changePassword
+      ? z
+          .string()
+          .min(8, { message: 'Password must be at least 8 characters long.' })
+      : z.string().optional(),
+    new_password: changePassword
+      ? z
+          .string()
+          .min(8, { message: 'Password must be at least 8 characters long.' })
+      : z.string().optional()
+  });
 
-export type ProfileFormSchema = z.infer<typeof profileFormSchema>;
+export type ProfileFormSchema = z.infer<ReturnType<typeof profileFormSchema>>;
 
 export const FormSection = ({
   user,
@@ -53,6 +66,8 @@ export const FormSection = ({
   errors,
   photoPreview,
   isSubmitting,
+  changePassword,
+  handleChangePassword,
   setValue,
   handleSubmit,
   setPhotoPreview,
@@ -61,8 +76,6 @@ export const FormSection = ({
   mutate
 }: Props) => {
   const inputFileRef = useRef<HTMLInputElement>(null);
-
-  const [isAddBioModalOpen, setIsAddBioModalOpen] = useState(false);
 
   const handleAvatarChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
@@ -92,6 +105,11 @@ export const FormSection = ({
       formData.append('avatar_url', data.avatar_url);
     }
 
+    if (changePassword && data.old_password && data.new_password) {
+      formData.append('old_password', data.old_password);
+      formData.append('new_password', data.new_password);
+    }
+
     try {
       const response = await api.post('/profile/update', formData, {
         headers: {
@@ -112,6 +130,7 @@ export const FormSection = ({
   useEffect(() => {
     if (user) {
       setValue('name', user?.name || '');
+      setValue('email', user?.email || '');
       setValue('bio', user?.bio || '');
       setValue('username', user?.username || '');
 
@@ -137,7 +156,21 @@ export const FormSection = ({
         {errors.avatar_url && <FormError error={errors.avatar_url.message} />}
       </ProfileSection>
 
-      <div className="flex flex-col p-5 rounded-md md:p-7 bg-light-gray">
+      <div className="flex flex-col p-5 rounded-md md:p-7 bg-light-gray lg:max-h-[15.5rem] overflow-y-auto custom-scrollbar">
+        <Controller
+          name="email"
+          control={control}
+          render={({ field }) => (
+            <InputField
+              label="Your email"
+              id="email"
+              type="text"
+              placeholder="e.g. alex@email.com"
+              error={errors.email?.message}
+              {...field}
+            />
+          )}
+        />
         <Controller
           name="name"
           control={control}
@@ -167,22 +200,73 @@ export const FormSection = ({
             />
           )}
         />
-        <Dialog.Root open={isAddBioModalOpen}>
-          <ChangeBioModal
-            control={control}
-            onClose={() => setIsAddBioModalOpen(false)}
+
+        <Controller
+          name="bio"
+          control={control}
+          render={({ field }) => (
+            <TextAreaField
+              id="bio"
+              label="Your bio"
+              name={field.name}
+              placeholder="Tell us about yourself..."
+              rows={5}
+              className="w-full min-w-full"
+              value={field.value || ''}
+              onChange={field.onChange}
+              onBlur={field.onBlur}
+              maxLength={80}
+            />
+          )}
+        />
+
+        <div className="flex items-center gap-2 mt-8">
+          <Checkbox
+            checked={!!changePassword}
+            onChange={() => handleChangePassword(!changePassword)}
           />
-          <Dialog.Trigger asChild>
-            <button
-              type="button"
-              onClick={() => setIsAddBioModalOpen(true)}
-              className="max-w-[12rem] flex items-center justify-start gap-2 mt-4 text-left text-medium-purple hover:font-semibold"
-            >
-              <PencilSimple size={18} />
-              Change your bio
-            </button>
-          </Dialog.Trigger>
-        </Dialog.Root>
+          <p className="text-md text-medium-gray">Change Password?</p>
+        </div>
+
+        {changePassword && (
+          <>
+            <Controller
+              name="old_password"
+              control={control}
+              render={({ field }) => (
+                <InputField
+                  label="Your current password"
+                  id="old_password"
+                  type="password"
+                  placeholder="At least 8 characters"
+                  error={
+                    errors.old_password?.message &&
+                    'Password must be at least 8 characters long.'
+                  }
+                  {...field}
+                />
+              )}
+            />
+
+            <Controller
+              name="new_password"
+              control={control}
+              render={({ field }) => (
+                <InputField
+                  label="Your new password"
+                  id="new_password"
+                  type="password"
+                  placeholder="At least 8 characters"
+                  error={
+                    errors.new_password?.message &&
+                    'Password must be at least 8 characters long.'
+                  }
+                  {...field}
+                />
+              )}
+            />
+          </>
+        )}
       </div>
 
       <hr className="my-0" />

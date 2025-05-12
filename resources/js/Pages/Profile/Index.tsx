@@ -43,6 +43,8 @@ export interface PlatformsData {
 export default function Profile() {
   const { handleChangeTheme } = useTheme();
 
+  const [changePassword, setChangePassword] = useState(false);
+
   const [photoPreview, setPhotoPreview] = useState<string | null>(null);
 
   const [showCropper, setShowCropper] = useState(false);
@@ -101,7 +103,7 @@ export default function Profile() {
     watch,
     formState: { errors, isSubmitting }
   } = useForm<ProfileFormSchema>({
-    resolver: zodResolver(profileFormSchema),
+    resolver: zodResolver(profileFormSchema(changePassword)),
     defaultValues: {
       name: user?.name || '',
       username: user?.username || ''
@@ -168,6 +170,10 @@ export default function Profile() {
 
               <FormSection
                 setPhotoPreview={setPhotoPreview}
+                changePassword={changePassword}
+                handleChangePassword={(value: boolean) =>
+                  setChangePassword(value)
+                }
                 photoPreview={photoPreview}
                 control={control}
                 handleSubmit={handleSubmit}
