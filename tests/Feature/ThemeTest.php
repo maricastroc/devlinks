@@ -36,7 +36,7 @@ test('I should have my custom fields cleared when setting non custom theme', fun
 
     $this->actingAs($user);
 
-    $theme = Theme::factory()->create(['is_custom' => false]);
+    $theme = Theme::factory()->create(['name' => 'theme', 'is_custom' => false]);
 
     $response = $this->putJson('api/profile/theme', [
         'theme_id' => $theme->id,
@@ -65,10 +65,12 @@ test('I should be able to update my custom font', function () {
 
 test('I should be able to create a custom theme', function () {
     $customStyles = [
-        "primary_color" => "#7cb20d",
-        "secondary_color" => "#250d14",
-        "background_color" => "#0ef0de",
-        "text_color" => "#282ede",
+        "primary_text" => [
+            'color' => "#7cb20d",
+        ],
+        "secondary_text" => [
+            'color' => "#0ef0de",
+        ],
         'link_card' => [
             'borderRadius' => '10px',
             'backgroundColor' => '#ffffff',
@@ -129,6 +131,85 @@ test('I should be able to merge existing styles when updating custom theme', fun
         ],
         'icon' => ['filter' => 'brightness(0.8)'],
         'primary_text' => ['color' => '#000000'],
+    ];
+    
+    $this->assertEquals(
+        $expectedStyles,
+        $this->user->fresh()->theme->styles
+    );
+});
+
+test('I should be able to update custom background properties', function () {
+    $response = $this->putJson('/api/profile/theme', [
+        'custom_bg_type' => 'gradient',
+        'custom_bg_color' => '#123456',
+    ]);
+
+    $response->assertOk()
+        ->assertJson([
+            'custom_bg_type' => 'gradient',
+            'custom_bg_color' => '#123456',
+            'message' => 'Theme updated successfully',
+        ]);
+
+    $this->assertEquals('gradient', $this->user->fresh()->custom_bg_type);
+    $this->assertEquals('#123456', $this->user->fresh()->custom_bg_color);
+});
+
+test('I should be able to update only custom_bg_type without affecting other fields', function () {
+    $this->user->update([
+        'custom_bg_color' => '#123456',
+        'custom_font' => 'Arial'
+    ]);
+
+    $response = $this->putJson('/api/profile/theme', [
+        'custom_bg_type' => 'image',
+    ]);
+
+    $response->assertOk();
+
+    $user = $this->user->fresh();
+    $this->assertEquals('image', $user->custom_bg_type);
+    $this->assertEquals('#123456', $user->custom_bg_color);
+    $this->assertEquals('Arial', $user->custom_font);
+});
+
+test('I should be able to perform a deep merge of nested custom styles', function () {
+    $initialTheme = Theme::factory()->create([
+        'user_id' => $this->user->id,
+        'is_custom' => true,
+        'styles' => [
+            'link_card' => [
+                'borderRadius' => '10px',
+                'color' => '#FFFFFF',
+                'nested' => ['level1' => 'value1']
+            ],
+        ],
+    ]);
+
+    $this->user->update(['theme_id' => $initialTheme->id]);
+
+    $updatedStyles = [
+        'link_card' => [
+            'backgroundColor' => '#ffffff',
+            'nested' => ['level2' => 'value2']
+        ],
+    ];
+
+    $response = $this->putJson('/api/profile/theme', [
+        'custom_styles' => $updatedStyles,
+    ]);
+
+    $expectedStyles = [
+        'link_card' => [
+            'borderRadius' => '10px',
+            'color' => '#FFFFFF',
+            'backgroundColor' => '#ffffff',
+            'nested' => [
+                'level1' => 'value1',
+                'level2' => 'value2'
+            ]
+        ],
     ];
     
     $this->assertEquals(

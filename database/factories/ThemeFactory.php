@@ -26,9 +26,7 @@ class ThemeFactory extends Factory
             'name' => $this->faker->word(),
             'type' => $this->faker->randomElement(['preset', 'custom']),
             'slug' => $this->faker->slug(),
-'styles' => [
-                'link_card' => ['borderRadius' => '10px', 'color' => '#FFFFFF'],
-                'icon' => ['filter' => 'brightness(0.8)'],
+            'styles' => [
             ],
             'is_custom' => $this->faker->boolean(),
             'is_active' => true,
