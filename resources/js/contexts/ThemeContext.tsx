@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { api } from '@/libs/axios';
 import { ThemeProps } from '@/types/theme';
 import React, { createContext, useContext, useState } from 'react';
@@ -135,7 +136,7 @@ export const ThemeProvider: React.FC<{
         icon: currentIcon,
         link_card: currentLinkCard
       } = theme.styles;
-
+      console.log(styleConfig?.primaryText?.color, currentPrimaryText);
       const newStyles = {
         color: currentColor,
         background: styleConfig.background
@@ -152,16 +153,10 @@ export const ThemeProvider: React.FC<{
             }
           : currentBackground,
         button: currentButton,
-        primary_text: {
-          color: styleConfig.primaryText?.color || currentIcon
-        },
-        secondary_text: {
-          color: styleConfig.secondaryText?.color || currentIcon
-        },
+        primary_text: styleConfig?.primaryText || currentPrimaryText,
+        secondary_text: styleConfig?.secondaryText || currentSecondaryText,
         avatar: currentAvatar,
-        icon: {
-          color: styleConfig.icon?.color || currentIcon
-        },
+        icon: styleConfig.icon || currentIcon,
         link_card: styleConfig.linkCard
           ? {
               borderRadius:

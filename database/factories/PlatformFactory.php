@@ -25,6 +25,7 @@ class PlatformFactory extends Factory
     {
         return [
             'name' => fake()->name(),
+            'base_url' => 'https://example.com',
             'icon_url' => fake()->text(),
             'color' => fake()->text(),
         ];

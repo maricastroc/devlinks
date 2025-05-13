@@ -1,10 +1,12 @@
+/* eslint-disable @typescript-eslint/no-non-null-asserted-optional-chain */
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
 import { RefObject, useEffect, useState } from 'react';
 import * as Dialog from '@radix-ui/react-dialog';
 import { ThemeProps } from '@/types/theme';
 import { UserProps } from '@/types/user';
 import { FontsModal } from './FontsModal';
 import { useTheme } from '@/contexts/ThemeContext';
-import { DEFAULT_COLOR, DEFAULT_FONT, FONTS } from '@/utils/constants';
+import { DEFAULT_COLOR, FONTS } from '@/utils/constants';
 import { ColorPicker } from '@/Components/Shared/ColorPicker';
 import { useClickOutside } from '@/utils/useClickOutside';
 
@@ -45,10 +47,10 @@ export default function FontCustomizer({ user, theme, onUpdateUser }: Props) {
       user?.theme! || theme!,
       {
         primaryText: {
-          color
+          color: color
         },
         secondaryText: {
-          color
+          color: color
         }
       },
       undefined,

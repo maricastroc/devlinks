@@ -1,3 +1,6 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
+/* eslint-disable @typescript-eslint/no-non-null-asserted-optional-chain */
 import { useEffect, useState, RefObject } from 'react';
 import { HexColorPicker } from 'react-colorful';
 import { BackgroundTemplate } from './BackgroundTemplate';
@@ -56,6 +59,12 @@ export default function BackgroundCustomizer({
         background: {
           type,
           value
+        },
+        primaryText: {
+          color: (user?.theme?.styles?.primary_text as any)?.color
+        },
+        secondaryText: {
+          color: (user?.theme?.styles?.secondary_text as any)?.color
         }
       },
       direction || type,

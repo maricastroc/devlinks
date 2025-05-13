@@ -1,3 +1,6 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable @typescript-eslint/no-non-null-asserted-optional-chain */
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
 import { useEffect, useState, RefObject } from 'react';
 import { CardTemplate } from './CardTemplate';
 import { ThemeProps } from '@/types/theme';
@@ -56,6 +59,12 @@ export default function CardCustomizer({ user, theme, onUpdateUser }: Props) {
       },
       icon: {
         color: selectedColor
+      },
+      primaryText: {
+        color: (user?.theme?.styles?.primary_text as any)?.color
+      },
+      secondaryText: {
+        color: (user?.theme?.styles?.secondary_text as any)?.color
       }
     });
 
