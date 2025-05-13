@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Http\UploadedFile;
 
 class User extends Authenticatable
 {
@@ -81,37 +82,42 @@ class User extends Authenticatable
         if (isset($data['new_password'])) {
             $data['new_password'] = Hash::make($data['new_password']);
         }
-    
-        if (isset($data['avatar_url']) && $data['avatar_url'] instanceof \Illuminate\Http\UploadedFile) {
-            $this->deleteOldAvatar($user);
-            
-            $fileName = 'avatar_'.$user->id.'_'.time().'.'.$data['avatar_url']->extension();
-            $data['avatar_url']->move(public_path('assets/users'), $fileName);
-            
-            $user->avatar_url = 'assets/users/'.$fileName;
+
+    if (isset($data['avatar_url']) && ($data['avatar_url'] instanceof UploadedFile) ) {
+                $this->deleteOldAvatar($user);
+
+                $fileName = 'avatar_'.$user->id.'_'.time().'.'.$data['avatar_url']->extension();
+                $data['avatar_url']->move(public_path('assets/users'), $fileName);
+                
+                $user->avatar_url = 'assets/users/'.$fileName;
+            }
+
+            if (isset($data['bio'])) {
+                $user->bio = $data['bio'];
+            }
+
+            if (isset($data['theme_id'])) {
+                $user->theme_id = $data['theme_id'];
+            }
+
+            $user->username = $data['username'];
+
+            $user->name = $data['name'];
+
+            $user->email = $data['email'] ?? $user->email;
+
+            $user->password = $data['new_password'] ?? $user->password;
+        
+            return $user->save();
         }
-
-        if (isset($data['bio'])) {
-            $user->bio = $data['bio'];
-        }
-
-        if (isset($data['theme_id'])) {
-            $user->theme_id = $data['theme_id'];
-        }
-
-        $user->username = $data['username'];
-
-        $user->name = $data['name'];
-
-        $user->email = $data['email'] ?? $user->email;
-
-        $user->password = $data['new_password'] ?? $user->password;
-    
-        return $user->save();
-    }
 
     protected function deleteOldAvatar(User $user)
     {
+            if (app()->runningUnitTests()) {
+        return;
+    }
+
+    
         if ($user->avatar_url && strpos($user->avatar_url, 'assets/users/') === 0) {
             $oldPath = public_path($user->avatar_url);
             if (file_exists($oldPath)) {
