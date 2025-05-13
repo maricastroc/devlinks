@@ -74,14 +74,12 @@ export const PhoneMockup = ({
                 className="w-full h-full bg-center bg-cover rounded-full bg-opacity-20"
               />
             ) : (
-              <AvatarCard
-                isPublicPage={false}
-                avatarUrl={photoPreview || (user?.avatar_url as string)}
-                theme={currentTheme as ThemeProps}
-                user={user}
-                username={username}
-                className="w-full h-full bg-center bg-cover rounded-full bg-opacity-20"
-              />
+              <span
+                style={currentTheme?.styles.avatar as React.CSSProperties}
+                className="text-3xl font-bold text-gray-600"
+              >
+                {getInitials(username || user?.username)}
+              </span>
             )}
           </div>
 
