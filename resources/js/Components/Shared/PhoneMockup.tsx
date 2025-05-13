@@ -57,7 +57,11 @@ export const PhoneMockup = ({
       ) : (
         <>
           <div
-            style={currentTheme?.styles.avatar as React.CSSProperties}
+            style={
+              photoPreview || user?.avatar_url
+                ? { backgroundColor: 'transparent' }
+                : (currentTheme?.styles.avatar as React.CSSProperties)
+            }
             className={`absolute rounded-full h-[6.02rem] w-[6.02rem] z-40 top-[3.9rem] ${isSmaller ? 'left-[5.5rem]' : 'left-[6.5rem]'} flex items-center justify-center bg-gray-200`}
           >
             {photoPreview || user?.avatar_url ? (
@@ -70,12 +74,14 @@ export const PhoneMockup = ({
                 className="w-full h-full bg-center bg-cover rounded-full bg-opacity-20"
               />
             ) : (
-              <span
-                style={currentTheme?.styles.avatar as React.CSSProperties}
-                className="text-3xl font-bold text-gray-600"
-              >
-                {getInitials(username || user?.username)}
-              </span>
+              <AvatarCard
+                isPublicPage={false}
+                avatarUrl={photoPreview || (user?.avatar_url as string)}
+                theme={currentTheme as ThemeProps}
+                user={user}
+                username={username}
+                className="w-full h-full bg-center bg-cover rounded-full bg-opacity-20"
+              />
             )}
           </div>
 
