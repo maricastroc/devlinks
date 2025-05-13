@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/no-non-null-asserted-optional-chain */
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 import { RefObject, useEffect, useState } from 'react';
@@ -126,7 +127,13 @@ export default function FontCustomizer({ user, theme, onUpdateUser }: Props) {
     }
 
     const applyChanges = async () => {
-      if (selectedColor?.length === 7 && !showColorPicker && selectedFont) {
+      if (
+        selectedColor?.length === 7 &&
+        !showColorPicker &&
+        selectedFont &&
+        (selectedColor !== (user?.theme?.styles?.primary_text as any)?.color ||
+          selectedColor !== (user?.theme?.styles?.secondary_text as any)?.color)
+      ) {
         await handleFontSelect(selectedFont, selectedColor);
       }
     };
