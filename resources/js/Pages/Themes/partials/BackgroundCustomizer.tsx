@@ -95,6 +95,7 @@ export default function BackgroundCustomizer({
     } else {
       setSelectedType(user?.custom_bg_type === 'solid' ? 'solid' : 'gradient');
       setSelectedDirection(user?.custom_bg_type as string);
+      setColor((user?.theme?.styles?.background as any)?.color);
     }
   }, [user]);
 
@@ -105,7 +106,12 @@ export default function BackgroundCustomizer({
     }
 
     const applyChanges = async () => {
-      if (color?.length === 7 && !showPicker && selectedType) {
+      if (
+        color?.length === 7 &&
+        !showPicker &&
+        selectedType &&
+        (user?.theme?.styles?.background as any)?.color !== color
+      ) {
         await handleBackgroundSelect(
           color,
           selectedType as BackgroundType,

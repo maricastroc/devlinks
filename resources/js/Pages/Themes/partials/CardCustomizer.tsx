@@ -206,7 +206,10 @@ export default function CardCustomizer({ user, theme, onUpdateUser }: Props) {
         !showColorPicker &&
         !showBgColorPicker &&
         cardStyle?.borderRadius.length > 0 &&
-        cardStyle?.type?.length > 0
+        cardStyle?.type?.length > 0 &&
+        (selectedColor !== (user?.theme?.styles?.link_card as any)?.color ||
+          backgroundColor !==
+            (user?.theme?.styles?.link_card as any)?.backgroundColor)
       ) {
         await handleLinkCardSelect(cardStyle.type, cardStyle.borderRadius);
       }
