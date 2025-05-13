@@ -73,11 +73,11 @@ class ProfileThemeController extends Controller
                 
                 if ($user->theme_id && $user->theme->is_custom) {
                     $currentStyles = $user->theme->styles ?? [];
-                    $customStyles = array_merge($currentStyles, $customStyles);
+                    $customStyles = array_replace_recursive($currentStyles, $customStyles); 
                 }
                 
                 $customTheme = $this->handleCustomTheme($user, $customStyles);
-                
+
                 $responseData = array_merge($responseData, [
                     'theme' => $customTheme,
                     'theme_id' => $customTheme->id,

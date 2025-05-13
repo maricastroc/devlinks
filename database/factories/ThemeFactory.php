@@ -26,11 +26,9 @@ class ThemeFactory extends Factory
             'name' => $this->faker->word(),
             'type' => $this->faker->randomElement(['preset', 'custom']),
             'slug' => $this->faker->slug(),
-            'styles' => [
-                'primary_color' => $this->faker->hexColor(),
-                'secondary_color' => $this->faker->hexColor(),
-                'background_color' => $this->faker->hexColor(),
-                'text_color' => $this->faker->hexColor(),
+'styles' => [
+                'link_card' => ['borderRadius' => '10px', 'color' => '#FFFFFF'],
+                'icon' => ['filter' => 'brightness(0.8)'],
             ],
             'is_custom' => $this->faker->boolean(),
             'is_active' => true,

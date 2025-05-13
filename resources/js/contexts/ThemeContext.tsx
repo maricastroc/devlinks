@@ -136,7 +136,7 @@ export const ThemeProvider: React.FC<{
         icon: currentIcon,
         link_card: currentLinkCard
       } = theme.styles;
-      console.log(styleConfig?.primaryText?.color, currentPrimaryText);
+
       const newStyles = {
         color: currentColor,
         background: styleConfig.background

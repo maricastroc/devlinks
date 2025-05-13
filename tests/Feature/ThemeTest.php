@@ -98,41 +98,41 @@ test('I should be able to create a custom theme', function () {
     $this->assertEquals($theme->id, $this->user->fresh()->theme_id);
 });
 
-test('I should be able to create a merge custom theme', function () {
-        $initialTheme = Theme::factory()->create([
-            'user_id' => $this->user->id,
-            'is_custom' => true,
-            'styles' => [
-                'link_card' => ['borderRadius' => '10px'],
-                'icon' => ['filter' => 'brightness(0.8)'],
-            ],
-        ]);
-
-        $this->user->update(['theme_id' => $initialTheme->id]);
-
-        // Atualiza apenas parte dos estilos
-        $updatedStyles = [
-            'link_card' => ['backgroundColor' => '#ffffff'],
-            'primary_text' => ['color' => '#000000'],
-        ];
-
-        $response = $this->putJson('/api/profile/theme', [
-            'custom_styles' => $updatedStyles,
-        ]);
-
-        $response->assertOk();
-
-        $expectedStyles = [
-            'link_card' => [
-                'borderRadius' => '10px',
-                'backgroundColor' => '#ffffff',
-            ],
+test('I should be able to merge existing styles when updating custom theme', function () {
+    $initialTheme = Theme::factory()->create([
+        'user_id' => $this->user->id,
+        'is_custom' => true,
+        'styles' => [
+            'link_card' => ['borderRadius' => '10px', 'color' => '#FFFFFF'],
             'icon' => ['filter' => 'brightness(0.8)'],
-            'primary_text' => ['color' => '#000000'],
-        ];
-dd($this->user->fresh()->theme->styles);
-        $this->assertEquals(
-            $expectedStyles,
-            $this->user->fresh()->theme->styles
-        );
+        ],
+    ]);
+
+    $this->user->update(['theme_id' => $initialTheme->id]);
+
+    $updatedStyles = [
+        'link_card' => ['backgroundColor' => '#ffffff'],
+        'primary_text' => ['color' => '#000000'],
+    ];
+
+    $response = $this->putJson('/api/profile/theme', [
+        'custom_styles' => $updatedStyles,
+    ]);
+
+    $response->assertOk();
+
+    $expectedStyles = [
+        'link_card' => [
+            'borderRadius' => '10px',
+            'color' => '#FFFFFF',
+            'backgroundColor' => '#ffffff',
+        ],
+        'icon' => ['filter' => 'brightness(0.8)'],
+        'primary_text' => ['color' => '#000000'],
+    ];
+    
+    $this->assertEquals(
+        $expectedStyles,
+        $this->user->fresh()->theme->styles
+    );
 });
