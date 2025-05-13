@@ -121,19 +121,6 @@ test('I should be able to update my profile details with photo', function () {
         'name' => 'Jon Updated',
         'bio' => 'New updated bio',
     ]);
-
-    if (file_exists($expectedFilePath)) {
-        unlink($expectedFilePath);
-        }
-    });
-
-    afterAll(function () {
-        $directory = public_path('assets/users');
-        
-        if (file_exists($directory)) {
-            array_map('unlink', glob("$directory/*.*"));
-            rmdir($directory);
-        }
 });
 
 test('I should be able to update my password', function () {

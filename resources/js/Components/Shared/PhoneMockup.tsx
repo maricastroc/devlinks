@@ -43,7 +43,7 @@ export const PhoneMockup = ({
       setCurrentTheme(user?.theme || null);
     }
   }, [user]);
-  console.log(user?.theme?.styles?.primary_text);
+
   return (
     <div
       className={`scale-[85%] lg:scale-[100%] font-${user?.custom_font || 'sans'} relative scale-100 align-middle ${isSmaller ? 'w-[280px] h-[510px]' : 'w-[307px] h-[631px]'}`}
