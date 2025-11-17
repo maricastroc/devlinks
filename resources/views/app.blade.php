@@ -10,15 +10,15 @@
             href="https://cdn.jsdelivr.net/gh/dheereshagrwal/coloured-icons@master/src/app/ci.min.css"
         />
         <title inertia>{{ config('app.name', 'Devlinks') }}</title>
-
+        <h1 className="sr-only">Dashboard</h1>
         <!-- Fonts -->
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:ital,wght@0,400..700;1,400..700&display=swap" rel="stylesheet">
         <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Arvo:ital,wght@0,400;0,700;1,400;1,700&family=Bebas+Neue&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Montserrat:wght@400;700&family=Poppins:wght@400;700&family=Roboto:wght@400;700&family=Inter:wght@400;700&family=Playfair+Display:wght@400;700&family=Space+Grotesk:wght@400;700&family=Manrope:wght@400;700&family=Inter:wght@400;700&family=Oswald:wght@400;700&family=Rubik:wght@400;700&family=Inter:wght@400;700&family=Karla:wght@400;700&display=swap" rel="stylesheet">
-        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Arvo:ital,wght@0,400;0,700;1,400;1,700&family=Bebas+Neue&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Montserrat:wght@400;700&family=Poppins:wght@400;700&family=Roboto:wght@400;700&family=Inter:wght@400;700&family=Playfair+Display:wght@400;700&family=Space+Grotesk:wght@400;700&family=Manrope:wght@400;700&family=Inter:wght@400;700&family=Oswald:wght@400;700&family=Rubik:wght@400;700&family=Inter:wght@400;700&family=Karla:wght@400;700&display=swap" rel="stylesheet">
+
         <!-- Scripts -->
         @routes
         @viteReactRefresh

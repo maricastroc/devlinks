@@ -40,7 +40,7 @@ export const DropdownLinks = ({ handleSelect, platforms, link }: Props) => {
               <img
                 className="w-[1.25rem] h-[1.25rem]"
                 src={`/assets/images/${platform.icon_url}`}
-                alt=""
+                alt={platform.name}
                 style={{
                   filter:
                     platform.name === link.platform.name

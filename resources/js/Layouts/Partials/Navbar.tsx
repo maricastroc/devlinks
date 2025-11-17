@@ -43,7 +43,7 @@ export const Navbar = () => {
           width={150}
           className="hidden md:block"
           src={Logo}
-          alt="Large Logo"
+          alt="Devlinks application logo"
         />
       </Link>
 
@@ -60,22 +60,25 @@ export const Navbar = () => {
         <button
           type="button"
           className={`
-    relative transition-all duration-150 cursor-pointer
-    md:gap-2 hover:text-medium-purple flex items-center
-    justify-center md:px-6 p-4 py-3 font-semibold rounded-md
-    ${
-      currentRoute === 'web.profile.index' || isDropdownOpen
-        ? 'bg-purple-hover bg-opacity-25 text-medium-purple'
-        : 'bg-transparent text-gray-600'
-    }
-  `}
+            relative transition-all duration-150 cursor-pointer
+            md:gap-2 hover:text-medium-purple flex items-center
+            justify-center md:px-6 p-4 py-3 font-semibold rounded-md
+            ${
+              currentRoute === 'web.profile.index' || isDropdownOpen
+                ? 'bg-purple-hover bg-opacity-25 text-medium-purple'
+                : 'bg-transparent text-gray-600'
+            }
+          `}
           onClick={() => setIsDropdownOpen((prev) => !prev)}
           ref={dropdownRef as RefObject<HTMLButtonElement>}
           onKeyDown={(e) => {
             if (e.key === 'Escape') setIsDropdownOpen(false);
           }}
+          aria-haspopup="menu"
+          aria-expanded={isDropdownOpen}
+          aria-controls="profile-menu"
         >
-          <UserCircle size={26} />
+          <UserCircle aria-hidden="true" size={26} />
           <p className="hidden md:block">Profile</p>
           {isDropdownOpen && (
             <DropdownProfile currentRoute={currentRoute as string} />
@@ -89,7 +92,7 @@ export const Navbar = () => {
         })}
         className="flex items-center justify-center p-3 py-2 transition-all duration-150 border rounded-md md:px-5 md:py-3 border-medium-purple hover:bg-purple-hover hover:bg-opacity-30"
       >
-        <img src={Preview} alt="" className="md:hidden" />
+        <img src={Preview} alt="Preview button" className="md:hidden" />
         <p className="hidden font-semibold md:block text-medium-purple">
           Preview
         </p>
