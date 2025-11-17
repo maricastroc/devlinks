@@ -1,5 +1,3 @@
-import { ThemeProps } from '@/types/theme';
-
 type Props = {
   title: string;
   description: string;

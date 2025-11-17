@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Head, Link } from '@inertiajs/react';
 import toast from 'react-hot-toast';
-import SmallLogo from '/public/assets/images/logo-devlinks-small.svg';
+import Logo from '/public/assets/images/logo-devlinks-large.svg';
 import { AvatarCard } from '@/Components/Shared/AvatarCard';
 import { LoadingComponent } from '@/Components/Shared/LoadingComponent';
 import { SocialLink } from '@/Components/Shared/SocialLink';
@@ -9,17 +9,14 @@ import { OwnerHeader } from './partials/OwnerHeader';
 import { LinkList } from './partials/LinkList';
 import { UserLinkProps } from '@/types/user-link';
 import { UserProps } from '@/types/user';
-import { ThemeProps } from '@/types/theme';
-import { useTheme } from '@/contexts/ThemeContext';
-import { useThemeEffect } from '@/utils/useThemeEffect';
 import { useLoadingIndicator } from '@/utils/useLoadingIndicator';
+import { OverflowMenu } from '@/Components/Shared/OverflowMenu';
 
 type Props = {
   socialLinks: UserLinkProps[];
   userLinks: UserLinkProps[];
   user: UserProps;
   username: string;
-  themes: ThemeProps[];
   authUser: UserProps | null;
 };
 
@@ -27,7 +24,6 @@ export default function Shared({
   userLinks,
   user,
   username,
-  themes,
   socialLinks,
   authUser
 }: Props) {
@@ -35,15 +31,13 @@ export default function Shared({
 
   const [isLoading, setIsLoading] = useState(false);
 
-  const { currentTheme, handleChangeTheme } = useTheme();
+  const visibleSocialLinks = socialLinks?.slice(0, 3) || [];
+
+  const overflowSocialLinks = socialLinks?.slice(3) || [];
+
+  const hasOverflow = overflowSocialLinks.length > 0;
 
   useLoadingIndicator(setIsLoading);
-
-  useThemeEffect({
-    user,
-    themes,
-    handleChangeTheme
-  });
 
   const handleCopyLink = async () => {
     const currentUrl = window.location.href;
@@ -56,77 +50,72 @@ export default function Shared({
     }
   };
 
+  const handleSocialLinkClick = (url: string) => {
+    window.open(url, '_blank', 'noopener,noreferrer');
+  };
+
   return (
-    currentTheme && (
-      <div
-        style={currentTheme.styles.background as React.CSSProperties}
-        className={`relative flex flex-col min-h-screen`}
-      >
-        <Head title="Shared" />
-        {isLoading && <LoadingComponent hasOverlay />}
+    <div className={`relative flex flex-col min-h-screen`}>
+      <Head title="Shared" />
+      {isLoading && <LoadingComponent hasOverlay />}
 
-        {isOwner && <OwnerHeader onCopyLink={handleCopyLink} />}
-
-        <div
-          className={`block absolute top-0 right-0 w-full h-[18rem] md:h-[19rem] md:rounded-bl-3xl md:rounded-br-3xl z-10`}
-        />
-
-        <div
-          className={`font-${user?.custom_font || 'sans'} flex flex-col flex-grow items-center justify-start z-[12] p-6 px-4 ${isOwner ? 'md:p-10 md:py-2 mb-12' : 'md:p-10 md:py-16'} w-[90vw] max-w-[35rem] mx-auto`}
-        >
-          <div className="flex flex-col items-center justify-center w-full text-center">
-            <AvatarCard
-              avatarUrl={user.avatar_url as string}
-              user={user}
-              username={username}
-              theme={currentTheme}
+      {isOwner ? (
+        <OwnerHeader onCopyLink={handleCopyLink} />
+      ) : (
+        <div className="w-full py-6 z-[12] flex justify-center">
+          <Link
+            href={route('login')}
+            className="p-2 px-5 font-semibold transition-all"
+          >
+            <img
+              src={Logo}
+              alt="Default Logo"
+              style={{
+                filter: 'saturate(0%) brightness(500%)',
+                scale: '0.8'
+              }}
             />
-            <h2
-              style={currentTheme.styles.primary_text as React.CSSProperties}
-              className={`text-[1.25rem] mt-4 font-bold`}
-            >
-              {user?.name}
-            </h2>
-            <p
-              className={`mt-1`}
-              style={currentTheme.styles.secondary_text as React.CSSProperties}
-            >
-              {user?.bio}
-            </p>
-            {socialLinks?.length > 0 && (
-              <div className="flex justify-center gap-3 mt-4">
-                {socialLinks.map((link) => (
-                  <SocialLink link={link} theme={currentTheme} />
-                ))}
-              </div>
-            )}
-            <LinkList
-              user={user}
-              links={userLinks}
-              currentTheme={currentTheme}
-            />
-          </div>
+          </Link>
         </div>
+      )}
 
-        {!isOwner && (
-          <div className=" bottom-0 w-full pb-6 z-[12] flex justify-center">
-            <Link
-              href={route('login')}
-              className="flex gap-1 items-center bg-opacity-70 justify-center bg-white rounded-full text-[#000000] p-2 px-5 font-semibold shadow-lg hover:shadow-xl transition-all"
-            >
-              <img
-                src={SmallLogo}
-                alt="Default Logo"
-                style={{
-                  filter: 'saturate(0%) brightness(0%)',
-                  scale: '0.8'
-                }}
-              />
-              join devlinks
-            </Link>
-          </div>
-        )}
+      <div
+        className={`block absolute bg-medium-purple top-0 right-0 w-full h-[18rem] md:h-[19rem] md:rounded-bl-3xl md:rounded-br-3xl z-10`}
+      />
+
+      <div
+        className={`flex bg-white shadow-xl rounded-[1.5rem] flex-col flex-grow items-center justify-start z-[12] p-6 px-4 md:p-10 mb-24 w-[90vw] max-w-[350px] mx-auto`}
+      >
+        <div className="flex flex-col items-center justify-center w-full text-center">
+          <AvatarCard
+            avatarUrl={user.avatar_url as string}
+            user={user}
+            username={username}
+          />
+          <h2 className={`text-heading-m mt-4 font-bold text-dark-gray`}>
+            {user?.name}
+          </h2>
+          <p className={`mt-1 text-medium-gray text-body-m`}>{user?.bio}</p>
+
+          {socialLinks && socialLinks.length > 0 && (
+            <div className="max-w-[16.5rem] flex flex-wrap items-center justify-center gap-2 mt-4">
+              {visibleSocialLinks.map((link) => (
+                <button
+                  key={link.id}
+                  onClick={() => handleSocialLinkClick(link.url || '')}
+                  className="hover:scale-105 transition-transform"
+                >
+                  <SocialLink link={link} />
+                </button>
+              ))}
+
+              {hasOverflow && <OverflowMenu links={overflowSocialLinks} />}
+            </div>
+          )}
+
+          <LinkList links={userLinks} />
+        </div>
       </div>
-    )
+    </div>
   );
 }

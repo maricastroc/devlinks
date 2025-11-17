@@ -9,13 +9,17 @@ class AuthenticatedUserController extends Controller
 {
     public function __invoke(): JsonResponse
     {
-        $user = Auth::user()->load([
-            'theme',
-            'userLinks' => function($query) {
-                $query->orderBy('order')->with('platform');
-            },
-            'socialLinks.platform'
-        ]);
+        /** @var \App\Models\User|null $user */
+        $user = Auth::user();
+
+        if ($user) {
+            $user->load([
+                'userLinks' => function ($query) {
+                    $query->orderBy('order')->with('platform');
+                },
+                'socialLinks.platform'
+            ]);
+        }
 
         return response()->json([
             'data' => [

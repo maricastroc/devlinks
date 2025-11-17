@@ -1,18 +1,14 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Head } from '@inertiajs/react';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
-import { PhoneMockup } from '@/Components/Shared/PhoneMockup';
 import { LoadingComponent } from '@/Components/Shared/LoadingComponent';
 import { ImageCropper } from '@/Components/Shared/ImageCropper';
 import { PageHeader } from '@/Components/Shared/PageHeader';
-import { useTheme } from '@/contexts/ThemeContext';
 import { UserLinkProps } from '@/types/user-link';
 import { UserProps } from '@/types/user';
 import { PlatformProps } from '@/types/platform';
-import { ThemeProps } from '@/types/theme';
-import { DEFAULT_THEME } from '@/utils/constants';
 import useRequest from '@/utils/useRequest';
 import { ProfileSection } from './partials/ProfileSection';
 import { SocialMediaSection } from './partials/SocialMediaSection';
@@ -23,10 +19,7 @@ import {
 } from './partials/FormSection';
 import { SkeletonCard } from './partials/SkeletonCard';
 import 'react-loading-skeleton/dist/skeleton.css';
-
-export interface ThemesData {
-  themes: ThemeProps[];
-}
+import { PhoneMockup } from '@/Components/Shared/PhoneMockup';
 
 export interface ProfileData {
   user: UserProps;
@@ -41,8 +34,6 @@ export interface PlatformsData {
 }
 
 export default function Profile() {
-  const { handleChangeTheme } = useTheme();
-
   const [changePassword, setChangePassword] = useState(false);
 
   const [photoPreview, setPhotoPreview] = useState<string | null>(null);
@@ -70,16 +61,9 @@ export default function Profile() {
     method: 'GET'
   });
 
-  const { data: themesData } = useRequest<ThemesData>({
-    url: `/themes`,
-    method: 'GET'
-  });
-
   const socialLinks = socialLinksData?.socialLinks || [];
 
   const platforms = platformsData?.platforms || [];
-
-  const themes = themesData?.themes || [];
 
   const user = profileData?.user || undefined;
 
@@ -110,12 +94,6 @@ export default function Profile() {
     }
   });
 
-  useEffect(() => {
-    const theme = user?.theme || themes?.find((t) => t.name === DEFAULT_THEME);
-
-    if (theme) handleChangeTheme(theme);
-  }, [profileData, themesData]);
-
   return (
     <AuthenticatedLayout
       header={
@@ -142,9 +120,12 @@ export default function Profile() {
             <PhoneMockup
               links={user?.user_links}
               socialLinks={socialLinks}
-              name={watch().name}
-              bio={watch().bio}
-              photoPreview={photoPreview}
+              previewData={{
+                name: watch().name,
+                bio: watch().bio,
+                username: watch().username,
+                photo: photoPreview
+              }}
               isLoading={isValidating || isSubmitting}
               user={user}
             />

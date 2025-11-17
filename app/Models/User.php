@@ -24,12 +24,8 @@ class User extends Authenticatable
         'public_email',
         'name',
         'avatar_url',
-        'theme_id',
         'bio',
         'username',
-        'custom_bg_type',
-        'custom_bg_color',
-        'custom_font',
     ];
 
     /**
@@ -52,29 +48,17 @@ class User extends Authenticatable
         return [
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
-            'custom_styles' => 'array'
         ];
     }
 
     protected static function boot()
     {
         parent::boot();
-
-        static::creating(function ($user) {
-            $user->theme_id = 1;
-        });
     }
 
     public function userLinks()
     {
         return $this->hasMany(UserLink::class);
-    }
-
-    public function activeTheme()
-    {
-        return !empty($this->custom_styles) 
-            ? ['styles' => $this->custom_styles, 'is_custom' => true] 
-            : $this->theme;
     }
 
     public function updateWithPhoto(array $data, User $user)
@@ -94,10 +78,6 @@ class User extends Authenticatable
 
             if (isset($data['bio'])) {
                 $user->bio = $data['bio'];
-            }
-
-            if (isset($data['theme_id'])) {
-                $user->theme_id = $data['theme_id'];
             }
 
             $user->username = $data['username'];
@@ -148,13 +128,8 @@ class User extends Authenticatable
         return 'username';
     }
 
-    public function theme()
-{
-    return $this->belongsTo(Theme::class);
-}
-
-public function socialLinks()
-{
-    return $this->hasMany(SocialLink::class)->orderBy('order');
-}
+    public function socialLinks()
+    {
+        return $this->hasMany(SocialLink::class)->orderBy('order');
+    }
 }

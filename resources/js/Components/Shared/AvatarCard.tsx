@@ -1,29 +1,25 @@
-import { DEFAULT_THEME } from '@/utils/constants';
-import { ThemeProps } from '@/types/theme';
 import { getInitials } from '@/utils/getInitials';
 import { UserProps } from '@/types/user';
 import { useState } from 'react';
 
 type AvatarProps = {
   avatarUrl: string | null;
-  theme: ThemeProps | null;
   className?: string;
   isPublicPage?: boolean;
   user?: UserProps | undefined;
+  name?: string | undefined;
   username?: string | undefined;
 };
 
 export const AvatarCard = ({
   avatarUrl,
-  theme,
   className,
   user,
   username,
+  name,
   isPublicPage = true
 }: AvatarProps) => {
   const [imageError, setImageError] = useState(false);
-
-  const isDefaultTheme = theme?.name === DEFAULT_THEME;
 
   const handleImageError = () => {
     setImageError(true);
@@ -31,45 +27,20 @@ export const AvatarCard = ({
 
   const shouldShowFallback = !avatarUrl || imageError;
 
-  if (isDefaultTheme) {
-    return shouldShowFallback ? (
-      isPublicPage && (
-        <span
-          style={theme.styles.avatar as React.CSSProperties}
-          className={`h-[6.02rem] w-[6.02rem] rounded-full flex items-center justify-center text-3xl font-bold ${className}`}
-        >
-          {getInitials(username || user?.username)}
-        </span>
-      )
-    ) : (
-      <img
-        className={`border-4 h-[6.02rem] w-[6.02rem] rounded-full border-medium-purple ${className}`}
-        src={avatarUrl}
-        alt="User Avatar"
-        onError={handleImageError}
-      />
-    );
-  }
-
-  return (
-    <div className={`rounded-full p-[2px] ${className}`}>
-      {shouldShowFallback ? (
-        isPublicPage && (
-          <span
-            style={theme?.styles.avatar as React.CSSProperties}
-            className="h-[6.02rem] w-[6.02rem] rounded-full flex items-center justify-center text-3xl font-bold text-gray-600"
-          >
-            {getInitials(username || user?.username)}
-          </span>
-        )
-      ) : (
-        <img
-          src={avatarUrl}
-          className="object-cover h-[6.02rem] w-[6.02rem] rounded-full"
-          alt="User Avatar"
-          onError={handleImageError}
-        />
-      )}
-    </div>
+  return shouldShowFallback ? (
+    isPublicPage && (
+      <span
+        className={`h-[6.02rem] w-[6.02rem] rounded-full flex items-center border-medium-purple border-4 justify-center text-3xl font-bold ${className}`}
+      >
+        {getInitials(name || username || user?.username)}
+      </span>
+    )
+  ) : (
+    <img
+      className={`border-4 h-[6.02rem] w-[6.02rem] rounded-full border-medium-purple ${className}`}
+      src={avatarUrl}
+      alt="User Avatar"
+      onError={handleImageError}
+    />
   );
 };

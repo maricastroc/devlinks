@@ -7,24 +7,21 @@ import toast from 'react-hot-toast';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import PrimaryButton from '@/Components/Core/PrimaryButton';
 import SecondaryButton from '@/Components/Core/SecondaryButton';
-import { PhoneMockup } from '@/Components/Shared/PhoneMockup';
 import { LoadingComponent } from '@/Components/Shared/LoadingComponent';
 import { PageHeader } from '@/Components/Shared/PageHeader';
 import { LinksSection } from './partials/LinksSection';
 import { SkeletonCard } from './partials/SkeletonCard';
 import { EmptyLinks } from './partials/EmptyLinks';
 import { LinksModal } from './partials/LinksModal';
-import { useTheme } from '@/contexts/ThemeContext';
-import { ThemeProps } from '@/types/theme';
 import { useLinks } from '@/utils/useLinks';
-import { DEFAULT_THEME } from '@/utils/constants';
 import useRequest from '@/utils/useRequest';
-import { PlatformsData, ProfileData, ThemesData } from '../Profile/Index';
+import { PlatformsData, ProfileData } from '../Profile/Index';
 import { validateLinks } from '@/utils/validateLink';
 import { scrollToInvalidLink } from '@/utils/scrollToInvalidLink';
 import { handleApiError } from '@/utils/handleApiError';
 import 'react-loading-skeleton/dist/skeleton.css';
 import { scrollToLastLink } from '@/utils/scrollToNewLink';
+import { PhoneMockup } from '@/Components/Shared/PhoneMockup';
 
 export type FormErrors = Record<
   string | number,
@@ -43,8 +40,6 @@ export default function Dashboard() {
 
   const [errors, setErrors] = useState<FormErrors>({});
 
-  const { handleChangeTheme } = useTheme();
-
   const {
     data: profileData,
     isValidating,
@@ -59,14 +54,7 @@ export default function Dashboard() {
     method: 'GET'
   });
 
-  const { data: themesData } = useRequest<ThemesData>({
-    url: `/themes`,
-    method: 'GET'
-  });
-
   const platforms = platformsData?.platforms || [];
-
-  const themes = themesData?.themes || [];
 
   const user = profileData?.user || undefined;
 
@@ -131,20 +119,6 @@ export default function Dashboard() {
 
   useEffect(() => {
     if (user) {
-      if (user?.theme) {
-        handleChangeTheme(user.theme);
-      } else {
-        const defaultTheme = themes.find((theme) => {
-          return theme.name === DEFAULT_THEME;
-        });
-
-        handleChangeTheme(defaultTheme as ThemeProps);
-      }
-    }
-  }, [user?.theme]);
-
-  useEffect(() => {
-    if (user) {
       setLinks(user?.user_links);
     }
   }, [user?.user_links]);
@@ -165,12 +139,14 @@ export default function Dashboard() {
         <div className="items-start justify-center hidden w-full p-10 bg-white rounded-md lg:flex">
           <div className="mt-12">
             <PhoneMockup
-              username={user?.username}
-              bio={user?.bio}
-              name={user?.name}
               isLoading={isValidating}
               links={links}
               user={user}
+              previewData={{
+                name: user?.name,
+                bio: user?.bio,
+                username: user?.username
+              }}
             />
           </div>
         </div>

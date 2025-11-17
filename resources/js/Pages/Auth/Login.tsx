@@ -12,11 +12,20 @@ import PasswordIcon from '/public/assets/images/icon-password.svg';
 import toast from 'react-hot-toast';
 
 const signInFormSchema = z.object({
-  email: z.string().min(3, { message: 'E-mail is required.' }),
-  password: z.string().min(3, { message: 'Password is required' })
+  email: z
+    .string()
+    .min(1, 'E-mail is required.')
+    .email('Please enter a valid email address.'),
+  password: z.string().min(1, 'Password is required')
 });
 
 type SignInFormData = z.infer<typeof signInFormSchema>;
+
+const handleFormErrors = (errors: Record<string, string>) => {
+  Object.values(errors).forEach((errorMessage) => {
+    toast.error(errorMessage);
+  });
+};
 
 export default function Login() {
   const {
@@ -29,19 +38,13 @@ export default function Login() {
   });
 
   const onSubmit = async (data: SignInFormData) => {
-    const url = new URL(route('login'), window.location.origin);
-
-    router.visit(url.toString(), {
-      method: 'post',
-      data,
+    router.post(route('login'), data, {
       preserveScroll: true,
       onSuccess: () => {
-        toast?.success('Welcome to Devlinks!');
+        toast.success('Welcome to Devlinks!');
       },
       onError: (errors) => {
-        Object.values(errors).forEach((errorMessage) => {
-          toast?.error(errorMessage);
-        });
+        handleFormErrors(errors);
       }
     });
   };
@@ -57,6 +60,7 @@ export default function Login() {
           <p className="mb-8 text-medium-gray">
             Add your details below to get back into the app
           </p>
+
           <InputLabel htmlFor="email" value="Email" />
           <Controller
             name="email"
@@ -67,14 +71,13 @@ export default function Login() {
                 type="email"
                 placeholder="e.g. alex@email.com"
                 className="block w-full mt-1"
-                autoComplete="username"
+                autoComplete="email"
                 icon={EmailIcon}
-                hasError={errors?.email !== undefined}
+                hasError={!!errors?.email}
                 {...field}
               />
             )}
           />
-
           <FormError error={errors.email?.message} className="mt-2" />
         </div>
 
@@ -87,11 +90,11 @@ export default function Login() {
               <TextInput
                 id="password"
                 type="password"
-                placeholder="At least 8 characters"
+                placeholder="Enter your password"
                 className="block w-full mt-1"
                 icon={PasswordIcon}
                 autoComplete="current-password"
-                hasError={errors?.password !== undefined}
+                hasError={!!errors?.password}
                 {...field}
               />
             )}
@@ -100,7 +103,9 @@ export default function Login() {
         </div>
 
         <div className="flex flex-col items-center justify-end mt-6 text-center">
-          <PrimaryButton disabled={isSubmitting}>Log in</PrimaryButton>
+          <PrimaryButton disabled={isSubmitting}>
+            {isSubmitting ? 'Logging in...' : 'Log in'}
+          </PrimaryButton>
           <div className="flex flex-col items-center mt-6 md:mt-4 md:gap-1 md:flex-row">
             <p className="text-md text-medium-gray">Don't have an account?</p>
             <Link

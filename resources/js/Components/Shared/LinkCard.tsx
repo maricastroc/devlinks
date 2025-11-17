@@ -1,8 +1,5 @@
 import { UserLinkProps } from '@/types/user-link';
 import clsx from 'clsx';
-import { DEFAULT_THEME } from '@/utils/constants';
-import { UserProps } from '@/types/user';
-import { generateIconFilter } from '@/utils/generateIconFilter';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { getBrandIconByName } from '@/utils/getBrandIconName';
 import { IconProp } from '@fortawesome/fontawesome-svg-core';
@@ -11,37 +8,28 @@ type LinkCardProps = {
   link: UserLinkProps;
   className?: string;
   isBigger?: boolean;
-  user: UserProps | undefined;
 };
 
 export const LinkCard = ({
   link,
   className,
-  user,
   isBigger = false
 }: LinkCardProps) => {
   const isValidUrl = Boolean(link.url);
-  const isDefaultTheme = user?.theme?.name === DEFAULT_THEME;
 
   const linkStyle = {
-    ...(isDefaultTheme
-      ? {
-          borderRadius: '16px',
-          backgroundColor: link.platform.color,
-          color: '#FFFFFF'
-        }
-      : typeof user?.theme?.styles?.link_card === 'object'
-        ? user?.theme.styles.link_card
-        : {})
+    borderRadius: '8px',
+    backgroundColor: link.platform.color,
+    color: '#FFFFFF'
   };
 
   const linkClassNames = clsx(
     'flex items-center justify-between p-[0.72rem] h-[2.97rem]',
     'transition-all duration-150',
     {
-      'shadow-lg': !isDefaultTheme,
       'cursor-not-allowed opacity-75': !isValidUrl,
-      'cursor-pointer': isValidUrl
+      'cursor-pointer': isValidUrl,
+      'h-[3.5rem]': isBigger
     },
     className
   );
@@ -63,7 +51,7 @@ export const LinkCard = ({
               isBigger ? 'w-[1.4rem] h-[1.4rem]' : 'w-[1.15rem] h-[1.15rem]'
             }
             style={{
-              color: (user?.theme?.styles?.link_card as any)?.color || '#ffffff'
+              color: '#ffffff'
             }}
           />
         )}

@@ -2,13 +2,10 @@
 
 use Illuminate\Http\Response;
 use App\Models\User;
-use App\Models\Theme;
 use Illuminate\Http\UploadedFile;
 use Symfony\Component\HttpFoundation\File\UploadedFile as SymfonyUploadedFile;
 
 test('I should be able to create a user', function () {
-    \App\Models\Theme::factory()->create(['id' => 1]);
-
     $response = $this->post('/register', [
         'email' => 'test@example.com',
         'username' => 'testuser',
@@ -21,15 +18,12 @@ test('I should be able to create a user', function () {
     $this->assertDatabaseHas('users', [
         'email' => 'test@example.com',
         'username' => 'testuser',
-        'theme_id' => 1
     ]);
 
     $this->assertAuthenticated();
 });
 
 test('I should not be able to create an user with a password with less than eight characters', function () {
-    \App\Models\Theme::factory()->create(['id' => 1]);
-
     $response = $this->post('/register', [
         'email' => 'test@example.com',
         'username' => 'testuser',

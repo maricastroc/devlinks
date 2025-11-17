@@ -12,16 +12,33 @@ import PasswordIcon from '/public/assets/images/icon-password.svg';
 import toast from 'react-hot-toast';
 
 const signUpFormSchema = z.object({
-  email: z.string().min(3, { message: 'E-mail is required.' }),
-  password: z.string().min(8, {
-    message: 'Password must have at least 8 characters'
-  }),
-  username: z.string().min(3, {
-    message: 'Username must have at least 3 characters'
-  })
+  email: z
+    .string()
+    .min(1, 'E-mail is required.')
+    .email('Please enter a valid email address.'),
+  password: z
+    .string()
+    .min(8, 'Password must have at least 8 characters')
+    .regex(/[A-Z]/, 'Password must contain at least one uppercase letter')
+    .regex(/[a-z]/, 'Password must contain at least one lowercase letter')
+    .regex(/\d/, 'Password must contain at least one number'),
+  username: z
+    .string()
+    .min(3, 'Username must have at least 3 characters')
+    .regex(
+      /^[a-zA-Z0-9_]+$/,
+      'Username can only contain letters, numbers and underscores'
+    )
 });
 
 type SignUpFormData = z.infer<typeof signUpFormSchema>;
+
+// Função utilitária reutilizável
+const handleFormErrors = (errors: Record<string, string>) => {
+  Object.values(errors).forEach((errorMessage) => {
+    toast.error(errorMessage);
+  });
+};
 
 export default function Register() {
   const {
@@ -38,17 +55,13 @@ export default function Register() {
   });
 
   const onSubmit = async (data: SignUpFormData) => {
-    router.visit(route('register'), {
-      method: 'post',
-      data,
+    router.post(route('register'), data, {
       preserveScroll: true,
       onSuccess: () => {
-        toast?.success('User successfully registered!');
+        toast.success('User successfully registered!');
       },
       onError: (errors) => {
-        Object.values(errors).forEach((errorMessage) => {
-          toast?.error(errorMessage);
-        });
+        handleFormErrors(errors);
       }
     });
   };
@@ -57,10 +70,7 @@ export default function Register() {
     <GuestLayout>
       <Head title="Register" />
 
-      <form
-        onSubmit={handleSubmit(onSubmit)}
-        className="p-2 py-6 md:p-4 lg:max-h-[78vh] overflow-scroll"
-      >
+      <form onSubmit={handleSubmit(onSubmit)} className="p-2 py-6 md:p-4">
         <div>
           <h2 className="mb-2 text-[1.7rem] md:text-[2rem] font-bold text-dark-gray">
             Create account
@@ -68,6 +78,7 @@ export default function Register() {
           <p className="mb-8 text-medium-gray">
             Let’s get you started sharing your links!
           </p>
+
           <InputLabel htmlFor="email" value="Email" />
           <Controller
             name="email"
@@ -78,9 +89,9 @@ export default function Register() {
                 type="email"
                 placeholder="e.g. alex@email.com"
                 className="block w-full mt-1"
-                autoComplete="username"
+                autoComplete="email"
                 icon={EmailIcon}
-                hasError={errors?.email !== undefined}
+                hasError={!!errors?.email}
                 {...field}
               />
             )}
@@ -100,8 +111,8 @@ export default function Register() {
                 placeholder="At least 8 characters"
                 className="block w-full mt-1"
                 icon={PasswordIcon}
-                autoComplete="current-password"
-                hasError={errors?.password !== undefined}
+                autoComplete="new-password"
+                hasError={!!errors?.password}
                 {...field}
               />
             )}
@@ -121,23 +132,19 @@ export default function Register() {
                 type="text"
                 placeholder="username"
                 className="block w-full mt-1"
-                autoComplete="current-password"
-                hasError={errors?.username !== undefined}
+                autoComplete="username"
+                hasError={!!errors?.username}
                 {...field}
               />
             )}
           />
-          <FormError
-            error={
-              errors.username?.message &&
-              'Username must have at least 3 characters'
-            }
-            className="mt-2"
-          />
+          <FormError error={errors.username?.message} className="mt-2" />
         </div>
 
         <div className="flex flex-col items-center justify-end mt-6 text-center">
-          <PrimaryButton disabled={isSubmitting}>Create account</PrimaryButton>
+          <PrimaryButton disabled={isSubmitting}>
+            {isSubmitting ? 'Creating account...' : 'Create account'}
+          </PrimaryButton>
           <div className="flex flex-col items-center mt-6 md:mt-4 md:gap-1 md:flex-row">
             <p className="text-md text-medium-gray">Already have an account?</p>
             <Link

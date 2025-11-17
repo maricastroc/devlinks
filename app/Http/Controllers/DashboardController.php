@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\Platform;
-use App\Models\Theme;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -16,21 +15,18 @@ class DashboardController extends Controller
     {
         $platforms = Platform::all();
 
-        /** @var \App\Models\User $user */
-        $user = Auth::user()->load([
-            'theme',
-            'userLinks.platform',
-            'socialLinks.platform'
-        ]);
-    
-        $themes = Theme::where('is_active', true)
-            ->select(['id', 'name', 'styles'])
-            ->get();
+        /** @var \App\Models\User|null $user */
+        $user = Auth::user();
 
+        if ($user) {
+            $user->load([
+                'userLinks.platform',
+                'socialLinks.platform'
+            ]);
+        }
         return Inertia::render('Dashboard/Index', [
             'user' => $user,
             'platforms' => $platforms,
-            'themes' => $themes,
             'currentRoute' => Route::currentRouteName(),
         ]);
     }

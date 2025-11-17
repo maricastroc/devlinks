@@ -1,8 +1,9 @@
 import { UserLinkProps } from '@/types/user-link';
-import { PhoneMockup } from './PhoneMockup';
+
 import { UserProps } from '@/types/user';
 import * as Dialog from '@radix-ui/react-dialog';
 import { X } from 'phosphor-react';
+import { PhoneMockup } from './PhoneMockup';
 
 type Props = {
   links: UserLinkProps[] | undefined;
@@ -44,14 +45,16 @@ export const PhoneMockupModal = ({
         <div className="z-[0] flex items-center justify-center flex-1 py-0 overflow-y-auto">
           <div className={`relative scale-90 mt-[-6rem] ml-[-0.3rem]`}>
             <PhoneMockup
-              links={links || user?.user_links}
-              socialLinks={socialLinks}
-              name={name}
-              bio={bio}
-              username={username}
-              photoPreview={photoPreview}
               isLoading={isLoading}
+              socialLinks={socialLinks}
+              links={links}
               user={user}
+              previewData={{
+                name,
+                bio,
+                username,
+                photo: photoPreview
+              }}
             />
           </div>
         </div>
