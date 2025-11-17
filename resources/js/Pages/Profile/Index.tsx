@@ -51,10 +51,19 @@ export default function Profile() {
     data: profileData,
     isValidating,
     mutate: mutateProfileData
-  } = useRequest<ProfileData>({
-    url: `/auth/user`,
-    method: 'GET'
-  });
+  } = useRequest<ProfileData>(
+    {
+      url: `/auth/user`,
+      method: 'GET'
+    },
+    {
+      revalidateOnFocus: false,
+      revalidateIfStale: true,
+      dedupingInterval: 20000,
+      focusThrottleInterval: 30000,
+      keepPreviousData: true
+    }
+  );
 
   const { data: platformsData } = useRequest<PlatformsData>({
     url: `/platforms`,

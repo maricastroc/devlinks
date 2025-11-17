@@ -44,15 +44,33 @@ export default function Dashboard() {
     data: profileData,
     isValidating,
     mutate
-  } = useRequest<ProfileData>({
-    url: `/auth/user`,
-    method: 'GET'
-  });
+  } = useRequest<ProfileData>(
+    {
+      url: `/auth/user`,
+      method: 'GET'
+    },
+    {
+      revalidateOnFocus: false,
+      revalidateIfStale: true,
+      dedupingInterval: 20000,
+      focusThrottleInterval: 30000,
+      keepPreviousData: true
+    }
+  );
 
-  const { data: platformsData } = useRequest<PlatformsData>({
-    url: `/platforms`,
-    method: 'GET'
-  });
+  const { data: platformsData } = useRequest<PlatformsData>(
+    {
+      url: `/platforms`,
+      method: 'GET'
+    },
+    {
+      revalidateOnFocus: false,
+      revalidateIfStale: true,
+      dedupingInterval: 20000,
+      focusThrottleInterval: 30000,
+      keepPreviousData: true
+    }
+  );
 
   const platforms = platformsData?.platforms || [];
 

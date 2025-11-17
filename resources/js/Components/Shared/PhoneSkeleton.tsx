@@ -8,13 +8,10 @@ export const PhoneSkeleton = ({ isSmaller = false }: Props) => {
   return (
     <>
       <div
-        className={`absolute rounded-full h-[6.02rem] w-[6.02rem] z-40 top-[3.9rem] ${isSmaller ? 'left-[5.5rem]' : 'left-[6.5rem]'} flex items-center justify-center`}
+        className={`absolute rounded-full h-[94px] w-[94px] z-40 top-[3.9rem] ${isSmaller ? 'left-[5.5rem]' : 'left-[6.5rem]'} flex items-center justify-center`}
       >
         <span className="text-3xl font-bold text-gray-600">
-          <Skeleton
-            hasAnimatePulse
-            className="bg-gray-300 h-[6.02rem] w-[6.02rem]"
-          />
+          <Skeleton hasAnimatePulse className="bg-gray-300 h-[94px] w-[94px]" />
         </span>
       </div>
 

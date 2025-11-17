@@ -30,14 +30,14 @@ export const AvatarCard = ({
   return shouldShowFallback ? (
     isPublicPage && (
       <span
-        className={`h-[6.02rem] w-[6.02rem] rounded-full flex items-center border-medium-purple border-4 justify-center text-3xl font-bold ${className}`}
+        className={`h-[104px] w-[104px] rounded-full flex items-center border-medium-purple border-4 justify-center text-3xl font-bold ${className}`}
       >
         {getInitials(name || username || user?.username)}
       </span>
     )
   ) : (
     <img
-      className={`border-4 h-[6.02rem] w-[6.02rem] rounded-full border-medium-purple ${className}`}
+      className={`border-4 rounded-full border-medium-purple ${isPublicPage ? 'h-[104px] w-[104px]' : 'h-[96px] w-[96px]'} ${className}`}
       src={avatarUrl}
       alt="User Avatar"
       onError={handleImageError}

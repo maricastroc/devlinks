@@ -80,11 +80,11 @@ export default function Shared({
       )}
 
       <div
-        className={`block absolute bg-medium-purple top-0 right-0 w-full h-[18rem] md:h-[19rem] md:rounded-bl-3xl md:rounded-br-3xl z-10`}
+        className={`sm:block hidden absolute bg-medium-purple top-0 right-0 w-full h-[18rem] md:h-[19rem] md:rounded-bl-3xl md:rounded-br-3xl z-10`}
       />
 
       <div
-        className={`flex bg-white shadow-xl rounded-[1.5rem] flex-col flex-grow items-center justify-start z-[12] p-6 px-4 md:p-10 mb-24 w-[90vw] max-w-[350px] mx-auto`}
+        className={`flex bg-white sm:shadow-xl rounded-[1.5rem] flex-col flex-grow items-center justify-start z-[12] p-6 px-4 md:p-10 mb-24 w-[90vw] max-w-[350px] mx-auto`}
       >
         <div className="flex flex-col items-center justify-center w-full text-center">
           <AvatarCard

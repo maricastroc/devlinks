@@ -1,18 +1,16 @@
 export const HeaderButton = ({
   onClick,
-  icon,
   text,
   disabled = false,
   variant = 'solid'
 }: {
   onClick: () => void;
-  icon: React.ReactNode;
   text: string;
   disabled?: boolean;
   variant?: 'solid' | 'outline';
 }) => {
   const baseClasses =
-    'gap-1 p-3 px-4 disabled:cursor-not-allowed flex flex-nowrap items-center justify-center rounded-lg text-md font-semibold transition duration-150 ease-in-out focus:outline-none whitespace-nowrap';
+    'w-[140px] sm:w-auto gap-1 p-3 px-4 disabled:cursor-not-allowed flex flex-nowrap items-center justify-center rounded-lg text-md font-semibold transition duration-150 ease-in-out focus:outline-none whitespace-nowrap';
 
   const variants = {
     solid: 'bg-medium-purple text-white',
@@ -26,7 +24,6 @@ export const HeaderButton = ({
       disabled={disabled}
       className={`${baseClasses} ${variants[variant]}`}
     >
-      {icon}
       <p className="text-center truncate">{text}</p>
     </button>
   );
