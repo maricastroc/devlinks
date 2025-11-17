@@ -1,7 +1,6 @@
 <?php
 
 use App\Models\User;
-use App\Models\Theme;
 use App\Models\UserLink;
 use App\Models\Platform;
 use App\Models\SocialLink;
@@ -9,11 +8,8 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 
 uses(RefreshDatabase::class);
 
-test('It returns authenticated user with theme, user links and social links', function () {
+test('It returns authenticated user with user links and social links', function () {
     $user = User::factory()->create();
-
-    $theme = Theme::factory()->create();
-    $user->theme()->associate($theme)->save();
 
     $platform1 = Platform::factory()->create();
     $platform2 = Platform::factory()->create();
@@ -46,7 +42,6 @@ test('It returns authenticated user with theme, user links and social links', fu
             'user' => [
                 'id',
                 'username',
-                'theme',
                 'user_links' => [
                     ['id', 'platform_id', 'order', 'platform'],
                 ],
