@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Head } from '@inertiajs/react';
@@ -85,14 +85,32 @@ export default function Profile() {
     handleSubmit,
     setValue,
     watch,
+    reset,
     formState: { errors, isSubmitting }
   } = useForm<ProfileFormSchema>({
     resolver: zodResolver(profileFormSchema(changePassword)),
     defaultValues: {
-      name: user?.name || '',
-      username: user?.username || ''
+      name: '',
+      email: '',
+      bio: '',
+      username: ''
     }
   });
+
+  useEffect(() => {
+    if (user) {
+      reset({
+        name: user.name || '',
+        email: user.email || '',
+        bio: user.bio || '',
+        username: user.username || ''
+      });
+
+      if (user.avatar_url) {
+        setPhotoPreview(user?.avatar_url as string);
+      }
+    }
+  }, [user, reset]);
 
   return (
     <AuthenticatedLayout

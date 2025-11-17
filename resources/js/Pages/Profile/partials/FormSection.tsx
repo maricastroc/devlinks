@@ -1,7 +1,7 @@
 import { z } from 'zod';
 import { PhotoInput } from './PhotoInput';
 import { ProfileSection } from './ProfileSection';
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react'; // Adicione useState
 import {
   Control,
   Controller,
@@ -77,12 +77,12 @@ export const FormSection = ({
   mutate
 }: Props) => {
   const inputFileRef = useRef<HTMLInputElement>(null);
-
   const formRef = useRef<HTMLFormElement>(null);
-
   const scrollContainerRef = useRef<HTMLDivElement | null>(
     null
   ) as React.MutableRefObject<HTMLDivElement | null>;
+
+  const [hasInitialized, setHasInitialized] = useState(false);
 
   const handleAvatarChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
@@ -137,19 +137,6 @@ export const FormSection = ({
       handleApiError(error);
     }
   };
-
-  useEffect(() => {
-    if (user) {
-      setValue('name', user?.name || '');
-      setValue('email', user?.email || '');
-      setValue('bio', user?.bio || '');
-      setValue('username', user?.username || '');
-
-      if (user?.avatar_url) {
-        setPhotoPreview(user.avatar_url as string);
-      }
-    }
-  }, [user]);
 
   useEffect(() => {
     if (Object.keys(errors).length > 0 && formRef.current) {
@@ -295,7 +282,11 @@ export const FormSection = ({
       <hr className="my-0" />
 
       <div className="flex justify-end md:items-end">
-        <PrimaryButton className="md:w-[6rem]" disabled={isSubmitting}>
+        <PrimaryButton
+          type="submit"
+          className="md:w-[6rem]"
+          disabled={isSubmitting}
+        >
           Save
         </PrimaryButton>
       </div>

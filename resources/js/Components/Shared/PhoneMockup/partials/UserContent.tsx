@@ -35,7 +35,7 @@ export function UserContent({
   return (
     <>
       <div
-        className="absolute rounded-full border-4 border-medium-purple z-40 flex items-center justify-center bg-gray-200 left-1/2 transform -translate-x-1/2"
+        className="absolute rounded-full z-40 flex items-center justify-center bg-gray-200 left-1/2 transform -translate-x-1/2"
         style={{
           height: PHONE_DIMENSIONS.content.avatar.size,
           width: PHONE_DIMENSIONS.content.avatar.size,
