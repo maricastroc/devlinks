@@ -1,7 +1,7 @@
 import { z } from 'zod';
 import { PhotoInput } from './PhotoInput';
 import { ProfileSection } from './ProfileSection';
-import { useEffect, useRef, useState } from 'react'; // Adicione useState
+import { useEffect, useRef } from 'react';
 import {
   Control,
   Controller,
@@ -45,7 +45,10 @@ export const profileFormSchema = (changePassword: boolean) =>
       message: 'Username must have at least 3 characters'
     }),
     avatar_url: z
-      .custom<File>((file) => file instanceof File && file.size > 0)
+      .instanceof(File)
+      .refine((file) => file.size <= 2 * 1024 * 1024, {
+        message: 'Image must be at most 2MB.'
+      })
       .optional(),
     old_password: changePassword
       ? z
@@ -69,9 +72,7 @@ export const FormSection = ({
   isSubmitting,
   changePassword,
   handleChangePassword,
-  setValue,
   handleSubmit,
-  setPhotoPreview,
   setOriginalImage,
   setShowCropper,
   mutate
@@ -82,19 +83,22 @@ export const FormSection = ({
     null
   ) as React.MutableRefObject<HTMLDivElement | null>;
 
-  const [hasInitialized, setHasInitialized] = useState(false);
-
   const handleAvatarChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
 
-    if (file) {
-      const reader = new FileReader();
-      reader.onload = () => {
-        setOriginalImage(reader.result as string);
-        setShowCropper(true);
-      };
-      reader.readAsDataURL(file);
+    if (!file) return;
+
+    if (file.size > 2 * 1024 * 1024) {
+      toast.error('Image must be at most 2MB.');
+      return;
     }
+
+    const reader = new FileReader();
+    reader.onload = () => {
+      setOriginalImage(reader.result as string);
+      setShowCropper(true);
+    };
+    reader.readAsDataURL(file);
   };
 
   const onSubmit = async (data: ProfileFormSchema) => {

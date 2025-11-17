@@ -1,4 +1,3 @@
-import { ThemeProps } from './theme';
 import { UserLinkProps } from './user-link';
 
 export type UserProps = {

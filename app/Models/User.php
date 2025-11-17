@@ -67,29 +67,29 @@ class User extends Authenticatable
             $data['new_password'] = Hash::make($data['new_password']);
         }
 
-    if (isset($data['avatar_url']) && ($data['avatar_url'] instanceof UploadedFile) ) {
-                $this->deleteOldAvatar($user);
+        if (isset($data['avatar_url']) && ($data['avatar_url'] instanceof UploadedFile) ) {
+            $this->deleteOldAvatar($user);
 
-                $fileName = 'avatar_'.$user->id.'_'.time().'.'.$data['avatar_url']->extension();
-                $data['avatar_url']->move(public_path('assets/users'), $fileName);
-                
-                $user->avatar_url = 'assets/users/'.$fileName;
-            }
-
-            if (isset($data['bio'])) {
-                $user->bio = $data['bio'];
-            }
-
-            $user->username = $data['username'];
-
-            $user->name = $data['name'];
-
-            $user->email = $data['email'] ?? $user->email;
-
-            $user->password = $data['new_password'] ?? $user->password;
-        
-            return $user->save();
+            $fileName = 'avatar_'.$user->id.'_'.time().'.'.$data['avatar_url']->extension();
+            $data['avatar_url']->move(public_path('assets/users'), $fileName);
+            
+            $user->avatar_url = 'assets/users/'.$fileName;
         }
+
+        if (isset($data['bio'])) {
+            $user->bio = $data['bio'];
+        }
+
+        $user->username = $data['username'];
+
+        $user->name = $data['name'];
+
+        $user->email = $data['email'] ?? $user->email;
+
+        $user->password = $data['new_password'] ?? $user->password;
+    
+        return $user->save();
+    }
 
     protected function deleteOldAvatar(User $user)
     {

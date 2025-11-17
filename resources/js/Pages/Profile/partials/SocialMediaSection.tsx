@@ -116,7 +116,7 @@ const OverflowMenu = ({
   links: UserLinkProps[];
   onSelect: (link: UserLinkProps) => void;
 }) => {
-  const [isOpen, setIsOpen] = useState(true);
+  const [isOpen, setIsOpen] = useState(false);
 
   const dropdownRef = useClickOutside(() => {
     setIsOpen(false);
