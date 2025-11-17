@@ -35,9 +35,9 @@ export const PlatformSelector = ({
       </Dialog.Root>
 
       <div className="relative overflow-visible">
-        <div
+        <button
           onClick={() => setIsLinksModalOpen(true)}
-          className="hover:shadow-lg w-full mt-1 h-[48px] flex items-center justify-between cursor-pointer bg-white transition-all duration-300 ease-in-out rounded-lg py-3 px-3 border border-neutral-borders hover:border-primary-index hover:shadow-3xl"
+          className="hover:shadow-lg w-full border-borders mt-1 h-[48px] flex items-center justify-between cursor-pointer bg-white transition-all duration-300 ease-in-out rounded-lg py-3 px-3 border border-neutral-borders hover:border-primary-index hover:shadow-3xl"
         >
           <div className="flex items-center gap-3">
             <img
@@ -59,7 +59,7 @@ export const PlatformSelector = ({
             </span>
           </div>
           <PencilSimple className="text-[#737373]" size={20} />
-        </div>
+        </button>
       </div>
 
       <InputError className="mt-1" message={errorPlatform} />

@@ -42,10 +42,19 @@ export default function Profile() {
 
   const [originalImage, setOriginalImage] = useState<string | null>(null);
 
-  const { data: socialLinksData, mutate } = useRequest<SocialLinksData>({
-    url: `/social-links`,
-    method: 'GET'
-  });
+  const { data: socialLinksData, mutate } = useRequest<SocialLinksData>(
+    {
+      url: `/social-links`,
+      method: 'GET'
+    },
+    {
+      revalidateOnFocus: false,
+      revalidateIfStale: true,
+      dedupingInterval: 20000,
+      focusThrottleInterval: 30000,
+      keepPreviousData: true
+    }
+  );
 
   const {
     data: profileData,

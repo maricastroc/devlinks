@@ -49,10 +49,10 @@ export const LinkForm = ({
 
   return (
     <div
-      className={`overflow-visible h-auto flex flex-col w-full p-4 rounded-lg bg-light-gray`}
+      className={`overflow-visible focus:outline-none h-auto flex flex-col w-full p-4 rounded-lg bg-light-gray`}
     >
       <div
-        className="flex items-center justify-between w-full"
+        className="flex focus:outline-none items-center justify-between w-full"
         {...provided?.dragHandleProps}
       >
         <div className="flex items-center gap-2">

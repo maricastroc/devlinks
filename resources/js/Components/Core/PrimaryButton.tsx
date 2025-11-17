@@ -16,7 +16,7 @@ export default function PrimaryButton({
     <button
       {...props}
       className={
-        `disabled:cursor-not-allowed justify-center disabled:bg-purple-hover w-full inline-flex items-center rounded-lg bg-medium-purple px-4 py-3 text-md font-semibold text-white transition duration-150 ease-in-out hover:bg-purple-hover focus:outline-none ${isSubmitting && 'cursor-not-allowed h-[3rem] bg-purple-hover border-transparent'} ` +
+        `disabled:cursor-not-allowed justify-center disabled:bg-purple-hover w-full inline-flex items-center rounded-lg bg-medium-purple px-4 py-3 text-md font-semibold text-white transition duration-150 ease-in-out hover:bg-purple-hover ${isSubmitting && 'cursor-not-allowed h-[3rem] bg-purple-hover border-transparent'} ` +
         className
       }
       disabled={disabled}

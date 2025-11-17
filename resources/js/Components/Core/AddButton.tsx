@@ -2,7 +2,7 @@ import clsx from 'clsx';
 import { Plus } from 'phosphor-react';
 
 export const AddButton = ({ onClick }: { onClick: () => void }) => (
-  <div
+  <button
     onClick={onClick}
     className={clsx(
       'flex items-center justify-center p-2',
@@ -14,5 +14,5 @@ export const AddButton = ({ onClick }: { onClick: () => void }) => (
     )}
   >
     <Plus size={20} />
-  </div>
+  </button>
 );

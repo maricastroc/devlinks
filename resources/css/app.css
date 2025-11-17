@@ -45,3 +45,9 @@
 .animate-pulse {
   animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
 }
+
+*:focus-visible {
+  outline: 2px solid theme('colors.medium-purple');
+  outline-offset: 3px;
+  border-radius: 4px;
+}

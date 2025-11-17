@@ -59,7 +59,7 @@ export const LinksSection = ({
                       ref={provided.innerRef}
                       {...provided.draggableProps}
                       {...provided.dragHandleProps}
-                      className="mb-2"
+                      className="mb-2 focus:outline-none"
                       id={`link-${link.id}`}
                     >
                       <LinkForm

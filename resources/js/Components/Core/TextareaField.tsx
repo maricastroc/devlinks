@@ -61,7 +61,7 @@ export function TextAreaField({
             onBlur={onBlur}
             disabled={disabled}
             maxLength={maxLength}
-            className={`block w-full mt-1 rounded-lg border border-transparent bg-gray-100 px-4 py-3 text-dark-grey placeholder:text-medium-gray shadow-sm focus:border-primary-index focus:outline-none focus:ring-1 focus:ring-primary-index transition duration-150 ease-in-out resize-none ${
+            className={`block w-full mt-1 rounded-lg border border-transparent bg-gray-100 px-4 py-3 text-dark-grey placeholder:text-medium-gray shadow-sm focus-visible focus:border-medium-purple transition duration-150 ease-in-out resize-none ${
               error ? 'border-medium-red' : ''
             } ${className}`}
           />

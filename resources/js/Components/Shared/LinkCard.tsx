@@ -24,7 +24,7 @@ export const LinkCard = ({
   };
 
   const linkClassNames = clsx(
-    'flex items-center justify-between p-[0.72rem] h-[2.97rem]',
+    'flex items-center justify-between p-[0.72rem] mx-2 h-[2.97rem]',
     'transition-all duration-150',
     {
       'cursor-not-allowed opacity-75': !isValidUrl,

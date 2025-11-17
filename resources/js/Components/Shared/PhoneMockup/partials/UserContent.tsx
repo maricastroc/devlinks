@@ -96,7 +96,7 @@ export function UserContent({
 
         <div className="mt-6 w-full max-w-[16.5rem]">
           <div
-            className="overflow-y-auto flex flex-col items-center custom-scrollbar"
+            className="py-2 overflow-y-auto flex flex-col items-center custom-scrollbar"
             style={{
               maxHeight: PHONE_DIMENSIONS.content.scroll.maxHeight
             }}

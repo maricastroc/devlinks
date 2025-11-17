@@ -57,26 +57,30 @@ export const Navbar = () => {
           <p className="hidden md:block">Links</p>
         </NavLink>
 
-        <div
+        <button
+          type="button"
           className={`
-            relative transition-all duration-150 cursor-pointer
-            md:gap-2 hover:text-medium-purple flex items-center
-            justify-center md:px-6 p-4 py-3 font-semibold rounded-md
-            ${
-              currentRoute === 'web.profile.index' || isDropdownOpen
-                ? 'bg-purple-hover bg-opacity-25 text-medium-purple'
-                : 'bg-transparent text-gray-600'
-            }
-          `}
-          onClick={() => setIsDropdownOpen(true)}
-          ref={dropdownRef as RefObject<HTMLDivElement>}
+    relative transition-all duration-150 cursor-pointer
+    md:gap-2 hover:text-medium-purple flex items-center
+    justify-center md:px-6 p-4 py-3 font-semibold rounded-md
+    ${
+      currentRoute === 'web.profile.index' || isDropdownOpen
+        ? 'bg-purple-hover bg-opacity-25 text-medium-purple'
+        : 'bg-transparent text-gray-600'
+    }
+  `}
+          onClick={() => setIsDropdownOpen((prev) => !prev)}
+          ref={dropdownRef as RefObject<HTMLButtonElement>}
+          onKeyDown={(e) => {
+            if (e.key === 'Escape') setIsDropdownOpen(false);
+          }}
         >
           <UserCircle size={26} />
           <p className="hidden md:block">Profile</p>
           {isDropdownOpen && (
             <DropdownProfile currentRoute={currentRoute as string} />
           )}
-        </div>
+        </button>
       </div>
 
       <Link

@@ -8,7 +8,6 @@ import {
 } from 'react';
 
 type TextInputProps = InputHTMLAttributes<HTMLInputElement> & {
-  isFocused?: boolean;
   icon?: string | ReactNode | null;
   hasError?: boolean;
   inputRef?: React.Ref<HTMLInputElement>;
@@ -90,8 +89,8 @@ export default forwardRef<HTMLInputElement, TextInputProps>(function TextInput(
         className={
           `w-full ${icon ? 'pl-10' : ''} pr-4 py-3 rounded-md border ${
             hasError ? 'border-medium-red' : 'border-borders'
-          } shadow-sm bg-white text-dark-gray focus:border-medium-purple focus:ring-medium-purple disabled:cursor-not-allowed disabled:text-gray-500` +
-          className
+          } shadow-sm focus:border-borders bg-white text-dark-gray focus-visible:outline focus-visible:outline-medium-purple focus-visible:outline-2 focus-visible:outline-offset-2
+            disabled:cursor-not-allowed disabled:text-gray-500` + className
         }
         style={{
           paddingLeft: prefix

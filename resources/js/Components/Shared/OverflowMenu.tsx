@@ -18,6 +18,9 @@ export const OverflowMenu = ({ links }: { links: UserLinkProps[] }) => {
     <div className="relative" ref={dropdownRef as RefObject<HTMLDivElement>}>
       <button
         onClick={() => setIsOpen(!isOpen)}
+        onKeyDown={(e) => {
+          if (e.key === 'Escape') setIsOpen(false);
+        }}
         className="flex items-center justify-center w-8 h-8 bg-gray-100 rounded-lg border border-gray-300 text-gray-600 hover:bg-gray-200 transition-all text-sm"
       >
         +{links.length}
@@ -25,12 +28,12 @@ export const OverflowMenu = ({ links }: { links: UserLinkProps[] }) => {
 
       {isOpen && (
         <div className="absolute right-0 z-50 w-40 mt-2 origin-top-right bg-white rounded-md shadow-lg ring-1 ring-black ring-opacity-5">
-          <div className="py-1">
+          <div className="flex flex-col">
             {links.map((link) => (
               <button
                 key={link.platform.id}
                 onClick={() => handleLinkClick(link.url || '')}
-                className="flex items-center w-full px-3 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                className="flex items-center mx-3 my-2 text-sm text-gray-700 hover:bg-gray-100"
               >
                 <img
                   className="w-4 h-4 mr-2"

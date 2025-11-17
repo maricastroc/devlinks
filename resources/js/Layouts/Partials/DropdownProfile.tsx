@@ -4,6 +4,7 @@ import {
   faPenToSquare
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import clsx from 'clsx';
 
 type Props = {
   currentRoute: string;
@@ -16,7 +17,10 @@ export const DropdownProfile = ({ currentRoute }: Props) => {
     >
       <NavLink
         href={route('web.profile.index')}
-        className={`${currentRoute === 'web.profile.index' && 'text-medium-purple pointer-events-none'} flex items-center gap-2 px-4 py-1 md:px-[0.9rem] hover:text-medium-purple`}
+        className={clsx(
+          'gap-2 px-4 py-2 hover:bg-gray-100 hover:text-medium-purple',
+          currentRoute === 'web.profile.index' && 'pointer-events-none'
+        )}
       >
         <FontAwesomeIcon icon={faPenToSquare} />
         <span className="font-medium">Details</span>
