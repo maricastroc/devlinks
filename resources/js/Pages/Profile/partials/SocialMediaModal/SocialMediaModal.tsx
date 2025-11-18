@@ -75,7 +75,7 @@ export function SocialMediaModal({
   };
 
   const handleRemoveLink = async () => {
-    if (!selectedPlatform || !usernameValue) return;
+    if (!selectedPlatform) return;
 
     setIsLoading(true);
 
@@ -106,7 +106,14 @@ export function SocialMediaModal({
         className="fixed inset-0 z-[990] bg-black bg-opacity-70"
         onClick={onClose}
       />
-      <Dialog.Content className="fixed z-[999] top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[90vw] bg-white rounded-lg shadow-lg  p-4 md:w-[560px] md:p-8">
+      <Dialog.Content
+        role="dialog"
+        aria-modal="true"
+        onClick={(e) => e.stopPropagation()}
+        className="fixed z-[999] top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[90vw] bg-white rounded-lg shadow-lg  p-4 md:w-[560px] md:p-8"
+      >
+        <Dialog.Title className="sr-only">Social media modal</Dialog.Title>
+
         {activeModal === 'initial_link_modal' && (
           <InitialLinkModal
             onClose={onClose}

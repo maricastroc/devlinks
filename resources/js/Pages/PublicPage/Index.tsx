@@ -46,7 +46,7 @@ export default function Shared({
       await navigator.clipboard.writeText(currentUrl);
       toast?.success('Copied to clipboard!');
     } catch (err) {
-      toast?.success('An unexpected error ocurred.');
+      toast?.error('An unexpected error ocurred.');
     }
   };
 
@@ -104,6 +104,7 @@ export default function Shared({
                   key={link.id}
                   onClick={() => handleSocialLinkClick(link.url || '')}
                   className="hover:scale-105 transition-transform"
+                  type="button"
                 >
                   <SocialLink link={link} />
                 </button>

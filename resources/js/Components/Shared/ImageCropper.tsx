@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import Cropper from 'react-cropper';
 import 'cropperjs/dist/cropper.css';
 import PrimaryButton from '../Core/PrimaryButton';
@@ -19,8 +19,21 @@ export const ImageCropper: React.FC<ImageCropperProps> = ({
   aspectRatio = 1
 }) => {
   const cropperRef = useRef<HTMLImageElement>(null);
+  const cancelBtnRef = useRef<HTMLButtonElement>(null);
 
   const [isCropping, setIsCropping] = useState(true);
+
+  useEffect(() => {
+    cancelBtnRef.current?.focus();
+  }, []);
+
+  useEffect(() => {
+    const keyHandler = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') onClose();
+    };
+    document.addEventListener('keydown', keyHandler);
+    return () => document.removeEventListener('keydown', keyHandler);
+  }, [onClose]);
 
   const handleCrop = () => {
     if (cropperRef.current) {
@@ -39,27 +52,39 @@ export const ImageCropper: React.FC<ImageCropperProps> = ({
 
       onCrop(croppedCanvas.toDataURL());
       setIsCropping(false);
+      onClose();
     }
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-70">
-      <div className="p-4 bg-white w-auto max-w-[30rem] rounded-lg">
-        {isCropping ? (
+    <div
+      className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-70"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="cropper-title"
+    >
+      <div className="p-4 bg-white w-auto max-w-[30rem] rounded-lg shadow-lg">
+        <h1 id="cropper-title" className="sr-only">
+          Crop your image
+        </h1>
+
+        {isCropping && (
           <>
             <Cropper
               src={src}
-              style={{
-                height: 400,
-                width: '100%'
-              }}
+              style={{ height: 400, width: '100%' }}
               initialAspectRatio={aspectRatio}
               aspectRatio={aspectRatio}
               guides={true}
               ref={cropperRef}
+              alt=""
+              aria-hidden="true"
             />
+
             <div className="flex justify-end gap-2 mt-4">
               <SecondaryButton
+                ref={cancelBtnRef}
+                type="button"
                 onClick={() => {
                   setIsCropping(false);
                   onClose();
@@ -68,12 +93,17 @@ export const ImageCropper: React.FC<ImageCropperProps> = ({
               >
                 Cancel
               </SecondaryButton>
-              <PrimaryButton onClick={handleCrop} className="px-4 py-2 rounded">
+
+              <PrimaryButton
+                type="button"
+                onClick={handleCrop}
+                className="px-4 py-2 rounded"
+              >
                 Crop Image
               </PrimaryButton>
             </div>
           </>
-        ) : null}
+        )}
       </div>
     </div>
   );

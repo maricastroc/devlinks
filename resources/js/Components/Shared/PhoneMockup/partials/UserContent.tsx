@@ -52,7 +52,10 @@ export function UserContent({
             className="w-full h-full bg-center bg-cover rounded-full bg-opacity-20"
           />
         ) : (
-          <span className="text-3xl font-bold text-gray-600">
+          <span
+            aria-label={`Avatar containing initials of ${user?.name || displayUsername}`}
+            className="text-3xl font-bold text-gray-600"
+          >
             {getInitials(user?.name || displayUsername)}
           </span>
         )}
@@ -85,6 +88,7 @@ export function UserContent({
                 key={link.id}
                 onClick={() => handleSocialLinkClick(link.url || '')}
                 className="hover:scale-105 transition-transform"
+                aria-label={`Open ${link.platform.name} link`}
               >
                 <SocialLink link={link} />
               </button>

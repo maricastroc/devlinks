@@ -49,6 +49,8 @@ export const LinkForm = ({
 
   return (
     <div
+      role="group"
+      aria-labelledby={`link_header_${index}`}
       className={`overflow-visible focus:outline-none h-auto flex flex-col w-full p-4 rounded-lg bg-light-gray`}
     >
       <div
@@ -57,11 +59,16 @@ export const LinkForm = ({
       >
         <div className="flex items-center gap-2">
           <LinkMark />
-          <p className="font-bold text-medium-gray">{`Link #${index + 1}`}</p>
+          <h3
+            id={`link_header_${index}`}
+            className="font-bold text-medium-gray"
+          >{`Link #${index + 1}`}</h3>
         </div>
         <button
+          type="button"
           onClick={() => handleRemove(Number(link.id))}
           className="text-medium-gray"
+          aria-label={`Remove link #${index + 1}`}
         >
           Remove
         </button>

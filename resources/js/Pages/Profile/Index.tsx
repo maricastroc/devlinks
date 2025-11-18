@@ -167,7 +167,7 @@ export default function Profile() {
             />
           </div>
         </div>
-        <div className="flex flex-col w-full p-4 m-4 bg-white rounded-md lg:m-0 md:m-6 md:p-10">
+        <section className="flex flex-col w-full p-4 m-4 bg-white rounded-md lg:m-0 md:m-6 md:p-10">
           <PageHeader
             title="Profile Details"
             description="Add details to personalize your profile"
@@ -204,7 +204,7 @@ export default function Profile() {
               />
             </>
           )}
-        </div>
+        </section>
       </div>
     </AuthenticatedLayout>
   );

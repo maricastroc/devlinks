@@ -1,5 +1,4 @@
 import { MagnifyingGlass } from 'phosphor-react';
-import * as Dialog from '@radix-ui/react-dialog';
 import { PlatformProps } from '@/types/platform';
 
 import { SearchInput } from '@/Components/Core/SearchInput';
@@ -39,7 +38,9 @@ export function SelectLinkModal({
     <>
       <ModalHeader onClose={onClose} title="Add Social Link" onBack={onBack} />
 
-      <Dialog.Description className="flex flex-col w-full">
+      <div>
+        <h2 className="sr-only">Select link modal</h2>
+
         <SearchInput
           value={searchTerm}
           onChange={setSearchTerm}
@@ -62,7 +63,7 @@ export function SelectLinkModal({
             />
           )}
         </div>
-      </Dialog.Description>
+      </div>
     </>
   );
 }

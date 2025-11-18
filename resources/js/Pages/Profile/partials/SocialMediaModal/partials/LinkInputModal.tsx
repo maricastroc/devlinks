@@ -1,11 +1,12 @@
 import PrimaryButton from '@/Components/Core/PrimaryButton';
 import { PlatformProps } from '@/types/platform';
-import * as Dialog from '@radix-ui/react-dialog';
 import { UserLinkProps } from '@/types/user-link';
 import { useEffect } from 'react';
 import { TrashSimple } from 'phosphor-react';
 import { ModalHeader } from '@/Components/Shared/ModalHeader';
 import SecondaryButton from '@/Components/Core/SecondaryButton';
+import InputLabel from '@/Components/Core/InputLabel';
+import TextInput from '@/Components/Core/TextInput';
 
 export const LinkInputModal = ({
   selectedLink,
@@ -41,23 +42,28 @@ export const LinkInputModal = ({
       <ModalHeader
         title={`${
           isEditMode
-            ? `Edit ${selectedLink?.platform.name} Icon`
+            ? `Edit ${selectedLink?.platform.name} link`
             : `Add ${selectedPlatform.name}`
         }`}
         onClose={onClose}
         onBack={onBack}
       />
 
-      <Dialog.Description className="flex flex-col w-full">
+      <div className="flex flex-col w-full">
         <div className="mt-6 mb-8">
-          <input
+          <InputLabel
+            htmlFor="username-input"
+            value={`Enter your ${selectedPlatform.name} username`}
+            className="text-body-m"
+          />
+
+          <TextInput
+            id="username-input"
             type="text"
-            className={`w-full p-3 bg-gray-100 border rounded-lg text-md focus:ring-1`}
+            className="w-full mt-1 p-3 bg-gray-100 border rounded-lg text-md focus:ring-1"
             placeholder={selectedPlatform.placeholder}
             value={usernameValue}
-            onChange={(e) => {
-              setUsernameValue(e.target.value);
-            }}
+            onChange={(e) => setUsernameValue(e.target.value)}
           />
         </div>
 
@@ -81,7 +87,7 @@ export const LinkInputModal = ({
             </div>
           </SecondaryButton>
         )}
-      </Dialog.Description>
+      </div>
     </>
   );
 };

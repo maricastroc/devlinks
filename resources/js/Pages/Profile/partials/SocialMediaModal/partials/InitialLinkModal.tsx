@@ -1,5 +1,4 @@
 import PrimaryButton from '@/Components/Core/PrimaryButton';
-import * as Dialog from '@radix-ui/react-dialog';
 import { UserLinkProps } from '@/types/user-link';
 import { PlatformItem } from '@/Components/Shared/PlatformItem';
 import { ModalHeader } from '@/Components/Shared/ModalHeader';
@@ -25,7 +24,7 @@ export const InitialLinkModal = ({
         onClose={onClose}
       />
 
-      <Dialog.Description className="flex flex-col w-full">
+      <div className="flex flex-col w-full">
         <p className="mt-5 font-bold text-dark-gray">
           Show visitors where to find you!
         </p>
@@ -40,14 +39,16 @@ export const InitialLinkModal = ({
             return (
               <PlatformItem
                 isEdit
+                key={link.id}
                 platform={link.platform}
                 onSelect={() => onSelect(link)}
               />
             );
           })}
-      </Dialog.Description>
+      </div>
 
       <PrimaryButton
+        type="button"
         className="mt-5"
         onClick={() => onConfirm('select_link_modal')}
       >

@@ -4,19 +4,43 @@ type Props = {
   isSmaller?: boolean;
 };
 
+const SKELETON_CONFIG = {
+  small: {
+    avatar: 'top-[3.9rem] left-[5.5rem]',
+    name: 'top-[11.3rem] left-[2.5rem] w-[12.2rem]',
+    links: {
+      container: 'top-[-15.5rem] left-[1.3rem] w-[13rem]',
+      count: 3
+    }
+  },
+  large: {
+    avatar: 'top-[3.9rem] left-[6.5rem]',
+    name: 'top-[11.3rem] left-[3.5rem] w-[12.2rem]',
+    links: {
+      container: 'top-[-24.1rem] left-[1.3rem] w-[15.2rem]',
+      count: 5
+    }
+  }
+};
+
 export const PhoneSkeleton = ({ isSmaller = false }: Props) => {
+  const config = isSmaller ? SKELETON_CONFIG.small : SKELETON_CONFIG.large;
+
   return (
-    <>
+    <div role="presentation" aria-hidden="true">
       <div
-        className={`absolute rounded-full h-[94px] w-[94px] z-40 top-[3.9rem] ${isSmaller ? 'left-[5.5rem]' : 'left-[6.5rem]'} flex items-center justify-center`}
+        aria-hidden="true"
+        className={`absolute rounded-full h-[94px] w-[94px] z-40 flex items-center justify-center ${config.avatar}`}
       >
-        <span className="text-3xl font-bold text-gray-600">
-          <Skeleton hasAnimatePulse className="bg-gray-300 h-[94px] w-[94px]" />
-        </span>
+        <Skeleton
+          hasAnimatePulse
+          className="bg-gray-300 h-full w-full rounded-full"
+        />
       </div>
 
       <div
-        className={`font-bold w-[12.2rem] flex items-center justify-center absolute z-40 top-[11.3rem] ${isSmaller ? 'left-[2.5rem]' : 'left-[3.5rem]'}`}
+        aria-hidden="true"
+        className={`font-bold flex items-center justify-center absolute z-40 ${config.name}`}
       >
         <Skeleton
           hasAnimatePulse
@@ -24,23 +48,21 @@ export const PhoneSkeleton = ({ isSmaller = false }: Props) => {
         />
       </div>
 
-      <div className="relative">
+      <div className="relative" aria-hidden="true">
         <div
-          className={`left-[1.3rem] absolute flex flex-col items-center justify-start m-4 ${isSmaller ? 'top-[-15.5rem] w-[13rem]' : 'top-[-24.1rem] w-[15.2rem]'} mr-[-8px]`}
+          className={`absolute flex flex-col items-center justify-start m-4 mr-[-8px] ${config.links.container}`}
         >
           <div className="w-full flex flex-col gap-[0.98rem] pr-2">
-            <Skeleton className="w-full h-12 bg-gray-300 rounded-md" />
-            <Skeleton className="w-full h-12 bg-gray-300 rounded-md" />
-            <Skeleton className="w-full h-12 bg-gray-300 rounded-md" />
-            {!isSmaller && (
-              <>
-                <Skeleton className="w-full h-12 bg-gray-300 rounded-md" />
-                <Skeleton className="w-full h-12 bg-gray-300 rounded-md" />
-              </>
-            )}
+            {Array.from({ length: config.links.count }, (_, index) => (
+              <Skeleton
+                key={index}
+                className="w-full h-12 bg-gray-300 rounded-md"
+                aria-hidden="true"
+              />
+            ))}
           </div>
         </div>
       </div>
-    </>
+    </div>
   );
 };

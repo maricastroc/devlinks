@@ -12,7 +12,7 @@ export const PlatformItem = ({
   onSelect: (platform: PlatformProps) => void;
 }) => (
   <button
-    className="flex items-center justify-between gap-3 p-3 transition-all duration-150 bg-transparent rounded-lg hover:bg-gray-100"
+    className="flex w-full items-center justify-between gap-3 p-3 transition-all duration-150 bg-transparent rounded-lg hover:bg-gray-100"
     onClick={() => onSelect(platform)}
   >
     <div className="flex items-center justify-start gap-4">
@@ -21,6 +21,7 @@ export const PlatformItem = ({
         src={`assets/images/icon-color-${formatToSlug(platform.name)}.svg`}
         alt={platform.name}
       />
+
       <div className="flex flex-col items-start justify-start gap-[0.1rem] text-start">
         <p className="font-semibold md:text-md text-dark-gray">
           {platform.name}
@@ -31,8 +32,8 @@ export const PlatformItem = ({
       </div>
     </div>
 
-    <button className="text-sm font-semibold md:text-md text-medium-purple">
+    <span className="text-sm font-semibold md:text-md text-medium-purple">
       Add
-    </button>
+    </span>
   </button>
 );

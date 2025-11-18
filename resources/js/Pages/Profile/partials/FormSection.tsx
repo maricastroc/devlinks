@@ -46,8 +46,8 @@ export const profileFormSchema = (changePassword: boolean) =>
     }),
     avatar_url: z
       .instanceof(File)
-      .refine((file) => file.size <= 2 * 1024 * 1024, {
-        message: 'Image must be at most 2MB.'
+      .refine((file) => file.size < 1024 * 1024, {
+        message: 'Image must be below 1024x1024px'
       })
       .optional(),
     old_password: changePassword
@@ -90,6 +90,7 @@ export const FormSection = ({
 
     if (file.size > 2 * 1024 * 1024) {
       toast.error('Image must be at most 2MB.');
+      event.target.value = '';
       return;
     }
 
@@ -109,6 +110,7 @@ export const FormSection = ({
     const formData = new FormData();
 
     formData.append('name', data.name);
+    formData.append('email', data.email);
     formData.append('username', data.username);
     formData.append('_method', 'PUT');
 
@@ -120,9 +122,9 @@ export const FormSection = ({
       formData.append('avatar_url', data.avatar_url);
     }
 
-    if (changePassword && data.old_password && data.new_password) {
-      formData.append('old_password', data.old_password);
-      formData.append('new_password', data.new_password);
+    if (changePassword) {
+      formData.append('old_password', data.old_password || '');
+      formData.append('new_password', data.new_password || '');
     }
 
     try {

@@ -2,10 +2,16 @@ import Skeleton from 'react-loading-skeleton';
 
 export const SkeletonCard = () => {
   return (
-    <div className="space-y-4 overflow-y-auto custom-scrollbar lg:max-h-[30rem]">
+    <div
+      className="space-y-4 overflow-y-auto custom-scrollbar lg:max-h-[30rem]"
+      aria-hidden="true"
+      role="presentation"
+    >
       {[...Array(3)].map((_, i) => (
         <div
           key={i}
+          aria-hidden="true"
+          role="presentation"
           className="p-4 rounded-lg bg-light-gray"
           style={{
             height: '15rem',

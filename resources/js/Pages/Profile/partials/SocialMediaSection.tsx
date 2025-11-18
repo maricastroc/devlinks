@@ -84,7 +84,7 @@ export const SocialMediaSection = ({
         />
       </div>
 
-      <Dialog.Root open={isModalOpen}>
+      <Dialog.Root open={isModalOpen} onOpenChange={setIsModalOpen}>
         {isModalOpen && platforms && (
           <SocialMediaModal
             onClose={() => {
@@ -143,6 +143,7 @@ const OverflowMenu = ({
             {links.map((link) => (
               <button
                 key={link.platform.id}
+                type="button"
                 onClick={() => {
                   onSelect(link);
                   setIsOpen(false);

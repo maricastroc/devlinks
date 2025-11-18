@@ -13,16 +13,16 @@ export const LinkInputIcon = ({ platform }: Props) => {
     platform.base_url.includes('t.me') ||
     platform.base_url.includes('telegram')
   ) {
-    return <Phone size={22} />;
+    return <Phone aria-hidden="true" size={22} />;
   }
 
   if (platform.base_url.startsWith('mailto:')) {
-    return <EnvelopeSimple size={22} />;
+    return <EnvelopeSimple aria-hidden="true" size={22} />;
   }
 
   if (platform.name === CUSTOM_PLATFORM_NAME) {
-    return <Link size={22} />;
+    return <Link aria-hidden="true" size={22} />;
   }
 
-  return <At size={22} />;
+  return <At aria-hidden="true" size={22} />;
 };

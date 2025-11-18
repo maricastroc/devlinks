@@ -23,10 +23,12 @@ export const PlatformSelector = ({
   handlePlatformSelect,
   setIsLinksModalOpen
 }: Props) => {
+  const platformId = `platform_${link.id}`;
+
   return (
     <div>
-      <InputLabel htmlFor="platform" value="Platform" />
-      <Dialog.Root open={isLinksModalOpen}>
+      <InputLabel htmlFor={platformId} value="Platform" />
+      <Dialog.Root open={isLinksModalOpen} onOpenChange={setIsLinksModalOpen}>
         <LinksModal
           onClose={() => setIsLinksModalOpen(false)}
           handleAddLink={handlePlatformSelect}
@@ -36,8 +38,13 @@ export const PlatformSelector = ({
 
       <div className="relative overflow-visible">
         <button
-          onClick={() => setIsLinksModalOpen(true)}
+          id={platformId}
           className="hover:shadow-lg w-full border-borders mt-1 h-[48px] flex items-center justify-between cursor-pointer bg-white transition-all duration-300 ease-in-out rounded-lg py-3 px-3 border border-neutral-borders hover:border-primary-index hover:shadow-3xl"
+          type="button"
+          aria-haspopup="dialog"
+          aria-expanded={isLinksModalOpen}
+          aria-controls="platform-selector-modal"
+          onClick={() => setIsLinksModalOpen(true)}
         >
           <div className="flex items-center gap-3">
             <img
@@ -46,7 +53,7 @@ export const PlatformSelector = ({
                   ? `/assets/images/${link.platform.icon_url}`
                   : 'assets/images/icon-platform.svg'
               }
-              alt="Link icon"
+              alt={link.platform.name || ''}
               width="16"
               height="16"
             />
@@ -58,7 +65,12 @@ export const PlatformSelector = ({
               {link.platform.name || 'Select a platform'}
             </span>
           </div>
-          <PencilSimple className="text-[#737373]" size={20} />
+          <PencilSimple
+            aria-hidden="true"
+            focusable="false"
+            className="text-[#737373]"
+            size={20}
+          />
         </button>
       </div>
 

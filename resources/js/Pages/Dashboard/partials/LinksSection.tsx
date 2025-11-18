@@ -36,7 +36,10 @@ export const LinksSection = ({
   ) as React.MutableRefObject<HTMLDivElement | null>;
 
   return (
-    <div className="flex flex-col h-full gap-4 mt-6 links-list-container">
+    <div
+      className="flex flex-col h-full gap-4 mt-6 links-list-container"
+      role="list"
+    >
       <DragDropContext onDragEnd={onDragEnd}>
         <Droppable droppableId="linksList">
           {(provided) => (
@@ -56,11 +59,14 @@ export const LinksSection = ({
                 >
                   {(provided) => (
                     <div
+                      className="mb-2 focus:outline-none"
+                      role="listitem"
+                      tabIndex={0}
+                      id={`link-${link.id}`}
+                      aria-label={`Link ${index + 1}: ${link.platform.name || 'No platform selected'}`}
                       ref={provided.innerRef}
                       {...provided.draggableProps}
                       {...provided.dragHandleProps}
-                      className="mb-2 focus:outline-none"
-                      id={`link-${link.id}`}
                     >
                       <LinkForm
                         platforms={filteredPlatforms}

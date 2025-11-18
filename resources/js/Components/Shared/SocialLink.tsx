@@ -14,17 +14,19 @@ export const SocialLink = ({ link }: Props) => {
       href={link.url || '#'}
       target="_blank"
       rel="noopener noreferrer"
-      className={`
-        flex w-[2.1rem] h-[2.1rem] items-center bg-medium-gray justify-center rounded-full transition-all hover:scale-110 bg-opacity-20
-      `}
-      title={link.platform.name}
+      className="
+        flex w-[2.1rem] h-[2.1rem] items-center justify-center 
+        rounded-full bg-medium-gray bg-opacity-20 
+        transition-all hover:scale-110
+      "
+      aria-label={`Open ${link.platform.name} profile`}
     >
-      {link.platform.name.toLowerCase() && (
-        <FontAwesomeIcon
-          icon={getBrandIconByName(link.platform.name) as IconProp}
-          className={`text-dark-gray w-[1.35rem] h-[1.35rem]`}
-        />
-      )}
+      <FontAwesomeIcon
+        icon={getBrandIconByName(link.platform.name) as IconProp}
+        className="text-dark-gray w-[1.35rem] h-[1.35rem]"
+        aria-hidden="true"
+        focusable="false"
+      />
     </a>
   );
 };

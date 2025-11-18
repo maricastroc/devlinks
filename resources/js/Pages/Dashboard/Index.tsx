@@ -169,16 +169,22 @@ export default function Dashboard() {
           </div>
         </div>
 
-        <div className="flex flex-col w-full p-4 m-4 mt-6 bg-white rounded-md lg:m-0 md:m-6 md:p-10">
+        <section className="flex flex-col w-full p-4 m-4 mt-6 bg-white rounded-md lg:m-0 md:m-6 md:p-10">
           <PageHeader
             title="Customize your links"
             description="Add/edit/remove links below and then share all your profiles
             with the world!"
           />
 
-          <Dialog.Root open={isLinksModalOpen}>
+          <Dialog.Root
+            open={isLinksModalOpen}
+            onOpenChange={setIsLinksModalOpen}
+          >
             <div className="flex items-center justify-center w-full gap-3">
               <SecondaryButton
+                aria-haspopup="dialog"
+                aria-expanded={isLinksModalOpen}
+                aria-controls="links-modal"
                 disabled={isSubmitting || isValidating}
                 onClick={() => setIsLinksModalOpen(true)}
               >
@@ -223,7 +229,7 @@ export default function Dashboard() {
               Save
             </PrimaryButton>
           </div>
-        </div>
+        </section>
       </div>
     </AuthenticatedLayout>
   );
