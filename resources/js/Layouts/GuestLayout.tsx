@@ -12,28 +12,56 @@ type GuestProps = {
 export default function Guest({ children, showLogo = true }: GuestProps) {
   const [isLoading, setIsLoading] = useState(false);
 
+  const [announceLoading, setAnnounceLoading] = useState(false);
+
   useEffect(() => {
-    const start = () => setIsLoading(true);
-    const end = () => setIsLoading(false);
+    const start = () => {
+      setIsLoading(true);
+      setAnnounceLoading(true);
+    };
+
+    const end = () => {
+      setIsLoading(false);
+      setTimeout(() => setAnnounceLoading(false), 1000);
+    };
 
     Inertia.on('start', start);
     Inertia.on('finish', end);
+
+    return () => {
+      setIsLoading(false);
+      setAnnounceLoading(false);
+    };
   }, []);
 
   return (
-    <div className="flex flex-col items-center min-h-screen pt-6 bg-light-gray sm:justify-center sm:pt-0">
-      {showLogo && (
-        <div className="mb-2">
-          <Link href="/">
-            <ApplicationLogo />
-          </Link>
+    <main className="flex flex-col items-center min-h-screen pt-6 bg-light-gray sm:justify-center sm:pt-0">
+      {announceLoading && (
+        <div
+          role="status"
+          aria-live="polite"
+          aria-atomic="true"
+          className="sr-only"
+        >
+          Loading content...
         </div>
       )}
 
-      <div className="w-full px-6 py-4 overflow-hidden md:mt-6 md:shadow-md bg-light-gray md:bg-white sm:max-w-lg sm:rounded-lg dark:bg-background-secondary">
+      {showLogo && (
+        <header className="mb-2">
+          <Link href="/" aria-label="Voltar para página inicial">
+            <ApplicationLogo />
+          </Link>
+        </header>
+      )}
+
+      <section
+        className="w-full px-6 py-4 overflow-hidden md:mt-6 md:shadow-md bg-light-gray md:bg-white sm:max-w-lg sm:rounded-lg dark:bg-background-secondary"
+        aria-labelledby="guest-content-title"
+      >
         {isLoading && <LoadingComponent hasOverlay />}
         {children}
-      </div>
-    </div>
+      </section>
+    </main>
   );
 }

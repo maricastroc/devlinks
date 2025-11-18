@@ -10,7 +10,6 @@
             href="https://cdn.jsdelivr.net/gh/dheereshagrwal/coloured-icons@master/src/app/ci.min.css"
         />
         <title inertia>{{ config('app.name', 'Devlinks') }}</title>
-        <h1 className="sr-only">Dashboard</h1>
         <!-- Fonts -->
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>

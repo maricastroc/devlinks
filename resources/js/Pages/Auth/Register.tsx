@@ -1,15 +1,17 @@
-import { Head, Link, router } from '@inertiajs/react';
+import { Head, router } from '@inertiajs/react';
 import { z } from 'zod';
 import { Controller, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import InputLabel from '@/Components/Core/InputLabel';
-import PrimaryButton from '@/Components/Core/PrimaryButton';
 import TextInput from '@/Components/Core/TextInput';
 import { FormError } from '@/Components/Core/FormError';
 import GuestLayout from '@/Layouts/GuestLayout';
 import EmailIcon from '/public/assets/images/icon-email.svg';
 import PasswordIcon from '/public/assets/images/icon-password.svg';
 import toast from 'react-hot-toast';
+import { AccountSection } from './partials/AccountSection';
+import { FormHeader } from './partials/FormHeader';
+import { useEffect, useState } from 'react';
 
 const signUpFormSchema = z.object({
   email: z
@@ -33,7 +35,6 @@ const signUpFormSchema = z.object({
 
 type SignUpFormData = z.infer<typeof signUpFormSchema>;
 
-// Função utilitária reutilizável
 const handleFormErrors = (errors: Record<string, string>) => {
   Object.values(errors).forEach((errorMessage) => {
     toast.error(errorMessage);
@@ -41,6 +42,8 @@ const handleFormErrors = (errors: Record<string, string>) => {
 };
 
 export default function Register() {
+  const [announceLoading, setAnnounceLoading] = useState(false);
+
   const {
     control,
     handleSubmit,
@@ -66,18 +69,41 @@ export default function Register() {
     });
   };
 
+  useEffect(() => {
+    if (isSubmitting) {
+      setAnnounceLoading(true);
+    } else {
+      const timer = setTimeout(() => setAnnounceLoading(false), 1000);
+      return () => clearTimeout(timer);
+    }
+  }, [isSubmitting]);
+
   return (
     <GuestLayout>
       <Head title="Register" />
 
-      <form onSubmit={handleSubmit(onSubmit)} className="p-2 py-6 md:p-4">
+      {announceLoading && (
+        <div
+          role="status"
+          aria-live="polite"
+          aria-atomic="true"
+          className="sr-only"
+        >
+          Registering user, please wait...
+        </div>
+      )}
+
+      <form
+        onSubmit={handleSubmit(onSubmit)}
+        className="p-2 py-6 md:p-4"
+        aria-labelledby="register-title"
+        noValidate
+      >
         <div>
-          <h2 className="mb-2 text-[1.7rem] md:text-[2rem] font-bold text-dark-gray">
-            Create account
-          </h2>
-          <p className="mb-8 text-medium-gray">
-            Let’s get you started sharing your links!
-          </p>
+          <FormHeader
+            title="Create account"
+            description="Let’s get you started sharing your links!"
+          />
 
           <InputLabel htmlFor="email" value="Email" />
           <Controller
@@ -92,11 +118,18 @@ export default function Register() {
                 autoComplete="email"
                 icon={EmailIcon}
                 hasError={!!errors?.email}
+                aria-required="true"
+                aria-invalid={!!errors.email}
+                aria-describedby={errors.email ? 'email-error' : undefined}
                 {...field}
               />
             )}
           />
-          <FormError error={errors.email?.message} className="mt-2" />
+          <FormError
+            id="email-error"
+            error={errors.email?.message}
+            className="mt-2"
+          />
         </div>
 
         <div className="mt-4">
@@ -113,11 +146,20 @@ export default function Register() {
                 icon={PasswordIcon}
                 autoComplete="new-password"
                 hasError={!!errors?.password}
+                aria-required="true"
+                aria-invalid={!!errors.password}
+                aria-describedby={
+                  errors.password ? 'password-error' : undefined
+                }
                 {...field}
               />
             )}
           />
-          <FormError error={errors.password?.message} className="mt-2" />
+          <FormError
+            id="password-error"
+            error={errors.password?.message}
+            className="mt-2"
+          />
         </div>
 
         <div className="mt-4">
@@ -134,27 +176,28 @@ export default function Register() {
                 className="block w-full mt-1"
                 autoComplete="username"
                 hasError={!!errors?.username}
+                aria-required="true"
+                aria-invalid={!!errors.username}
+                aria-describedby={
+                  errors.username ? 'username-error' : undefined
+                }
                 {...field}
               />
             )}
           />
-          <FormError error={errors.username?.message} className="mt-2" />
+          <FormError
+            id="username-error"
+            error={errors.username?.message}
+            className="mt-2"
+          />
         </div>
 
-        <div className="flex flex-col items-center justify-end mt-6 text-center">
-          <PrimaryButton disabled={isSubmitting}>
-            {isSubmitting ? 'Creating account...' : 'Create account'}
-          </PrimaryButton>
-          <div className="flex flex-col items-center mt-6 md:mt-4 md:gap-1 md:flex-row">
-            <p className="text-md text-medium-gray">Already have an account?</p>
-            <Link
-              href={route('login')}
-              className="transition-all hover:text-purple-hover duration-125 text-medium-purple text-md"
-            >
-              Login
-            </Link>
-          </div>
-        </div>
+        <AccountSection
+          linkPath={route('login')}
+          text="Already have an account?"
+          linkText="Login"
+          isSubmitting={isSubmitting}
+        />
       </form>
     </GuestLayout>
   );
