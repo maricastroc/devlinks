@@ -42,6 +42,8 @@ export default function Profile() {
 
   const [originalImage, setOriginalImage] = useState<string | null>(null);
 
+  const [isLoading, setIsLoading] = useState(false);
+
   const { data: socialLinksData, mutate } = useRequest<SocialLinksData>(
     {
       url: `/social-links`,
@@ -173,7 +175,7 @@ export default function Profile() {
             description="Add details to personalize your profile"
           />
 
-          {isValidating || isSubmitting ? (
+          {isValidating || isSubmitting || isLoading ? (
             <SkeletonCard />
           ) : (
             <>
@@ -182,6 +184,8 @@ export default function Profile() {
                   mutate={mutate}
                   socialLinks={socialLinks}
                   platforms={platforms}
+                  isLoading={isLoading}
+                  setIsLoading={setIsLoading}
                 />
               </ProfileSection>
 

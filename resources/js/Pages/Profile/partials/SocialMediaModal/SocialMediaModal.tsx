@@ -20,6 +20,8 @@ interface ModalProps {
   setSelectedLink: (value: UserLinkProps | null) => void;
   onClose: () => void;
   mutate: () => void;
+  setIsLoading: (value: boolean) => void;
+  isLoading: boolean;
 }
 
 export function SocialMediaModal({
@@ -32,11 +34,11 @@ export function SocialMediaModal({
   selectedLink,
   selectedPlatform,
   platforms,
-  socialLinks
+  socialLinks,
+  isLoading,
+  setIsLoading
 }: ModalProps) {
   const [usernameValue, setUsernameValue] = useState('');
-
-  const [isLoading, setIsLoading] = useState(false);
 
   const handleSaveLink = async () => {
     if (!selectedPlatform || !usernameValue) return;

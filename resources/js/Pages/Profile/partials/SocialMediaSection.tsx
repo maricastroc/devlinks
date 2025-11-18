@@ -10,13 +10,17 @@ import { AddButton } from '@/Components/Core/AddButton';
 type Props = {
   platforms: PlatformProps[] | undefined;
   socialLinks: UserLinkProps[] | undefined;
+  isLoading: boolean;
+  setIsLoading: (value: boolean) => void;
   mutate: () => void;
 };
 
 export const SocialMediaSection = ({
   platforms,
   socialLinks = [],
-  mutate
+  mutate,
+  isLoading,
+  setIsLoading
 }: Props) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -102,6 +106,8 @@ export const SocialMediaSection = ({
             platforms={platforms}
             socialLinks={socialLinks}
             mutate={mutate}
+            isLoading={isLoading}
+            setIsLoading={setIsLoading}
           />
         )}
       </Dialog.Root>
