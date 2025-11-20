@@ -134,7 +134,7 @@ const OverflowMenu = ({
         onClick={() => setIsOpen(!isOpen)}
         className={clsx(
           'flex items-center justify-center',
-          'w-9 h-9 md:h-10 md:w-12',
+          'w-11 h-11',
           'border rounded-lg',
           'bg-gray-50 border-gray-300 text-gray-500',
           'hover:bg-gray-100 transition-all'
@@ -144,8 +144,8 @@ const OverflowMenu = ({
       </button>
 
       {isOpen && (
-        <div className="absolute right-0 z-10 w-48 mt-2 origin-top-right bg-white rounded-md shadow-lg ring-1 ring-black ring-opacity-5">
-          <div className="py-1">
+        <div className="absolute right-0 z-10 w-auto mt-2 origin-top-right bg-white rounded-md shadow-lg ring-1 ring-black ring-opacity-5">
+          <div className="p-2 gap-1 flex flex-col">
             {links.map((link) => (
               <button
                 key={link.platform.id}
@@ -154,10 +154,10 @@ const OverflowMenu = ({
                   onSelect(link);
                   setIsOpen(false);
                 }}
-                className="flex items-center w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                className="flex text-md rounded-md p-2 mr-6 items-center w-full text-gray-700 hover:bg-gray-100"
               >
                 <img
-                  className="w-5 h-5 mr-2"
+                  className="w-[1.35rem] h-[1.35rem] mr-2"
                   src={`/assets/images/${link.platform.icon_url}`}
                   alt={link.platform.name}
                 />
@@ -186,7 +186,7 @@ const PlatformButton = ({
     onClick={onClick}
     className={clsx(
       'relative flex items-center justify-center',
-      'w-9 h-9 md:h-10 md:w-auto md:px-3',
+      'w-11 h-11 md:h-auto md:w-auto md:px-3',
       'rounded-lg',
       'shadow-sm shadow-purple-100',
       'transition-all duration-150 hover:shadow-md',
@@ -195,7 +195,7 @@ const PlatformButton = ({
   >
     <div className="flex items-center justify-center gap-2">
       <img
-        className="w-5 h-5 md:w-6 md:h-6"
+        className="w-7 h-7 lg:w-6 lg:h-6"
         src={`/assets/images/${platform?.icon_url || link?.platform.icon_url}`}
         alt={platform?.name || link?.platform.name}
         style={{

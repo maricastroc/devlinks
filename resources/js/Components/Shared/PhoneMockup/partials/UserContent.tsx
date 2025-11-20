@@ -90,11 +90,13 @@ export function UserContent({
                 className="hover:scale-105 transition-transform"
                 aria-label={`Open ${link.platform.name} link`}
               >
-                <SocialLink link={link} />
+                <SocialLink isSmaller link={link} />
               </button>
             ))}
 
-            {hasOverflow && <OverflowMenu links={overflowSocialLinks} />}
+            {hasOverflow && (
+              <OverflowMenu isSmaller links={overflowSocialLinks} />
+            )}
           </div>
         )}
 
