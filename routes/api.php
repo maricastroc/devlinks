@@ -11,13 +11,11 @@ use Illuminate\Support\Facades\Route;
 
 
 
-Route::middleware('auth:sanctum')->group(function () {
-    // Rotas de perfil
+Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'getProfileData']);
     Route::put('/profile', [ProfileController::class, 'update']);
     Route::patch('/profile/theme', [ProfileController::class, 'updateTheme']);
-    
-    // Outras rotas API
+
     Route::get('/platforms', [PlatformController::class, 'index']);
     Route::apiResource('/user-links', UserLinkController::class);
     Route::apiResource('/social-links', SocialLinkController::class);
