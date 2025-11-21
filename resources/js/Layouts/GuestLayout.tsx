@@ -49,7 +49,7 @@ export default function Guest({ children, showLogo = true }: GuestProps) {
 
       {showLogo && (
         <header className="mb-2">
-          <Link href="/" aria-label="Voltar para página inicial">
+          <Link href="/" aria-label="Back to main page">
             <ApplicationLogo />
           </Link>
         </header>

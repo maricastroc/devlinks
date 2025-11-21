@@ -152,6 +152,7 @@ export default function Login() {
           linkPath={route('register')}
           text="Don't have an account?"
           linkText="Create account"
+          buttonText="Login"
           isSubmitting={isSubmitting}
         />
       </form>

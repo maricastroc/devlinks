@@ -1,13 +1,14 @@
 import { z } from 'zod';
 import { PhotoInput } from './PhotoInput';
 import { ProfileSection } from './ProfileSection';
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import {
   Control,
   Controller,
   FieldErrors,
   UseFormHandleSubmit,
-  UseFormSetValue
+  UseFormSetValue,
+  useWatch
 } from 'react-hook-form';
 import { InputField } from '@/Components/Core/InputField';
 import { FormError } from '@/Components/Core/FormError';
@@ -36,31 +37,47 @@ type Props = {
   mutate: () => void;
 };
 
-export const profileFormSchema = (changePassword: boolean) =>
-  z.object({
-    name: z.string().min(3, 'Name is required'),
-    email: z.string().min(3, 'E-mail is required'),
-    bio: z.string().nullable(),
-    username: z.string().min(3, {
-      message: 'Username must have at least 3 characters'
-    }),
-    avatar_url: z
-      .instanceof(File)
-      .refine((file) => file.size < 1024 * 1024, {
-        message: 'Image must be below 1024x1024px'
-      })
-      .optional(),
-    old_password: changePassword
-      ? z
-          .string()
-          .min(8, { message: 'Password must be at least 8 characters long.' })
-      : z.string().optional(),
-    new_password: changePassword
-      ? z
-          .string()
-          .min(8, { message: 'Password must be at least 8 characters long.' })
-      : z.string().optional()
-  });
+export const profileFormSchema = () =>
+  z
+    .object({
+      name: z.string().nullable(),
+      email: z.string().min(3, 'E-mail is required'),
+      bio: z.string().nullable(),
+      username: z.string().min(3, {
+        message: 'Username must have at least 3 characters'
+      }),
+      avatar_url: z
+        .instanceof(File)
+        .refine((file) => file.size < 1024 * 1024, {
+          message: 'Image must be below 1024x1024px'
+        })
+        .optional(),
+      old_password: z.string().optional(),
+      new_password: z
+        .string()
+        .optional()
+        .refine(
+          (val) =>
+            !val ||
+            (val.length >= 8 &&
+              /[A-Z]/.test(val) &&
+              /[a-z]/.test(val) &&
+              /\d/.test(val)),
+          'Password must have at least 8 characters, one uppercase letter, one lowercase letter and one number'
+        )
+    })
+    .refine(
+      (data) => {
+        const hasOldPassword = !!data.old_password;
+        const hasNewPassword = !!data.new_password;
+
+        return !(hasOldPassword !== hasNewPassword);
+      },
+      {
+        message: 'Both password fields must be filled together',
+        path: ['new_password']
+      }
+    );
 
 export type ProfileFormSchema = z.infer<ReturnType<typeof profileFormSchema>>;
 
@@ -83,6 +100,36 @@ export const FormSection = ({
     null
   ) as React.MutableRefObject<HTMLDivElement | null>;
 
+  // Estado para controlar se há alterações
+  const [hasChanges, setHasChanges] = useState(false);
+
+  const watchedFields = useWatch({
+    control
+  });
+
+  useEffect(() => {
+    const currentData = {
+      name: watchedFields.name || '',
+      email: watchedFields.email || '',
+      bio: watchedFields.bio || '',
+      username: watchedFields.username || '',
+      old_password: watchedFields.old_password || '',
+      new_password: watchedFields.new_password || '',
+      avatar_url: watchedFields.avatar_url
+    };
+
+    const hasFormChanges =
+      currentData.name !== (user?.name || '') ||
+      currentData.email !== (user?.email || '') ||
+      currentData.bio !== (user?.bio || '') ||
+      currentData.username !== (user?.username || '') ||
+      currentData.old_password !== '' ||
+      currentData.new_password !== '' ||
+      currentData.avatar_url !== undefined;
+
+    setHasChanges(hasFormChanges);
+  }, [watchedFields, user]);
+
   const handleAvatarChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
 
@@ -103,28 +150,42 @@ export const FormSection = ({
   };
 
   const onSubmit = async (data: ProfileFormSchema) => {
+    // Verifica se há alterações antes de submeter
+    const hasActualChanges =
+      data.name !== user?.name ||
+      data.email !== user?.email ||
+      data.bio !== user?.bio ||
+      data.username !== user?.username ||
+      data.old_password !== '' ||
+      data.new_password !== '' ||
+      data.avatar_url !== undefined;
+
+    if (!hasActualChanges) {
+      toast.error('No changes detected');
+      return;
+    }
+
     if (formRef.current) {
       formRef.current.classList.add('submitted');
     }
 
     const formData = new FormData();
 
-    formData.append('name', data.name);
     formData.append('email', data.email);
     formData.append('username', data.username);
     formData.append('_method', 'PUT');
 
-    if (data.bio) {
-      formData.append('bio', data.bio);
-    }
+    formData.append('name', data.name || '');
+
+    formData.append('bio', data.bio || '');
 
     if (data.avatar_url) {
       formData.append('avatar_url', data.avatar_url);
     }
 
-    if (changePassword) {
-      formData.append('old_password', data.old_password || '');
-      formData.append('new_password', data.new_password || '');
+    if (changePassword && data.old_password && data.new_password) {
+      formData.append('old_password', data.old_password);
+      formData.append('new_password', data.new_password);
     }
 
     try {
@@ -139,6 +200,7 @@ export const FormSection = ({
       }
 
       mutate();
+      handleChangePassword(false);
     } catch (error) {
       handleApiError(error);
     }
@@ -255,10 +317,7 @@ export const FormSection = ({
                   id="old_password"
                   type="password"
                   placeholder="At least 8 characters"
-                  error={
-                    errors.old_password?.message &&
-                    'Password must be at least 8 characters long.'
-                  }
+                  error={errors.old_password?.message}
                   {...field}
                 />
               )}
@@ -273,10 +332,7 @@ export const FormSection = ({
                   id="new_password"
                   type="password"
                   placeholder="At least 8 characters"
-                  error={
-                    errors.new_password?.message &&
-                    'Password must be at least 8 characters long.'
-                  }
+                  error={errors.new_password?.message}
                   {...field}
                 />
               )}
@@ -291,7 +347,7 @@ export const FormSection = ({
         <PrimaryButton
           type="submit"
           className="md:w-[6rem]"
-          disabled={isSubmitting}
+          disabled={isSubmitting || !hasChanges}
         >
           Save
         </PrimaryButton>

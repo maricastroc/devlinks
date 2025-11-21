@@ -76,13 +76,11 @@ class User extends Authenticatable
             $user->avatar_url = 'assets/users/'.$fileName;
         }
 
-        if (isset($data['bio'])) {
-            $user->bio = $data['bio'];
-        }
+        $user->bio = $data['bio'] ?? '';
+
+        $user->name = $data['name'] ?? '';
 
         $user->username = $data['username'];
-
-        $user->name = $data['name'];
 
         $user->email = $data['email'] ?? $user->email;
 

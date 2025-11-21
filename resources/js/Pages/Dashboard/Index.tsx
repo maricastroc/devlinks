@@ -147,7 +147,7 @@ export default function Dashboard() {
 
       {isSubmitting && <LoadingComponent hasOverlay />}
 
-      <div className="lg:m-6 flex lg:grid lg:grid-cols-[1fr,1.5fr] w-full lg:gap-6 lg:mt-0">
+      <div className="max-w-[110rem] lg:m-6 flex lg:grid lg:grid-cols-[1fr,1.5fr] w-full lg:gap-6 lg:mt-0">
         <div className="items-start justify-center hidden w-full p-10 bg-white rounded-md lg:flex">
           <div className="mt-12">
             <PhoneMockup

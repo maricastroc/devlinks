@@ -4,6 +4,7 @@ import PrimaryButton from '@/Components/Core/PrimaryButton';
 interface AccountSectionProps {
   isSubmitting: boolean;
   text: string;
+  buttonText: string;
   linkText: string;
   linkPath: string;
 }
@@ -11,6 +12,7 @@ export const AccountSection = ({
   isSubmitting,
   linkText,
   text,
+  buttonText,
   linkPath
 }: AccountSectionProps) => {
   return (
@@ -20,7 +22,7 @@ export const AccountSection = ({
         aria-disabled={isSubmitting}
         className="w-full"
       >
-        {isSubmitting ? 'Logging in...' : 'Log in'}
+        {isSubmitting ? 'Loading...' : buttonText}
       </PrimaryButton>
 
       <div className="flex flex-col items-center mt-6 md:mt-4 md:gap-1 md:flex-row">

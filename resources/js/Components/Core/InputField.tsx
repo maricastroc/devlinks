@@ -22,7 +22,7 @@ export function InputField({
   name?: string;
   placeholder: string;
   type?: string;
-  value?: string;
+  value?: string | null;
   onChange: (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
   ) => void;
@@ -48,7 +48,7 @@ export function InputField({
           type={type}
           placeholder={placeholder}
           className={`block w-full mt-1 ${error ? 'border border-medium-red' : ''}`}
-          value={value}
+          value={value || ''}
           onChange={onChange}
           onBlur={onBlur}
           disabled={disabled}
