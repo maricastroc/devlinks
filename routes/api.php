@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Route;
 
 
 
-Route::middleware('auth')->group(function () {
+Route::middleware(['auth', 'web'])->group(function () {
     Route::get('/profile', [ProfileController::class, 'getProfileData']);
     Route::put('/profile', [ProfileController::class, 'update']);
     Route::patch('/profile/theme', [ProfileController::class, 'updateTheme']);
