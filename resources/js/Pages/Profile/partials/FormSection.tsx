@@ -37,6 +37,16 @@ type Props = {
   mutate: () => void;
 };
 
+type DetectChangesInput = {
+  name?: string | null;
+  email?: string | null;
+  bio?: string | null;
+  username?: string | null;
+  avatar_url?: File;
+  old_password?: string;
+  new_password?: string;
+};
+
 export const profileFormSchema = () =>
   z
     .object({
@@ -95,47 +105,37 @@ export const FormSection = ({
   mutate
 }: Props) => {
   const inputFileRef = useRef<HTMLInputElement>(null);
+
   const formRef = useRef<HTMLFormElement>(null);
+
   const scrollContainerRef = useRef<HTMLDivElement | null>(
     null
   ) as React.MutableRefObject<HTMLDivElement | null>;
 
-  // Estado para controlar se há alterações
   const [hasChanges, setHasChanges] = useState(false);
 
   const watchedFields = useWatch({
     control
   });
 
-  useEffect(() => {
-    const currentData = {
-      name: watchedFields.name || '',
-      email: watchedFields.email || '',
-      bio: watchedFields.bio || '',
-      username: watchedFields.username || '',
-      old_password: watchedFields.old_password || '',
-      new_password: watchedFields.new_password || '',
-      avatar_url: watchedFields.avatar_url
-    };
-
-    const hasFormChanges =
-      currentData.name !== (user?.name || '') ||
-      currentData.email !== (user?.email || '') ||
-      currentData.bio !== (user?.bio || '') ||
-      currentData.username !== (user?.username || '') ||
-      currentData.old_password !== '' ||
-      currentData.new_password !== '' ||
-      currentData.avatar_url !== undefined;
-
-    setHasChanges(hasFormChanges);
-  }, [watchedFields, user]);
+  const detectChanges = (fields: DetectChangesInput, user?: UserProps) => {
+    return (
+      (fields.name ?? '') !== (user?.name || '') ||
+      (fields.email ?? '') !== (user?.email || '') ||
+      (fields.bio ?? '') !== (user?.bio || '') ||
+      (fields.username ?? '') !== (user?.username || '') ||
+      (fields.old_password ?? '') !== '' ||
+      (fields.new_password ?? '') !== '' ||
+      fields.avatar_url !== undefined
+    );
+  };
 
   const handleAvatarChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
 
     if (!file) return;
 
-    if (file.size > 2 * 1024 * 1024) {
+    if (file.size > 1 * 1024 * 1024) {
       toast.error('Image must be at most 1MB.');
       event.target.value = '';
       return;
@@ -150,17 +150,7 @@ export const FormSection = ({
   };
 
   const onSubmit = async (data: ProfileFormSchema) => {
-    // Verifica se há alterações antes de submeter
-    const hasActualChanges =
-      data.name !== user?.name ||
-      data.email !== user?.email ||
-      data.bio !== user?.bio ||
-      data.username !== user?.username ||
-      data.old_password !== '' ||
-      data.new_password !== '' ||
-      data.avatar_url !== undefined;
-
-    if (!hasActualChanges) {
+    if (!detectChanges(data, user)) {
       toast.error('No changes detected');
       return;
     }
@@ -205,6 +195,10 @@ export const FormSection = ({
       handleApiError(error);
     }
   };
+
+  useEffect(() => {
+    setHasChanges(detectChanges(watchedFields, user));
+  }, [watchedFields, user]);
 
   useEffect(() => {
     if (Object.keys(errors).length > 0 && formRef.current) {
