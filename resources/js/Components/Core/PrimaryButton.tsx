@@ -27,7 +27,7 @@ const PrimaryButton = forwardRef<HTMLButtonElement, Props>(
             <ThreeDots height="8px" />
           </div>
         ) : (
-          <p className="w-full text-center">{children}</p>
+          <span className="w-full text-center">{children}</span>
         )}
       </button>
     );

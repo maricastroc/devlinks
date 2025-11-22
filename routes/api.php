@@ -9,8 +9,6 @@ use App\Http\Controllers\SocialLinkController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
-
-
 Route::middleware(['auth', 'web'])->group(function () {
     Route::get('/profile', [ProfileController::class, 'getProfileData']);
     Route::put('/profile', [ProfileController::class, 'update']);

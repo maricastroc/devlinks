@@ -176,6 +176,7 @@ export default function Dashboard() {
           >
             <div className="flex items-center justify-center w-full gap-3">
               <SecondaryButton
+                type="button"
                 aria-haspopup="dialog"
                 aria-expanded={isLinksModalOpen}
                 aria-controls="links-modal"
@@ -216,6 +217,7 @@ export default function Dashboard() {
 
           <div className="flex justify-end md:items-end">
             <PrimaryButton
+              type="button"
               onClick={submit}
               className="md:w-[6rem]"
               disabled={isSubmitting || isValidating}

@@ -88,7 +88,7 @@ export default function Login() {
           description="Add your details below to get back into the app"
         />
 
-        <div className="space-y-6">
+        <div className="space-y-4">
           <div>
             <InputLabel htmlFor="email" value="Email address" />
             <Controller

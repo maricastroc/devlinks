@@ -68,6 +68,7 @@ export const LinkInputModal = ({
         </div>
 
         <PrimaryButton
+          type="button"
           onClick={onSave}
           disabled={!usernameValue?.length}
           isSubmitting={isLoading}

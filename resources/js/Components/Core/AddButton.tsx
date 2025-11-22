@@ -3,6 +3,7 @@ import { Plus } from 'phosphor-react';
 
 export const AddButton = ({ onClick }: { onClick: () => void }) => (
   <button
+    type="button"
     onClick={onClick}
     className={clsx(
       'flex items-center justify-center p-2',

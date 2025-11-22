@@ -18,6 +18,7 @@ export const AccountSection = ({
   return (
     <div className="flex flex-col w-full items-center justify-end mt-8 text-center">
       <PrimaryButton
+        type="submit"
         disabled={isSubmitting}
         aria-disabled={isSubmitting}
         className="w-full"

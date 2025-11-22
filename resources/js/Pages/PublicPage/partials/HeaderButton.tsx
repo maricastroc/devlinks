@@ -20,6 +20,7 @@ export const HeaderButton = ({
 
   return (
     <button
+      type="button"
       onClick={onClick}
       disabled={disabled}
       className={`${baseClasses} ${variants[variant]}`}
