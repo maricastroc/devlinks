@@ -43,21 +43,5 @@ export default {
       }
     }
   },
-  plugins: [
-    forms,
-    require('@tailwindcss/typography'),
-    function ({ addUtilities }) {
-      addUtilities({
-        '.bg-stripes': {
-          backgroundImage: `repeating-linear-gradient(
-                45deg,
-                #3D444B,
-                #3D444B 10px,
-                #50575E 10px,
-                #50575E 20px
-            )`
-        }
-      });
-    }
-  ]
+  plugins: [forms, require('@tailwindcss/typography')]
 };
