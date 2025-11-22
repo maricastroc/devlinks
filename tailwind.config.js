@@ -37,6 +37,9 @@ export default {
         'medium-purple': '#633CFF',
         'purple-hover': '#BEADFF',
         'light-purple': '#EFEBFF'
+      },
+      filter: {
+        'desaturate-bright': 'saturate(0%) brightness(518%)'
       }
     }
   },

@@ -49,7 +49,7 @@ export const profileFormSchema = () =>
       avatar_url: z
         .instanceof(File)
         .refine((file) => file.size < 1024 * 1024, {
-          message: 'Image must be below 1024x1024px'
+          message: 'Image size must be under 1MB'
         })
         .optional(),
       old_password: z.string().optional(),
@@ -136,7 +136,7 @@ export const FormSection = ({
     if (!file) return;
 
     if (file.size > 2 * 1024 * 1024) {
-      toast.error('Image must be at most 2MB.');
+      toast.error('Image must be at most 1MB.');
       event.target.value = '';
       return;
     }

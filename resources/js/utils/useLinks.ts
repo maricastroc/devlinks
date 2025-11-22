@@ -1,3 +1,5 @@
+let localIdCounter = 1;
+
 import { useState, useEffect } from 'react';
 import { UserLinkProps } from '@/types/user-link';
 import { PlatformProps } from '@/types/platform';
@@ -17,12 +19,12 @@ export const useLinks = (
     setLinks((prev) => [
       ...prev,
       {
-        id: Date.now(),
+        id: localIdCounter++,
         platform_id: platform.id,
         platform,
         custom_name: '',
         url: '',
-        order: links.length + 1
+        order: prev.length + 1
       }
     ]);
   };
@@ -34,11 +36,7 @@ export const useLinks = (
     setLinks((prev) =>
       prev.map((link) =>
         link.id === linkId
-          ? {
-              ...link,
-              platform_id: platform.id,
-              platform
-            }
+          ? { ...link, platform_id: platform.id, platform }
           : link
       )
     );

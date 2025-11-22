@@ -43,7 +43,7 @@ export const LinkForm = ({
 
   useEffect(() => {
     if (link.platform.name !== CUSTOM_PLATFORM_NAME) {
-      link.custom_name = undefined;
+      handleUpdateCustomName(link.id, '');
     }
   }, [link.platform.name]);
 
